@@ -1,0 +1,1 @@
+export const LAUNCH_APP = "launch_app";
