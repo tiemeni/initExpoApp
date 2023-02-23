@@ -1,5 +1,5 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { HOME } from "../constants/screens";
+import * as SCREENS from "../constants/screens";
 import HomeStack from "./HomeStack";
 
 const Draw = createDrawerNavigator();
@@ -9,7 +9,7 @@ const Navigator = () => {
         <Draw.Navigator screenOptions={{
             headerShown: false
         }}>
-            <Draw.Screen name={HOME} component={HomeStack} />
+            <Draw.Screen name={SCREENS.HOME_ROUTE} component={HomeStack} />
         </Draw.Navigator>
     )
 }
