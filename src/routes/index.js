@@ -9,7 +9,7 @@ const Navigator = () => {
         <Draw.Navigator screenOptions={{
             headerShown: false
         }}>
-            <Draw.Screen name={SCREENS.HOME_ROUTE} component={HomeStack} />
+            <Draw.Screen name={SCREENS.NOTIFICATIONS_SCREEN} component={HomeStack} />
         </Draw.Navigator>
     )
 }
