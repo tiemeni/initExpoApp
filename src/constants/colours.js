@@ -1,5 +1,7 @@
 const colors = {
     primary: "#04B7C9",
+    trans_primary: 'rgba(4, 183, 201, 0.2)',
+    secondary: "#FDB305",
     warning: "#FDB305",
     transp_warning: "rgba(253, 179, 5, 0.2)",
     danger: "#FD0505",

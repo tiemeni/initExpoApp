@@ -1,4 +1,4 @@
-import { VStack, Text, Box, HStack } from "native-base";
+import { Text, Box, HStack } from "native-base";
 import styles from "./styles";
 
 const NotificationsCard = ({ notification }) => {

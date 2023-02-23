@@ -1,4 +1,4 @@
-import { HStack, Icon, Text, Box, VStack, Divider } from 'native-base';
+import { HStack, Icon, Text, Box, Divider } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import styles from './style';
@@ -6,7 +6,6 @@ import colors from '../../constants/colours';
 
 const Accordion = () => {
     const [reveal, setReveal] = React.useState(false);
-    let boxStyle = styles.contentBox
 
     const handleReveal = () => {
         setReveal(!reveal);
