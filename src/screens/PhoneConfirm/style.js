@@ -2,7 +2,7 @@ import colors from "../../constants/colours";
 
 const styles = {
     circle: {
-        borderRadius: '50%',
+        borderRadius: 50,
         height: 100,
         width: 100,
         backgroundColor: colors.secondary,

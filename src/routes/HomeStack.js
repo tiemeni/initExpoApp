@@ -11,9 +11,9 @@ const HomeStack = () => {
     <Stack.Navigator screenOptions={{
       headerShown: false
     }} initialRouteName={SCREENS.NOTIFICATIONS_SCREEN}>
-      <Stack.Screen name={SCREENS.HOME_SCREEN} component={Home} />
-      <Stack.Screen name={SCREENS.FAQ_SCREEN} component={FAQ} />
-      <Stack.Screen name={SCREENS.NOTIFICATIONS_SCREEN} component={PhoneConfirm} />
+      <Stack.Screen name={SCREENS.HOME_SCREEN} component={FAQ} />
+      <Stack.Screen name={SCREENS.FAQ_SCREEN} component={PhoneConfirm} />
+      <Stack.Screen name={SCREENS.NOTIFICATIONS_SCREEN} component={Home} />
     </Stack.Navigator>
   )
 }

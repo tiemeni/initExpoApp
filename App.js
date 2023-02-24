@@ -22,7 +22,7 @@ export default function App() {
           <Navigator />
         </Provider>
       </NavigationContainer>
-    </NativeBaseProvider>
+    </NativeBaseProvider> 
   );
 };
 
