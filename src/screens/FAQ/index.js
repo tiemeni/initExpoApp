@@ -60,7 +60,7 @@ const FAQ = () => {
                     />
                 </Box>
             </VStack>
-            <ScrollView p={5} flex={1}>
+            <ScrollView showsVerticalScrollIndicator={false} p={5} flex={1}>
                 <Accordion />
                 <Accordion />
                 <Accordion />
