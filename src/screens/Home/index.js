@@ -7,7 +7,8 @@ const Home = () => {
     const dispatcher = useDispatch();
     dispatcher(setApp('initial step !'))
     const step = useSelector(state => state.Common.actualStep)
-    return <View style={style.container}><Text style={style.text}>{step}</Text></View>
+    return 
+    <View style={style.container}><Text style={style.text}>{step}</Text></View>
 }
 const style = {
     container: {
