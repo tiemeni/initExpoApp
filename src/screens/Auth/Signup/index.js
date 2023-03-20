@@ -13,6 +13,8 @@ import {
   VStack,
   useToast,
   Center,
+  View,
+  Stack,
 } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import Logo from '../../../assets/img/hospi-rdv__9_-removebg-preview.png';
@@ -98,259 +100,247 @@ const Signup = ({ navigation }) => {
   };
 
   return (
-    <ScrollView h={'100%'}>
-      <Box style={styles.contenair}>
-        <Image
-          width={'100%'}
-          height={180}
-          source={Logo}
-          resizeMode={'contain'}
-          alt="logo"
-        />
-        <Text
-          style={{
-            color: colors.blackffColor,
-            fontSize: 14,
-            fontStyle: 'normal',
-            marginBottom: 15,
-            marginTop: -40,
-            textAlign: 'center',
-          }}>
-          S'il vous plaît, entrez votre email et votre mot de passe
-        </Text>
-        <VStack alignItems={'center'}>
-          <Box>
-            <HStack justifyContent={'space-between'} width={'100%'}>
-              <Box w={'49%'}>
-                <TextInput
-                  keyboardType="name-phone-pad"
-                  style={styles.inputConex}
-                  underlineColor="transparent"
-                  left={
-                    <TextInput.Icon
-                      name={() => (
-                        <Box
-                          style={{
-                            backgroundColor: colors.whiteColor,
-                            width: 30,
-                            borderRadius: 50,
-                            height: 30,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                          }}>
-                          <MaterialIcons name={'person-outline'} size={21} />
-                        </Box>
-                      )}
-                    />
-                  }
-                  selectionColor={colors.secondaryColor}
-                  activeUnderlineColor="transparent"
-                  placeholder="Nom"
-                  onChangeText={value => setData({ ...formData, nom: value })}
-                />
-              </Box>
-              <Box width={'49%'}>
-                <TextInput
-                  keyboardType="name-phone-pad"
-                  style={styles.inputConex}
-                  left={
-                    <TextInput.Icon
-                      name={() => (
-                        <Box
-                          style={{
-                            backgroundColor: colors.whiteColor,
-                            width: 30,
-                            borderRadius: 50,
-                            height: 30,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                          }}>
-                          <MaterialIcons name={'person-outline'} size={21} />
-                        </Box>
-                      )}
-                    />
-                  }
-                  selectionColor={colors.secondaryColor}
-                  activeUnderlineColor="transparent"
-                  underlineColor="transparent"
-                  placeholder="Prénom"
-                  onChangeText={value => setData({ ...formData, prenom: value })}
-                />
-              </Box>
-            </HStack>
-            <Box>
-              <TextInput
-                keyboardType="email-address"
-                style={styles.inputConex}
-                underlineColor="transparent"
-                left={
-                  <TextInput.Icon
-                    name={() => (
-                      <Box
-                        style={{
-                          backgroundColor: colors.whiteColor,
-                          width: 30,
-                          borderRadius: 50,
-                          height: 30,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}>
-                        <MaterialCommunityIcons name={'email'} size={21} />
-                      </Box>
-                    )}
-                  />
-                }
-                selectionColor={colors.secondaryColor}
-                activeUnderlineColor="transparent"
-                placeholder="adresse mail"
-                onChangeText={value => setData({ ...formData, email: value })}
-              />
-              <TextInput
-                keyboardType="email-address"
-                style={styles.inputConex}
-                underlineColor="transparent"
-                left={
-                  <TextInput.Icon
-                    name={() => (
-                      <Box
-                        style={{
-                          backgroundColor: colors.whiteColor,
-                          width: 30,
-                          borderRadius: 50,
-                          height: 30,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}>
-                        <MaterialCommunityIcons name={'email'} size={21} />
-                      </Box>
-                    )}
-                  />
-                }
-                selectionColor={colors.secondaryColor}
-                activeUnderlineColor="transparent"
-                placeholder="Confirmation d'adresse mail"
-                onChangeText={value => setData({ ...formData, confemail: value })}
-              />
-              <TextInput
-                keyboardType="phone-pad"
-                style={styles.inputConex}
-                underlineColor="transparent"
-                left={
-                  <TextInput.Icon
-                    name={() => (
-                      <Box
-                        style={{
-                          backgroundColor: colors.whiteColor,
-                          width: 30,
-                          borderRadius: 50,
-                          height: 30,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}>
-                        <MaterialCommunityIcons name={'phone'} size={21} />
-                      </Box>
-                    )}
-                  />
-                }
-                selectionColor={colors.secondaryColor}
-                activeUnderlineColor="transparent"
-                placeholder="Téléphone"
-                onChangeText={value => setData({ ...formData, telephone: value })}
-              />
-
-              <VStack>
-                <Pressable
-                  style={styles.inputConexJust}
-                  onPress={() => setOpen(true)}>
-                  <HStack ml={5} space={3}>
-                    <Box
-                      style={{
-                        height: 30,
-                        width: 30,
-                        backgroundColor: colors.whiteColor,
-                        borderRadius: 50,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}>
-                      <MaterialCommunityIcons size={20} name="calendar-edit" />
-                    </Box>
-                    <Text color={colors.greyColor}>
-                      {textDate
-                        ? date.getFullYear() +
-                        '-' +
-                        (date.getMonth() + 1) +
-                        '-' +
-                        date.getDate()
-                        : 'Date de naissance'}
-                    </Text>
-                  </HStack>
-                </Pressable>
-                <DatePicker
-                  mode="date"
-                  modal
-                  open={open}
-                  date={date}
-                  onConfirm={date => {
-                    setOpen(false);
-                    setDate(date);
-                    setData({ ...formData, date: date });
-                  }}
-                  onCancel={() => {
-                    setOpen(false);
-                  }}
-                />
-              </VStack>
-              {errors?.nom ? (
-                <Text color={'red.500'} fontSize={12} ml={3}>
-                  {errors?.nom}
-                </Text>
-              ) : errors?.prenom ? (
-                <Text color={'red.500'} fontSize={12} ml={3}>
-                  {errors?.prenom}
-                </Text>
-              ) : errors?.confemail ? (
-                <Text color={'red.500'} fontSize={12} ml={3}>
-                  {errors?.confemail}
-                </Text>
-              ) : errors?.telephone ? (
-                <Text color={'red.500'} fontSize={12} ml={3}>
-                  {errors?.telephone}
-                </Text>
-              ) : <Text></Text>
-              }
-              <HStack marginTop={0} ml={3} mb={5} alignItems="center">
-                <Checkbox
-                  accessibilityLabel="gcu"
-                  isChecked={isAccept}
-                  onPress={() => setIsAccept(!isAccept)}
-                />
-                <Text marginLeft={3}>
-                  Acceptez-vous nos{' '}
-                  <Text style={{ color: colors.secondaryColor }}>CGU</Text>
-                </Text>
-              </HStack>
-              <Center>
-                <PrimaryButton
-                  title="Créer votre compte"
-                  isLoadingText="En Cours..."
-                  isLoading={false}
-                  style={styles.submitBtnText}
-                  color={colors.primaryColor}
-                  onPress={onSubmit}
-                />
-              </Center>
-              {/* <Box>
-                <Cards
-                  _onPress={() => navigation.navigate(SCREENS.LOGIN)}
-                  text1={'Vous avez déjà un compte ?'}
-                  text2={'connectez-vous'}
-                />
-              </Box> */}
-            </Box>
-          </Box>
+    <VStack flex={1} backgroundColor={'white'}>
+      <View justifyContent={'center'} alignItems={'center'}>
+        <VStack width={'95%'}>
+          <Image
+            width={'100%'}
+            height={180}
+            source={Logo}
+            resizeMode={'contain'}
+            alt="logo"
+          />
+          <Text
+            style={{
+              color: "#858585",
+              fontSize: 14,
+              fontStyle: 'normal',
+              marginBottom: 15,
+              marginTop: -40,
+              textAlign: 'center',
+            }}>
+            S'il vous plaît, entrez votre email et votre mot de passe
+          </Text>
         </VStack>
-      </Box>
-    </ScrollView>
+      </View>
+      <Stack justifyContent={'center'} alignItems={'center'}>
+        <VStack width={"95%"}>
+          <HStack justifyContent={'space-between'} width={'100%'}>
+            <Box w={'49%'}>
+              <TextInput
+                keyboardType="name-phone-pad"
+                style={styles.inputConex}
+                underlineColor="transparent"
+                left={
+                  <TextInput.Icon
+                    name={() => (
+                      <Box
+                        style={{
+                          backgroundColor: colors.whiteColor,
+                          width: 30,
+                          borderRadius: 50,
+                          height: 30,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <MaterialIcons name={'person-outline'} size={21} />
+                      </Box>
+                    )}
+                  />
+                }
+                selectionColor={colors.secondaryColor}
+                activeUnderlineColor="transparent"
+                placeholder="Nom"
+                onChangeText={value => setData({ ...formData, nom: value })}
+              />
+            </Box>
+            <Box width={'49%'}>
+              <TextInput
+                keyboardType="name-phone-pad"
+                style={styles.inputConex}
+                left={
+                  <TextInput.Icon
+                    name={() => (
+                      <Box
+                        style={{
+                          backgroundColor: colors.whiteColor,
+                          width: 30,
+                          borderRadius: 50,
+                          height: 30,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <MaterialIcons name={'person-outline'} size={21} />
+                      </Box>
+                    )}
+                  />
+                }
+                selectionColor={colors.secondaryColor}
+                activeUnderlineColor="transparent"
+                underlineColor="transparent"
+                placeholder="Prénom"
+                onChangeText={value => setData({ ...formData, prenom: value })}
+              />
+            </Box>
+          </HStack>
+          <TextInput
+            keyboardType="email-address"
+            style={styles.inputConex}
+            underlineColor="transparent"
+            left={
+              <TextInput.Icon
+                name={() => (
+                  <Box
+                    style={{
+                      backgroundColor: colors.whiteColor,
+                      width: 30,
+                      borderRadius: 50,
+                      height: 30,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <MaterialCommunityIcons name={'email'} size={21} />
+                  </Box>
+                )}
+              />
+            }
+            selectionColor={colors.secondaryColor}
+            activeUnderlineColor="transparent"
+            placeholder="adresse mail"
+            onChangeText={value => setData({ ...formData, email: value })}
+          />
+          <TextInput
+            keyboardType="email-address"
+            style={styles.inputConex}
+            underlineColor="transparent"
+            left={
+              <TextInput.Icon
+                name={() => (
+                  <Box
+                    style={{
+                      backgroundColor: colors.whiteColor,
+                      width: 30,
+                      borderRadius: 50,
+                      height: 30,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <MaterialCommunityIcons name={'email'} size={21} />
+                  </Box>
+                )}
+              />
+            }
+            selectionColor={colors.secondaryColor}
+            activeUnderlineColor="transparent"
+            placeholder="Confirmation d'adresse mail"
+            onChangeText={value => setData({ ...formData, confemail: value })}
+          />
+          <TextInput
+            keyboardType="phone-pad"
+            style={styles.inputConex}
+            underlineColor="transparent"
+            left={
+              <TextInput.Icon
+                name={() => (
+                  <Box
+                    style={{
+                      backgroundColor: colors.whiteColor,
+                      width: 30,
+                      borderRadius: 50,
+                      height: 30,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <MaterialCommunityIcons name={'phone'} size={21} />
+                  </Box>
+                )}
+              />
+            }
+            selectionColor={colors.secondaryColor}
+            activeUnderlineColor="transparent"
+            placeholder="Téléphone"
+            onChangeText={value => setData({ ...formData, telephone: value })}
+          />
+          <Pressable
+            style={styles.inputConexJust}
+            onPress={() => setOpen(true)}>
+            <HStack ml={5} space={3} alignItems={'center'}>
+              <Box
+                style={{
+                  height: 30,
+                  width: 30,
+                  backgroundColor: colors.whiteColor,
+                  borderRadius: 50,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <MaterialCommunityIcons size={20} name="calendar-edit" />
+              </Box>
+              <Text color={colors.greyColor} fontSize={15}>
+                {textDate
+                  ? date.getFullYear() +
+                  '-' +
+                  (date.getMonth() + 1) +
+                  '-' +
+                  date.getDate()
+                  : 'Date de naissance'}
+              </Text>
+            </HStack>
+          </Pressable>
+          <DatePicker
+            mode="date"
+            modal
+            open={open}
+            date={date}
+            onConfirm={date => {
+              setOpen(false);
+              setDate(date);
+              setData({ ...formData, date: date });
+            }}
+            onCancel={() => {
+              setOpen(false);
+            }}
+          />
+          {/* <HStack marginTop={0} ml={5} mt={3} mb={7} alignItems="center">
+            <Checkbox
+              accessibilityLabel="gcu"
+              isChecked={isAccept}
+              onPress={() => setIsAccept(!isAccept)}
+            />
+            <Text marginLeft={3}>
+              Acceptez-vous nos{' '}
+              <Text style={{ color: colors.secondaryColor }}>CGU</Text>
+            </Text>
+          </HStack> */}
+          <View>
+            <Center mb={3} mt={10}>
+              <PrimaryButton
+                title="Créer votre compte"
+                isLoadingText="En Cours..."
+                isLoading={false}
+                style={styles.submitBtnText}
+                color={colors.primaryColor}
+                onPress={onSubmit}
+              />
+            </Center>
+            <Center>
+              <VStack>
+                <Text style={{ marginBottom: 10, color: "#858585" }}>
+                  Vous avez deja un compte ? <Text
+                    style={{ color: colors.yellow }}
+                    onPress={() => navigation.goBack()} > Connectez-vous!</Text>
+                </Text>
+                <Center>
+                  {/* <Text style={{ color: "#858585" }}>
+              Connectez-vous avec :
+            </Text> */}
+                </Center>
+              </VStack>
+            </Center>
+          </View>
+        </VStack >
+      </Stack>
+    </VStack >
   );
 };
 
