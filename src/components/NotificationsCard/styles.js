@@ -4,7 +4,15 @@ const styles = {
     card: {
         backgroundColor: colors.white,
         borderRadius: 10,
-        padding: 10
+        padding: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 3.84,
+        elevation: 1
     },
 
     headLabel: {
@@ -50,7 +58,7 @@ const styles = {
     emoji: {
         height: 50,
         width: 50,
-        borderRadius: '50%',
+        borderRadius: 50,
         backgroundColor: colors.yellow
     }
 }

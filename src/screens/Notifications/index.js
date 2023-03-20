@@ -9,7 +9,7 @@ const Notifications = () => {
     return (
         <View style={styles.container}>
             <Text mb={5} style={styles.headerTitle}>Notifications</Text>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView overScrollMode='never' showsVerticalScrollIndicator={false}>
                 <Box>
                     <Text mb={3} style={styles.groupTitle}>Aujourd'hui</Text>
                     <VStack>

@@ -1,16 +1,21 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createStackNavigator } from "@react-navigation/stack";
+import { View } from "native-base";
 import * as SCREENS from "../constants/screens";
+import ContainerBottom from "./ContainerBottom";
 import HomeStack from "./HomeStack";
 
-const Draw = createDrawerNavigator();
+const Stack = createStackNavigator();
 
 const Navigator = () => {
     return (
-        <Draw.Navigator screenOptions={{
-            headerShown: false
-        }}>
-            <Draw.Screen name={SCREENS.HOME_ROUTE} component={HomeStack} />
-        </Draw.Navigator>
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+            }}>
+            <Stack.Screen name={SCREENS.HOME_ROUTE} component={HomeStack} />
+            <Stack.Screen name={SCREENS.HOME_CONTAINER_ROUTE} component={ContainerBottom} />
+        </Stack.Navigator>
     )
 }
 

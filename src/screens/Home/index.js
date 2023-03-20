@@ -1,18 +1,18 @@
-import { Text, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { View } from "react-native";
+import { useDispatch } from "react-redux";
+import OnBoarding2 from "../../components/OnBoarding";
 import { NORMAL_TEXT_SIZE } from "../../constants/size";
 import { setApp } from "../../redux/commons/action";
 
 const Home = () => {
     const dispatcher = useDispatch();
     dispatcher(setApp('initial step !'))
-    const step = useSelector(state => state.Common.actualStep)
-    return <View style={style.container}><Text style={style.text}>{step}</Text></View>
+
+    return <OnBoarding2 />
 }
 const style = {
     container: {
-        justifyContent: "center",
-        alignItems: "center"
+        flex: 1,
     },
     text: {
         fontSize: NORMAL_TEXT_SIZE

@@ -3,6 +3,14 @@ import * as SCREENS from "../constants/screens";
 import Home from "../screens/Home";
 import FAQ from "../screens/FAQ";
 import PhoneConfirm from "../screens/PhoneConfirm";
+import Notifications from "../screens/Notifications";
+import Login from "../screens/Auth/Login";
+import MakeAppointment from "../screens/MakeAppointment"
+import Signup from "../screens/Auth/Signup";
+import Profile from "../screens/Profile";
+import MonProfile2 from "../screens/MonProfile/index2";
+import MesRdv from "../screens/MesRdv";
+import Transaction from "../screens/Transactions";
 
 const Stack = createStackNavigator();
 
@@ -10,12 +18,15 @@ const HomeStack = () => {
   return (
     <Stack.Navigator screenOptions={{
       headerShown: false
-    }} initialRouteName={SCREENS.NOTIFICATIONS_SCREEN}>
-      <Stack.Screen name={SCREENS.HOME_SCREEN} component={FAQ} />
-      <Stack.Screen name={SCREENS.FAQ_SCREEN} component={PhoneConfirm} />
-      <Stack.Screen name={SCREENS.NOTIFICATIONS_SCREEN} component={Home} />
+    }} initialRouteName={SCREENS.HOME_SCREEN}>
+      <Stack.Screen name={SCREENS.HOME_SCREEN} component={Home} />
+      <Stack.Screen name={SCREENS.LOGIN} component={Login} />
+      <Stack.Screen name={SCREENS.SIGNUP} component={Signup} />
+      <Stack.Screen name={SCREENS.PHONE_CONFIRMATION_SCREEN} component={PhoneConfirm} />
     </Stack.Navigator>
   )
 }
+
+{/*  */}
 
 export default HomeStack;

@@ -14,15 +14,15 @@ enableScreens()
 export default function App() {
   return (
     <NativeBaseProvider>
-      <NavigationContainer>
-        <SafeAreaView>
-          <StatusBar backgroundColor={colors.primary} />
-        </SafeAreaView>
-        <Provider store={store}>
+      <Provider store={store}>
+        <NavigationContainer>
+          <SafeAreaView>
+            <StatusBar backgroundColor={colors.primary} />
+          </SafeAreaView>
           <Navigator />
-        </Provider>
-      </NavigationContainer>
-    </NativeBaseProvider> 
+        </NavigationContainer>
+      </Provider>
+    </NativeBaseProvider>
   );
 };
 
