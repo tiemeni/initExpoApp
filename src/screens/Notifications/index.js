@@ -1,11 +1,26 @@
 import { Box, Text, View, VStack } from 'native-base';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import NotificationsCard from '../../components/NotificationsCard';
 import styles from './styles';
 import { notifications } from '../../utils/helper';
+import { IsLoadingComponent } from '../MesRdv';
 
 const Notifications = () => {
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false)
+        }, 1000)
+    })
+
+    if (loading) {
+        return <VStack mt={5}>
+            <IsLoadingComponent />
+        </VStack>
+    }
+
     return (
         <View style={styles.container}>
             <Text mb={5} style={styles.headerTitle}>Notifications</Text>

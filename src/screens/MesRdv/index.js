@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Avatar, Box, HStack, ScrollView, View, VStack } from 'native-base'
 import { ActivityIndicator, Image, StyleSheet, Text } from 'react-native'
 import colors from '../../constants/colours'
@@ -7,7 +7,7 @@ import Rdv from '../../components/Rdv'
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
-const IsLoadingComponent = () => {
+export const IsLoadingComponent = () => {
     return (
         <View style={{
             padding: 3,
@@ -32,7 +32,12 @@ const IsLoadingComponent = () => {
 export default function MesRdv() {
 
     const [actualState, setActualState] = useState(1)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false)
+        }, 1000)
+    })
 
     return (
         <View flex={1}>
