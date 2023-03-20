@@ -26,7 +26,7 @@ const HeaderBox = ({ number, title, hintText }) => {
     )
 }
 
-const MakeAppointment = () => {
+const MakeAppointment = ({ navigation }) => {
     const screenWidth = Dimensions.get('screen').width;
     const [formData, setFormData] = React.useState({
         motif: null,
@@ -80,7 +80,7 @@ const MakeAppointment = () => {
             <HStack style={styles.header}>
                 <Text style={styles.headerTitle}>Nouveau rendez-vous</Text>
                 <Box style={styles.closeBtn}>
-                    <Pressable>
+                    <Pressable onPress={() => navigation.goBack()}>
                         <Icon
                             as={AntDesign}
                             name='close'

@@ -6,6 +6,7 @@ import plusBlack from "../../assets/img/plus_black.png"
 import Rdv from '../../components/Rdv'
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { MAKE_APPOINTMENT_SCREEN } from '../../constants/screens'
 
 export const IsLoadingComponent = () => {
     return (
@@ -29,7 +30,7 @@ export const IsLoadingComponent = () => {
     )
 }
 
-export default function MesRdv() {
+export default function MesRdv({ navigation }) {
 
     const [actualState, setActualState] = useState(1)
     const [loading, setLoading] = useState(true)
@@ -68,7 +69,7 @@ export default function MesRdv() {
                         }}></Avatar>
                     <Text style={{ marginLeft: 15, fontSize: 18 }}>John Doe</Text>
                 </HStack>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate(MAKE_APPOINTMENT_SCREEN)}>
                     <Image
                         source={plusBlack}
                         style={{ height: 20, width: 20, marginRight: 5 }} />
