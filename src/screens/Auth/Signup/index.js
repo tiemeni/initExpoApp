@@ -124,7 +124,7 @@ const Signup = ({ navigation }) => {
         </VStack>
       </View>
       <Stack justifyContent={'center'} alignItems={'center'}>
-        <VStack width={"95%"}>
+        <VStack width={"90%"}>
           <HStack justifyContent={'space-between'} width={'100%'}>
             <Box w={'49%'}>
               <TextInput

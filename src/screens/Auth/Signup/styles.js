@@ -6,11 +6,11 @@ const styles = StyleSheet.create({
 
     inputConex: {
         marginTop: 10,
-        marginBottom: 2,
-        borderRadius: 25,
+        marginBottom: 5,
+        borderRadius: 10,
         height: 50,
-        borderTopLeftRadius: 25,
-        borderTopRightRadius: 25,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
         borderColor: '#F5FAFF',
         backgroundColor: '#F5FAFF',
     },

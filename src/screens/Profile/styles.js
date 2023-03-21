@@ -9,10 +9,11 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         borderColor: "red",
-        backgroundColor: "white"
+        backgroundColor: colors.bg_grey
     },
     section1: {
-        flex: 3
+        flex: 3,
+        backgroundColor: "white"
     },
     section1of1: {
         height: "34%"

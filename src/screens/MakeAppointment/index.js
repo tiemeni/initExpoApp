@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './style'
 import { Dimensions } from 'react-native';
 import { View, Text, VStack, HStack, Box, Select, Icon, ScrollView, Button, PresenceTransition } from 'native-base';
@@ -7,6 +7,8 @@ import colors from '../../constants/colours';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import MedItem from '../../components/MedItem';
 import { practiciens, disponibilites, appointmentDate, motifs } from '../../utils/helper';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { MAKE_APPOINTMENT_SCREEN } from '../../constants/screens';
 
 const HeaderBox = ({ number, title, hintText }) => {
     return (
@@ -26,7 +28,7 @@ const HeaderBox = ({ number, title, hintText }) => {
     )
 }
 
-const MakeAppointment = ({ navigation }) => {
+const MakeAppointment = ({ navigation, route }) => {
     const screenWidth = Dimensions.get('screen').width;
     const [formData, setFormData] = React.useState({
         motif: null,

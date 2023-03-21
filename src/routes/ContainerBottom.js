@@ -30,9 +30,16 @@ const ContainerBottom = () => {
                 color={focused ? colors.primary : "#A0A0A0"}
             />
         },
+        tabBarStyle: {
+            padding: 7,
+            // display: route.name === SCREENS.MAKE_APPOINTMENT_SCREEN ? 'none' : 'flex'
+        },
+        tabBarLabelStyle: {
+            fontSize: 9
+        },
         tabBarShowLabel: true,
         tabBarInactiveTintColor: "#A0A0A0",
-        tabBarActiveTintColor: colors.primary
+        tabBarActiveTintColor: colors.primary,
     })
 
     return (
@@ -40,7 +47,7 @@ const ContainerBottom = () => {
             initialRouteName={SCREENS.ACCEUIL}
             screenOptions={setScreenOption}
         >
-            <Bottom.Screen name={SCREENS.ACCEUIL} component={ContainerStack} />
+            <Bottom.Screen name={SCREENS.ACCEUIL} component={Acceuil} />
             <Bottom.Screen name={SCREENS.RDV} component={MesRdv} />
             <Bottom.Screen name={SCREENS.NOTIFICATIONS} component={Notifications} />
         </Bottom.Navigator>
