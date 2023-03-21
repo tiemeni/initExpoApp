@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
 
     inputConex: {
         marginTop: 10,
-        marginBottom: 5,
+        marginBottom: 7,
         borderRadius: 10,
         height: 50,
         borderTopLeftRadius: 10,
@@ -17,11 +17,10 @@ const styles = StyleSheet.create({
 
     inputConexJust: {
         marginTop: 10,
-        marginBottom: 5,
-        borderRadius: 25,
+        borderRadius: 10,
         height: 50,
-        borderTopLeftRadius: 25,
-        borderTopRightRadius: 25,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
         borderColor: '#7C7C7C',
         backgroundColor: '#F5FAFF',
         justifyContent: "center"

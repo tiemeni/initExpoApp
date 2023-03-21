@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 
   inputConex: {
     marginTop: 10,
-    marginBottom: 5,
+    marginBottom: 7,
     borderRadius: 25,
     height: 50,
     width: "90%",

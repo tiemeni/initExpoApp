@@ -126,7 +126,7 @@ const Signup = ({ navigation }) => {
       <Stack justifyContent={'center'} alignItems={'center'}>
         <VStack width={"90%"}>
           <HStack justifyContent={'space-between'} width={'100%'}>
-            <Box w={'49%'}>
+            <Box w={'47%'}>
               <TextInput
                 keyboardType="name-phone-pad"
                 style={styles.inputConex}
@@ -154,7 +154,7 @@ const Signup = ({ navigation }) => {
                 onChangeText={value => setData({ ...formData, nom: value })}
               />
             </Box>
-            <Box width={'49%'}>
+            <Box width={'47%'}>
               <TextInput
                 keyboardType="name-phone-pad"
                 style={styles.inputConex}

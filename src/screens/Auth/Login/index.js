@@ -105,7 +105,7 @@ const Login = ({ navigation }) => {
           </Text>
         )}
       </VStack>
-      <HStack style={{ alignItems: 'center', marginTop: 5, marginBottom: 5, marginLeft: 30 }}>
+      <HStack style={{ alignItems: 'center', marginTop: 15, marginBottom: 5, marginLeft: 30 }}>
         <Checkbox />
         <Text
           style={{
