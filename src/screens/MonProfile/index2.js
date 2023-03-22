@@ -1,13 +1,53 @@
 import { Avatar, ScrollView, View, VStack } from 'native-base'
 import React from 'react'
-import { Text, TextInput } from 'react-native'
+import { useState } from 'react'
+import { Image, Pressable, StyleSheet, Text, TextInput } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { RadioButton } from 'react-native-paper'
 import Header from '../../components/Header'
 import colors from '../../constants/colours'
 import { styles } from './style'
+import plus from "../../assets/img/edit.png"
+import tick from "../../assets/img/tick.png"
+
+const style = StyleSheet.create({
+    container: {
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 30,
+        position: "absolute",
+        bottom: 30,
+        right: 30,
+        backgroundColor: colors.primary,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        width: 50,
+        height: 50
+    },
+    title: {
+        width: 20,
+        height: 20
+    },
+});
+
+const FAB = (props) => {
+    return (
+        <Pressable style={style.container}>
+            <TouchableOpacity onPress={props.onPress}>
+                <Image style={style.title} source={props.editeMode ? plus : tick} />
+            </TouchableOpacity>
+        </Pressable>
+    );
+};
+
+const CustomeFab = (props) => {
+    return <FAB title="hey" onPress={props.action} editeMode={props.editeMode} />
+}
 
 export default function MonProfile2() {
+    const [editeMode, setEditeMode] = useState(true)
+
+
     return (
         <View flex={1} style={{ backgroundColor: "white" }}>
             <ScrollView>
@@ -22,8 +62,8 @@ export default function MonProfile2() {
                         alignItems={'center'}>
                         <Avatar
                             bg={colors.bg_grey}
-                            width={90}
-                            height={90}
+                            width={92}
+                            height={92}
                             source={{
                                 uri: null
                             }}></Avatar>
@@ -31,7 +71,7 @@ export default function MonProfile2() {
                     <View
                         height={25}
                         alignItems={'center'}
-                        mb={3}
+                        mb={5}
                     >
                         <View style={{
                             backgroundColor: 'rgba(240, 240, 240, 0.69)',
@@ -41,7 +81,7 @@ export default function MonProfile2() {
                             height: "100%",
                             width: "90%",
                             borderRadius: 10,
-                            paddingLeft: 20
+                            paddingLeft: 10
                         }}>
                             <Text style={{
                                 lineHeight: 19.36,
@@ -52,11 +92,11 @@ export default function MonProfile2() {
                     </View>
                     <View
                         width={"100%"}
-                        marginBottom={0}
+                        marginBottom={5}
                         justifyContent={'center'}
                         alignItems={'center'}
                     >
-                        <View width={"90%"} mb={4}>
+                        <View width={"85%"} mb={5}>
                             <Text style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}>Nom(s) et prenom(s)</Text>
                             <TextInput
                                 isInvalid={true}
@@ -78,7 +118,7 @@ export default function MonProfile2() {
                                 value={""}
                             />
                         </View>
-                        <View width={"90%"}>
+                        <View width={"85%"} mb={4}>
                             <Text style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}>Date de naissance</Text>
                             <TextInput
                                 isInvalid={true}
@@ -101,7 +141,7 @@ export default function MonProfile2() {
                             />
                         </View>
                         <View
-                            width={"100%"}
+                            width={"95%"}
                             mt={2}
                             justifyContent={'center'}
                             alignItems={'center'}>
@@ -156,7 +196,7 @@ export default function MonProfile2() {
                             </View>
                         </View>
                     </View>
-                    <View height={25} alignItems={'center'} mt={11} mb={3}>
+                    <View height={25} alignItems={'center'} mt={11} mb={5}>
                         <View style={{
                             backgroundColor: 'rgba(240, 240, 240, 0.69)',
                             display: "flex",
@@ -165,7 +205,7 @@ export default function MonProfile2() {
                             width: "90%",
                             height: "100%",
                             borderRadius: 10,
-                            paddingLeft: 20
+                            paddingLeft: 10
                         }}>
                             <Text style={{
                                 lineHeight: 19.36,
@@ -174,14 +214,14 @@ export default function MonProfile2() {
                             }}>Coordonnées</Text>
                         </View>
                     </View>
-                    <View mb={2}>
+                    <View mb={5}>
                         <View
                             width={"100%"}
                             marginBottom={11}
                             justifyContent={'center'}
                             alignItems={'center'}
                         >
-                            <View width={"90%"} mb={2}>
+                            <View width={"85%"} mb={5}>
                                 <Text style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}>Adresse mail</Text>
                                 <TextInput
                                     isInvalid={true}
@@ -203,7 +243,7 @@ export default function MonProfile2() {
                                     value={""}
                                 />
                             </View>
-                            <View width={"90%"}>
+                            <View width={"85%"}>
                                 <Text style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}>Numero de telephone</Text>
                                 <TextInput
                                     isInvalid={true}
@@ -227,7 +267,10 @@ export default function MonProfile2() {
                             </View>
                         </View>
                     </View>
-                    <VStack style={styles.child4}>
+                    <CustomeFab editeMode={editeMode} action={() => {
+                        setEditeMode(v => !v)
+                    }} />
+                    {/* <VStack style={styles.child4}>
                         <View style={{
                             display: "flex",
                             width: "90%",
@@ -243,7 +286,7 @@ export default function MonProfile2() {
                                 <Text style={{ fontSize: 17, color: "white" }}>Enregistrer</Text>
                             </TouchableOpacity>
                         </View>
-                    </VStack>
+                    </VStack> */}
                 </VStack >
             </ScrollView>
         </View >

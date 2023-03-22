@@ -30,6 +30,44 @@ export const IsLoadingComponent = () => {
     )
 }
 
+export const CustomHeader = ({ navigation, mb }) => {
+    return (
+        <HStack
+            justifyContent={"space-between"}
+            padding={2}
+            alignItems={'center'}
+            backgroundColor={'white'}
+            style={{
+                shadowColor: "#000",
+                shadowOffset: {
+                    width: 0,
+                    height: 1,
+                },
+                shadowOpacity: 0.1,
+                shadowRadius: 3.84,
+                elevation: 1
+            }}
+            mb={mb}>
+            <HStack
+                alignItems={"center"}>
+                <Avatar
+                    bg={colors.primary}
+                    width={37}
+                    height={37}
+                    source={{
+                        uri: null
+                    }}></Avatar>
+                <Text style={{ marginLeft: 15, fontSize: 18 }}>John Doe</Text>
+            </HStack>
+            <TouchableOpacity onPress={() => navigation.navigate(MAKE_APPOINTMENT_SCREEN)}>
+                <Image
+                    source={plusBlack}
+                    style={{ height: 20, width: 20, marginRight: 5 }} />
+            </TouchableOpacity>
+        </HStack>
+    )
+}
+
 export default function MesRdv({ navigation }) {
 
     const [actualState, setActualState] = useState(1)
@@ -42,39 +80,7 @@ export default function MesRdv({ navigation }) {
 
     return (
         <View flex={1}>
-            <HStack
-                justifyContent={"space-between"}
-                padding={2}
-                alignItems={'center'}
-                backgroundColor={'white'}
-                style={{
-                    shadowColor: "#000",
-                    shadowOffset: {
-                        width: 0,
-                        height: 1,
-                    },
-                    shadowOpacity: 0.1,
-                    shadowRadius: 3.84,
-                    elevation: 1
-                }}
-                mb={5}>
-                <HStack
-                    alignItems={"center"}>
-                    <Avatar
-                        bg={colors.primary}
-                        width={37}
-                        height={37}
-                        source={{
-                            uri: null
-                        }}></Avatar>
-                    <Text style={{ marginLeft: 15, fontSize: 18 }}>John Doe</Text>
-                </HStack>
-                <TouchableOpacity onPress={() => navigation.navigate(MAKE_APPOINTMENT_SCREEN)}>
-                    <Image
-                        source={plusBlack}
-                        style={{ height: 20, width: 20, marginRight: 5 }} />
-                </TouchableOpacity>
-            </HStack>
+            <CustomHeader navigation={navigation} mb={5} />
             <Box
                 width={"100%"}
                 justifyContent={'center'}
