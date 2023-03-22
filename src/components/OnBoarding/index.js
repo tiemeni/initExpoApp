@@ -101,7 +101,8 @@ const styles = StyleSheet.create({
     },
     fourth: {
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        marginTop: 15
     },
     fourthChild: {
         borderColor: "white",
@@ -111,6 +112,6 @@ const styles = StyleSheet.create({
         width: "95%",
         borderRadius: 10,
         fontSize: 24,
-        backgroundColor: "white"
+        backgroundColor: "white",
     },
 })

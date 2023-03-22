@@ -1,7 +1,7 @@
 import { Avatar, ScrollView, View, VStack } from 'native-base'
 import React from 'react'
 import { useState } from 'react'
-import { Image, Pressable, StyleSheet, Text, TextInput } from 'react-native'
+import { Image, Platform, Pressable, StyleSheet, Text, TextInput } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { RadioButton } from 'react-native-paper'
 import Header from '../../components/Header'
@@ -9,6 +9,8 @@ import colors from '../../constants/colours'
 import { styles } from './style'
 import plus from "../../assets/img/edit.png"
 import tick from "../../assets/img/tick.png"
+
+const IS_ANDROID = Platform.OS === "android"
 
 const style = StyleSheet.create({
     container: {
@@ -21,8 +23,8 @@ const style = StyleSheet.create({
         backgroundColor: colors.primary,
         paddingHorizontal: 20,
         paddingVertical: 10,
-        width: 50,
-        height: 50
+        width: 60,
+        height: 60
     },
     title: {
         width: 20,
@@ -31,17 +33,18 @@ const style = StyleSheet.create({
 });
 
 const FAB = (props) => {
+    console.log(props)
     return (
-        <Pressable style={style.container}>
+        <Pressable style={{ ...style.container, backgroundColor: props.OnBoarding ? "white" : colors.primary }}>
             <TouchableOpacity onPress={props.onPress}>
                 <Image style={style.title} source={props.editeMode ? plus : tick} />
             </TouchableOpacity>
-        </Pressable>
+        </Pressable >
     );
 };
 
-const CustomeFab = (props) => {
-    return <FAB title="hey" onPress={props.action} editeMode={props.editeMode} />
+export const CustomeFab = (props) => {
+    return <FAB title="hey" onPress={props.action} onBoarding={props.onBoarding} editeMode={props.editeMode} />
 }
 
 export default function MonProfile2() {
@@ -267,9 +270,6 @@ export default function MonProfile2() {
                             </View>
                         </View>
                     </View>
-                    <CustomeFab editeMode={editeMode} action={() => {
-                        setEditeMode(v => !v)
-                    }} />
                     {/* <VStack style={styles.child4}>
                         <View style={{
                             display: "flex",
@@ -289,6 +289,9 @@ export default function MonProfile2() {
                     </VStack> */}
                 </VStack >
             </ScrollView>
+            <CustomeFab editeMode={editeMode} action={() => {
+                setEditeMode(v => !v)
+            }} />
         </View >
     )
 }

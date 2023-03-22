@@ -9,7 +9,7 @@ export default function OnBoardingItem({ item, scrollX }) {
     const { width } = useWindowDimensions();
 
     return (
-        <VStack display={'flex'} justifyContent={'center'} style={[styles.constainer, { width, height: "95%" }]}>
+        <VStack display={'flex'} justifyContent={'center'} style={[styles.constainer, { width, height: 400 }]}>
             <View style={styles.second}>
                 <Image source={Doctor} style={{ height: 200, width: 200 }} />
             </View>
@@ -29,7 +29,6 @@ export default function OnBoardingItem({ item, scrollX }) {
 
 export const styles = StyleSheet.create({
     constainer: {
-        flex: 1,
         backgroundColor: colors.primary,
         // height: 550
     },

@@ -24,7 +24,7 @@ const Login = ({ navigation }) => {
     <View flex={1} style={styles.contenair}>
       <View style={{ justifyContent: "center", alignItems: "center", marginBottom: 15 }}>
         <Image
-          style={{ width: 200, height: 200, borderWidth: 1, marginTop: 30 }}
+          style={{ width: 200, height: 200, marginTop: 30 }}
           source={logo}
           alt={logo}
         />
