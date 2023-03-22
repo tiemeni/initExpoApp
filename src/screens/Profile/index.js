@@ -5,8 +5,11 @@ import Header from '../../components/Header'
 import ParameterList from '../../components/parameterList/'
 import UserAvatar from '../../components/UserAvatar'
 import styles from "./styles"
+import * as SCREENS from '../../constants/screens'
+import { useNavigation } from '@react-navigation/native'
 
 function Profile() {
+  const navigation = useNavigation()
   return (
     <View style={{ ...styles.contenair }}>
       <View style={styles.section1}>
@@ -22,16 +25,16 @@ function Profile() {
         </View>
       </View>
       <View style={styles.section2}>
-        <TouchableOpacity style={styles.item}>
+        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate(SCREENS.MON_PROFILE)}>
           <ParameterList label={"Mon Profile"} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.item}>
           <ParameterList label={"Parametres"} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.item}>
+        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate(SCREENS.TrANSACTION)}>
           <ParameterList label={"Historique de transaction"} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.item}>
+        <TouchableOpacity style={styles.item} onPress={() => navigation.navigate(SCREENS.FAQ_SCREEN)}>
           <ParameterList label={"FAQ et Assistance"} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.item}>

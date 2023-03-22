@@ -7,6 +7,8 @@ import colors from '../../constants/colours';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import MedItem from '../../components/MedItem';
 import { practiciens, disponibilites, appointmentDate, motifs } from '../../utils/helper';
+import * as SCREENS from '../../constants/screens';
+import { useNavigation } from '@react-navigation/native';
 
 const HeaderBox = ({ number, title, hintText }) => {
     return (
@@ -72,6 +74,10 @@ const MakeAppointment = ({ navigation }) => {
             default:
                 break;
         }
+    }
+
+    const handlePress = () => {
+        navigation.navigate(SCREENS.PAYMENT)
     }
 
     return (
@@ -251,7 +257,7 @@ const MakeAppointment = ({ navigation }) => {
 
 
             <VStack width={screenWidth} flex={1} style={styles.btnBox}>
-                <Button isDisabled={!formData.period.time} style={styles.btn}>
+                <Button isDisabled={!formData.period.time} style={styles.btn} onPress={handlePress}>
                     <Text color={colors.white} style={styles.btnLabel}>Valider</Text>
                 </Button>
             </VStack>

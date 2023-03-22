@@ -13,3 +13,5 @@ export const ACCEUIL = "ACCEUIL";
 export const ACCEUIL_CONTAINER = "ACCEUIL_CONTAINER";
 export const RDV = "RDV";
 export const NOTIFICATIONS = "NOTIFICATIONS";
+export const TrANSACTION = "TRANSACTION";
+export const PAYMENT = "PAYMENT";

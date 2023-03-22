@@ -7,6 +7,8 @@ import MonProfile2 from '../screens/MonProfile/index2';
 import MakeAppointment from '../screens/MakeAppointment';
 import { createStackNavigator } from '@react-navigation/stack';
 import Acceuil from '../screens/Acceuil';
+import Transaction from '../screens/Transactions'
+import Payment from '../screens/Payment';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +25,8 @@ const ContainerStack = () => {
             <Stack.Screen name={SCREENS.PROFILE} component={Profile} />
             <Stack.Screen name={SCREENS.MON_PROFILE} component={MonProfile2} />
             <Stack.Screen name={SCREENS.MAKE_APPOINTMENT_SCREEN} component={MakeAppointment} />
+            <Stack.Screen name={SCREENS.TrANSACTION} component={Transaction} />
+            <Stack.Screen name={SCREENS.PAYMENT} component={Payment} />
         </Stack.Navigator>
     )
 }

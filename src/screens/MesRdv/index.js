@@ -6,7 +6,7 @@ import plusBlack from "../../assets/img/plus_black.png"
 import Rdv from '../../components/Rdv'
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { MAKE_APPOINTMENT_SCREEN } from '../../constants/screens'
+import * as SCREENS from '../../constants/screens'
 
 export const IsLoadingComponent = () => {
     return (
@@ -60,16 +60,18 @@ export default function MesRdv({ navigation }) {
                 mb={5}>
                 <HStack
                     alignItems={"center"}>
-                    <Avatar
-                        bg={colors.primary}
-                        width={37}
-                        height={37}
-                        source={{
-                            uri: null
-                        }}></Avatar>
+                    <TouchableOpacity onPress={() => navigation.navigate(SCREENS.PROFILE)}>
+                        <Avatar
+                            bg={colors.primary}
+                            width={37}
+                            height={37}
+                            source={{
+                                uri: null
+                            }}></Avatar>
+                    </TouchableOpacity>
                     <Text style={{ marginLeft: 15, fontSize: 18 }}>John Doe</Text>
                 </HStack>
-                <TouchableOpacity onPress={() => navigation.navigate(MAKE_APPOINTMENT_SCREEN)}>
+                <TouchableOpacity onPress={() => navigation.navigate(SCREENS.MAKE_APPOINTMENT_SCREEN)}>
                     <Image
                         source={plusBlack}
                         style={{ height: 20, width: 20, marginRight: 5 }} />
