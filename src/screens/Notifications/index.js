@@ -5,6 +5,7 @@ import NotificationsCard from '../../components/NotificationsCard';
 import styles from './styles';
 import { notifications } from '../../utils/helper';
 import { CustomHeader, IsLoadingComponent } from '../MesRdv';
+import { PROFILE } from '../../constants/screens';
 
 const Notifications = ({ navigation }) => {
     const [loading, setLoading] = useState(true)
@@ -23,7 +24,7 @@ const Notifications = ({ navigation }) => {
 
     return (
         <View flex={1}>
-            <CustomHeader navigation={navigation} />
+            <CustomHeader navigation={navigation} screen={PROFILE} />
             <View style={styles.container}>
                 <Text mb={5} style={styles.headerTitle}>Notifications</Text>
                 <ScrollView overScrollMode='never' showsVerticalScrollIndicator={false}>

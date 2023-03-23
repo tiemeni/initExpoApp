@@ -9,6 +9,8 @@ import MedItem from '../../components/MedItem';
 import { practiciens, disponibilites, appointmentDate, motifs } from '../../utils/helper';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { MAKE_APPOINTMENT_SCREEN } from '../../constants/screens';
+import * as SCREENS from '../../constants/screens';
+import { useNavigation } from '@react-navigation/native';
 
 const HeaderBox = ({ number, title, hintText }) => {
     return (
@@ -74,6 +76,10 @@ const MakeAppointment = ({ navigation, route }) => {
             default:
                 break;
         }
+    }
+
+    const handlePress = () => {
+        navigation.navigate(SCREENS.PAYMENT)
     }
 
     return (
@@ -253,7 +259,7 @@ const MakeAppointment = ({ navigation, route }) => {
 
 
             <VStack width={screenWidth} flex={1} style={styles.btnBox}>
-                <Button isDisabled={!formData.period.time} style={styles.btn}>
+                <Button isDisabled={!formData.period.time} style={styles.btn} onPress={handlePress}>
                     <Text color={colors.white} style={styles.btnLabel}>Valider</Text>
                 </Button>
             </VStack>

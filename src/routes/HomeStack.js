@@ -20,7 +20,7 @@ const HomeStack = () => {
       headerShown: false
     }} initialRouteName={SCREENS.HOME_SCREEN}>
       <Stack.Screen name={SCREENS.HOME_SCREEN} component={Home} />
-      <Stack.Screen name={SCREENS.LOGIN} component={MonProfile2} />
+      <Stack.Screen name={SCREENS.LOGIN} component={Login} />
       <Stack.Screen name={SCREENS.SIGNUP} component={Signup} />
       <Stack.Screen name={SCREENS.PHONE_CONFIRMATION_SCREEN} component={PhoneConfirm} />
     </Stack.Navigator>

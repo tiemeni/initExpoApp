@@ -12,7 +12,7 @@ export default function Transaction() {
             <View height={30}>
                 <Header />
             </View>
-            <View>
+            <View mt={5}>
                 <Text style={{ fontSize: 20, margin: 20 }}>Historiques</Text>
             </View>
             <ScrollView

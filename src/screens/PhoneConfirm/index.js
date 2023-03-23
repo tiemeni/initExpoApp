@@ -4,9 +4,10 @@ import { EvilIcons } from '@expo/vector-icons';
 import styles from "./style";
 import colors from "../../constants/colours";
 import CustomInput from "../../components/CustomInput";
+import { TouchableOpacity } from "react-native";
 
 
-const PhoneConfirm = () => {
+const PhoneConfirm = ({ navigation }) => {
 
     return (
         <View alignItems={'center'} bg={colors.white} flex={1} p={5}>
@@ -40,9 +41,13 @@ const PhoneConfirm = () => {
             <Button borderWidth={2} style={styles.btn} variant={'outline'}>
                 <Text color={colors.primary} style={styles.btnLabel}>Soumettre</Text>
             </Button>
+
             <Button textDecorationLine={'underline'} mt={'20%'} variant={'unstyled'}>
-                <Text color={colors.primary} style={styles.btnLabel}>Fermer</Text>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Text color={colors.primary} style={styles.btnLabel}>Fermer</Text>
+                </TouchableOpacity>
             </Button>
+
         </View>
     )
 }

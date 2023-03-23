@@ -12,8 +12,11 @@ const styles = StyleSheet.create({
         backgroundColor: colors.bg_grey
     },
     section1: {
-        flex: 3,
-        backgroundColor: "white"
+        flex: 2,
+        paddingLeft: 20,
+        display: 'flex',
+        flexDirection: "row",
+        alignItems: 'center'
     },
     section1of1: {
         height: "34%"
@@ -34,7 +37,7 @@ const styles = StyleSheet.create({
     },
     item: {
         height: "15%",
-        margin: 5,
+        margin: 3,
         // width: "95%",
     }
 });
