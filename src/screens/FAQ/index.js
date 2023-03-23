@@ -4,6 +4,7 @@ import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import styles from "./style";
 import colors from '../../constants/colours';
 import Accordion from "../../components/Accordion";
+import Header from "../../components/Header";
 
 const IconItem = (props) => {
     return (
@@ -30,6 +31,7 @@ const FAQ = () => {
 
     return (
         <View flex={1} style={styles.container}>
+            <Header bg={'white'} />
             <VStack style={styles.headerItemGroup}>
                 <Box mb={5}>
                     <Text style={styles.headerText}>Vous n'avez pas trouvé la réponse que vous cherchiez? Contactez notre centre d'assistance!</Text>

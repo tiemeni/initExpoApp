@@ -7,7 +7,7 @@ const styles = {
 
     headerItemGroup: {
         backgroundColor: colors.white,
-        padding: 20
+        padding: 15
     },
 
     headerText: {
