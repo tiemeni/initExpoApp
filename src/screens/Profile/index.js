@@ -18,7 +18,7 @@ function Profile() {
   const navigation = useNavigation()
   return (
     <View style={{ ...styles.contenair }}>
-      <Header />
+      <Header title={"A propos de votre compte"} />
       <View style={{ ...styles.section1 }}>
         {/* <View style={styles.section1of1}>
           

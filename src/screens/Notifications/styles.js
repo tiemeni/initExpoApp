@@ -4,7 +4,7 @@ import colors from "../../constants/colours";
 const styles = StyleSheet.create({
     container: {
         padding: 15,
-        paddingTop: 30
+        paddingTop: 30,
     },
 
     headerTitle: {

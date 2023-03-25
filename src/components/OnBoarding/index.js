@@ -9,6 +9,7 @@ import colors from '../../constants/colours'
 import { LOGIN } from '../../constants/screens'
 import Paginator from './Paginator'
 import imageFake from "../../assets/img/eneo.png"
+import { CustomeFab } from '../../screens/MonProfile/index2'
 
 
 const data = [
@@ -44,8 +45,12 @@ export default function OnBoarding2() {
         const currentIndex = Math.round(contentOffsetX / width);
         setCurrentIndex(currentIndex);
     };
+
     return (
         <View flex={1} backgroundColor={colors.primary} >
+            {currentIndex === 2 ? <CustomeFab navigation={navigation} onBoarding={true} editeMode={false} action={() => {
+                console.log("cool")
+            }} /> : <View></View>}
             <VStack>
                 <View style={{ paddingLeft: 15, paddingTop: 20, }}>
                     <Text style={styles.greetfr}>Welcome,</Text>
@@ -59,7 +64,7 @@ export default function OnBoarding2() {
                             }
                         )}
                         viewabilityConfig={viewConfig}
-                        keyExtractor={item => item.id}
+                        key={item => item.id}
                         pagingEnabled
                         bounces={true}
                         onMomentumScrollEnd={updateCurrentSlideIndex}
@@ -73,16 +78,19 @@ export default function OnBoarding2() {
                 <View style={{ justifyContent: "center", alignItems: "center" }}>
                     <Paginator data={data} scrollX={scrollX} />
                 </View>
-                <View style={styles.fourth}>
-                    {currentIndex === 2 ? <View style={styles.fourthChild}>
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate(LOGIN)}
-                            style={{ display: "flex", flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={{ color: colors.primary, fontSize: 20 }}>Commencez</Text>
-                            <Image source={arrow} style={{ width: 20, height: 20, marginLeft: 15, marginTop: 5 }} />
-                        </TouchableOpacity>
-                    </View> : <View style={{ ...styles.fourthChild, backgroundColor: null, borderColor: null }}></View>}
-                </View>
+                {/* <View style={styles.fourth}>
+                    {currentIndex === 2 ?
+                        <View style={styles.fourthChild}>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate(LOGIN)}
+                                style={{ display: "flex", flexDirection: 'row', alignItems: 'center' }}>
+                                <Text style={{ color: colors.primary, fontSize: 20 }}>Commencez</Text>
+                                <Image source={arrow} style={{ width: 20, height: 20, marginLeft: 15, marginTop: 5 }} />
+                            </TouchableOpacity>
+                        </View>
+                        :
+                        <View style={{ ...styles.fourthChild, backgroundColor: null, borderColor: null }}></View>}
+                </View> */}
             </VStack >
         </View >
     )
@@ -109,7 +117,7 @@ const styles = StyleSheet.create({
         height: 60,
         justifyContent: 'center',
         alignItems: 'center',
-        width: "95%",
+        width: "90%",
         borderRadius: 10,
         fontSize: 24,
         backgroundColor: "white",

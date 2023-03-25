@@ -1,6 +1,7 @@
 import { Avatar, ScrollView, View, VStack } from 'native-base'
 import React from 'react'
 import { useState } from 'react'
+import arrow from "../../assets/img/right-arrow.png"
 import { Image, Platform, Pressable, StyleSheet, Text, TextInput } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { RadioButton } from 'react-native-paper'
@@ -9,6 +10,7 @@ import colors from '../../constants/colours'
 import { styles } from './style'
 import plus from "../../assets/img/edit.png"
 import tick from "../../assets/img/tick.png"
+import { LOGIN } from '../../constants/screens'
 
 const IS_ANDROID = Platform.OS === "android"
 
@@ -33,18 +35,25 @@ const style = StyleSheet.create({
 });
 
 const FAB = (props) => {
-    console.log(props)
     return (
-        <Pressable style={{ ...style.container, backgroundColor: props.OnBoarding ? "white" : colors.primary }}>
+        <Pressable style={{ ...style.container, width: props.onBoarding ? "95%" : 60, right: props.onBoarding ? "2.5%" : 30, borderRadius: props.onBoarding ? 10 : 30, backgroundColor: props.onBoarding ? "white" : colors.primary }}>
             <TouchableOpacity onPress={props.onPress}>
-                <Image style={style.title} source={props.editeMode ? plus : tick} />
+                {!props.onBoarding ?
+                    <Image style={{ ...style.title }} source={props.editeMode ? plus : tick} /> :
+                    <TouchableOpacity
+                        onPress={() => props.navigation.navigate(LOGIN)}
+                        style={{ display: "flex", flexDirection: 'row', alignItems: 'center' }}>
+                        <Text style={{ color: colors.primary, fontSize: 20 }}>Commencez</Text>
+                        <Image source={arrow} style={{ width: 20, height: 20, marginLeft: 15, marginTop: 5 }} />
+                    </TouchableOpacity>
+                }
             </TouchableOpacity>
         </Pressable >
     );
 };
 
 export const CustomeFab = (props) => {
-    return <FAB title="hey" onPress={props.action} onBoarding={props.onBoarding} editeMode={props.editeMode} />
+    return <FAB title="hey" navigation={props.navigation} onPress={props.action} onBoarding={props.onBoarding} editeMode={props.editeMode} />
 }
 
 export default function MonProfile2() {
@@ -54,8 +63,8 @@ export default function MonProfile2() {
     return (
         <View flex={1} style={{ backgroundColor: "white" }}>
             <ScrollView>
-                <View height={30}>
-                    <Header />
+                <View height={50}>
+                    <Header title={"Vos informations"} />
                 </View>
                 <VStack>
                     <View

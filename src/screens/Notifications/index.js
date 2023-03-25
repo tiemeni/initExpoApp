@@ -16,30 +16,36 @@ const Notifications = ({ navigation }) => {
         }, 1000)
     })
 
-    if (loading) {
-        return <VStack mt={5}>
-            <IsLoadingComponent />
-        </VStack>
-    }
+    // if (loading) {
+    //     return <VStack mt={5}>
+    //         <IsLoadingComponent />
+    //     </VStack>
+    // }
 
     return (
-        <View flex={1}>
+        <View flex={1} mb={10}>
             <CustomHeader navigation={navigation} screen={PROFILE} />
             <View style={styles.container}>
                 <Text mb={5} style={styles.headerTitle}>Notifications</Text>
-                <ScrollView overScrollMode='never' showsVerticalScrollIndicator={false}>
-                    <Box>
-                        <Text mb={3} style={styles.groupTitle}>Aujourd'hui</Text>
-                        <VStack>
-                            {notifications.map((notif, i) => <NotificationsCard key={notif.id} notification={notif} />)}
-                        </VStack>
-                    </Box>
-                    <Box mb={5}>
-                        <Text mb={3} style={styles.groupTitle}>Hier</Text>
-                        <VStack>
-                            {notifications.map((notif, i) => <NotificationsCard key={notif.id} notification={notif} />)}
-                        </VStack>
-                    </Box>
+                <ScrollView
+                    overScrollMode='never'
+                    showsVerticalScrollIndicator={false}>
+                    {!loading ? <>
+                        <Box>
+                            <Text mb={3} style={styles.groupTitle}>Aujourd'hui</Text>
+                            <VStack>
+                                {notifications.map((notif, i) => <NotificationsCard key={notif.id} notification={notif} />)}
+                            </VStack>
+                        </Box>
+                        <Box mb={5}>
+                            <Text mb={3} style={styles.groupTitle}>Hier</Text>
+                            <VStack>
+                                {notifications.map((notif, i) => <NotificationsCard key={notif.id} notification={notif} />)}
+                            </VStack>
+                        </Box>
+                    </> : <VStack mt={10}>
+                        <IsLoadingComponent />
+                    </VStack>}
                 </ScrollView>
             </View>
         </View>

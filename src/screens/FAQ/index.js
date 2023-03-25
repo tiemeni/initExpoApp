@@ -31,7 +31,7 @@ const FAQ = () => {
 
     return (
         <View flex={1} style={styles.container}>
-            <Header bg={'white'} />
+            <Header bg={'white'} title={'Contactez l\'Assistance'} />
             <VStack style={styles.headerItemGroup}>
                 <Box mb={5}>
                     <Text style={styles.headerText}>Vous n'avez pas trouvé la réponse que vous cherchiez? Contactez notre centre d'assistance!</Text>

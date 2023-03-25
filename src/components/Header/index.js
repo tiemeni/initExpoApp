@@ -14,7 +14,6 @@ export default function Header({ title, bg }) {
                 <Image source={back} style={styles.image} />
             </TouchableOpacity>
             <Text style={styles.title}>{title}</Text>
-            <Text></Text>
         </View>
     )
 }

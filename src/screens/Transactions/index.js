@@ -10,7 +10,7 @@ export default function Transaction() {
     return (
         <View flex={1} style={styles.container}>
             <View height={30}>
-                <Header />
+                <Header title={"Vos transactions"} />
             </View>
             <View mt={5}>
                 <Text style={{ fontSize: 20, margin: 20 }}>Historiques</Text>

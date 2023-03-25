@@ -27,7 +27,7 @@ const ContainerBottom = () => {
             return <Ionic
                 name={iconName}
                 size={size}
-                color={focused ? colors.primary : "#A0A0A0"}
+                color={focused ? colors.primary : "#515151"}
             />
         },
         tabBarStyle: {
@@ -38,7 +38,7 @@ const ContainerBottom = () => {
             fontSize: 9
         },
         tabBarShowLabel: true,
-        tabBarInactiveTintColor: "#A0A0A0",
+        tabBarInactiveTintColor: "#515151",
         tabBarActiveTintColor: colors.primary,
     })
 

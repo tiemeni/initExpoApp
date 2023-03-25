@@ -54,7 +54,7 @@ const Payment = () => {
 
     return (
         <>
-            <Header bg={"white"} />
+            <Header bg={"white"} title={'Terminez votre prise de rdv'} />
             <ScrollView showsVerticalScrollIndicator={false} flex={1} style={styles.container} automaticallyAdjustKeyboardInsets={true}>
                 <VStack style={styles.infoBox}>
                     <Text style={styles.boxTitle}>Important</Text>
