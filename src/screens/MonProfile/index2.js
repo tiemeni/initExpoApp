@@ -41,7 +41,7 @@ const FAB = (props) => {
             width: props.onBoarding ? "95%" : 60,
             right: props.onBoarding ? "2.5%" : 30,
             bottom: props.onBoarding ? 15 : 30,
-            borderRadius: props.onBoarding ? 5 : 30,
+            borderRadius: props.onBoarding ? 10 : 30,
             backgroundColor: props.onBoarding ? "white" : colors.primary
         }}>
             <TouchableOpacity onPress={props.onPress}>

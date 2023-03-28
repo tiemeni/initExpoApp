@@ -1,15 +1,13 @@
 import { TextInput, Text } from 'react-native-paper';
-import { Box, Center, HStack, Button, View, VStack, Checkbox } from 'native-base';
-import { ActivityIndicator, Image, Pressable } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { Box, Center, HStack, View, VStack, Checkbox } from 'native-base';
+import { Image, Pressable } from 'react-native';
+import React, { useState } from 'react';
 import { useValidation } from 'react-native-form-validator';
 import colors from '../../../constants/colours'
-import { connect, useDispatch } from 'react-redux';
 import styles from './styles';
 import logo from '../../../assets/img/hospi-rdv__9_-removebg-preview.png';
-import SCREENS, { HOME_CONTAINER_ROUTE, PHONE_CONFIRMATION_SCREEN, SIGNUP } from '../../../constants/screens';
+import { HOME_CONTAINER_ROUTE, PHONE_CONFIRMATION_SCREEN, SIGNUP } from '../../../constants/screens';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Cards from '../../../components/Cards';
 import PrimaryButton from '../../../components/Buttons/PrimaryButton';
 
 const Login = ({ navigation }) => {
@@ -106,7 +104,7 @@ const Login = ({ navigation }) => {
         )}
       </VStack>
       <HStack style={{ alignItems: 'center', marginTop: 15, marginBottom: 5, marginLeft: 30 }}>
-        <Checkbox />
+        <Checkbox accessibilityLabel="remember me" />
         <Text
           style={{
             fontWeight: '400',

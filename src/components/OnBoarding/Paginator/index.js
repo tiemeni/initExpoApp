@@ -21,7 +21,7 @@ export default function Paginator({ data, scrollX }) {
                         extrapolate: 'clamp'
                     })
 
-                    return <Animated.View style={[styles.dot, { width: dotWidth, opacity }]} />
+                    return <Animated.View key={i} style={[styles.dot, { width: dotWidth, opacity }]} />
                 })
             }
         </View>

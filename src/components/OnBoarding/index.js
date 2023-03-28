@@ -55,13 +55,14 @@ export default function OnBoarding2() {
                 </View>
                 <View>
                     <FlatList
+                        overScrollMode='never'
                         onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }],
                             {
                                 useNativeDriver: false
                             }
                         )}
                         viewabilityConfig={viewConfig}
-                        key={item => item.id}
+                        keyExtractor={item => item.id}
                         pagingEnabled
                         bounces={true}
                         onMomentumScrollEnd={updateCurrentSlideIndex}
@@ -69,7 +70,7 @@ export default function OnBoarding2() {
                         showsHorizontalScrollIndicator={false}
                         data={data}
                         ref={slidesRef}
-                        renderItem={(item) => <OnBoardingItem item={item} scrollX={scrollX} />}
+                        renderItem={(item) => <OnBoardingItem key={item.id} scrollX={scrollX} />}
                     />
                 </View>
                 <View style={{ justifyContent: "center", alignItems: "center" }}>

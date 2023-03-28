@@ -1,13 +1,10 @@
 import Acceuil from "../screens/Acceuil";
 import * as SCREENS from "../constants/screens";
-import Rdv from "../components/Rdv";
 import Notifications from "../screens/Notifications";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MesRdv from "../screens/MesRdv";
 import Ionic from "react-native-vector-icons/Ionicons"
 import colors from "../constants/colours";
-import ContainerStack from "./ContainerStack";
-import { useCallback } from "react";
 
 
 const Bottom = createBottomTabNavigator();
@@ -27,7 +24,7 @@ const ContainerBottom = () => {
             return <Ionic
                 name={iconName}
                 size={size}
-                color={focused ? colors.primary : "#515151"}
+                color={focused ? colors.primary : "#706e6e"}
             />
         },
         tabBarStyle: {
@@ -38,7 +35,7 @@ const ContainerBottom = () => {
             fontSize: 9
         },
         tabBarShowLabel: true,
-        tabBarInactiveTintColor: "#515151",
+        tabBarInactiveTintColor: "#706e6e",
         tabBarActiveTintColor: colors.primary,
     })
 

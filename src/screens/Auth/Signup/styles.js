@@ -7,20 +7,20 @@ const styles = StyleSheet.create({
     inputConex: {
         marginTop: 10,
         marginBottom: 7,
-        borderRadius: 10,
+        borderRadius: 30,
         height: 50,
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
         borderColor: '#F5FAFF',
         backgroundColor: '#F5FAFF',
     },
 
     inputConexJust: {
         marginTop: 10,
-        borderRadius: 10,
+        borderRadius: 30,
         height: 50,
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
         borderColor: '#7C7C7C',
         backgroundColor: '#F5FAFF',
         justifyContent: "center"
