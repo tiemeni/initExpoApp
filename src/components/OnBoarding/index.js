@@ -1,12 +1,9 @@
-import { Animated, Image, StyleSheet, Text, TouchableOpacity, useWindowDimensions } from 'react-native'
+import { Animated, StyleSheet, Text, useWindowDimensions } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { FlatList, View, VStack } from 'native-base'
 import OnBoardingItem from './OnBoardingItem'
 import { useNavigation } from '@react-navigation/native'
-import arrow from "../../assets/img/right-arrow.png"
 import colors from '../../constants/colours'
-
-import { LOGIN } from '../../constants/screens'
 import Paginator from './Paginator'
 import imageFake from "../../assets/img/eneo.png"
 import { CustomeFab } from '../../screens/MonProfile/index2'
@@ -36,7 +33,7 @@ const data = [
 export default function OnBoarding2() {
     const navigation = useNavigation()
     const [currentIndex, setCurrentIndex] = useState()
-    const { width, height } = useWindowDimensions()
+    const { width } = useWindowDimensions()
     const scrollX = useRef(new Animated.Value(0)).current
     const slidesRef = useRef(null)
     const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current
@@ -54,7 +51,7 @@ export default function OnBoarding2() {
             <VStack>
                 <View style={{ paddingLeft: 15, paddingTop: 20, }}>
                     <Text style={styles.greetfr}>Welcome,</Text>
-                    <Text style={styles.greetEn}>Bienvenu</Text>
+                    <Text style={styles.greetEn}>Bienvenue</Text>
                 </View>
                 <View>
                     <FlatList

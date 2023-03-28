@@ -7,7 +7,7 @@ export default function Paginator({ data, scrollX }) {
     return (
         <View style={{ flexDirection: 'row', height: 64 }}>
             {
-                data.map((e, i) => {
+                data.map((_e, i) => {
 
                     const inputRange = [(i - 1) * width, i * width, (i + 1) * width]
                     const opacity = scrollX.interpolate({
