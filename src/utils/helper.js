@@ -143,3 +143,30 @@ export const motifs = [
         value: 'Motif 4'
     }
 ]
+
+export const specialites = [
+    {
+        id: 1,
+        value: "Ophtalmologie"
+    },
+    {
+        id: 2,
+        value: "Oncologie"
+    },
+    {
+        id: 3,
+        value: "Allergologie"
+    },
+    {
+        id: 4,
+        value: "Pneumologie"
+    },
+    {
+        id: 5,
+        value: "Cardiologie"
+    },
+    {
+        id: 6,
+        value: "Gériaitrie"
+    }
+]
