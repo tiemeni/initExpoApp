@@ -69,10 +69,10 @@ export default function MonProfile2() {
 
     return (
         <View flex={1} style={{ backgroundColor: "white" }}>
+            <View height={50}>
+                <Header title={"Vos informations"} />
+            </View>
             <ScrollView>
-                <View height={50}>
-                    <Header title={"Vos informations"} />
-                </View>
                 <VStack>
                     <View
                         height={120}

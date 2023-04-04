@@ -24,15 +24,19 @@ const ContainerBottom = () => {
             return <Ionic
                 name={iconName}
                 size={size}
+                style={{
+                    marginBottom: -6
+                }}
                 color={focused ? colors.primary : "#706e6e"}
             />
         },
         tabBarStyle: {
-            padding: 7,
+            // paddinTop: 3,
             // display: route.name === SCREENS.MAKE_APPOINTMENT_SCREEN ? 'none' : 'flex'
         },
         tabBarLabelStyle: {
-            fontSize: 9
+            fontSize: 12,
+            // marginBottom: 4
         },
         tabBarShowLabel: true,
         tabBarInactiveTintColor: "#706e6e",
