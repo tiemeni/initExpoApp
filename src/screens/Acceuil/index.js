@@ -2,8 +2,8 @@ import React from 'react'
 import { CustomHeader } from '../MesRdv'
 import { PROFILE } from '../../constants/screens'
 import { Box, Input, ScrollView, View, HStack, Text, VStack } from 'native-base'
-import MedCard from '../../components/MedCard';
 import styles from './style';
+import MedCard from '../../components/MedCard';
 import { specialites, practiciens} from '../../utils/helper';
 
 const Acceuil = ({ navigation }) => {
