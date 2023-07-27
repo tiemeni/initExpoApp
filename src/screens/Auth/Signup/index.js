@@ -1,348 +1,282 @@
+import React, { useState, useEffect, useCallback } from "react";
+import { View, Text, Pressable, Platform } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import {
   Box,
-  Button,
-  Checkbox,
-  Divider,
   HStack,
   Icon,
-  Image,
   Input,
-  PresenceTransition,
-  ScrollView,
-  Text,
   VStack,
   useToast,
   Center,
-  View,
-  Stack,
-} from 'native-base';
-import React, { useEffect, useState } from 'react';
-import Logo from '../../../assets/img/hospi-rdv__9_-removebg-preview.png';
-import PrimaryButton from '../../../components/Buttons/PrimaryButton';
-import colors from '../../../constants/colours';
-import SCREENS from '../../../constants/screens';
-import styles from './styles';
-import DatePicker from 'react-native-date-picker';
-import { connect, useDispatch } from 'react-redux';
-import { TextInput } from 'react-native-paper';
-import Cards from '../../../components/Cards';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
+  Image,
+} from "native-base";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import Logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
+import PrimaryButton from "../../../components/Buttons/PrimaryButton";
+import colors from "../../../constants/colours";
+import styles from "./styles";
+import moment from "moment";
+import MaskInput from "react-native-mask-input";
+import { Checkbox } from "react-native-paper";
+
 
 const Signup = ({ navigation }) => {
-  const dispatch = useDispatch();
   const toast = useToast();
-  const [formData, setData] = useState({});
+  const [date, setDate] = useState(moment().format("DD/MM/YYYY"));
+  const [isCkeck, setIsCheck] = useState(false);
+
+
+  const [formFields, setFormFields] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    emailConfirm: "",
+    phone: "",
+    birdday: date,
+  });
   const [errors, setErrors] = useState({});
-  const [date, setDate] = useState(new Date());
-  const [show, setShow] = useState(false);
   const [textDate, setTextDate] = useState(false);
-  const [open, setOpen] = useState(false);
-  const handleClick = () => setShow(!show);
-  const [isAccept, setIsAccept] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
-  useEffect(() => {
-    if (
-      date.getFullYear() != new Date().getFullYear() ||
-      date.getMonth() + 1 != new Date().getMonth() + 1 ||
-      date.getDate() != new Date()?.getDate()
-    )
-      setTextDate(true);
-    else setTextDate(false);
-  }, [date]);
+  const [phoneNumber, setPhoneNumber] = useState("");
 
-  const validate = () => {
-    const isReq = "Tous ses champs sont obligatoire , veillez bien les remplir svp";
-    const shot = "Cc'est champs sont obligation et veillez bien les remplir";
-    setErrors({
-      ...errors,
-      nom:
-        formData.nom === undefined ? isReq : formData?.nom.length < 5 && shot,
-      telephone: formData.telephone === undefined && isReq,
-      email:
-        formData.email === undefined
-          ? isReq
-          : formData?.email.length < 5 && shot,
-      confemail:
-        formData.confemail === undefined
-          ? isReq
-          : formData?.email != formData?.confemail && "l'email est different",
-      prenom:
-        formData.prenom === undefined
-          ? isReq
-          : formData?.prenom.length < 5 && shot,
-      telephone:
-        formData.telephone === undefined
-          ? isReq
-          : formData?.telephone.length < 8 && shot,
-    });
-    if (
-      formData.nom === undefined ||
-      formData?.nom.length < 4 ||
-      formData.telephone === undefined ||
-      formData.email === undefined ||
-      formData?.email.length < 5 ||
-      formData.confemail === undefined ||
-      formData?.email != formData?.confemail
-    )
-      return false;
-
-    return true;
+  const handleChangeText = (formatted, extracted) => {
+    setPhoneNumber(formatted);
   };
 
+  const handleDateChange = useCallback(
+    (event, selectedDate) => {
+      const currentDate = selectedDate || date;
+      setShowDatePicker(Platform.OS === "ios");
+      setDate(currentDate);
+    },
+    [date]
+  );
+
+  const showDatepicker = useCallback(() => {
+    setShowDatePicker(true);
+  }, []);
+
+  const handleInputChange = (field, value) => {
+    setFormFields({
+      ...formFields,
+      [field]: value,
+    });
+  };
+
+  useEffect(() => {
+    const currentDate = moment().format("DD/MM/YYYY");
+    setTextDate(date === currentDate);
+  }, [date]);
+
+  const formattedDate = moment(date, "DD/MM/YYYY").format("DD/MM/YYYY");
+
+  const isFieldsEmpty =
+    formFields.firstName.trim() === "" ||
+    formFields.lastName === "" ||
+    formFields.email === "" ||
+    formFields.emailConfirm === "" ||
+    formFields.phone === "" ||
+    formFields.birdday === ""||
+    isCkeck ===false
   const onSubmit = () => {
-    console.log('clik me');
-    if (validate()) {
+    if (!isFieldsEmpty) {
       //dispatch(register(formData));
-    } else console.log('Validation Failed ', errors);
+      console.log("clik me");
+    } else {
+      console.log("Validation Failed ", errors);
+    }
+  };
+
+  const handleCheck = () => {
+    setIsCheck(!isCkeck);
   };
 
   return (
-    <VStack flex={1} backgroundColor={'white'}>
-      <View justifyContent={'center'} alignItems={'center'}>
-        <VStack width={'95%'}>
+    <VStack flex={1} backgroundColor={"white"}>
+      <View justifyContent={"center"} alignItems={"center"}>
+        <VStack width={"95%"}>
           <Image
-            width={'100%'}
+            width={"100%"}
             height={180}
             source={Logo}
-            resizeMode={'contain'}
+            resizeMode={"contain"}
             alt="logo"
           />
-          <Text
-            style={{
-              color: "#858585",
-              fontSize: 14,
-              fontStyle: 'normal',
-              marginBottom: 15,
-              marginTop: -40,
-              textAlign: 'center',
-            }}>
-            S'il vous plaît, entrez votre email et votre mot de passe
-          </Text>
         </VStack>
       </View>
-      <Stack justifyContent={'center'} alignItems={'center'}>
-        <VStack width={"90%"}>
-          <HStack justifyContent={'space-between'} width={'100%'}>
-            <Box w={'47%'}>
-              <TextInput
-                keyboardType="name-phone-pad"
-                style={styles.inputConex}
-                underlineColor="transparent"
-                left={
-                  <TextInput.Icon
-                    name={() => (
-                      <Box
-                        style={{
-                          backgroundColor: colors.whiteColor,
-                          width: 30,
-                          borderRadius: 50,
-                          height: 30,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}>
-                        <MaterialIcons name={'person-outline'} size={21} />
-                      </Box>
-                    )}
+      <VStack style={styles.contentForm}>
+        <VStack space={3} width={"100%"}>
+          <HStack justifyContent={"space-between"} width={"100%"}>
+            <Box w={"55%"}>
+              <Input
+                rounded={15}
+                borderWidth={0}
+                bg={colors.desable}
+                InputLeftElement={
+                  <Icon
+                    as={<MaterialIcons name="person" />}
+                    size={5}
+                    ml="2"
+                    color="muted.400"
                   />
                 }
-                selectionColor={colors.secondaryColor}
-                activeUnderlineColor="transparent"
                 placeholder="Nom"
-                onChangeText={value => setData({ ...formData, nom: value })}
+                onChangeText={(value) => handleInputChange("firstName", value)}
+                value={formFields.firstName}
               />
             </Box>
-            <Box width={'47%'}>
-              <TextInput
-                keyboardType="name-phone-pad"
-                style={styles.inputConex}
-                left={
-                  <TextInput.Icon
-                    name={() => (
-                      <Box
-                        style={{
-                          backgroundColor: colors.whiteColor,
-                          width: 30,
-                          borderRadius: 50,
-                          height: 30,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}>
-                        <MaterialIcons name={'person-outline'} size={21} />
-                      </Box>
-                    )}
+            <Box width={"40%"}>
+              <Input
+                rounded={15}
+                borderWidth={0}
+                bg={colors.desable}
+                InputLeftElement={
+                  <Icon
+                    as={<MaterialIcons name="person" />}
+                    size={5}
+                    ml="2"
+                    color="muted.400"
                   />
                 }
-                selectionColor={colors.secondaryColor}
-                activeUnderlineColor="transparent"
-                underlineColor="transparent"
                 placeholder="Prénom"
-                onChangeText={value => setData({ ...formData, prenom: value })}
+                onChangeText={(value) => handleInputChange("lastName", value)}
+                value={formFields.lastName}
               />
             </Box>
           </HStack>
-          <TextInput
-            keyboardType="email-address"
-            style={styles.inputConex}
-            underlineColor="transparent"
-            left={
-              <TextInput.Icon
-                name={() => (
-                  <Box
-                    style={{
-                      backgroundColor: colors.whiteColor,
-                      width: 30,
-                      borderRadius: 50,
-                      height: 30,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <MaterialCommunityIcons name={'email'} size={21} />
-                  </Box>
-                )}
+          <Input
+            rounded={15}
+            borderWidth={0}
+            bg={colors.desable}
+            InputLeftElement={
+              <Icon
+                as={<MaterialIcons name="email" />}
+                size={5}
+                ml="2"
+                color="muted.400"
               />
             }
-            selectionColor={colors.secondaryColor}
-            activeUnderlineColor="transparent"
             placeholder="adresse mail"
-            onChangeText={value => setData({ ...formData, email: value })}
+            onChangeText={(value) => handleInputChange("email", value)}
+            value={formFields.email}
           />
-          <TextInput
-            keyboardType="email-address"
-            style={styles.inputConex}
-            underlineColor="transparent"
-            left={
-              <TextInput.Icon
-                name={() => (
-                  <Box
-                    style={{
-                      backgroundColor: colors.whiteColor,
-                      width: 30,
-                      borderRadius: 50,
-                      height: 30,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <MaterialCommunityIcons name={'email'} size={21} />
-                  </Box>
-                )}
+          <Input
+            rounded={15}
+            borderWidth={0}
+            bg={colors.desable}
+            InputLeftElement={
+              <Icon
+                as={<MaterialIcons name="email" />}
+                size={5}
+                ml="2"
+                color="muted.400"
               />
             }
-            selectionColor={colors.secondaryColor}
-            activeUnderlineColor="transparent"
-            placeholder="Confirmation d'adresse mail"
-            onChangeText={value => setData({ ...formData, confemail: value })}
+            placeholder="Confirmer votre adresse mail"
+            onChangeText={(value) => handleInputChange("emailConfirm", value)}
+            value={formFields.emailConfirm}
           />
-          <TextInput
-            keyboardType="phone-pad"
-            style={styles.inputConex}
-            underlineColor="transparent"
-            left={
-              <TextInput.Icon
-                name={() => (
-                  <Box
-                    style={{
-                      backgroundColor: colors.whiteColor,
-                      width: 30,
-                      borderRadius: 50,
-                      height: 30,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <MaterialCommunityIcons name={'phone'} size={21} />
-                  </Box>
-                )}
+          <Input
+            rounded={15}
+            borderWidth={0}
+            bg={colors.desable}
+            keyboardType="numeric"
+            maxLength={9}
+            InputLeftElement={
+              <Icon
+                as={<MaterialIcons name="phone" />}
+                size={5}
+                ml="2"
+                color="muted.400"
               />
             }
-            selectionColor={colors.secondaryColor}
-            activeUnderlineColor="transparent"
             placeholder="Téléphone"
-            onChangeText={value => setData({ ...formData, telephone: value })}
+            onChangeText={(value) => handleInputChange("phone", value)}
+            value={formFields.phone}
           />
-          <Pressable
-            style={styles.inputConexJust}
-            onPress={() => setOpen(true)}>
-            <HStack ml={5} space={3} alignItems={'center'}>
-              <Box
+          <View>
+            <Pressable onPress={showDatepicker}>
+              <HStack style={styles.datePick} rounded={15} space={3}>
+                <Box style={styles.boxDatePick}>
+                  <Icon
+                    as={<MaterialCommunityIcons name="calendar-edit" />}
+                    size={5}
+                    ml="2"
+                    color="muted.400"
+                  />
+                </Box>
+                <Text style={{ color: textDate ? "gray" : colors.black }}>
+                  {textDate ? "Date de naissance" : formattedDate}
+                </Text>
+              </HStack>
+            </Pressable>
+            {showDatePicker && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={moment(date, "DD/MM/YYYY").toDate()}
+                mode="date"
+                display="default"
+                onChange={handleDateChange}
+              />
+            )}
+            <HStack
+              style={{
+                alignItems: "center",
+                marginTop: 15,
+                marginBottom: 0,
+                marginLeft: 3,
+              }}
+            >
+              <Checkbox
+                status={isCkeck ? "checked" : "unchecked"}
+                onPress={handleCheck}
+                color={colors.primary}
+              />
+              <Text
                 style={{
-                  height: 30,
-                  width: 30,
-                  backgroundColor: colors.whiteColor,
-                  borderRadius: 50,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <MaterialCommunityIcons size={20} name="calendar-edit" />
-              </Box>
-              <Text color={colors.greyColor} fontSize={15}>
-                {textDate
-                  ? date.getFullYear() +
-                  '-' +
-                  (date.getMonth() + 1) +
-                  '-' +
-                  date.getDate()
-                  : 'Date de naissance'}
+                  fontWeight: "400",
+                  fontSize: 14,
+                  color: colors.primary,
+                  fontStyle: "normal",
+                  marginLeft: 3,
+                }}
+              >
+                Vous acceptez nos CGU
               </Text>
             </HStack>
-          </Pressable>
-          <DatePicker
-            mode="date"
-            modal
-            open={open}
-            date={date}
-            onConfirm={date => {
-              setOpen(false);
-              setDate(date);
-              setData({ ...formData, date: date });
-            }}
-            onCancel={() => {
-              setOpen(false);
-            }}
-          />
-          {/* <HStack marginTop={0} ml={5} mt={3} mb={7} alignItems="center">
-            <Checkbox
-              accessibilityLabel="gcu"
-              isChecked={isAccept}
-              onPress={() => setIsAccept(!isAccept)}
-            />
-            <Text marginLeft={3}>
-              Acceptez-vous nos{' '}
-              <Text style={{ color: colors.secondaryColor }}>CGU</Text>
-            </Text>
-          </HStack> */}
-          <View>
-            <Center mb={3} mt={10}>
+
+            <Center mb={3} mt={5}>
               <PrimaryButton
                 title="Créer votre compte"
                 isLoadingText="En Cours..."
                 isLoading={false}
                 style={styles.submitBtnText}
-                color={colors.primaryColor}
+                color={isFieldsEmpty ? colors.desable : colors.primary}
+                disabled={isFieldsEmpty}
                 onPress={onSubmit}
               />
             </Center>
             <Center>
               <VStack>
                 <Text style={{ marginBottom: 10, color: "#858585" }}>
-                  Vous avez deja un compte ? <Text
-                    style={{ color: colors.yellow }}
-                    onPress={() => navigation.goBack()} > Connectez-vous!</Text>
+                  Vous avez déjà un compte ?{" "}
+                  <Text
+                    style={{ color: colors.primary}}
+                    onPress={() => navigation.goBack()}
+                  >
+                    {" "}
+                    Connectez-vous!
+                  </Text>
                 </Text>
-                <Center>
-                  {/* <Text style={{ color: "#858585" }}>
-              Connectez-vous avec :
-            </Text> */}
-                </Center>
               </VStack>
             </Center>
           </View>
-        </VStack >
-      </Stack>
-    </VStack >
+        </VStack>
+      </VStack>
+    </VStack>
   );
 };
-
 
 export default Signup;

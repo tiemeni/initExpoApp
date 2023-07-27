@@ -15,3 +15,4 @@ export const RDV = "RDV";
 export const NOTIFICATIONS = "NOTIFICATIONS";
 export const TrANSACTION = "TRANSACTION";
 export const PAYMENT = "PAYMENT";
+export const SETTINGS = "SETTINGS";

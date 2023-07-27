@@ -36,6 +36,7 @@ function Profile() {
           <ParameterList label={"Mon Profile"} />
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={()=>navigation.navigate(SCREENS.SETTINGS)}
           style={styles.item}>
           <ParameterList label={"Parametres"} icon={settingIcon} />
         </TouchableOpacity>
@@ -50,7 +51,7 @@ function Profile() {
         </TouchableOpacity>
       </View>
       <View style={styles.section3}>
-        <TouchableOpacity style={{ ...styles.item, height: "50%" }}>
+        <TouchableOpacity onPress={()=>navigation.navigate(SCREENS.LOGIN)} style={{ ...styles.item, height: "50%" }}>
           <ParameterList icon={logout} label={"Deconnexion"} />
         </TouchableOpacity>
       </View>
