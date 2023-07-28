@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
   },
 
   submitBtnText: {
-    width: "100%",
-    borderRadius: 20,
+    width: "80%",
+    borderRadius: 50,
     color: colors.secondaryColor,
     alignItems: "center",
     height: 48,

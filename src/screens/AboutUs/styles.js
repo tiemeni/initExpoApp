@@ -3,6 +3,7 @@ import colors from '../../constants/colours';
 const styles = {
     container: {
         backgroundColor: colors.bg_grey,
+        padding:8
     },
 
     headerItemGroup: {

@@ -5,8 +5,16 @@ import { Box, Input, ScrollView, View, HStack, Text, VStack } from 'native-base'
 import styles from './style';
 import MedCard from '../../components/MedCard';
 import { specialites, practiciens} from '../../utils/helper';
-
+import CarouselAstuce from '../../components/MeAstuce';
+import CarouselPub from '../../components/MePub';
 const Acceuil = ({ navigation }) => {
+
+  const healthTips = [
+    "Astuce 1: Boire beaucoup d'eau chaque jour.",
+    "Astuce 2: Manger des fruits et légumes frais.",
+    "Astuce 3: Faire de l'exercice régulièrement.",
+    "Astuce 4: Dormir suffisamment chaque nuit.",
+  ];
 
   return (
     <View flex={1}>
@@ -20,8 +28,7 @@ const Acceuil = ({ navigation }) => {
             size={'md'}
             placeholder="Rechercher un docteur ou une spécialité" />
         </Box>
-        <Box mb={7} style={styles.tipBox}></Box>
-
+        <CarouselPub/>
         <VStack mb={7}>
           <HStack mb={2} justifyContent={'space-between'}>
             <Text style={styles.sectionTitle}>Nos spécialités</Text>
@@ -45,6 +52,12 @@ const Acceuil = ({ navigation }) => {
             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
               {practiciens.map((praticien) => <MedCard key={praticien.id} praticien={praticien} />)}
             </ScrollView>
+          </VStack>
+        </VStack>
+        <VStack>
+          <VStack mb={4} justifyContent={'space-between'}>
+            <Text style={styles.sectionTitle}>Astuces de santé</Text>
+            <CarouselAstuce/>
           </VStack>
         </VStack>
       </ScrollView>

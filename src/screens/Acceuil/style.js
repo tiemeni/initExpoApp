@@ -11,7 +11,8 @@ const styles = StyleSheet.create({
     tipBox: {
         width: '100%',
         height: 150,
-        backgroundColor: colors.trans_primary,
+        backgroundColor: "#04B7C9",
+        opacity:0.4,
         borderRadius: 15,
     },
     sectionTitle: {
@@ -27,12 +28,12 @@ const styles = StyleSheet.create({
     speciality: {
         padding: 5,
         borderRadius: 50,
-        backgroundColor: colors.white,
+        backgroundColor: colors.transp_success,
         marginTop: 10,
         marginRight: 10,
     },
     specialityText: {
-        color: colors.text_grey_hint
+        color: colors.primary
     }
 })
 

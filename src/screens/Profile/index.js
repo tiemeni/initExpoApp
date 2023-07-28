@@ -46,7 +46,7 @@ function Profile() {
         <TouchableOpacity style={styles.item} onPress={() => navigation.navigate(SCREENS.FAQ_SCREEN)}>
           <ParameterList icon={faq} label={"FAQ et Assistance"} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.item}>
+        <TouchableOpacity onPress={() =>navigation.navigate(SCREENS.ABOUT_US)} style={styles.item}>
           <ParameterList icon={about} label={"A propos"} />
         </TouchableOpacity>
       </View>

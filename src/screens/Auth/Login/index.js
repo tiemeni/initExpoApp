@@ -13,6 +13,7 @@ import {
   SIGNUP,
 } from "../../../constants/screens";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
+import SocialMedia from "../../../components/ConnectWithSocilalMedia";
 
 const Login = ({ navigation }) => {
   const [formFields, setFormFields] = useState({
@@ -68,7 +69,7 @@ const Login = ({ navigation }) => {
       <VStack space={5} style={styles.formContent}>
         <Input
           h={50}
-          rounded={25}
+          rounded={50}
           borderWidth={0}
           bg={colors.desable}
           InputLeftElement={
@@ -86,7 +87,7 @@ const Login = ({ navigation }) => {
           value={formFields.username}
         />
         <Input
-          rounded={25}
+          rounded={50}
           h={50}
           borderWidth={0}
           bg={colors.desable}
@@ -180,13 +181,8 @@ const Login = ({ navigation }) => {
             </Text>
           </Text>
         </VStack>
-        <Text style={styles.connectWith}>Connectez-vous avec </Text>
-        <HStack mb={4} mt={2} flex={1} space={8}>
-          <Box rounded={50} style={styles.boxIcon} shadow={2}><Center><Icon size={5} color={'blue.300'} as={<FontAwesome  name="facebook"/>}/></Center></Box>
-          <Box shadow={1} rounded={50} style={styles.boxGoogle}><Icon size={5} color={'red.800'} as={<FontAwesome name="google"/>}/></Box>
-          <Box shadow={1} rounded={50} style={styles.boxTwitter}><Icon size={6} color={'blue.300'} as={<Ionicons name="md-logo-twitter"/>}/></Box>
-        </HStack>
       </Center>
+      <SocialMedia/>
     </View>
     </ScrollView>
   );

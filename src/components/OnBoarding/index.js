@@ -1,6 +1,6 @@
 import { Animated, StyleSheet, Text, useWindowDimensions } from 'react-native'
 import React, { useRef, useState } from 'react'
-import { FlatList, View, VStack } from 'native-base'
+import { Center, FlatList, View, VStack } from 'native-base'
 import OnBoardingItem from './OnBoardingItem'
 import { useNavigation } from '@react-navigation/native'
 import colors from '../../constants/colours'
@@ -49,10 +49,12 @@ export default function OnBoarding2() {
                 console.log("cool")
             }} /> : <View></View>}
             <VStack>
-                <View style={{ paddingLeft: 15, paddingTop: 20, }}>
-                    <Text style={styles.greetfr}>Welcome,</Text>
+                <Center>
+                <VStack alignItems={'center'} style={{ paddingLeft: 15, paddingTop: 20, }}>
+                    <Text style={styles.greetfr}>Welcome</Text>
                     <Text style={styles.greetEn}>Bienvenue</Text>
-                </View>
+                </VStack>
+                </Center>
                 <View>
                     <FlatList
                         overScrollMode='never'

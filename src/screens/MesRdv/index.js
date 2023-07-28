@@ -4,9 +4,11 @@ import { ActivityIndicator, Image, StyleSheet, Text } from 'react-native'
 import colors from '../../constants/colours'
 import plusBlack from "../../assets/img/plus_black.png"
 import Rdv from '../../components/Rdv'
+import { Entypo } from '@expo/vector-icons';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import * as SCREENS from '../../constants/screens'
+import styles from './style'
 
 export const IsLoadingComponent = () => {
     return (
@@ -63,9 +65,9 @@ export const CustomHeader = ({ navigation, mb, screen }) => {
                 <Text style={{ marginLeft: 15, fontSize: 18 }}>John Doe</Text>
             </HStack>
             <TouchableOpacity onPress={() => navigation.navigate(SCREENS.MAKE_APPOINTMENT_SCREEN)}>
-                <Image
-                    source={plusBlack}
-                    style={{ height: 20, width: 20, marginRight: 5 }} />
+             <Box style={styles.boxGoogle} width={50} rounded={50} shadow={2}>
+                 <Entypo name="plus" size={29} color={colors.white} />
+             </Box>
             </TouchableOpacity>
         </HStack>
     )
@@ -214,12 +216,3 @@ export default function MesRdv({ navigation }) {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-
-    },
-    comp1Child1: {
-
-    }
-})
