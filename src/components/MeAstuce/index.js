@@ -43,8 +43,7 @@ function CarouselAstuce() {
         marginTop: 12,
         borderRadius: 10,
         borderWidth: 0,
-        opacity: 0.4,
-        backgroundColor: colors.primary,
+        backgroundColor: colors.trans_primary,
         marginBottom: 20,
       }}
     >
@@ -52,7 +51,7 @@ function CarouselAstuce() {
         loop
         width={width}
         height={150}
-        autoPlay={true}
+        autoPlay={false}
         data={healthTips}
         scrollAnimationDuration={5000}
         onSnapToItem={(index) => console.log("current index:", index)}
@@ -66,10 +65,12 @@ function CarouselAstuce() {
               padding:10,
             }}
           >
-            <Text style={{fontWeight:'600', fontSize: 20, color: "white" , padding:3, marginRight:5}}>
+            <Text style={{fontWeight:'600',
+             fontSize: 18, color: colors.yellow ,
+              padding:3, marginRight:5}}>
               {item.title}
             </Text>
-            <Text style={{ fontSize: 14, color:'white' }}>
+            <Text style={{ fontSize: 14, color:colors.black }}>
               {item.description}
             </Text>
             <Pressable style={styles.rdvBtn} >

@@ -29,10 +29,10 @@ const IconItem = (props) => {
     { value: 'en', label: 'En',},
 
   ];
-  
   const SelectLang = () => {
-
   const [selectedLang, setSelectedLang] = useState(countries[0]);
+
+
   const handleLangChange = (item) => {
     setSelectedLang(item); 
   };
@@ -71,7 +71,7 @@ const IconItem = (props) => {
         {props.text === "Choix de la langue" ? (
             <SelectLang />
         ) : (
-          <Switch size="sm" />
+          <Switch  size="md" />
         )}
       </HStack>
     </HStack>

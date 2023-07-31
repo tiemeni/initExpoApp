@@ -6,7 +6,7 @@ const styles = {
     },
 
     headerItemGroup: {
-        padding: 15,
+        paddingLeft:3,
     },
 
     headerText: {
@@ -15,16 +15,20 @@ const styles = {
 
     headerItem: {
         alignItems: 'center',
-        marginBottom: '5%',
+        marginBottom:8,
     },
 
     iconBox: {
         height: 40,
         width: 40,
-        marginRight: '3%',
+        marginRight:0,
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+
+    textBox:{
+        fontSize:16
     }
 }
 

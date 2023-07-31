@@ -18,7 +18,6 @@ import PrimaryButton from "../../../components/Buttons/PrimaryButton";
 import colors from "../../../constants/colours";
 import styles from "./styles";
 import moment from "moment";
-import MaskInput from "react-native-mask-input";
 import { Checkbox } from "react-native-paper";
 import SocialMedia from "../../../components/ConnectWithSocilalMedia";
 
@@ -114,13 +113,14 @@ const Signup = ({ navigation }) => {
                 <Input
                   rounded={50}
                   borderWidth={0}
+                  style={{fontSize:14}}
                   bg={colors.desable}
                   InputLeftElement={
                     <Icon
                       as={<MaterialIcons name="person" />}
                       size={5}
-                      ml="2"
-                      color="muted.400"
+                      ml="3"
+                  color={colors.primary}
                     />
                   }
                   placeholder="Nom"
@@ -134,13 +134,14 @@ const Signup = ({ navigation }) => {
                 <Input
                   rounded={50}
                   borderWidth={0}
+                  style={{fontSize:14}}
                   bg={colors.desable}
                   InputLeftElement={
                     <Icon
                       as={<MaterialIcons name="person" />}
                       size={5}
-                      ml="2"
-                      color="muted.400"
+                      ml="3"
+                  color={colors.primary}
                     />
                   }
                   placeholder="Prénom"
@@ -152,13 +153,14 @@ const Signup = ({ navigation }) => {
             <Input
               rounded={50}
               borderWidth={0}
+              style={{fontSize:14}}
               bg={colors.desable}
               InputLeftElement={
                 <Icon
                   as={<MaterialIcons name="email" />}
                   size={5}
-                  ml="2"
-                  color="muted.400"
+                  ml="3"
+                  color={colors.primary}
                 />
               }
               placeholder="adresse mail"
@@ -168,13 +170,14 @@ const Signup = ({ navigation }) => {
             <Input
               rounded={50}
               borderWidth={0}
+              style={{fontSize:14}}
               bg={colors.desable}
               InputLeftElement={
                 <Icon
                   as={<MaterialIcons name="email" />}
                   size={5}
-                  ml="2"
-                  color="muted.400"
+                  ml="3"
+                  color={colors.primary}
                 />
               }
               placeholder="Confirmer votre adresse mail"
@@ -186,13 +189,14 @@ const Signup = ({ navigation }) => {
               borderWidth={0}
               bg={colors.desable}
               keyboardType="numeric"
+              style={{fontSize:14}}
               maxLength={9}
               InputLeftElement={
                 <Icon
                   as={<MaterialIcons name="phone" />}
                   size={5}
-                  ml="2"
-                  color="muted.400"
+                  ml="3"
+                  color={colors.primary}
                 />
               }
               placeholder="Téléphone"
@@ -206,8 +210,8 @@ const Signup = ({ navigation }) => {
                     <Icon
                       as={<MaterialCommunityIcons name="calendar-edit" />}
                       size={5}
-                      ml="2"
-                      color="muted.400"
+                      ml="3"
+                      color={colors.primary}
                     />
                   </Box>
                   <Text style={{ color: textDate ? "gray" : colors.black }}>
@@ -221,7 +225,11 @@ const Signup = ({ navigation }) => {
                   value={moment(date, "DD/MM/YYYY").toDate()}
                   mode="date"
                   display="default"
+                  collapsable
+                  accentColor={colors.primary}
+                  placeholderText="gggfgfgfgf"
                   onChange={handleDateChange}
+                style={{backgroundColor: colors.primary}}
                 />
               )}
               <HStack
@@ -232,11 +240,13 @@ const Signup = ({ navigation }) => {
                   marginLeft: 3,
                 }}
               >
+                <Box style={{opacity:isCkeck?1:0.4}}>
                 <Checkbox
                   status={isCkeck ? "checked" : "unchecked"}
                   onPress={handleCheck}
                   color={colors.primary}
                 />
+                </Box>
                 <Text
                   style={{
                     fontWeight: "400",
@@ -258,9 +268,9 @@ const Signup = ({ navigation }) => {
                 </Text>
               </HStack>
 
-              <Center mb={3} mt={5}>
+              <Center mb={5} mt={8}>
                 <PrimaryButton
-                  title="Créer votre compte"
+                  title="Créez votre compte"
                   isLoadingText="En Cours..."
                   isLoading={false}
                   style={styles.submitBtnText}
@@ -284,7 +294,7 @@ const Signup = ({ navigation }) => {
                 </VStack>
               </Center>
             </View>
-            <SocialMedia />
+           {/*<SocialMedia />*/}
           </VStack>
         </VStack>
       </VStack>

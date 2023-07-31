@@ -36,15 +36,13 @@ function CarouselPub() {
         marginTop: 12,
         borderRadius: 10,
         borderWidth: 0,
-        opacity: 0.45,
-        backgroundColor: colors.primary,
+        backgroundColor: colors.trans_primary,
         marginBottom: 20,
       }}
     >
       <Carousel
         pagingEnabled={true}
         mode="parallax"
-        autoPlayInterval={2}
         loop
         width={width}
         height={160}
@@ -62,9 +60,6 @@ function CarouselPub() {
               padding:10,
             }}
           >
-            <Text style={{fontWeight:'600', fontSize: 20, color: "white" , padding:3, marginRight:5}}>
-              {item.title}
-            </Text>
             <Image resizeMode="cover"  source={item.image} style={{ width:250, height: 150, marginBottom: 10 }} />
           </VStack>
         )}

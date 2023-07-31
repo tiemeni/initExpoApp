@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   submitBtnText: {
     marginBottom: 10,
     marginTop: 10,
-    width: '80%',
+    width: '100%',
     borderRadius: 25,
     //color: colors.black,
     alignItems: 'center',
