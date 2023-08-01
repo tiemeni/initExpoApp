@@ -12,9 +12,9 @@ const styles = StyleSheet.create({
     },
     medPic: {
         backgroundColor: colors.bg_grey,
-        width: '100%',
-        height: 100,
+        height: 90,
         borderRadius: 15,
+        width:'100%'
     },
     medName: {
         fontWeight: '600',

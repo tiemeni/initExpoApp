@@ -1,4 +1,5 @@
 import colors from "../constants/colours"
+import logo from  "../assets/img/logo.png"
 
 export const notifications = [
     {
@@ -39,29 +40,34 @@ export const practiciens = [
     {
         id: 1,
         name: 'Tiemeni Happi',
+        img: require('../assets/img/pub1.jpg'),
         center: 'Clinique FOUDA',
         cost: 15000
     },
     {
         id: 2,
         name: 'Embolo Emma',
+        img: require('../assets/img/logo.png'),
         center: 'Clinique FOUDA',
         cost: 15000
     },
     {
         id: 3,
         name: 'Tabou Blondin',
+        img: require('../assets/img/logo.png'),
         center: 'Clinique FOUDA',
         cost: 15000
     },
     {
         id: 4,
         name: 'Tiemeni Happi',
+        img: require('../assets/img/logo.png'),
         center: 'Clinique FOUDA',
         cost: 15000
     }, {
         id: 5,
         name: 'Embolo Emma',
+        img: require('../assets/img/logo.png'),
         center: 'Clinique FOUDA',
         cost: 15000
     }

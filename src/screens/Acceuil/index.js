@@ -1,12 +1,15 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { CustomHeader } from '../MesRdv'
 import { PROFILE } from '../../constants/screens'
-import { Box, Input, ScrollView, View, HStack, Text, VStack } from 'native-base'
+import { Box, Input, ScrollView, View, HStack, Text, VStack, Icon } from 'native-base'
 import styles from './style';
 import MedCard from '../../components/MedCard';
 import { specialites, practiciens} from '../../utils/helper';
 import CarouselAstuce from '../../components/MeAstuce';
 import CarouselPub from '../../components/MePub';
+import { MaterialIcons, Ionicons, FontAwesome } from "@expo/vector-icons";
+import colors from '../../constants/colours';
+
 const Acceuil = ({ navigation }) => {
 
   const healthTips = [
@@ -15,18 +18,38 @@ const Acceuil = ({ navigation }) => {
     "Astuce 3: Faire de l'exercice régulièrement.",
     "Astuce 4: Dormir suffisamment chaque nuit.",
   ];
+  const [searchText, setSearchText] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleSearch = () => {
+    const filteredSpecialites = specialites.filter(specialite => specialite.value.includes(searchText));
+    const filteredPraticiens = practiciens.filter(praticien => praticien.name.includes(searchText));
+    const results = [...filteredSpecialites, ...filteredPraticiens];
+    setSearchResults(results);
+  };
 
   return (
     <View flex={1}>
       <CustomHeader navigation={navigation} screen={PROFILE} />
-      <ScrollView showsVerticalScrollIndicator={false} padding={5}>
+      <ScrollView showsVerticalScrollIndicator={false} padding={3}>
         <Box>
-          <Input
-            variant={"unstyled"}
-            onChangeText={(v) => handleChange('securityCode', v)}
-            style={styles.input}
-            size={'md'}
-            placeholder="Rechercher un docteur ou une spécialité" />
+        <Input
+            h={38}
+            rounded={12}
+            borderWidth={0}
+            fontSize={14}
+            bg={colors.white}
+            placeholder='Rechercher un praticien ou une spécialité'
+            InputLeftElement={
+              <Icon
+                as={<Ionicons name="search" />}
+                size={5}
+                ml="4"
+                color={colors.primary}
+              />}
+              onChangeText={text => setSearchText(text)} 
+              onSubmitEditing={handleSearch}
+              />
         </Box>
         <CarouselPub/>
         <VStack mb={7}>
@@ -50,7 +73,7 @@ const Acceuil = ({ navigation }) => {
           </HStack>
           <VStack flex={1} mb={10}>
             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-              {practiciens.map((praticien) => <MedCard key={praticien.id} praticien={praticien} />)}
+              {practiciens.map((praticien) => <MedCard key={praticien.id}  praticien={praticien} />)}
             </ScrollView>
           </VStack>
         </VStack>

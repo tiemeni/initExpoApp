@@ -20,6 +20,7 @@ import styles from "./styles";
 import moment from "moment";
 import { Checkbox } from "react-native-paper";
 import SocialMedia from "../../../components/ConnectWithSocilalMedia";
+import { LOGIN } from "../../../constants/screens";
 
 const Signup = ({ navigation }) => {
   const toast = useToast();
@@ -28,29 +29,29 @@ const Signup = ({ navigation }) => {
 
   const [formFields, setFormFields] = useState({
     firstName: "",
-    lastName: "",
     email: "",
     emailConfirm: "",
     phone: "",
-    birdday: date,
+    birthday: "",
   });
   const [errors, setErrors] = useState({});
   const [textDate, setTextDate] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
-
-  const [phoneNumber, setPhoneNumber] = useState("");
-
-  const handleChangeText = (formatted, extracted) => {
-    setPhoneNumber(formatted);
-  };
+  const [loader, setLoading] = useState(false);
 
   const handleDateChange = useCallback(
     (event, selectedDate) => {
       const currentDate = selectedDate || date;
       setShowDatePicker(Platform.OS === "ios");
       setDate(currentDate);
+
+      const formattedDate = moment(currentDate).format("DD/MM/YYYY");
+      setFormFields({
+        ...formFields,
+        birthday: formattedDate,
+      });
     },
-    [date]
+    [date, formFields]
   );
 
   const showDatepicker = useCallback(() => {
@@ -71,18 +72,30 @@ const Signup = ({ navigation }) => {
 
   const formattedDate = moment(date, "DD/MM/YYYY").format("DD/MM/YYYY");
 
+  const isValidEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
+
+  const email1 = isValidEmail(formFields.email)
+  const email2 = isValidEmail(formFields.emailConfirm)
+
   const isFieldsEmpty =
-    formFields.firstName.trim() === "" ||
-    formFields.lastName === "" ||
+    formFields.firstName === "" ||
     formFields.email === "" ||
     formFields.emailConfirm === "" ||
     formFields.phone === "" ||
-    formFields.birdday === "" ||
+    formFields.birthday === "" ||
     isCkeck === false;
+
   const onSubmit = () => {
     if (!isFieldsEmpty) {
-      //dispatch(register(formData));
-      console.log("clik me");
+      console.log("Mes données de création compte", formFields);
+
+      setLoading(true);
+      setTimeout(() => {
+        navigation.navigate(LOGIN);
+      }, 10000);
     } else {
       console.log("Validation Failed ", errors);
     }
@@ -108,52 +121,27 @@ const Signup = ({ navigation }) => {
         </View>
         <VStack style={styles.contentForm}>
           <VStack space={3} width={"100%"}>
-            <HStack justifyContent={"space-between"} width={"100%"}>
-              <Box w={"55%"}>
-                <Input
-                  rounded={50}
-                  borderWidth={0}
-                  style={{fontSize:14}}
-                  bg={colors.desable}
-                  InputLeftElement={
-                    <Icon
-                      as={<MaterialIcons name="person" />}
-                      size={5}
-                      ml="3"
-                  color={colors.primary}
-                    />
-                  }
-                  placeholder="Nom"
-                  onChangeText={(value) =>
-                    handleInputChange("firstName", value)
-                  }
-                  value={formFields.firstName}
-                />
-              </Box>
-              <Box width={"40%"}>
-                <Input
-                  rounded={50}
-                  borderWidth={0}
-                  style={{fontSize:14}}
-                  bg={colors.desable}
-                  InputLeftElement={
-                    <Icon
-                      as={<MaterialIcons name="person" />}
-                      size={5}
-                      ml="3"
-                  color={colors.primary}
-                    />
-                  }
-                  placeholder="Prénom"
-                  onChangeText={(value) => handleInputChange("lastName", value)}
-                  value={formFields.lastName}
-                />
-              </Box>
-            </HStack>
             <Input
               rounded={50}
               borderWidth={0}
-              style={{fontSize:14}}
+              style={{ fontSize: 14 }}
+              bg={colors.desable}
+              InputLeftElement={
+                <Icon
+                  as={<MaterialIcons name="person" />}
+                  size={5}
+                  ml="3"
+                  color={colors.primary}
+                />
+              }
+              placeholder="Nom"
+              onChangeText={(value) => handleInputChange("firstName", value)}
+              value={formFields.firstName}
+            />
+            <Input
+              rounded={50}
+              borderWidth={0}
+              style={{ fontSize: 14 }}
               bg={colors.desable}
               InputLeftElement={
                 <Icon
@@ -167,10 +155,16 @@ const Signup = ({ navigation }) => {
               onChangeText={(value) => handleInputChange("email", value)}
               value={formFields.email}
             />
+            {!email1 && formFields.email !=="" &&
+            <Text style={{
+              fontSize: 10,
+              marginLeft: 12,
+              color: colors.danger,
+            }}>Veillez saisir l'email valide svp !</Text>}
             <Input
               rounded={50}
               borderWidth={0}
-              style={{fontSize:14}}
+              style={{ fontSize: 14 }}
               bg={colors.desable}
               InputLeftElement={
                 <Icon
@@ -184,12 +178,19 @@ const Signup = ({ navigation }) => {
               onChangeText={(value) => handleInputChange("emailConfirm", value)}
               value={formFields.emailConfirm}
             />
+            {formFields.email !== formFields.emailConfirm && formFields.emailConfirm !== "" &&
+            <Text style={{
+              fontSize: 10,
+              marginLeft: 12,
+              color: colors.danger,
+              marginTop: -6,
+            }}>Vos emails ne correspondent pas !</Text> }
             <Input
               rounded={50}
               borderWidth={0}
               bg={colors.desable}
               keyboardType="numeric"
-              style={{fontSize:14}}
+              style={{ fontSize: 14 }}
               maxLength={9}
               InputLeftElement={
                 <Icon
@@ -229,7 +230,7 @@ const Signup = ({ navigation }) => {
                   accentColor={colors.primary}
                   placeholderText="gggfgfgfgf"
                   onChange={handleDateChange}
-                style={{backgroundColor: colors.primary}}
+                  style={{ backgroundColor: colors.primary }}
                 />
               )}
               <HStack
@@ -240,12 +241,12 @@ const Signup = ({ navigation }) => {
                   marginLeft: 3,
                 }}
               >
-                <Box style={{opacity:isCkeck?1:0.4}}>
-                <Checkbox
-                  status={isCkeck ? "checked" : "unchecked"}
-                  onPress={handleCheck}
-                  color={colors.primary}
-                />
+                <Box style={{ opacity: isCkeck ? 1 : 0.4 }}>
+                  <Checkbox
+                    status={isCkeck ? "checked" : "unchecked"}
+                    onPress={handleCheck}
+                    color={colors.primary}
+                  />
                 </Box>
                 <Text
                   style={{
@@ -267,12 +268,23 @@ const Signup = ({ navigation }) => {
                   </Text>
                 </Text>
               </HStack>
-
+              {isFieldsEmpty && (
+                <Text
+                  style={{
+                    fontSize: 10,
+                    marginLeft: 12,
+                    color: colors.danger,
+                    marginTop: 4,
+                  }}
+                >
+                  Tous les champs sont obligatoires !
+                </Text>
+              )}
               <Center mb={5} mt={8}>
                 <PrimaryButton
                   title="Créez votre compte"
-                  isLoadingText="En Cours..."
-                  isLoading={false}
+                  isLoadingText="Création en cours..."
+                  isLoading={loader}
                   style={styles.submitBtnText}
                   color={isFieldsEmpty ? colors.text_grey_hint : colors.primary}
                   disabled={isFieldsEmpty}
@@ -294,7 +306,7 @@ const Signup = ({ navigation }) => {
                 </VStack>
               </Center>
             </View>
-           {/*<SocialMedia />*/}
+            {/*<SocialMedia />*/}
           </VStack>
         </VStack>
       </VStack>

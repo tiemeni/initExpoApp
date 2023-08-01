@@ -22,13 +22,16 @@ import {
   SIGNUP,
 } from "../../../constants/screens";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
-import SocialMedia from "../../../components/ConnectWithSocilalMedia";
+import { useDispatch } from "react-redux";
+import { login } from "../../../redux/Auth/action";
 
 const Login = ({ navigation }) => {
+
   const [formFields, setFormFields] = useState({
-    username: "",
+    email: "",
     password: "",
   });
+  const dispatch = useDispatch();
   const [loader, setLoading] = useState(false)
   const [viewPass, setView] = useState(false);
   const [isCkeck, setIsCheck] = useState(false);
@@ -49,19 +52,19 @@ const Login = ({ navigation }) => {
   };
 
   const isFieldsEmpty =
-    formFields.username.trim() === "" ||
+    formFields.email.trim() === "" ||
     formFields.password === "" ||
     formFields.password.length < 6 ||
-    formFields.username.length < 4;
+    formFields.email.length < 4;
 
     const HanleLogin = () => {
-      // Afficher l'indicateur de chargement pendant 10 secondes
+      console.log('info pour le login', formFields);
       setLoading(true);
-  
+      dispatch(login(formFields))
       setTimeout(() => {
         navigation.navigate(HOME_CONTAINER_ROUTE);
           setLoading(false);
-      }, 10000); // 10000 ms = 10 secondes
+      }, 5000); // 10000 ms = 10 secondes
     };
 
   return (
@@ -101,9 +104,9 @@ const Login = ({ navigation }) => {
             }
             placeholder="Entrer votre addresse mail"
             keyboardType="default"
-            isInvalid={isFieldInError("username")}
-            onChangeText={(value) => handleInputChange("username", value)}
-            value={formFields.username}
+            isInvalid={isFieldInError("email")}
+            onChangeText={(value) => handleInputChange("email", value)}
+            value={formFields.email}
           />
           <Input
             rounded={50}
@@ -145,7 +148,7 @@ const Login = ({ navigation }) => {
             onChangeText={(value) => handleInputChange("password", value)}
             value={formFields.password}
           />
-          {(isFieldInError("username") || isFieldInError("password")) && (
+          {(isFieldInError("email") || isFieldInError("password")) && (
             <Text
               style={{
                 color: "red",

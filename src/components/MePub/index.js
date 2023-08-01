@@ -46,7 +46,7 @@ function CarouselPub() {
         loop
         width={width}
         height={160}
-        autoPlay={true}
+        autoPlay={false}
         data={healthTips}
         scrollAnimationDuration={4000}
         onSnapToItem={(index) => console.log("current index:", index)}

@@ -56,15 +56,16 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white,
         borderRadius: 50,
         marginRight: 15,
-        shadowColor: "#000",
+        alignItems:'center',
+        justifyContent:'center',
+       shadowColor: "#000",
         shadowOffset: {
             width: 0,
             height: 2,
         },
         shadowOpacity: 0.1,
         shadowRadius: 3.84,
-
-        elevation: 5,
+        elevation: 6,
     },
 
     cardInfos: {
