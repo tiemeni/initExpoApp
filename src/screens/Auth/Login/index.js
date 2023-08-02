@@ -38,12 +38,14 @@ const Login = ({ navigation }) => {
   const { isFieldInError } = useValidation({
     state: formFields,
   });
+  
   const handleViewPass = () => {
     setView(!viewPass);
   };
   const handleCheck = () => {
     setIsCheck(!isCkeck);
   };
+
   const handleInputChange = (field, value) => {
     setFormFields({
       ...formFields,
