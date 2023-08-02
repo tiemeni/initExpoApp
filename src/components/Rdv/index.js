@@ -1,11 +1,11 @@
 import { View, Text, Image } from 'react-native'
 import React from 'react'
-import { Avatar, HStack, VStack } from 'native-base'
+import { Avatar, Circle, HStack, VStack } from 'native-base'
 import colors from '../../constants/colours'
 import icon from "../../assets/img/account.png"
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import calendar from "../../assets/img/calendar.png"
-import dot from "../../assets/img/full-stop.png"
+import dot from "../../assets/img/black-circle.png"
 import watch from "../../assets/img/clock.png"
 
 
@@ -42,13 +42,14 @@ export default function Rdv() {
                         <Text style={{ fontSize: 12, marginLeft: 5 }}>10h30</Text>
                     </HStack>
                     <HStack alignItems={'center'}>
-                        <Image source={dot} style={{ height: 13, width: 13 }} />
+                        <Image source={dot} style={{ height: 8, width: 8 }} />
+                        {/* <Circle color={'green'} width={10} height={10} /> */}
                         <Text style={{ fontSize: 12, marginLeft: 5 }}>Confirmé</Text>
                     </HStack>
                 </HStack>
                 <HStack justifyContent={"space-between"}>
                     <TouchableOpacity style={{
-                        backgroundColor: "#EEEFF3",
+                        backgroundColor: "#fdf2f2",
                         height: 47,
                         width: 133,
                         display: "flex",
@@ -58,7 +59,7 @@ export default function Rdv() {
                         marginLeft: 10,
                         alignItems: "center"
                     }}>
-                        <Text style={{ fontSize: 16 }}>Annuler</Text>
+                        <Text style={{ fontSize: 16, color: "#FF0000" }}>Annuler</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={{
                         backgroundColor: colors.primary,

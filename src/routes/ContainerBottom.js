@@ -12,7 +12,7 @@ const Bottom = createBottomTabNavigator();
 const ContainerBottom = () => {
     const setScreenOption = ({ route }) => ({
         headerShown: false,
-        tabBarIcon: ({ focused, size }) => {
+        tabBarIcon: ({ focused }) => {
             let iconName
             if (route.name === SCREENS.ACCEUIL) {
                 iconName = focused ? 'ios-home' : 'ios-home-outline'
@@ -23,20 +23,18 @@ const ContainerBottom = () => {
             }
             return <Ionic
                 name={iconName}
-                size={size}
+                size={20}
                 style={{
-                    marginBottom: -6
+                    marginBottom: -6,
                 }}
                 color={focused ? colors.primary : "#706e6e"}
             />
         },
         tabBarStyle: {
-            // paddinTop: 3,
-            // display: route.name === SCREENS.MAKE_APPOINTMENT_SCREEN ? 'none' : 'flex'
+            backgroundColor: colors.bg_grey
         },
         tabBarLabelStyle: {
             fontSize: 12,
-            // marginBottom: 4
         },
         tabBarShowLabel: true,
         tabBarInactiveTintColor: "#706e6e",

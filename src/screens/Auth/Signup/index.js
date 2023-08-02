@@ -274,7 +274,7 @@ const Signup = ({ navigation }) => {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <MaterialCommunityIcons size={20} name="calendar-edit" />
+                <MaterialCommunityIcons color={"gray"} size={20} name="calendar-edit" />
               </Box>
               <Text color={colors.greyColor} fontSize={15}>
                 {textDate

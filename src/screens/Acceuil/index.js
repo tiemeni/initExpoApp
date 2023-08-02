@@ -11,7 +11,7 @@ const Acceuil = ({ navigation }) => {
   return (
     <View flex={1}>
       <CustomHeader navigation={navigation} screen={PROFILE} />
-      <ScrollView showsVerticalScrollIndicator={false} padding={5}>
+      <ScrollView showsVerticalScrollIndicator={false} padding={3}>
         <Box>
           <Input
             variant={"unstyled"}

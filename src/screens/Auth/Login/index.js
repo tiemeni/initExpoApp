@@ -57,7 +57,7 @@ const Login = ({ navigation }) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <MaterialCommunityIcons name={'email-outline'} size={21} />
+                  <MaterialCommunityIcons color={'red'} name={'email-outline'} size={21} />
                 </Box>
               )}
             />
