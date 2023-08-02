@@ -1,4 +1,4 @@
-import { Avatar, ScrollView, View, VStack } from 'native-base'
+import { Avatar, ScrollView, View, VStack, Icon } from 'native-base'
 import React from 'react'
 import { useState } from 'react'
 import arrow from "../../assets/img/right-arrow.png"
@@ -10,6 +10,7 @@ import colors from '../../constants/colours'
 import { styles } from './style'
 import plus from "../../assets/img/edit.png"
 import tick from "../../assets/img/tick.png"
+import { MaterialIcons, AntDesign  } from "@expo/vector-icons";
 import { LOGIN } from '../../constants/screens'
 
 const IS_ANDROID = Platform.OS === "android"
@@ -41,8 +42,9 @@ const FAB = (props) => {
             width: props.onBoarding ? "95%" : 60,
             right: props.onBoarding ? "2.5%" : 30,
             bottom: props.onBoarding ? 15 : 30,
-            borderRadius: props.onBoarding ? 10 : 30,
-            backgroundColor: props.onBoarding ? "white" : colors.primary
+            borderRadius: props.onBoarding ? 10 : 10,
+            backgroundColor: props.onBoarding ? "white" : colors.primary,
+            height: 48,
         }}>
             <TouchableOpacity onPress={props.onPress}>
                 {!props.onBoarding ?
@@ -51,7 +53,7 @@ const FAB = (props) => {
                         onPress={() => props.navigation.navigate(LOGIN)}
                         style={{ display: "flex", flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={{ color: colors.primary, fontSize: 20 }}>Commencez</Text>
-                        <Image source={arrow} style={{ width: 20, height: 20, marginLeft: 15, marginTop: 5 }} />
+                        <Icon mt={0.5} marginLeft={5} size={5} color={colors.primary} as={<AntDesign name="arrowright"/>}/>
                     </TouchableOpacity>
                 }
             </TouchableOpacity>

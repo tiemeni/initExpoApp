@@ -1,6 +1,5 @@
 import { Center } from 'native-base';
 import { StyleSheet } from 'react-native';
-import colors from '../../constants/colours';
 const styles = StyleSheet.create({
 
 connectWith:{
@@ -19,13 +18,21 @@ boxIcon:{
 
 boxGoogle:{
   justifyContent:'center',
-  width:28,
-  height:28,
-  paddingLeft:0,
-  paddingTop:0,
-  backgroundColor:colors.primary
+  width:40,
+  height:40,
+  paddingLeft:11,
+  paddingTop:4,
+  backgroundColor:'white'
 
 },
+boxTwitter:{
+  justifyContent:'center',
+  width:40,
+  height:40,
+  paddingLeft:10,
+  paddingTop:4,
+  backgroundColor:'white'
+}
 });
 
 

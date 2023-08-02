@@ -15,3 +15,5 @@ export const RDV = "Rendez-vous";
 export const NOTIFICATIONS = "Notifications";
 export const TrANSACTION = "TRANSACTION";
 export const PAYMENT = "PAYMENT";
+export const SETTINGS = "SETTINGS";
+export const ABOUT_US = "ABOUT_US";

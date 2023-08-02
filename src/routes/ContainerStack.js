@@ -10,6 +10,8 @@ import Acceuil from '../screens/Acceuil';
 import ContainerBottom from './ContainerBottom';
 import Transaction from '../screens/Transactions'
 import Payment from '../screens/Payment';
+import Parametres from '../screens/Parametres';
+import AboutUs from '../screens/AboutUs';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +30,8 @@ const ContainerStack = () => {
             <Stack.Screen name={SCREENS.MAKE_APPOINTMENT_SCREEN} component={MakeAppointment} />
             <Stack.Screen name={SCREENS.TrANSACTION} component={Transaction} />
             <Stack.Screen name={SCREENS.PAYMENT} component={Payment} />
+            <Stack.Screen name={SCREENS.SETTINGS} component={Parametres} />
+            <Stack.Screen name={SCREENS.ABOUT_US} component={AboutUs} />
         </Stack.Navigator>
     )
 }

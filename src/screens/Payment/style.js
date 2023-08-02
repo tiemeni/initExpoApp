@@ -51,21 +51,48 @@ const styles = StyleSheet.create({
     },
 
     paymentMethod: {
-        height: 55,
-        width: 55,
+        height: 45,
+        width: 45,
         backgroundColor: colors.white,
         borderRadius: 50,
-        marginRight: 15,
-        shadowColor: "#000",
+        alignItems:'center',
+        justifyContent:'center',
+       shadowColor: "#000",
         shadowOffset: {
             width: 0,
             height: 2,
         },
         shadowOpacity: 0.1,
         shadowRadius: 3.84,
-
-        elevation: 5,
+        elevation: 6,
     },
+
+    paymentMethodSelect: {
+        width:50,
+        height:50,
+        borderRadius: 50,
+        alignItems:'center',
+        justifyContent:'center',
+       shadowColor: "red",
+        shadowOffset: {
+            width: 5,
+            height: 2,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 3.84,
+        elevation: 12,
+    },
+
+    submitBtnText: {
+        marginBottom: 10,
+        marginTop: 10,
+        width: '100%',
+        borderRadius: 15,
+        //color: colors.black,
+        alignItems: 'center',
+        height: 48,
+        justifyContent: 'center',
+      },
 
     cardInfos: {
         margin: 20

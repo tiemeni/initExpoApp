@@ -1,18 +1,20 @@
 import { React } from 'react';
-import { Box, HStack, Text, VStack, Icon, Pressable } from 'native-base';
+import { Box, HStack, Text, VStack, Icon, Pressable, Avatar } from 'native-base';
 import { Entypo, Fontisto } from '@expo/vector-icons';
 import colors from "../../constants/colours";
 import styles from "./style";
+import { Image } from 'react-native';
 
 
 
 const MedCard = ({praticien}) => {
     return (
-        <Box style={styles.medBox}>
-            <Box style={styles.medPic}></Box>
+        <VStack space={3} flex={1}  style={styles.medBox}>
+            <Box style={styles.medPic}>
+            </Box>
 
             <VStack>
-                <HStack mt={5}>
+                <HStack mt={1}>
                     <Icon
                         color={colors.primary}
                         as={<Fontisto name="doctor" />}
@@ -21,7 +23,7 @@ const MedCard = ({praticien}) => {
                     />
                     <Text style={styles.medName}>Dr {praticien.name}</Text>
                 </HStack>
-                <HStack mt={2}>
+                <HStack mt={4}>
                     <Icon
                         color={colors.text_grey_hint}
                         as={<Entypo name="location-pin" />}
@@ -44,7 +46,7 @@ const MedCard = ({praticien}) => {
                     <Text color={colors.white}>Prendre un RDV</Text>
                 </Pressable>
             </VStack>
-        </Box>
+        </VStack>
     )
 }
 

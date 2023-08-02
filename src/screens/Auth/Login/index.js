@@ -1,149 +1,226 @@
-import { TextInput, Text } from 'react-native-paper';
-import { Box, Center, HStack, View, VStack, Checkbox } from 'native-base';
-import { Image, Pressable } from 'react-native';
-import React, { useState } from 'react';
-import { useValidation } from 'react-native-form-validator';
-import colors from '../../../constants/colours'
-import styles from './styles';
-import logo from '../../../assets/img/hospi-rdv__9_-removebg-preview.png';
-import { HOME_CONTAINER_ROUTE, PHONE_CONFIRMATION_SCREEN, SIGNUP } from '../../../constants/screens';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import PrimaryButton from '../../../components/Buttons/PrimaryButton';
+import React, { useState } from "react";
+import { Image, Pressable, View } from "react-native";
+import { Checkbox } from "react-native-paper";
+import {
+  Box,
+  Center,
+  HStack,
+  VStack,
+  Icon,
+  Input,
+  Text,
+  ScrollView,
+} from "native-base";
+import { MaterialIcons, Ionicons, FontAwesome } from "@expo/vector-icons";
+import { useValidation } from "react-native-form-validator";
+import colors from "../../../constants/colours";
+import styles from "./styles";
+import logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
+import {
+  HOME_CONTAINER_ROUTE,
+  PHONE_CONFIRMATION_SCREEN,
+  SIGNUP,
+} from "../../../constants/screens";
+import PrimaryButton from "../../../components/Buttons/PrimaryButton";
+import { useDispatch } from "react-redux";
+import { login } from "../../../redux/Auth/action";
 
 const Login = ({ navigation }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
 
-  const { validate, isFieldInError, getErrorMessages } = useValidation({
-    state: { username, password },
+  const [formFields, setFormFields] = useState({
+    email: "",
+    password: "",
   });
+  const dispatch = useDispatch();
+  const [loader, setLoading] = useState(false)
+  const [viewPass, setView] = useState(false);
+  const [isCkeck, setIsCheck] = useState(false);
+  const { isFieldInError } = useValidation({
+    state: formFields,
+  });
+  
+  const handleViewPass = () => {
+    setView(!viewPass);
+  };
+  const handleCheck = () => {
+    setIsCheck(!isCkeck);
+  };
+
+  const handleInputChange = (field, value) => {
+    setFormFields({
+      ...formFields,
+      [field]: value,
+    });
+  };
+
+  const isFieldsEmpty =
+    formFields.email.trim() === "" ||
+    formFields.password === "" ||
+    formFields.password.length < 6 ||
+    formFields.email.length < 4;
+
+    const HanleLogin = () => {
+      console.log('info pour le login', formFields);
+      setLoading(true);
+      dispatch(login(formFields))
+      setTimeout(() => {
+        navigation.navigate(HOME_CONTAINER_ROUTE);
+          setLoading(false);
+      }, 5000); // 10000 ms = 10 secondes
+    };
 
   return (
-    <View flex={1} style={styles.contenair}>
-      <View style={{ justifyContent: "center", alignItems: "center", marginBottom: 15 }}>
-        <Image
-          style={{ width: 200, height: 200, marginTop: 30 }}
-          source={logo}
-          alt={logo}
-        />
-        <Text
+    <ScrollView style={styles.contenair}>
+      <View flex={1}>
+        <View
           style={{
-            color: "#5C5C5C",
-            width: "90%",
-            fontSize: 14,
-            textAlign: "center",
-            fontStyle: 'normal',
-            marginTop: -30,
-          }}>
-          S'il vous plaît, entrez votre email et votre mot de passe
-        </Text>
-      </View>
-      <VStack width={"100%"} alignItems={'center'}>
-        <TextInput
-          isInvalid={isFieldInError('username')}
-          style={styles.inputConex}
-          placeholder="Nom d'utilisateur"
-          underlineColor="transparent"
-          keyboardType="default"
-          left={
-            <TextInput.Icon
-              name={() => (
-                <Box
-                  style={{
-                    backgroundColor: colors.whiteColor,
-                    width: 30,
-                    borderRadius: 50,
-                    height: 30,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <MaterialCommunityIcons color={'red'} name={'email-outline'} size={21} />
-                </Box>
-              )}
-            />
-          }
-          selectionColor={colors.secondaryColor}
-          activeUnderlineColor="transparent"
-          onChangeText={setUsername}
-          value={username}
-        />
-        <TextInput
-          isInvalid={isFieldInError('password')}
-          style={styles.inputConex}
-          placeholder="Mot de passe"
-          secureTextEntry
-          left={
-            <TextInput.Icon
-              name={() => (
-                <Box
-                  style={{
-                    backgroundColor: colors.whiteColor,
-                    width: 30,
-                    borderRadius: 50,
-                    height: 30,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <MaterialCommunityIcons name={'lock'} size={21} />
-                </Box>
-              )}
-            />
-          }
-          underlineColor="transparent"
-          keyboardType="default"
-          selectionColor={colors.secondaryColor}
-          activeUnderlineColor="transparent"
-          onChangeText={setPassword}
-          value={password}
-        />
-        {isFieldInError('username') && isFieldInError('password') && (
-          <Text
-            style={{ color: 'red', fontSize: 14, marginTop: 3, marginLeft: 8 }}>
-            remplisser bien les champs !
+            justifyContent: "center",
+            alignItems: "center",
+            marginBottom: 30,
+            marginTop: 10,
+          }}
+        >
+          <Image
+            style={{ width: 200, height: 150, marginTop: 20 }}
+            source={logo}
+            alt={logo}
+          />
+          <Text style={styles.text1}>
+            S’il vous plaît, entrez votre email et votre mot de passe
           </Text>
-        )}
-      </VStack>
-      <HStack style={{ alignItems: 'center', marginTop: 15, marginBottom: 5, marginLeft: 30 }}>
-        <Checkbox accessibilityLabel="remember me" />
-        <Text
-          style={{
-            fontWeight: '400',
-            fontSize: 14,
-            color: '#5C5C5C',
-            fontStyle: 'normal',
-            marginLeft: 15
-          }}>
-          Se souvenir de moi
-        </Text>
-      </HStack>
-      <Pressable onPress={() => navigation.navigate(PHONE_CONFIRMATION_SCREEN)}>
-        <Text style={styles.fogetpass}>Mot de passe oublié ?</Text>
-      </Pressable>
-      <Center>
-        <PrimaryButton
-          title="Se connecter"
-          isLoadingText="En Cours..."
-          isLoading={false}
-          style={styles.submitBtnText}
-          color={colors.primaryColor}
-          onPress={() => navigation.navigate(HOME_CONTAINER_ROUTE)}
-        />
-      </Center>
-      <Center>
-        <VStack>
-          <Text style={{ marginBottom: 10, color: "#858585" }}>
-            Pas encore de compte ? <Text
-              style={styles.fogetpass}
-              onPress={() => navigation.navigate(SIGNUP)}>Inscrivez-vous!</Text>
-          </Text>
-          <Center>
-            {/* <Text style={{ color: "#858585" }}>
-              Connectez-vous avec :
-            </Text> */}
-          </Center>
+        </View>
+        <VStack space={5} style={styles.formContent}>
+          <Input
+            h={50}
+            rounded={50}
+            borderWidth={0}
+            fontSize={14}
+            bg={colors.desable}
+            InputLeftElement={
+              <Icon
+                as={<MaterialIcons name="person" />}
+                size={5}
+                ml="4"
+                color={colors.primary}
+              />
+            }
+            placeholder="Entrer votre addresse mail"
+            keyboardType="default"
+            isInvalid={isFieldInError("email")}
+            onChangeText={(value) => handleInputChange("email", value)}
+            value={formFields.email}
+          />
+          <Input
+            rounded={50}
+            h={50}
+            borderWidth={0}
+            fontSize={14}
+            bg={colors.desable}
+            w={{ base: "100%", md: "100%" }}
+            InputLeftElement={
+              <Icon
+                as={<MaterialIcons name="lock" />}
+                size={5}
+                ml="4"
+                color={colors.primary}
+              />
+            }
+            InputRightElement={
+              formFields.password === "" ? (
+                ""
+              ) : (
+                <Pressable onPress={handleViewPass}>
+                  <Icon
+                    as={
+                      viewPass ? (
+                        <MaterialIcons name="remove-red-eye" />
+                      ) : (
+                        <Ionicons name="ios-eye-off" />
+                      )
+                    }
+                    size={5}
+                    mr="4"
+                    color={colors.primary}
+                  />
+                </Pressable>
+              )
+            }
+            type={viewPass ? "text" : "password"}
+            placeholder="Entrer votre mot de passe"
+            onChangeText={(value) => handleInputChange("password", value)}
+            value={formFields.password}
+          />
+          {(isFieldInError("email") || isFieldInError("password")) && (
+            <Text
+              style={{
+                color: "red",
+                fontSize: 14,
+                marginTop: 3,
+                marginLeft: 8,
+              }}
+            >
+              Remplissez bien les champs !
+            </Text>
+          )}
         </VStack>
-      </Center>
-    </View>
+        <HStack
+          style={{
+            alignItems: "center",
+            marginTop: 15,
+            marginBottom: 5,
+            marginLeft: 3,
+          }}
+        >
+          <Checkbox
+            status={isCkeck ? "checked" : "unchecked"}
+            onPress={handleCheck}
+            color={colors.primary}
+          />
+          <Text
+            style={{
+              fontWeight: "400",
+              fontSize: 14,
+              color: "#5C5C5C",
+              fontStyle: "normal",
+              marginLeft: 10,
+            }}
+          >
+            Se souvenir de moi
+          </Text>
+        </HStack>
+        <Pressable
+          onPress={() => navigation.navigate(PHONE_CONFIRMATION_SCREEN)}
+        >
+          <Text style={styles.fogetpass}>Mot de passe oublié ?</Text>
+        </Pressable>
+        <Center>
+          <PrimaryButton
+            title="Se connecter"
+            isLoadingText="Connexion en cours..."
+            isLoading={loader}
+            style={styles.submitBtnText}
+            color={isFieldsEmpty ? colors.text_grey_hint : colors.primary}
+            onPress={HanleLogin}
+            disabled={isFieldsEmpty}
+          />
+        </Center>
+        <Center>
+          <VStack mt={5}>
+            <Text style={{ marginBottom: 10, color: "#858585" }}>
+              Pas encore de compte ?{" "}
+              <Text
+                style={styles.fogetpass}
+                onPress={() => navigation.navigate(SIGNUP)}
+              >
+                Inscrivez-vous !
+              </Text>
+            </Text>
+          </VStack>
+        </Center>
+        {/*<SocialMedia/>*/}
+      </View>
+    </ScrollView>
   );
 };
+
 export default Login;

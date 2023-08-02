@@ -3,7 +3,7 @@ import colors from "../../constants/colours";
 
 const styles = StyleSheet.create({
     medBox: {
-        height: 300,
+        height: 290,
         backgroundColor: colors.white,
         width: 200,
         borderRadius: 15,
@@ -12,9 +12,9 @@ const styles = StyleSheet.create({
     },
     medPic: {
         backgroundColor: colors.bg_grey,
-        width: '100%',
-        height: 100,
+        height: 90,
         borderRadius: 15,
+        width:'100%'
     },
     medName: {
         fontWeight: '600',
@@ -29,10 +29,10 @@ const styles = StyleSheet.create({
         color: colors.secondary
     },
     rdvBtn: {
-        height: 50,
+        height: 40,
         width: '100%',
         backgroundColor: colors.primary,
-        borderRadius: 15,
+        borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 30

@@ -4,25 +4,14 @@ import colors from '../../../constants/colours';
 
 const styles = StyleSheet.create({
   contenair: {
-    backgroundColor: "white"
+    backgroundColor: "white",
+    paddingHorizontal:15
   },
   connexionText: {
     fontWeight: "700",
     fontSize: 24,
   },
 
-  inputConex: {
-    marginTop: 10,
-    marginBottom: 7,
-    borderRadius: 25,
-    height: 50,
-    width: "90%",
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    borderColor: '#7C7C7C',
-    backgroundColor: '#F5FAFF',
-
-  },
   fogetpass: {
     fontSize: 14,
     fontWeight: '400',
@@ -31,6 +20,14 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     textAlign: 'center'
   },
+
+  text1:{
+    color:"#858585",
+    fontSize: 14,
+    fontWeight: '400',
+    textAlign:'center'
+  },
+
   clor: {
     color: colors.secondaryColor,
     fontSize: 16,
@@ -62,15 +59,67 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   submitBtnText: {
-    marginBottom: 15,
-    width: '90%',
+    marginBottom: 10,
+    marginTop: 10,
+    width: '100%',
     borderRadius: 25,
-    backgroundColor: colors.primary,
-    color: colors.secondaryColor,
+    //color: colors.black,
     alignItems: 'center',
-    height: 50,
+    height: 48,
     justifyContent: 'center',
-  }
+  },
+
+  formContent :{
+    alignItems:"center",
+    width: '100%',
+  },
+  formInput:{
+    borderRadius:25,
+  },
+
+  inputConex: {
+    marginTop: 10,
+    marginBottom: 7,
+    borderRadius: 30,
+    height: 25,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    borderColor: '#F5FAFF',
+    backgroundColor: '#F5FAFF',
+},
+
+connectWith:{
+  color:"#858585"
+},
+
+boxIcon:{
+  justifyContent:'center',
+  width:40,
+  height:40,
+  paddingLeft:8,
+  paddingTop:8,
+  backgroundColor:'white'
+
+},
+
+boxGoogle:{
+  justifyContent:'center',
+  width:40,
+  height:40,
+  paddingLeft:11,
+  paddingTop:4,
+  backgroundColor:'white'
+
+},
+boxTwitter:{
+  justifyContent:'center',
+  width:40,
+  height:40,
+  paddingLeft:10,
+  paddingTop:4,
+  backgroundColor:'white'
+}
 });
+
 
 export default styles;
