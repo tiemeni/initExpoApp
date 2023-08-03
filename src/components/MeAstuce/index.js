@@ -53,7 +53,7 @@ function CarouselAstuce() {
         height={150}
         autoPlay={false}
         data={healthTips}
-        scrollAnimationDuration={5000}
+        scrollAnimationDuration={1000}
         onSnapToItem={(index) => console.log("current index:", index)}
         renderItem={({ item }) => (
           <VStack
@@ -62,7 +62,8 @@ function CarouselAstuce() {
               borderWidth: 0,
               width: "100%",
               justifyContent:'flex-start',
-              padding:10,
+              paddingRight:10,
+              paddingLeft:8,
             }}
           >
             <Text style={{fontWeight:'600',
@@ -70,7 +71,7 @@ function CarouselAstuce() {
               padding:3, marginRight:5}}>
               {item.title}
             </Text>
-            <Text style={{ fontSize: 14, color:colors.black }}>
+            <Text style={{ paddingRight:6, fontSize: 14, color:colors.black }}>
               {item.description}
             </Text>
             <Pressable style={styles.rdvBtn} >

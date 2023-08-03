@@ -4,8 +4,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 import NotificationsCard from '../../components/NotificationsCard';
 import styles from './styles';
 import { notifications } from '../../utils/helper';
-import { CustomHeader, IsLoadingComponent } from '../MesRdv';
+import { CustomHeader } from '../MesRdv';
 import { PROFILE } from '../../constants/screens';
+import { SkeletteNotif } from './squeletteNotif';
 
 const Notifications = ({ navigation }) => {
     const [loading, setLoading] = useState(true)
@@ -13,20 +14,19 @@ const Notifications = ({ navigation }) => {
     useEffect(() => {
         setTimeout(() => {
             setLoading(false)
-        }, 1000)
+        }, 8000)
     })
 
-    // if (loading) {
-    //     return <VStack mt={5}>
-    //         <IsLoadingComponent />
-    //     </VStack>
-    // }
-
+   {/* if (loading) {
+         return <VStack mt={5}>
+             <IsLoadingComponent />
+        </VStack>
+    }*/}
     return (
-        <View flex={1} mb={10}>
+        <Box flex={1} mb={10}>
             <CustomHeader navigation={navigation} screen={PROFILE} />
-            <View style={styles.container}>
-                <Text mb={5} style={styles.headerTitle}>Notifications</Text>
+            <Box style={styles.container}>
+                <Text mb={5} style={styles.headerTitle}>Notifications</Text> 
                 <ScrollView
                     overScrollMode='never'
                     showsVerticalScrollIndicator={false}>
@@ -43,13 +43,26 @@ const Notifications = ({ navigation }) => {
                                 {notifications.map((notif, i) => <NotificationsCard key={notif.id} notification={notif} />)}
                             </VStack>
                         </Box>
-                    </> : <VStack mt={10}>
-                        <IsLoadingComponent />
-                    </VStack>}
+                    </> : 
+                     (
+                        <VStack padding={1} space={1}> 
+                        <VStack>
+                          <SkeletteNotif />
+                        </VStack>
+                        <VStack>
+                          <SkeletteNotif />
+                        </VStack>
+                        <VStack>
+                          <SkeletteNotif />
+                        </VStack>
+                        </VStack>)
+                     
+                }
+                    
                 </ScrollView>
-            </View>
-        </View>
-    )
+            </Box>
+        </Box>
+    );
 }
 
 export default Notifications

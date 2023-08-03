@@ -63,7 +63,7 @@ export const Skelette = () => {
           }}
         >
           <Text style={{ color: "white", fontSize: 16 }}>
-            <Skeleton startColor="gray.300" w={100} h={1} />
+            <Skeleton startColor="gray.300" rounded={50} w={100} h={1/2} />
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -80,7 +80,7 @@ export const Skelette = () => {
           }}
         >
           <Text style={{ color: "white", fontSize: 16 }}>
-            <Skeleton startColor="gray.300" w={100} h={1} />
+            <Skeleton startColor="gray.300" rounded={50} w={100} h={1/2} />
           </Text>
         </TouchableOpacity>
       </HStack>
