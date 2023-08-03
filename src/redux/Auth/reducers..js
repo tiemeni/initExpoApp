@@ -13,19 +13,6 @@ const LieuxReducer = (state = initialState, action) => {
                 ...state,
                 loading: true,
             }
-        case  LOGIN_SUCCESS:
-            return {
-                ...state,
-                data: action.payload,
-                loading: false,
-                error: null
-            }
-        case LOGIN_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: true
-            }
         default:
             return state;
     }
