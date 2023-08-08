@@ -21,11 +21,14 @@ import moment from "moment";
 import { Checkbox } from "react-native-paper";
 import SocialMedia from "../../../components/ConnectWithSocilalMedia";
 import { LOGIN } from "../../../constants/screens";
+import { useTranslation } from "react-i18next";
 
 const Signup = ({ navigation }) => {
+
   const toast = useToast();
   const [date, setDate] = useState(moment().format("DD/MM/YYYY"));
   const [isCkeck, setIsCheck] = useState(false);
+  const translate = useTranslation().t
 
   const [formFields, setFormFields] = useState({
     firstName: "",
@@ -134,7 +137,7 @@ const Signup = ({ navigation }) => {
                   color={colors.primary}
                 />
               }
-              placeholder="Nom"
+              placeholder={translate('TEXT.FULL_NAME')}
               onChangeText={(value) => handleInputChange("firstName", value)}
               value={formFields.firstName}
             />
@@ -151,7 +154,7 @@ const Signup = ({ navigation }) => {
                   color={colors.primary}
                 />
               }
-              placeholder="adresse mail"
+              placeholder={translate("TEXT.EMAIL2_FIELD")}
               onChangeText={(value) => handleInputChange("email", value)}
               value={formFields.email}
             />
@@ -160,7 +163,7 @@ const Signup = ({ navigation }) => {
               fontSize: 10,
               marginLeft: 12,
               color: colors.danger,
-            }}>Veillez saisir l'email valide svp !</Text>}
+            }}>{translate('TEXT_INVALID_EMAIL')}</Text>}
             <Input
               rounded={50}
               borderWidth={0}
@@ -174,7 +177,7 @@ const Signup = ({ navigation }) => {
                   color={colors.primary}
                 />
               }
-              placeholder="Confirmer votre adresse mail"
+              placeholder={translate("TEXT.EMAIL_CONFIRM")}
               onChangeText={(value) => handleInputChange("emailConfirm", value)}
               value={formFields.emailConfirm}
             />
@@ -184,7 +187,7 @@ const Signup = ({ navigation }) => {
               marginLeft: 12,
               color: colors.danger,
               marginTop: -6,
-            }}>Vos emails ne correspondent pas !</Text> }
+            }}>{translate("TEXT_INVALID2_EMAIL")}</Text> }
             <Input
               rounded={50}
               borderWidth={0}
@@ -200,7 +203,7 @@ const Signup = ({ navigation }) => {
                   color={colors.primary}
                 />
               }
-              placeholder="Téléphone"
+              placeholder={translate('TEXT.PHONE')}
               onChangeText={(value) => handleInputChange("phone", value)}
               value={formFields.phone}
             />
@@ -216,7 +219,7 @@ const Signup = ({ navigation }) => {
                     />
                   </Box>
                   <Text style={{ color: textDate ? "gray" : colors.black }}>
-                    {textDate ? "Date de naissance" : formattedDate}
+                    {textDate ? translate('TEXT.NAISSANCE_FIELD') : formattedDate}
                   </Text>
                 </HStack>
               </Pressable>
@@ -228,7 +231,6 @@ const Signup = ({ navigation }) => {
                   display="default"
                   collapsable
                   accentColor={colors.primary}
-                  placeholderText="gggfgfgfgf"
                   onChange={handleDateChange}
                   style={{ backgroundColor: colors.primary }}
                 />
@@ -257,14 +259,14 @@ const Signup = ({ navigation }) => {
                     marginLeft: 3,
                   }}
                 >
-                  Vous acceptez nos{" "}
+                  {translate('TEXT.ACCEP_CONDITION')}
                   <Text
                     style={{
                       color: colors.yellow,
                       textDecorationLine: "underline",
                     }}
                   >
-                    conditions génrales d'utilisation ?
+                    {translate('TEXT.CONDITION_GENERALE')}
                   </Text>
                 </Text>
               </HStack>
@@ -277,13 +279,13 @@ const Signup = ({ navigation }) => {
                     marginTop: 4,
                   }}
                 >
-                  Tous les champs sont obligatoires !
+                  {translate("TEXT.ERROR_FIELDS")}
                 </Text>
               )}
               <Center mb={5} mt={8}>
                 <PrimaryButton
-                  title="Créez votre compte"
-                  isLoadingText="Création en cours..."
+                  title={translate("TEXT.BUTTON_LOGIN_REGISTER")}
+                  isLoadingText={translate("TEXT.BUTTON_REGISTER_LOADER")}
                   isLoading={loader}
                   style={styles.submitBtnText}
                   color={isFieldsEmpty ? colors.text_grey_hint : colors.primary}
@@ -294,13 +296,13 @@ const Signup = ({ navigation }) => {
               <Center>
                 <VStack>
                   <Text style={{ marginBottom: 10, color: "#858585" }}>
-                    Vous avez déjà un compte ?{" "}
+                    {translate("TEXT.HAVE_ACCOUNT")}
                     <Text
                       style={{ color: colors.yellow }}
                       onPress={() => navigation.goBack()}
                     >
                       {" "}
-                      Connectez-vous!
+                      {translate("TEXT.CONNECT")}
                     </Text>
                   </Text>
                 </VStack>

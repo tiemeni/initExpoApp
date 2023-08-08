@@ -23,9 +23,12 @@ import {
 } from "../../../constants/screens";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
 import { useDispatch } from "react-redux";
-import { login } from "../../../redux/Auth/action";
+import { useTranslation } from "react-i18next";
+import '../../../i18n'
 
 const Login = ({ navigation }) => {
+
+  const translate = useTranslation().t;
 
   const [formFields, setFormFields] = useState({
     email: "",
@@ -62,7 +65,7 @@ const Login = ({ navigation }) => {
     const HanleLogin = () => {
       console.log('info pour le login', formFields);
       setLoading(true);
-      dispatch(login(formFields))
+      //dispatch(login(formFields))
       setTimeout(() => {
         navigation.navigate(HOME_CONTAINER_ROUTE);
           setLoading(false);
@@ -86,8 +89,7 @@ const Login = ({ navigation }) => {
             alt={logo}
           />
           <Text style={styles.text1}>
-            S’il vous plaît, entrez votre email et votre mot de passe
-          </Text>
+          {translate('TEXT.LOGIN_TITRE') }</Text>
         </View>
         <VStack space={5} style={styles.formContent}>
           <Input
@@ -104,7 +106,7 @@ const Login = ({ navigation }) => {
                 color={colors.primary}
               />
             }
-            placeholder="Entrer votre addresse mail"
+            placeholder={translate('TEXT.EMAIL_FIELD')}
             keyboardType="default"
             isInvalid={isFieldInError("email")}
             onChangeText={(value) => handleInputChange("email", value)}
@@ -146,7 +148,7 @@ const Login = ({ navigation }) => {
               )
             }
             type={viewPass ? "text" : "password"}
-            placeholder="Entrer votre mot de passe"
+            placeholder={translate('TEXT.PASS_FIELD')}
             onChangeText={(value) => handleInputChange("password", value)}
             value={formFields.password}
           />
@@ -185,18 +187,18 @@ const Login = ({ navigation }) => {
               marginLeft: 10,
             }}
           >
-            Se souvenir de moi
+            {translate("TEXT.LOGIN_REMEMBER")}
           </Text>
         </HStack>
         <Pressable
           onPress={() => navigation.navigate(PHONE_CONFIRMATION_SCREEN)}
         >
-          <Text style={styles.fogetpass}>Mot de passe oublié ?</Text>
+          <Text style={styles.fogetpass}>{translate("TEXT.PASS_FORGET")}</Text>
         </Pressable>
         <Center>
           <PrimaryButton
-            title="Se connecter"
-            isLoadingText="Connexion en cours..."
+            title={translate("TEXT.BUTTON_LOGIN")}
+            isLoadingText={translate("TEXT.BUTTON_LOGIN_LOADER")}
             isLoading={loader}
             style={styles.submitBtnText}
             color={isFieldsEmpty ? colors.text_grey_hint : colors.primary}
@@ -207,12 +209,12 @@ const Login = ({ navigation }) => {
         <Center>
           <VStack mt={5}>
             <Text style={{ marginBottom: 10, color: "#858585" }}>
-              Pas encore de compte ?{" "}
+              {translate("TEXT.NOT_HAVE_ACCOUNT")}
               <Text
                 style={styles.fogetpass}
                 onPress={() => navigation.navigate(SIGNUP)}
               >
-                Inscrivez-vous !
+                {translate("TEXT.SINSCRIRE")}
               </Text>
             </Text>
           </VStack>

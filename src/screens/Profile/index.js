@@ -13,8 +13,11 @@ import file from "../../assets/img/file.png"
 import faq from "../../assets/img/faq.png"
 import about from "../../assets/img/about.png"
 import logout from "../../assets/img/logout.png"
+import { useTranslation } from 'react-i18next'
 
 function Profile() {
+
+  const translate = useTranslation().t
   const navigation = useNavigation()
   return (
     <View style={{ ...styles.contenair }}>
@@ -33,7 +36,7 @@ function Profile() {
       </View>
       <View style={styles.section2}>
         <TouchableOpacity style={styles.item} icon={user} onPress={() => navigation.navigate(SCREENS.MON_PROFILE)}>
-          <ParameterList label={"Mon Profile"} />
+          <ParameterList label={translate("TEXT.MY_PROFILE")}/>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={()=>navigation.navigate(SCREENS.SETTINGS)}

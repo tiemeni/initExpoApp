@@ -18,6 +18,8 @@ export const styles = StyleSheet.create({
     subContainer: {
         display: 'flex',
         flexDirection: 'row',
+        alignItems:'center',
+        justifyContent:'center'
     },
     image: {
         width: 25,
