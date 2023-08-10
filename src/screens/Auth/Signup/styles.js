@@ -16,14 +16,14 @@ const styles = StyleSheet.create({
   datePick: {
     backgroundColor: colors.desable,
     alignItems: "center",
-    height: 45,
+    height: 50,
   },
 
   boxDatePick: {
     height: 30,
     width: 30,
     backgroundColor: colors.desable,
-    borderRadius: 50,
+    borderRadius: 40,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -54,9 +54,53 @@ const styles = StyleSheet.create({
   },
   contentForm: {
     justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 15,
   },
+
+  // New
+
+  logoBox: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+  },
+
+  intitule: {
+    color: "#858585",
+    fontSize: 14,
+    fontWeight: '400',
+    textAlign: 'center'
+  },
+
+  image: { width: 200, height: 150, marginTop: 20 },
+
+  labelText: { color: "#858585"},
+
+  registerText: {
+    textDecorationLine: 'underline',
+    marginLeft: 5
+  },
+
+  forgetPassword: {
+    fontSize: 14,
+    fontWeight: '400',
+    color: colors.yellow,
+    textAlign: 'center'
+  },
+
+  cgu: {
+    fontWeight: "400",
+    fontSize: 14,
+    color: colors.text_grey_hint,
+    fontStyle: "normal",
+    marginLeft: 3,
+  },
+
+  cguText: {
+    color: colors.yellow,
+    textDecorationLine: "underline",
+    marginLeft: 5
+  }
+
 });
 
 export default styles;

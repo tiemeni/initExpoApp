@@ -3,29 +3,34 @@ import { StyleSheet } from 'react-native';
 import colors from '../../../constants/colours';
 
 const styles = StyleSheet.create({
-  contenair: {
+  container: {
     backgroundColor: "white",
-    paddingHorizontal:15
+    paddingHorizontal: 15
   },
   connexionText: {
     fontWeight: "700",
     fontSize: 24,
   },
 
-  fogetpass: {
+  logoBox: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 30,
+    marginTop: 10,
+  },
+
+  forgetPassword: {
     fontSize: 14,
     fontWeight: '400',
     color: colors.yellow,
-    marginTop: 20,
-    marginBottom: 25,
     textAlign: 'center'
   },
 
-  text1:{
-    color:"#858585",
+  text1: {
+    color: "#858585",
     fontSize: 14,
     fontWeight: '400',
-    textAlign:'center'
+    textAlign: 'center'
   },
 
   clor: {
@@ -69,12 +74,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  formContent :{
-    alignItems:"center",
+  formContent: {
+    alignItems: "center",
     width: '100%',
   },
-  formInput:{
-    borderRadius:25,
+  formInput: {
+    borderRadius: 25,
   },
 
   inputConex: {
@@ -86,39 +91,33 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     borderColor: '#F5FAFF',
     backgroundColor: '#F5FAFF',
-},
+  },
 
-connectWith:{
-  color:"#858585"
-},
+  connectWith: {
+    color: "#858585"
+  },
 
-boxIcon:{
-  justifyContent:'center',
-  width:40,
-  height:40,
-  paddingLeft:8,
-  paddingTop:8,
-  backgroundColor:'white'
+  boxIcon: {
+    justifyContent: 'center',
+    width: 40,
+    height: 40,
+    paddingLeft: 8,
+    paddingTop: 8,
+    backgroundColor: 'white'
 
-},
+  },
+  image: { width: 200, height: 150, marginTop: 20 },
+  errorMsg: {
+    color: "red",
+    fontSize: 14,
+    marginTop: 3,
+    marginLeft: 8,
+  },
+  labelText: { color: "#858585"},
 
-boxGoogle:{
-  justifyContent:'center',
-  width:40,
-  height:40,
-  paddingLeft:11,
-  paddingTop:4,
-  backgroundColor:'white'
-
-},
-boxTwitter:{
-  justifyContent:'center',
-  width:40,
-  height:40,
-  paddingLeft:10,
-  paddingTop:4,
-  backgroundColor:'white'
-}
+  registerText: {
+    textDecorationLine: 'underline'
+  }
 });
 
 
