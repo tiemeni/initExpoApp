@@ -4,7 +4,8 @@ const initialState = {
     userInfos: null,
     loading: false,
     success: null,
-    error: null
+    error: null,
+    errorMsg: null
 };
 
 const UserReducer = (state = initialState, action) => {
@@ -13,7 +14,9 @@ const UserReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userInfos: action.payload,
-                loading: true
+                loading: true,
+                error: false,
+                errorMsg: ""
             }
         case types.REGISTER_USER_SUCCESS:
             return {
@@ -25,9 +28,10 @@ const UserReducer = (state = initialState, action) => {
         case types.REGISTER_USER_FAILED:
             return {
                 ...state,
-                userInfos: action.payload,
+                errorMsg: action.payload,
                 loading: false,
-                success: false
+                success: false,
+                error: true,
             }
         default:
             return state;

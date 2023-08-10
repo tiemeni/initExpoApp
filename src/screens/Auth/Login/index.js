@@ -52,7 +52,7 @@ const Login = ({ navigation }) => {
     formFields.email.length < 4;
 
   const handleSubmit = () => {
-    // navigation.navigate(SCREENS.HOME_CONTAINER_ROUTE);
+    navigation.navigate(SCREENS.HOME_CONTAINER_ROUTE);
   };
 
   return (
