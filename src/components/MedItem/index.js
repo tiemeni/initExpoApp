@@ -5,11 +5,11 @@ import { FontAwesome, Fontisto, Entypo } from '@expo/vector-icons';
 import styles from './style';
 import colors from "../../constants/colours";
 
-const MedItem = ({ value, infosPraticien, handleChange, index }) => {
+const MedItem = ({ value, infosPraticien, handleChange, index, trigger }) => {
     let isSelected = value === infosPraticien.id;
 
     const handlePress = () => {
-        handleChange('praticien', infosPraticien.id)
+        handleChange(trigger, infosPraticien.id)
     }
 
     return (

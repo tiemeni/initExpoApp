@@ -96,6 +96,12 @@ const MakeAppointment = ({ navigation, route }) => {
                     speciality: value,
                 });
                 break;
+            case 'lieu':
+                setFormData({
+                    ...formData,
+                    lieu: value,
+                });
+                break;
             case 'day':
                 setFormData({
                     ...formData,
@@ -111,6 +117,7 @@ const MakeAppointment = ({ navigation, route }) => {
     }
 
     const handlePress = () => {
+        console.log(formData)
         navigation.navigate(SCREENS.PAYMENT)
     }
 
@@ -126,19 +133,6 @@ const MakeAppointment = ({ navigation, route }) => {
             dispatch(setShouldSeeBehind(false))
         }
     }, [])
-
-    const BoucleSurPraticiens = React.memo(() => {
-        return practiciens.map((p, index) => {
-            console.log('rended praticiens 2')
-            return <MedItem
-                key={p.id}
-                value={formData.praticien}
-                handleChange={handleChange}
-                infosPraticien={p}
-                index={index}
-            />
-        })
-    })
 
     return (
         <View bgColor={colors.white} flex={1} style={styles.container}>
@@ -156,7 +150,7 @@ const MakeAppointment = ({ navigation, route }) => {
                     </Pressable>
                 </Box>
             </HStack>
-            <ScrollView showsVerticalScrollIndicator={false} mb={15}>
+            <ScrollView showsVerticalScrollIndicator={false} height={"80%"} borderColor={'red'}>
                 {shouldSeeBehind && isProfession === true && <VStack mt={5} style={styles.card}>
                     <HeaderBox
                         number={1}
@@ -236,18 +230,28 @@ const MakeAppointment = ({ navigation, route }) => {
                     <VStack mt={5} style={styles.card}>
                         <HeaderBox
                             number={handleStepNumber(3)}
-                            title={'Médecin traitant'}
-                            hintText={'Sélectionner un praticien pour votre rendez-vous'} />
+                            title={'Choix clinique'}
+                            hintText={'Sélectionner une clinique pour votre rendez-vous'} />
                         <VStack style={styles.inputBox}>
                             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-                                {<BoucleSurPraticiens />}
+                                {practiciens.map((p, index) => {
+                                    console.log('rended praticiens 2')
+                                    return <MedItem
+                                        key={p.id}
+                                        value={formData.lieu}
+                                        trigger={'lieu'}
+                                        handleChange={handleChange}
+                                        infosPraticien={p}
+                                        index={index}
+                                    />
+                                })}
                             </ScrollView>
                         </VStack>
                     </VStack>
                 </PresenceTransition>}
 
                 {<PresenceTransition
-                    visible={(isProfession === true && formData.motif) || (isProfession === false && formData.motif)}
+                    visible={(isProfession === true && formData.lieu) || (isProfession === false && formData.lieu)}
                     initial={{
                         opacity: 0
                     }} animate={{
@@ -258,7 +262,7 @@ const MakeAppointment = ({ navigation, route }) => {
                     }}>
                     <VStack mt={5} style={styles.card}>
                         <HeaderBox
-                            number={handleStepNumber(3)}
+                            number={handleStepNumber(4)}
                             title={'Médecin traitant'}
                             hintText={'Sélectionner un praticien pour votre rendez-vous'} />
                         <VStack style={styles.inputBox}>
@@ -268,7 +272,7 @@ const MakeAppointment = ({ navigation, route }) => {
                                     return <MedItem
                                         key={p.id}
                                         value={formData.praticien}
-                                        handleChange={handleChange}
+                                        handleChange={() => handleChange("praticien", p?.id)}
                                         infosPraticien={p}
                                         index={index}
                                     />
@@ -291,7 +295,7 @@ const MakeAppointment = ({ navigation, route }) => {
                     }}>
                     <VStack mt={5} style={styles.card}>
                         <HeaderBox
-                            number={handleStepNumber(4)}
+                            number={handleStepNumber(5)}
                             title={'Période du rendez-vous'}
                             hintText={'Sélectionner une période pour votre rendez-vous'} />
                         <VStack style={styles.inputBox}>

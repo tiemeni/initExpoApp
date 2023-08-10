@@ -71,10 +71,11 @@ const styles = {
     },
 
     btnBox: {
-        position: 'absolute',
+        // position: 'absolute',
         bottom: 0,
-        width: '112%',
-        padding: 20,
+        width: '100%',
+        padding: 10,
+        top: 5
     },
 
     btn: {
