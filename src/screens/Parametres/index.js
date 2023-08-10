@@ -8,6 +8,7 @@ import {
   View,
   Switch,
   VStack,
+  Image
 } from "native-base";
 import {
   MaterialCommunityIcons,
@@ -22,6 +23,9 @@ import Header from "../../components/Header";
 import SelectDropdown from "react-native-select-dropdown";
 import { useTranslation } from "react-i18next";
 import "../../i18n";
+import En from '../../assets/img/flagEng.png';
+import Fr from '../../assets/img/flagFr.png';
+
 
 const Parametres = () => {
   const { i18n } = useTranslation();
@@ -48,6 +52,8 @@ const Parametres = () => {
       };
 
       return (
+        <HStack rounded={25} padding={0} backgroundColor={'white'}>
+          <Image h={5} width={5} source={selectedLang=== countries[0].label?Fr:En} alt="flag" />
         <SelectDropdown
           defaultValue={selectedLang}
           data={countries}
@@ -64,35 +70,38 @@ const Parametres = () => {
           defaultButtonText={selectedLang}
           buttonTextStyle={{
             color: colors.primary,
-            fontSize: 14,
+            fontSize: 16,
             fontWeight: "600",
+            textAlign:'left'
           }}
           buttonStyle={{
-            width: 60,
-            height: 30,
+            width: 50,
+            height: 20,
             backgroundColor: "white",
-            borderRadius: 20,
           }}
         />
+        </HStack>
       );
     };
 
     return (
-      <HStack paddingX={4} style={styles.headerItem}>
-        <HStack space={2} flex={1} alignItems={"center"}>
-        <Icon
+      <HStack space={6} style={styles.headerItem}>
+        <HStack paddingX={3} space={2} flex={1} alignItems={"center"}>
+          <Icon
             as={props.iconType}
             name={props.iconName}
             color={colors.primary}
             size="6"
           />
           <Text style={styles.textBox}>{props.text}</Text>
-          </HStack>
+        </HStack>
+        <HStack>
           {props.text === translate("TEXT_CHOISE_LANGUAGE") ? (
             <SelectLang />
           ) : (
             <Switch  size="sm" />
           )}
+        </HStack>
       </HStack>
     );
   };

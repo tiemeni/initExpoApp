@@ -2,40 +2,40 @@ import React, { useState, useEffect, useCallback } from "react";
 import { View, Text, Pressable, Platform } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import {
-  Box,
   HStack,
   Icon,
   Input,
   VStack,
-  useToast,
   Center,
   Image,
   ScrollView,
+  Checkbox,
+  Box
 } from "native-base";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
-import Logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
+import logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
 import colors from "../../../constants/colours";
 import styles from "./styles";
 import moment from "moment";
-import { Checkbox } from "react-native-paper";
-import SocialMedia from "../../../components/ConnectWithSocilalMedia";
-import { LOGIN } from "../../../constants/screens";
+import * as SCREENS from "../../../constants/screens";
+import { useDispatch, connect } from "react-redux";
+import { userRegistration } from "../../../redux/User/action"
 import { useTranslation } from "react-i18next";
 
-const Signup = ({ navigation }) => {
-
-  const toast = useToast();
+const Signup = ({ navigation, userInfos, success, error }) => {
+  const dispatch = useDispatch();
   const [date, setDate] = useState(moment().format("DD/MM/YYYY"));
   const [isCkeck, setIsCheck] = useState(false);
   const translate = useTranslation().t
 
-  const [formFields, setFormFields] = useState({
+  const [formData, setFormData] = useState({
     firstName: "",
     email: "",
     emailConfirm: "",
     phone: "",
     birthday: "",
+    surname: "",
   });
   const [errors, setErrors] = useState({});
   const [textDate, setTextDate] = useState(false);
@@ -49,12 +49,12 @@ const Signup = ({ navigation }) => {
       setDate(currentDate);
 
       const formattedDate = moment(currentDate).format("DD/MM/YYYY");
-      setFormFields({
-        ...formFields,
+      setFormData({
+        ...formData,
         birthday: formattedDate,
       });
     },
-    [date, formFields]
+    [date, formData]
   );
 
   const showDatepicker = useCallback(() => {
@@ -62,8 +62,8 @@ const Signup = ({ navigation }) => {
   }, []);
 
   const handleInputChange = (field, value) => {
-    setFormFields({
-      ...formFields,
+    setFormData({
+      ...formData,
       [field]: value,
     });
   };
@@ -80,27 +80,25 @@ const Signup = ({ navigation }) => {
     return emailPattern.test(email);
   };
 
-  const email1 = isValidEmail(formFields.email)
-  const email2 = isValidEmail(formFields.emailConfirm)
+  const email1 = isValidEmail(formData.email)
+  const email2 = isValidEmail(formData.emailConfirm)
 
-  const isFieldsEmpty =
-    formFields.firstName === "" ||
-    formFields.email === "" ||
-    formFields.emailConfirm === "" ||
-    formFields.phone === "" ||
-    formFields.birthday === "" ||
-    isCkeck === false;
+  const checkEmptyField = () => {
+    return formData.firstName === "" ||
+      formData.email === "" ||
+      formData.emailConfirm === "" ||
+      formData.phone === "" ||
+      formData.birthday === "" ||
+      isCkeck === false;
+  }
+
+  const isFieldsEmpty = checkEmptyField()
+
 
   const onSubmit = () => {
     if (!isFieldsEmpty) {
-      console.log("Mes données de création compte", formFields);
-
-      setLoading(true);
-      setTimeout(() => {
-        navigation.navigate(LOGIN);
-      }, 10000);
-    } else {
-      console.log("Validation Failed ", errors);
+      console.log("Mes données de création compte", formData);
+      dispatch(userRegistration(formData))
     }
   };
 
@@ -109,211 +107,210 @@ const Signup = ({ navigation }) => {
   };
 
   return (
-    <ScrollView flex={1} backgroundColor={"white"}>
-      <VStack flex={1} backgroundColor={"white"}>
-        <View justifyContent={"center"} alignItems={"center"}>
-          <VStack width={"95%"}>
-            <Image
-              width={"100%"}
-              height={180}
-              source={Logo}
-              resizeMode={"contain"}
-              alt="logo"
-            />
-          </VStack>
-        </View>
-        <VStack style={styles.contentForm}>
-          <VStack space={3} width={"100%"}>
-            <Input
-              rounded={50}
-              borderWidth={0}
-              style={{ fontSize: 14 }}
-              bg={colors.desable}
-              InputLeftElement={
-                <Icon
-                  as={<MaterialIcons name="person" />}
-                  size={5}
-                  ml="3"
-                  color={colors.primary}
-                />
-              }
-              placeholder={translate('TEXT.FULL_NAME')}
-              onChangeText={(value) => handleInputChange("firstName", value)}
-              value={formFields.firstName}
-            />
-            <Input
-              rounded={50}
-              borderWidth={0}
-              style={{ fontSize: 14 }}
-              bg={colors.desable}
-              InputLeftElement={
-                <Icon
-                  as={<MaterialIcons name="email" />}
-                  size={5}
-                  ml="3"
-                  color={colors.primary}
-                />
-              }
-              placeholder={translate("TEXT.EMAIL2_FIELD")}
-              onChangeText={(value) => handleInputChange("email", value)}
-              value={formFields.email}
-            />
-            {!email1 && formFields.email !=="" &&
+    <ScrollView flex={1} backgroundColor={"white"} paddingX={5}>
+      <View style={styles.logoBox}>
+        <Image style={styles.image} source={logo} alt="logo" />
+        <Text style={styles.intitule}>
+          S’il vous plaît, entrez votre email et créez un mot de passe
+        </Text>
+      </View>
+      <VStack space={5} mt={5} style={styles.contentForm}>
+        <VStack space={4}>
+          <Input
+            h={50}
+            rounded={50}
+            borderWidth={0}
+            fontSize={14}
+            bg={colors.desable}
+            InputLeftElement={
+              <Icon
+                as={<MaterialIcons name="person" />}
+                size={5}
+                ml="3"
+                color={colors.primary}
+              />
+            }
+            placeholder="Nom"
+            onChangeText={(value) => handleInputChange("firstName", value)}
+            value={formData.firstName}
+          />
+          <Input
+            h={50}
+            rounded={50}
+            borderWidth={0}
+            fontSize={14}
+            bg={colors.desable}
+            InputLeftElement={
+              <Icon
+                as={<MaterialIcons name="person" />}
+                size={5}
+                ml="3"
+                color={colors.primary}
+              />
+            }
+            placeholder="Prénom"
+            onChangeText={(value) => handleInputChange("surname", value)}
+            value={formData.surname}
+          />
+          <Input
+            h={50}
+            rounded={50}
+            borderWidth={0}
+            style={{ fontSize: 14 }}
+            bg={colors.desable}
+            InputLeftElement={
+              <Icon
+                as={<MaterialIcons name="email" />}
+                size={5}
+                ml="3"
+                color={colors.primary}
+              />
+            }
+            placeholder="adresse mail"
+            onChangeText={(value) => handleInputChange("email", value)}
+            value={formData.email}
+          />
+
+          {!email1 && formData.email !== "" &&
             <Text style={{
               fontSize: 10,
               marginLeft: 12,
               color: colors.danger,
-            }}>{translate('TEXT_INVALID_EMAIL')}</Text>}
-            <Input
-              rounded={50}
-              borderWidth={0}
-              style={{ fontSize: 14 }}
-              bg={colors.desable}
-              InputLeftElement={
-                <Icon
-                  as={<MaterialIcons name="email" />}
-                  size={5}
-                  ml="3"
-                  color={colors.primary}
-                />
-              }
-              placeholder={translate("TEXT.EMAIL_CONFIRM")}
-              onChangeText={(value) => handleInputChange("emailConfirm", value)}
-              value={formFields.emailConfirm}
-            />
-            {formFields.email !== formFields.emailConfirm && formFields.emailConfirm !== "" &&
+            }}>Veillez saisir l'email valide svp !</Text>}
+
+          <Input
+            h={50}
+            rounded={50}
+            borderWidth={0}
+            style={{ fontSize: 14 }}
+            bg={colors.desable}
+            InputLeftElement={
+              <Icon
+                as={<MaterialIcons name="email" />}
+                size={5}
+                ml="3"
+                color={colors.primary}
+              />
+            }
+            placeholder="Confirmer votre adresse mail"
+            onChangeText={(value) => handleInputChange("emailConfirm", value)}
+            value={formData.emailConfirm}
+          />
+
+          {formData.email !== formData.emailConfirm && formData.emailConfirm !== "" &&
             <Text style={{
               fontSize: 10,
               marginLeft: 12,
               color: colors.danger,
               marginTop: -6,
-            }}>{translate("TEXT_INVALID2_EMAIL")}</Text> }
-            <Input
-              rounded={50}
-              borderWidth={0}
-              bg={colors.desable}
-              keyboardType="numeric"
-              style={{ fontSize: 14 }}
-              maxLength={9}
-              InputLeftElement={
-                <Icon
-                  as={<MaterialIcons name="phone" />}
-                  size={5}
-                  ml="3"
-                  color={colors.primary}
-                />
-              }
-              placeholder={translate('TEXT.PHONE')}
-              onChangeText={(value) => handleInputChange("phone", value)}
-              value={formFields.phone}
-            />
-            <View>
-              <Pressable onPress={showDatepicker}>
-                <HStack style={styles.datePick} rounded={50} space={3}>
-                  <Box style={styles.boxDatePick}>
-                    <Icon
-                      as={<MaterialCommunityIcons name="calendar-edit" />}
-                      size={5}
-                      ml="3"
-                      color={colors.primary}
-                    />
-                  </Box>
-                  <Text style={{ color: textDate ? "gray" : colors.black }}>
-                    {textDate ? translate('TEXT.NAISSANCE_FIELD') : formattedDate}
-                  </Text>
-                </HStack>
-              </Pressable>
-              {showDatePicker && (
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={moment(date, "DD/MM/YYYY").toDate()}
-                  mode="date"
-                  display="default"
-                  collapsable
-                  accentColor={colors.primary}
-                  onChange={handleDateChange}
-                  style={{ backgroundColor: colors.primary }}
-                />
-              )}
-              <HStack
-                style={{
-                  alignItems: "center",
-                  marginTop: 15,
-                  marginBottom: 0,
-                  marginLeft: 3,
-                }}
-              >
-                <Box style={{ opacity: isCkeck ? 1 : 0.4 }}>
-                  <Checkbox
-                    status={isCkeck ? "checked" : "unchecked"}
-                    onPress={handleCheck}
+            }}>Vos emails ne correspondent pas !</Text>}
+
+          <Input
+            h={50}
+            rounded={50}
+            borderWidth={0}
+            bg={colors.desable}
+            keyboardType="numeric"
+            style={{ fontSize: 14 }}
+            maxLength={9}
+            InputLeftElement={
+              <Icon
+                as={<MaterialIcons name="phone" />}
+                size={5}
+                ml="3"
+                color={colors.primary}
+              />
+            }
+            placeholder="Téléphone"
+            onChangeText={(value) => handleInputChange("phone", value)}
+            value={formData.phone}
+          />
+
+          <VStack>
+            <Pressable onPress={showDatepicker}>
+              <HStack style={styles.datePick} rounded={50} space={3}>
+                <Box style={styles.boxDatePick}>
+                  <Icon
+                    as={<MaterialCommunityIcons name="calendar-edit" />}
+                    size={5}
+                    ml="3"
                     color={colors.primary}
                   />
                 </Box>
-                <Text
-                  style={{
-                    fontWeight: "400",
-                    fontSize: 12,
-                    color: colors.text_grey_hint,
-                    fontStyle: "normal",
-                    marginLeft: 3,
-                  }}
-                >
-                  {translate('TEXT.ACCEP_CONDITION')}
-                  <Text
-                    style={{
-                      color: colors.yellow,
-                      textDecorationLine: "underline",
-                    }}
-                  >
-                    {translate('TEXT.CONDITION_GENERALE')}
-                  </Text>
+                <Text style={{ color: textDate ? "gray" : colors.black }}>
+                  {textDate ? "Date de naissance" : formattedDate}
                 </Text>
               </HStack>
-              {isFieldsEmpty && (
-                <Text
-                  style={{
-                    fontSize: 10,
-                    marginLeft: 12,
-                    color: colors.danger,
-                    marginTop: 4,
-                  }}
-                >
-                  {translate("TEXT.ERROR_FIELDS")}
-                </Text>
-              )}
-              <Center mb={5} mt={8}>
-                <PrimaryButton
-                  title={translate("TEXT.BUTTON_LOGIN_REGISTER")}
-                  isLoadingText={translate("TEXT.BUTTON_REGISTER_LOADER")}
-                  isLoading={loader}
-                  style={styles.submitBtnText}
-                  color={isFieldsEmpty ? colors.text_grey_hint : colors.primary}
-                  disabled={isFieldsEmpty}
-                  onPress={onSubmit}
-                />
-              </Center>
-              <Center>
-                <VStack>
-                  <Text style={{ marginBottom: 10, color: "#858585" }}>
-                    {translate("TEXT.HAVE_ACCOUNT")}
-                    <Text
-                      style={{ color: colors.yellow }}
-                      onPress={() => navigation.goBack()}
-                    >
-                      {" "}
-                      {translate("TEXT.CONNECT")}
-                    </Text>
-                  </Text>
-                </VStack>
-              </Center>
-            </View>
-            {/*<SocialMedia />*/}
+            </Pressable>
+            {showDatePicker && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={moment(date, "DD/MM/YYYY").toDate()}
+                mode="date"
+                display="default"
+                collapsable
+                accentColor={colors.primary}
+                placeholderText="gggfgfgfgf"
+                onChange={handleDateChange}
+                style={{ backgroundColor: colors.primary }}
+              />
+            )}
           </VStack>
+
+          <HStack alignItems={"center"} space={2} mt={2}>
+            <Checkbox
+              borderColor={"gray.300"}
+              borderWidth={2}
+              aria-label="cgu"
+              onPress={handleCheck}
+              color={colors.primary}
+            />
+            <HStack>
+              <Text style={styles.cgu}>
+                J'accepte les
+              </Text>
+              <Pressable onPress={() => console.log("open cgu")}>
+                <Text style={styles.cguText}>
+                  Conditions génétales d'utilisations
+                </Text>
+              </Pressable>
+            </HStack>
+          </HStack>
         </VStack>
+
+        <Center w={"100%"} mt={5}>
+          <PrimaryButton
+            title="Créez votre compte"
+            isLoadingText="Création en cours..."
+            isLoading={loader}
+            style={styles.submitBtnText}
+            color={colors.primary}
+            disabled={isFieldsEmpty}
+            onPress={onSubmit}
+          />
+        </Center>
+        <Center mb={5}>
+          <HStack mt={2}>
+            <Text style={styles.labelText}>
+              Vous avez déjà un compte?
+            </Text>
+            <Text
+              style={[styles.forgetPassword, styles.registerText]}
+              onPress={() => navigation.navigate(SCREENS.LOGIN)}
+            >
+              Connectez-vous !
+            </Text>
+          </HStack>
+        </Center>
       </VStack>
     </ScrollView>
   );
 };
 
-export default Signup;
+const mapStateToProps = ({ UserReducer }) => ({
+  userInfos: UserReducer.userInfos,
+  success: UserReducer.success,
+  error: UserReducer.error
+})
+
+export default connect(mapStateToProps)(Signup);
