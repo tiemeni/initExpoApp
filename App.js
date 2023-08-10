@@ -8,6 +8,7 @@ import { enableScreens } from 'react-native-screens';
 import { Provider } from 'react-redux';
 import store from './src/redux/setups/store';
 import { NativeBaseProvider } from 'native-base';
+import { navigationRef } from './src/routes/rootNavigation';
 
 enableScreens()
 
@@ -15,7 +16,7 @@ export default function App() {
   return (
     <NativeBaseProvider>
       <Provider store={store}>
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef}>
           <SafeAreaView>
             <StatusBar backgroundColor={colors.primary} />
           </SafeAreaView>

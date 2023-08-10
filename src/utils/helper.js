@@ -1,5 +1,4 @@
 import colors from "../constants/colours"
-import logo from  "../assets/img/logo.png"
 
 export const notifications = [
     {
@@ -171,4 +170,13 @@ export const specialites = [
         id: 5,
         value: "Ondontostomatologie"
     },
+    {
+        id: 6,
+        value: "Gériaitrie"
+    }
 ]
+
+export const isValidEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+};

@@ -10,9 +10,10 @@ import {
   Image,
   ScrollView,
   Checkbox,
-  Box
+  Box,
+  useToast
 } from "native-base";
-import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons, Foundation, Ionicons } from "@expo/vector-icons";
 import logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
 import colors from "../../../constants/colours";
@@ -22,25 +23,34 @@ import * as SCREENS from "../../../constants/screens";
 import { useDispatch, connect } from "react-redux";
 import { userRegistration } from "../../../redux/User/action"
 import { useTranslation } from "react-i18next";
+import { isValidEmail } from "../../../utils/helper";
+import CustomToast from "../../../components/CustomToast";
+import { render } from "react-dom";
 
-const Signup = ({ navigation, userInfos, success, error }) => {
+const Signup = ({ navigation, error, loading, errorMsg }) => {
+  const toast = useToast()
   const dispatch = useDispatch();
   const [date, setDate] = useState(moment().format("DD/MM/YYYY"));
   const [isCkeck, setIsCheck] = useState(false);
   const translate = useTranslation().t
+  const [show, setShow] = useState(false);
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    email: "",
-    emailConfirm: "",
-    phone: "",
-    birthday: "",
+    name: "",
     surname: "",
+    email: "",
+    password: "",
+    telephone: "",
+    birthdate: "",
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({
+    email: isValidEmail(formData.email),
+    password: length = 8,
+    birth : moment().format("DD/MM/YYYY")
+  })
+
   const [textDate, setTextDate] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [loader, setLoading] = useState(false);
 
   const handleDateChange = useCallback(
     (event, selectedDate) => {
@@ -48,10 +58,10 @@ const Signup = ({ navigation, userInfos, success, error }) => {
       setShowDatePicker(Platform.OS === "ios");
       setDate(currentDate);
 
-      const formattedDate = moment(currentDate).format("DD/MM/YYYY");
+      const formattedDate = moment(currentDate).format("YYYY-MM-DD");
       setFormData({
         ...formData,
-        birthday: formattedDate,
+        birthdate: formattedDate,
       });
     },
     [date, formData]
@@ -62,6 +72,15 @@ const Signup = ({ navigation, userInfos, success, error }) => {
   }, []);
 
   const handleInputChange = (field, value) => {
+
+  let newErrors = { ...errors };
+  if (field === 'email') {
+    newErrors.email = isValidEmail(value);
+  } else if (field === 'password') {
+    newErrors.password = value.length < 8;
+  }
+
+  setErrors(newErrors);
     setFormData({
       ...formData,
       [field]: value,
@@ -75,30 +94,48 @@ const Signup = ({ navigation, userInfos, success, error }) => {
 
   const formattedDate = moment(date, "DD/MM/YYYY").format("DD/MM/YYYY");
 
-  const isValidEmail = (email) => {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
-  };
-
-  const email1 = isValidEmail(formData.email)
-  const email2 = isValidEmail(formData.emailConfirm)
-
   const checkEmptyField = () => {
-    return formData.firstName === "" ||
+    return formData.name === "" ||
+      formData.surname === "" ||
       formData.email === "" ||
-      formData.emailConfirm === "" ||
-      formData.phone === "" ||
-      formData.birthday === "" ||
+      formData.password === "" ||
+      formData.telephone === "" ||
+      formData.birthdate === "" ||
       isCkeck === false;
   }
 
   const isFieldsEmpty = checkEmptyField()
 
+  useEffect(() => {
+    if (error) {
+      toast.show({
+        render: () => {
+          return (
+            <CustomToast message={errorMsg}/>
+          );
+        },
+        placement: "top",
+        duration: 5000
+      })
+    }
+  }, [error])
+
+
 
   const onSubmit = () => {
     if (!isFieldsEmpty) {
-      console.log("Mes données de création compte", formData);
-      dispatch(userRegistration(formData))
+      dispatch(userRegistration({ ...formData, active: true }))
+    }else{
+      toast.show({
+        render:() =>{
+          return(
+            <CustomToast message={'Veuillez remplir tous les champs'}/>
+          );
+        },
+        placement: "top",
+        duration: 5000
+      }
+      )
     }
   };
 
@@ -131,8 +168,8 @@ const Signup = ({ navigation, userInfos, success, error }) => {
               />
             }
             placeholder="Nom"
-            onChangeText={(value) => handleInputChange("firstName", value)}
-            value={formData.firstName}
+            onChangeText={(value) => handleInputChange("name", value)}
+            value={formData.name}
           />
           <Input
             h={50}
@@ -166,17 +203,17 @@ const Signup = ({ navigation, userInfos, success, error }) => {
                 color={colors.primary}
               />
             }
-            placeholder="adresse mail"
+            placeholder="Adresse mail"
             onChangeText={(value) => handleInputChange("email", value)}
             value={formData.email}
           />
 
-          {!email1 && formData.email !== "" &&
+          {!errors.email  && formData.email !== "" &&
             <Text style={{
-              fontSize: 10,
-              marginLeft: 12,
+              fontSize: 12,
+              marginLeft:10,
               color: colors.danger,
-            }}>Veillez saisir l'email valide svp !</Text>}
+            }}>Veillez entrez une adresse mail valide</Text>}
 
           <Input
             h={50}
@@ -186,25 +223,38 @@ const Signup = ({ navigation, userInfos, success, error }) => {
             bg={colors.desable}
             InputLeftElement={
               <Icon
-                as={<MaterialIcons name="email" />}
+                as={<MaterialIcons name="lock" />}
                 size={5}
                 ml="3"
                 color={colors.primary}
               />
             }
-            placeholder="Confirmer votre adresse mail"
-            onChangeText={(value) => handleInputChange("emailConfirm", value)}
-            value={formData.emailConfirm}
+            InputRightElement={
+              <Pressable onPress={() => setShow(!show)}>
+                <Icon
+                  as={
+                    show ? (
+                      <MaterialIcons name="remove-red-eye" />
+                    ) : (
+                      <Ionicons name="ios-eye-off" />
+                    )
+                  }
+                  size={5}
+                  mr="4"
+                  color={colors.primary}
+                />
+              </Pressable>}
+            placeholder="Mot de passe"
+            onChangeText={(value) => handleInputChange("password", value)}
+            value={formData.password}
+            type={show ? "text" : "password"}
           />
-
-          {formData.email !== formData.emailConfirm && formData.emailConfirm !== "" &&
+            {errors.password  && formData.password !== "" &&
             <Text style={{
-              fontSize: 10,
-              marginLeft: 12,
+              fontSize: 12,
+              marginLeft:10,
               color: colors.danger,
-              marginTop: -6,
-            }}>Vos emails ne correspondent pas !</Text>}
-
+            }}>Le mot de passe doit avoir au mois 08 carractères</Text>}
           <Input
             h={50}
             rounded={50}
@@ -222,8 +272,8 @@ const Signup = ({ navigation, userInfos, success, error }) => {
               />
             }
             placeholder="Téléphone"
-            onChangeText={(value) => handleInputChange("phone", value)}
-            value={formData.phone}
+            onChangeText={(value) => handleInputChange("telephone", value)}
+            value={formData.telephone}
           />
 
           <VStack>
@@ -249,16 +299,16 @@ const Signup = ({ navigation, userInfos, success, error }) => {
                 mode="date"
                 display="default"
                 collapsable
+                maximumDate={new Date()}
                 accentColor={colors.primary}
-                placeholderText="gggfgfgfgf"
                 onChange={handleDateChange}
                 style={{ backgroundColor: colors.primary }}
               />
             )}
           </VStack>
-
           <HStack alignItems={"center"} space={2} mt={2}>
             <Checkbox
+              isChecked={isCkeck}
               borderColor={"gray.300"}
               borderWidth={2}
               aria-label="cgu"
@@ -281,11 +331,11 @@ const Signup = ({ navigation, userInfos, success, error }) => {
         <Center w={"100%"} mt={5}>
           <PrimaryButton
             title="Créez votre compte"
-            isLoadingText="Création en cours..."
-            isLoading={loader}
+            isLoadingText="En cours..."
+            isLoading={loading}
             style={styles.submitBtnText}
             color={colors.primary}
-            disabled={isFieldsEmpty}
+           // disabled={isFieldsEmpty}
             onPress={onSubmit}
           />
         </Center>
@@ -308,9 +358,10 @@ const Signup = ({ navigation, userInfos, success, error }) => {
 };
 
 const mapStateToProps = ({ UserReducer }) => ({
-  userInfos: UserReducer.userInfos,
   success: UserReducer.success,
-  error: UserReducer.error
+  error: UserReducer.error,
+  loading: UserReducer.loading,
+  errorMsg: UserReducer.errorMsg
 })
 
 export default connect(mapStateToProps)(Signup);
