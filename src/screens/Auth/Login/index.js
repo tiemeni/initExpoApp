@@ -38,7 +38,7 @@ const Login = ({ navigation }) => {
   const { isFieldInError } = useValidation({
     state: formFields,
   });
-  
+
   const handleViewPass = () => {
     setView(!viewPass);
   };
@@ -59,15 +59,15 @@ const Login = ({ navigation }) => {
     formFields.password.length < 6 ||
     formFields.email.length < 4;
 
-    const HanleLogin = () => {
-      console.log('info pour le login', formFields);
-      setLoading(true);
-      dispatch(login(formFields))
-      setTimeout(() => {
-        navigation.navigate(HOME_CONTAINER_ROUTE);
-          setLoading(false);
-      }, 5000); // 10000 ms = 10 secondes
-    };
+  const HanleLogin = () => {
+    console.log('info pour le login', formFields);
+    setLoading(true);
+    // dispatch(login(formFields))
+    setTimeout(() => {
+      navigation.navigate(HOME_CONTAINER_ROUTE);
+      setLoading(false);
+    }, 5000); // 10000 ms = 10 secondes
+  };
 
   return (
     <ScrollView style={styles.contenair}>
@@ -191,7 +191,7 @@ const Login = ({ navigation }) => {
         <Pressable
           onPress={() => navigation.navigate(PHONE_CONFIRMATION_SCREEN)}
         >
-          <Text style={styles.fogetpass}>Mot de passe oublié ?</Text>
+          <Text style={styles.fogetpass}>Avez-vous oublié votre mot de passe ?</Text>
         </Pressable>
         <Center>
           <PrimaryButton
@@ -205,7 +205,7 @@ const Login = ({ navigation }) => {
           />
         </Center>
         <Center>
-          <VStack mt={5}>
+          <VStack mt={2}>
             <Text style={{ marginBottom: 10, color: "#858585" }}>
               Pas encore de compte ?{" "}
               <Text

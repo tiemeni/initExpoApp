@@ -29,6 +29,7 @@
     "react-native": "0.69.9",
     "react-native-date-picker": "^4.2.9",
     "react-native-drawer": "^2.5.1",
+    "react-native-dropdown-select-list": "^2.0.4",
     "react-native-form-validator": "^0.5.1",
     "react-native-gesture-handler": "~2.5.0",
     "react-native-mask-input": "^1.2.3",

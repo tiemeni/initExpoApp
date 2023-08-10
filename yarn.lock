@@ -7082,6 +7082,11 @@ react-native-drawer@^2.5.1:
     prop-types "^15.5.8"
     tween-functions "^1.0.1"
 
+react-native-dropdown-select-list@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-dropdown-select-list/-/react-native-dropdown-select-list-2.0.4.tgz#bd63d684dd9b840d50e022985f9d0fa69eee1c2a"
+  integrity sha512-H7aRhhSHYvl5v+Ufy5CtXhaRHgrRQakWn+IexSFCP/+nUFu5yvwfmtbVEfIszMjr6szPuiabG15trrbswHlmCw==
+
 react-native-form-validator@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/react-native-form-validator/-/react-native-form-validator-0.5.1.tgz#a2a438f24f593c5b9df0757f467819dd2c1ea330"

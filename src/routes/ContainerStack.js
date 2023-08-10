@@ -20,14 +20,17 @@ const ContainerStack = () => {
         <Stack.Navigator
             initialRouteName={SCREENS.ACCEUIL}
             screenOptions={{
-                headerShown: false
+                headerShown: false,
             }}>
             <Stack.Screen name={SCREENS.ACCEUIL_CONTAINER} component={ContainerBottom} />
             <Stack.Screen name={SCREENS.FAQ_SCREEN} component={FAQ} />
             <Stack.Screen name={SCREENS.NOTIFICATIONS_SCREEN} component={Notifications} />
             <Stack.Screen name={SCREENS.PROFILE} component={Profile} />
             <Stack.Screen name={SCREENS.MON_PROFILE} component={MonProfile2} />
-            <Stack.Screen name={SCREENS.MAKE_APPOINTMENT_SCREEN} component={MakeAppointment} />
+            <Stack.Screen
+                options={{ animationEnabled: true}}
+                name={SCREENS.MAKE_APPOINTMENT_SCREEN}
+                component={MakeAppointment} />
             <Stack.Screen name={SCREENS.TrANSACTION} component={Transaction} />
             <Stack.Screen name={SCREENS.PAYMENT} component={Payment} />
             <Stack.Screen name={SCREENS.SETTINGS} component={Parametres} />

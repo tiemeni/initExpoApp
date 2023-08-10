@@ -1,4 +1,4 @@
-import colors from "../../constants/colours";
+import colors from "../../constants/colours"
 
 const styles = {
     container: {
@@ -127,4 +127,3 @@ styles.boxCloseIconDialog = {
 }
 
 export default styles;
-

@@ -34,7 +34,7 @@ function CarouselAstuce() {
       description: 'Pratiquez des techniques de gestion du stress comme la méditation, la respiration profonde ou le temps passé avec des amis et la famille.',
     },
   ];
-  
+
 
   return (
     <View
@@ -61,21 +61,24 @@ function CarouselAstuce() {
               flex: 1,
               borderWidth: 0,
               width: "100%",
-              justifyContent:'flex-start',
-              paddingRight:10,
-              paddingLeft:8,
+              justifyContent: 'flex-start',
+              paddingRight: 10,
+              paddingLeft: 8,
             }}
           >
-            <Text style={{fontWeight:'600',
-             fontSize: 18, color: colors.yellow ,
-              padding:3, marginRight:5}}>
+            <Text style={{
+              fontWeight: '600',
+              fontSize: 18,
+              color: colors.yellow,
+              padding: 3, marginRight: 5
+            }}>
               {item.title}
             </Text>
-            <Text style={{ paddingRight:6, fontSize: 14, color:colors.black }}>
+            <Text style={{ paddingRight: 6, fontSize: 14, color: colors.black }}>
               {item.description}
             </Text>
             <Pressable style={styles.rdvBtn} >
-                <Text style={{color:colors.white, fontWeight:'600', textDecorationLine:'underline'}}>En savoir plus</Text>
+              <Text style={{ color: colors.white, fontWeight: '600', textDecorationLine: 'underline' }}>En savoir plus</Text>
             </Pressable>
           </VStack>
         )}
