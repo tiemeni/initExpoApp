@@ -31,7 +31,7 @@ const Parametres = () => {
     { value: "Fr", label: "Fr" },
     { value: "En", label: "En" },
   ];
-  const [selectedLang, setSelectedLang] = useState(countries[0].value);
+  const [selectedLang, setSelectedLang] = useState(countries[0].label);
 
   const IconItem = (props) => {
     const SelectLang = () => {
@@ -78,23 +78,21 @@ const Parametres = () => {
     };
 
     return (
-      <HStack style={styles.headerItem}>
-        <Box style={styles.iconBox}>
-          <Icon
+      <HStack paddingX={4} style={styles.headerItem}>
+        <HStack space={2} flex={1} alignItems={"center"}>
+        <Icon
             as={props.iconType}
             name={props.iconName}
             color={colors.primary}
-            size="md"
+            size="6"
           />
-        </Box>
-        <HStack flex={1} alignItems={"center"} justifyContent={"space-between"}>
           <Text style={styles.textBox}>{props.text}</Text>
+          </HStack>
           {props.text === translate("TEXT_CHOISE_LANGUAGE") ? (
             <SelectLang />
           ) : (
-            <Switch size="sm" />
+            <Switch  size="sm" />
           )}
-        </HStack>
       </HStack>
     );
   };
@@ -109,7 +107,7 @@ const Parametres = () => {
             iconType={MaterialCommunityIcons}
             text={translate("TEXT_CHOISE_LANGUAGE")}
           />
-          <Divider />
+          <Divider mb={2} />
           <IconItem
             iconName="megaphone"
             iconType={Foundation}

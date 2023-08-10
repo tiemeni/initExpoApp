@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     specialityText: {
-        color: colors.primary,
+        color: colors.black,
         fontSize:14,
         fontWeight:'600'
     }
