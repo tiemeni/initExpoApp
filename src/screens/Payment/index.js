@@ -7,6 +7,7 @@ import {
   Input,
   ScrollView,
   Text,
+  useToast,
   VStack,
 } from "native-base";
 import React, { useEffect, useState } from "react";
@@ -21,6 +22,11 @@ import MaskInput from "react-native-mask-input";
 import ModalPaySuccess from "../../components/ModalPaymentSuccess";
 import PrimaryButton from "../../components/Buttons/PrimaryButton";
 import { RDV } from "../../constants/screens";
+import { useDispatch, useSelector } from "react-redux";
+import { postRDV } from "../../redux/RDV/actions";
+import CustomToast from "../../components/CustomToast";
+import { MaterialIcons, Ionicons, AntDesign, Foundation } from "@expo/vector-icons";
+
 
 const description =
   "Votre compte sera débité d’un montant de 5000 Fcfa. Le dit montant fait office de frais de rendez-vous et est non-remboursable.";
@@ -63,6 +69,16 @@ const telMask = [
 
 const Payment = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const userInfo = useSelector(state => state.UserReducer.userInfos)
+  const idCentre = useSelector(state => state.Common.idc)
+  const toast = useToast();
+  const dispatch = useDispatch()
+  const success = useSelector(state => state.RdvForm.successPostRdv)
+  const error = useSelector(state => state.RdvForm.errorMsgPostRDV)
+  const loadingPostRdv = useSelector(state => state.RdvForm.loadingPostRdv)
+  console.log(success, error)
+  const formRDV = useSelector(state => state.RdvForm.rdvForm)
+  console.log(formRDV, userInfo)
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState("visa");
   const [showLoaderInModal, setShowLoaderInModal] = useState(false);
@@ -94,12 +110,12 @@ const Payment = ({ navigation }) => {
   };
 
   const onSubmitPayment = () => {
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsModalVisible(true);
-      setIsLoading(false);
-    }, 5000);
+    // setIsLoading(true);
+    dispatch(postRDV({ ...formRDV, ...userInfo, }))
+    // setTimeout(() => {
+    //   setIsModalVisible(true);
+    //   setIsLoading(false);
+    // }, 5000);
   };
 
   useEffect(() => {
@@ -110,7 +126,41 @@ const Payment = ({ navigation }) => {
       }, 3000);
       return () => clearTimeout(timeoutId);
     }
-  }, [isModalVisible]);
+  }, [isModalVisible, success]);
+
+  React.useEffect(() => {
+    if (error) {
+      toast.show({
+        render: () => {
+          return <CustomToast
+            message={"Une erreur est survenue !"}
+            color={colors.danger}
+            bgColor={"red.100"}
+            icon={<Foundation name="alert" size={24} />}
+            iconColor={colors.danger}
+          />
+        },
+        placement: "top",
+        duration: 5000
+      })
+    }
+
+    if (success) {
+      toast.show({
+        render: () => {
+          return <CustomToast
+            message={"Rendez-vous crée avec succès !"}
+            color={colors.success}
+            bgColor={"green.100"}
+            icon={<AntDesign name="checkcircle" size={24} />}
+            iconColor={colors.success}
+          />
+        },
+        placement: "top",
+        duration: 3000
+      })
+    }
+  }, [error, success])
 
   const handleCloseModal = () => {
     setIsModalVisible(false);
@@ -366,9 +416,9 @@ const Payment = ({ navigation }) => {
           <VStack flex={1} style={styles.btnBox}>
             <PrimaryButton
               // disabled={!formData.name || !formData.cardNumber || !formData.expirationDate || !formData.securityCode}
-              title="Confirmez et Continuez"
-              isLoadingText="Paiement en cours"
-              isLoading={isLoading}
+              title={loadingPostRdv ? "en cours de chargement..." : "Confirmez et Continuez"}
+              isLoadingText="en cours de chargement..."
+              isLoading={loadingPostRdv}
               style={styles.submitBtnText}
               onPress={onSubmitPayment}
             />

@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '400',
     color: colors.yellow,
-    textAlign: 'center'
+    textAlign: 'center',
+    textDecorationLine: 'underline'
   },
 
   text1: {
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
   },
 
   formContent: {
-    alignItems: "center",
+    justifyContent: "center",
     width: '100%',
   },
   formInput: {

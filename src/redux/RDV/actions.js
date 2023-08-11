@@ -42,3 +42,10 @@ export const getDispo = data => {
         data
     }
 }
+
+export const postRDV = data => {
+    return {
+        type: types.POST_RDV_REQUEST,
+        data
+    }
+}

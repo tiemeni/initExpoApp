@@ -1,76 +1,30 @@
 import React, { useEffect, useState } from "react";
 import {
-  Avatar,
   Box,
   HStack,
   ScrollView,
   View,
   VStack,
-  Skeleton,
-  Center,
 } from "native-base";
-import { ActivityIndicator, Image, StyleSheet, Text } from "react-native";
-import colors from "../../constants/colours";
-import plusBlack from "../../assets/img/plus_black.png";
+import { Text } from "react-native";
 import Rdv from "../../components/Rdv";
-import { Entypo } from "@expo/vector-icons";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as SCREENS from "../../constants/screens";
-import styles from "./style";
 import { Skelette } from "./squelette";
+import CustomHeader from '../../components/CustomHeader';
+import { useSelector } from "react-redux";
 
-
-export const CustomHeader = ({ navigation, mb, screen }) => {
-  return (
-    <HStack
-      justifyContent={"space-between"}
-      padding={2}
-      alignItems={"center"}
-      backgroundColor={"white"}
-      style={{
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: 1,
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 3.84,
-        elevation: 1,
-      }}
-      mb={mb}
-    >
-      <HStack alignItems={"center"}>
-        <Pressable onPress={() => navigation.navigate(screen)}>
-          <Avatar
-            bg={colors.primary}
-            width={37}
-            height={37}
-            source={{
-              uri: null,
-            }}
-          ></Avatar>
-        </Pressable>
-        <Text style={{ marginLeft: 15, fontSize: 18 }}>John Doe</Text>
-      </HStack>
-      <TouchableOpacity
-        onPress={() => navigation.navigate(SCREENS.MAKE_APPOINTMENT_SCREEN)}
-      >
-        <Box style={styles.boxGoogle} width={50} rounded={50} shadow={2}>
-          <Entypo name="plus" size={29} color={colors.white} />
-        </Box>
-      </TouchableOpacity>
-    </HStack>
-  );
-};
 
 export default function MesRdv({ navigation }) {
   const [actualState, setActualState] = useState(1);
+  const rdvs = useSelector(state => state.RdvForm.myRdv)
+  console.log(rdvs)
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 10000);
+    }, 2000);
   });
 
   return (
@@ -198,9 +152,9 @@ export default function MesRdv({ navigation }) {
       <ScrollView overScrollMode="never">
         {actualState === 1 && !loading ? (
           <VStack justifyContent={"center"} alignItems={"center"}>
-            {[1, 2, 3, 4, 5, 6].map((_e, i) => (
+            {rdvs?.map((_e, i) => (
               <View
-                key={i}
+                key={_e._id}
                 height={182}
                 width={340}
                 borderRadius={10}
@@ -218,24 +172,24 @@ export default function MesRdv({ navigation }) {
                   elevation: 1,
                 }}
               >
-                <Rdv />
+                <Rdv praticien={_e?.practitioner} date={_e?.date} status={_e?.status} startTime={_e?.startTime} duration={_e?.duration} />
               </View>
             ))}
           </VStack>
         ) : actualState !== 1 && !loading ? (
           <VStack></VStack>
         ) : (
-          <VStack padding={4} space={1}> 
-          <VStack>
-            <Skelette />
+          <VStack padding={4} space={1}>
+            <VStack>
+              <Skelette />
+            </VStack>
+            <VStack>
+              <Skelette />
+            </VStack>
+            <VStack>
+              <Skelette />
+            </VStack>
           </VStack>
-          <VStack>
-            <Skelette />
-          </VStack>
-          <VStack>
-            <Skelette />
-          </VStack>
-          </VStack> 
         )}
       </ScrollView>
     </View>

@@ -10,25 +10,6 @@ function CarouselPub() {
   const [activeIndex, setActiveIndex] = React.useState(0);
   const width = Dimensions.get("window").width;
 
-  // Votre tableau d'astuces de santé
-
-  const healthTips = [
-    {
-      title: 'Hydratation',
-      image: require('../../assets/img/pub1.jpg'),
-    },
-    {
-      title: 'Alimentation équilibrée',
-      image: require('../../assets/img/Pub2.jpg'),
-    },
-    {
-      title: 'Activité physique',
-      image: require('../../assets/img/pub3.jpg'),
-    },
-  ];
-  
-  
-
   return (
     <View
       style={{
@@ -47,7 +28,7 @@ function CarouselPub() {
         width={width}
         height={160}
         autoPlay={false}
-        data={healthTips}
+        data={[]}
         scrollAnimationDuration={4000}
         onSnapToItem={(index) => console.log("current index:", index)}
         renderItem={({ item }) => (
@@ -56,11 +37,11 @@ function CarouselPub() {
               flex: 1,
               borderWidth: 0,
               width: "100%",
-              justifyContent:'center',
-              padding:10,
+              justifyContent: 'center',
+              padding: 10,
             }}
           >
-            <Image resizeMode="cover"  source={item.image} style={{ width:250, height: 150, marginBottom: 10 }} />
+            <Image resizeMode="cover" source={item.image} style={{ width: 250, height: 150, marginBottom: 10 }} />
           </VStack>
         )}
         panGestureHandlerProps={

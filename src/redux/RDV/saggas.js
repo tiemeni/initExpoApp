@@ -4,7 +4,7 @@ import { getUnauthRequest, postUnauthRequest } from '../../utils/api';
 import { BASE_URL } from '../../constants/urls';
 import * as RootNavigation from '../../routes/rootNavigation';
 import * as SCREENS from '../../constants/screens'
-import { SETIDCENTRE } from '../commons/types';
+import { MY_FICHES, SETIDCENTRE } from '../commons/types';
 
 
 /**
@@ -98,6 +98,94 @@ function* getDispo({ data }) {
 }
 
 
+function* postRDV({ data }) {
+    // yield console.log("process post rdv---", data?.idCentre)
+    let url1 = BASE_URL + "/patients/register?idCentre=" + data?.idCentre
+    let url2 = BASE_URL + "/appointments/enregistrer_rdv/?idCentre=" + data?.idCentre
+    console.log("for data --- ", data)
+    const payload = {
+        name: data?.user?.name,
+        surname: data?.user.surname,
+        birthdate: data?.user.birthdate,
+        telephone: data?.user.telephone,
+        email: data?.user.email,
+        active: true,
+        idCentre: data?.idCentre
+    }
+    try {
+        const result = yield postUnauthRequest(url1, payload);
+        let idFiche;
+        console.log("for patients---", result)
+        let rdv;
+        if (result.message) {
+            const rdvData = {
+                centre: data?.idCentre,
+                practitioner: data?.praticien,
+                patient: result.message,
+                motif: data?.motif,
+                startTime: "09:30",
+                // data?.period?.time,
+                endTime: "10:00",
+                provenance: "mobile",
+                duration: 20,
+                // "dayOfWeek": 1,
+                date: data?.period?.day,
+            }
+            console.log(url2)
+            idFiche = result.message
+            rdv = yield postUnauthRequest(url2, rdvData);
+            // yield put({ type: types.GET_DISPO_REQUEST_SUCCESS, payload: result.data })
+            // RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
+        } else if (result.data._id) {
+            const rdvData = {
+                centre: data?.idCentre,
+                practitioner: data?.praticien,
+                patient: result.data._id,
+                motif: data?.motif,
+                startTime: "09:30",
+                // data?.period?.time,
+                endTime: "10:00",
+                provenance: "mobile",
+                duration: 20,
+                // "dayOfWeek": 1,
+                date: data?.priod?.day,
+            }
+            idFiche = result.data?._id
+            rdv = yield postUnauthRequest(url2, rdvData);
+        } else {
+            yield put({ type: types.POST_RDV_REQUEST_FAILED, payload: "Erreur lors de la creation du rendez-vous!" })
+            setTimeout(() => {
+                RootNavigation.navigate(SCREENS.ACCEUIL)
+            }, 3000)
+        }
+        console.log(rdv)
+        if (rdv.success) {
+            console.log("rdv success", rdv)
+
+            yield put({ type: types.POST_RDV_REQUEST_SUCCESS, payload: rdv?.data })
+            yield put({ type: MY_FICHES, payload: idFiche })
+            setTimeout(() => {
+                RootNavigation.navigate(SCREENS.RDV)
+                put({ type: "CLEAR_ERR_SUCC" })
+            }, 3000)
+        } else {
+            console.log("Erreur lors de la creation du rendez-vous!")
+            yield put({ type: types.POST_RDV_REQUEST_FAILED, payload: "Erreur lors de la creation du rendez-vous!" })
+            setTimeout(() => {
+                RootNavigation.navigate(SCREENS.ACCEUIL)
+                put({ type: "CLEAR_ERR_SUCC" })
+            }, 3000)
+        }
+    } catch (error) {
+        console.error(error);
+        yield put({ type: types.POST_RDV_REQUEST_FAILED, payload: error })
+        setTimeout(() => {
+            RootNavigation.navigate(SCREENS.ACCEUIL)
+            put({ type: "CLEAR_ERR_SUCC" })
+        }, 3000)
+    }
+}
+
 
 export default function* RDVSagga() {
     yield takeLatest(types.GET_MOTIFS_REQUEST, getMotifs);
@@ -105,4 +193,5 @@ export default function* RDVSagga() {
     yield takeLatest(types.GET_CLINIQUES_REQUEST, getCliniques);
     yield takeLatest(types.GET_PRATICIENS_REQUEST, getPraticiens);
     yield takeLatest(types.GET_DISPO_REQUEST, getDispo);
+    yield takeLatest(types.POST_RDV_REQUEST, postRDV);
 }

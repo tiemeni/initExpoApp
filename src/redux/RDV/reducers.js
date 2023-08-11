@@ -17,8 +17,8 @@ const initialState = {
     cliniques: [],
     praticiens: [],
     loading: false,
-    success: null,
     error: null,
+    myRdv: [],
     errorMsg: null
 };
 
@@ -145,6 +145,40 @@ const RDVReducer = (state = initialState, action) => {
                 errorMsg: action.payload,
                 loading: false,
                 success: false,
+                error: true,
+            }
+        case types.POST_RDV_REQUEST:
+            return {
+                ...state,
+                loadingPostRdv: true,
+                error: false,
+                errorMsg: "",
+                successPostRdv: false
+            }
+        case types.POST_RDV_REQUEST_SUCCESS:
+            console.log("---------------success")
+            let actualRdvs = state.myRdv
+            return {
+                ...state,
+                myRdv: [...actualRdvs, action.payload],
+                loading: false,
+                loadingPostRdv: false,
+                successPostRdv: true
+            }
+        case "CLEAR_ERR_SUCC":
+            return {
+                ...state,
+                errorMsgPostRDV: null,
+                success: null
+            }
+        case types.POST_RDV_REQUEST_FAILED:
+            console.log("---------------failed")
+            return {
+                ...state,
+                errorMsgPostRDV: action.payload,
+                loading: false,
+                success: false,
+                loadingPostRdv: false,
                 error: true,
             }
         default:

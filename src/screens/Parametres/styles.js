@@ -16,19 +16,11 @@ const styles = {
     headerItem: {
         alignItems: 'center',
         marginBottom:8,
-    },
-
-    iconBox: {
-        height: 40,
-        width: 40,
-        marginRight:0,
-        borderRadius: 5,
-        alignItems: 'center',
-        justifyContent: 'center'
+        
     },
 
     textBox:{
-        fontSize:16
+        fontSize:16,
     }
 }
 

@@ -1,7 +1,8 @@
-import { LAUNCH_APP, SETIDCENTRE, SET_PROFESSION, SHOULD_SEE_BEHIND } from "./types";
+import { LAUNCH_APP, MY_FICHES, SETIDCENTRE, SET_PROFESSION, SHOULD_SEE_BEHIND } from "./types";
 
 let initialState = {
-    shouldSeeBehind: false
+    shouldSeeBehind: false,
+    mesFiches: []
 };
 
 const common = (state = initialState, action) => {
@@ -16,6 +17,12 @@ const common = (state = initialState, action) => {
                 ...state,
                 isProfession: action.p
             };
+        case MY_FICHES:
+            let actualFiches = state.mesFiches
+            return {
+                ...state,
+                mesFiches: [...actualFiches, action.payload]
+            }
         case SETIDCENTRE:
             console.log(action.payload)
             return {

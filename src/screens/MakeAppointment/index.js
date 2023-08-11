@@ -102,6 +102,7 @@ const MakeAppointment = ({ navigation, route }) => {
                 dispatch(setRDVForm({
                     ...RDVForm,
                     praticien: value,
+                    idCentre: idCentre
                 }))
                 dispatch(getDispo({ idCentre: idCentre, idp: value }))
                 break;

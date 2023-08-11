@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Divider,
@@ -8,6 +8,7 @@ import {
   View,
   Switch,
   VStack,
+  Image
 } from "native-base";
 import {
   MaterialCommunityIcons,
@@ -16,73 +17,93 @@ import {
   Entypo,
   MaterialIcons,
 } from "@expo/vector-icons";
-import styles from "./styles";
+import styles from "./styles"; // Assurez-vous d'importer le style correctement
 import colors from "../../constants/colours";
 import Header from "../../components/Header";
 import SelectDropdown from "react-native-select-dropdown";
-import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import "../../i18n";
+import En from '../../assets/img/flagEng.png';
+import Fr from '../../assets/img/flagFr.png';
 
-const IconItem = (props) => {
-
-  const countries = [
-    { value: 'fr', label: 'Fr',  },
-    { value: 'en', label: 'En',},
-
-  ];
-  const SelectLang = () => {
-  const [selectedLang, setSelectedLang] = useState(countries[0]);
-
-
-  const handleLangChange = (item) => {
-    setSelectedLang(item); 
-  };
-  
-    return (
-      <SelectDropdown
-      data={countries}
-      onSelect={(selectedItem, index) => {
-        handleLangChange(selectedItem);
-        console.log(selectedItem, index);
-      }}
-      defaultValue={selectedLang}
-      buttonTextAfterSelection={(selectedItem, index) => {
-        return selectedItem.label;
-      }}
-      rowTextForSelection={(item, index) => {
-        return item.label;
-      }}
-      buttonStyle={{ width: 50, height: 30, backgroundColor: 'white', borderRadius: 20 }}
-    />
-  );
-};
-  
-  return (
-    <HStack style={styles.headerItem}>
-      <Box style={styles.iconBox}>
-        <Icon
-          as={props.iconType}
-          name={props.iconName}
-          color={colors.primary}
-          size="md"
-        />
-      </Box>
-      <HStack flex={1} alignItems={"center"} justifyContent={"space-between"}>
-        <Text style={styles.textBox}>{props.text}</Text>
-        {props.text === "Choix de la langue" ? (
-            <SelectLang />
-        ) : (
-          <Switch  size="md" />
-        )}
-      </HStack>
-    </HStack>
-  );
-};
 
 const Parametres = () => {
-  const [searchedValue, setSearchedValue] = React.useState("");
+  const { i18n } = useTranslation();
+  const translate = useTranslation().t;
 
-  const handleChange = (text) => {
-    setSearchedValue(text);
+  const countries = [
+    { value: "Fr", label: "Fr" },
+    { value: "En", label: "En" },
+  ];
+  const [selectedLang, setSelectedLang] = useState(countries[0].label);
+
+  const IconItem = (props) => {
+    const SelectLang = () => {
+      console.log("ancien", selectedLang);
+      const handleLangChange = (item) => {
+        console.log("item", item);
+        i18n
+          .changeLanguage(item)
+          .then(() => {
+            console.log("nouvelle", item);
+            setSelectedLang(item);
+          })
+          .catch((err) => console.log(err));
+      };
+
+      return (
+        <HStack rounded={25} padding={0} backgroundColor={'white'}>
+          <Image h={5} width={5} source={selectedLang=== countries[0].label?Fr:En} alt="flag" />
+        <SelectDropdown
+          defaultValue={selectedLang}
+          data={countries}
+          onSelect={(selectedItem, index) => {
+            handleLangChange(selectedItem.value);
+            console.log(selectedItem.value, index);
+          }}
+          buttonTextAfterSelection={(item, index) => {
+            return item.value;
+          }}
+          rowTextForSelection={(item, index) => {
+            return item.label;
+          }}
+          defaultButtonText={selectedLang}
+          buttonTextStyle={{
+            color: colors.primary,
+            fontSize: 16,
+            fontWeight: "600",
+            textAlign:'left'
+          }}
+          buttonStyle={{
+            width: 50,
+            height: 20,
+            backgroundColor: "white",
+          }}
+        />
+        </HStack>
+      );
+    };
+
+    return (
+      <HStack space={6} style={styles.headerItem}>
+        <HStack paddingX={3} space={2} flex={1} alignItems={"center"}>
+          <Icon
+            as={props.iconType}
+            name={props.iconName}
+            color={colors.primary}
+            size="6"
+          />
+          <Text style={styles.textBox}>{props.text}</Text>
+        </HStack>
+        <HStack>
+          {props.text === translate("TEXT_CHOISE_LANGUAGE") ? (
+            <SelectLang />
+          ) : (
+            <Switch  size="sm" />
+          )}
+        </HStack>
+      </HStack>
+    );
   };
 
   return (
@@ -93,13 +114,13 @@ const Parametres = () => {
           <IconItem
             iconName="web"
             iconType={MaterialCommunityIcons}
-            text="Choix de la langue"
+            text={translate("TEXT_CHOISE_LANGUAGE")}
           />
-          <Divider />
+          <Divider mb={2} />
           <IconItem
             iconName="megaphone"
             iconType={Foundation}
-            text="Recevoir les rappels de rendez-vous"
+            text={translate("TEXT_RECIVE_FEDBACK")}
           />
           <IconItem
             iconName="newsletter"

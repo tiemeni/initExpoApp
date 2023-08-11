@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import NotificationsCard from '../../components/NotificationsCard';
 import styles from './styles';
 import { notifications } from '../../utils/helper';
-import { CustomHeader } from '../MesRdv';
+import CustomHeader from '../../components/CustomHeader';
 import { PROFILE } from '../../constants/screens';
 import { SkeletteNotif } from './squeletteNotif';
 

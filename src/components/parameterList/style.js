@@ -16,13 +16,13 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     subContainer: {
-        display: 'flex',
-        flexDirection: 'row',
+        alignItems:'center',
+        justifyContent:'center'
     },
     image: {
         width: 25,
         height: 25,
-        marginRight: 20
+        marginRight: 20,
     },
     rimage: {
         width: 15,

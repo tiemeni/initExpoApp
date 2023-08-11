@@ -24,7 +24,7 @@ import colors from "../../constants/colours";
 import Header from "../../components/Header";
 import SelectDropdown from "react-native-select-dropdown";
 import { useState } from "react";
-import logo from "../../assets/img/hospi-rdv__9_-removebg-preview.png";
+import logo from "../../assets/img/logBlac.jpg";
 
 const IconItem = (props) => {
   const countries = [
@@ -61,7 +61,7 @@ const IconItem = (props) => {
       />
     );
   };
-
+  
   return (
     <HStack style={styles.headerItem}>
       <Box style={styles.iconBox}>

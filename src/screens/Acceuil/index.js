@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { CustomHeader } from '../MesRdv'
 import { PROFILE } from '../../constants/screens'
 import { Box, Input, ScrollView, View, HStack, Text, VStack, Icon } from 'native-base'
 import styles from './style';
@@ -12,9 +11,10 @@ import colors from '../../constants/colours';
 import { useDispatch } from 'react-redux';
 import { getProfession } from '../../redux/professions/actions';
 import { getMotifs } from '../../redux/RDV/actions';
+import { connect } from 'react-redux';
+import CustomHeader from '../../components/CustomHeader';
 
 const Acceuil = ({ navigation }) => {
-
   const healthTips = [
     "Astuce 1: Boire beaucoup d'eau chaque jour.",
     "Astuce 2: Manger des fruits et légumes frais.",

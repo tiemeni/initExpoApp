@@ -34,9 +34,11 @@ export default function ModaleChoixProfession({ navigation }) {
 
     return (
         <Dialog
+
             visible={visible}
             style={{ ...styles.dialog, borderRadius: 5, backgroundColor: colors.white, }}
-            onDismiss={hideDialog}>
+        // onDismiss={hideDialog}
+        >
             <Dialog.Content style={{ ...styles.dialogContent }}>
                 <Box style={{ ...styles.boxCloseIconDialogContainer }}>
                     <Box></Box>
