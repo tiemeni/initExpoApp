@@ -435,7 +435,6 @@ const MonProfile2 = ({ userInfos, loading }) => {
             </View>
           </View>
         </VStack>
-        <Button onPress={UpdateInfo}>mettre a jours</Button>
       </ScrollView>
       <CustomeFab
         editeMode={editeMode}
