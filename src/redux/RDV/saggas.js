@@ -148,7 +148,7 @@ function* postRDV({ data }) {
                 provenance: "mobile",
                 duration: 20,
                 // "dayOfWeek": 1,
-                date: data?.priod?.day,
+                date: data?.period?.day,
             }
             idFiche = result.data?._id
             rdv = yield postUnauthRequest(url2, rdvData);

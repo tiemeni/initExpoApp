@@ -6,9 +6,11 @@ import { RadioButton, TextInput } from 'react-native-paper'
 import Header from '../../components/Header'
 import colors from '../../constants/colours'
 import { styles } from './style'
+import { connect } from 'react-redux'
 
 
-export default function MonProfile() {
+const  MonProfile = ({userInfos}) => {
+    console.log('userInfo', userInfos)
     return (
         <View style={styles.container}>
             <VStack style={styles.child1}>
@@ -45,7 +47,7 @@ export default function MonProfile() {
                         borderRadius: 10,
                         paddingLeft: 10
                     }}>
-                        <Text style={{ fontSize: 17, fontWeight: "bold" }}>Détail de base</Text>
+                        <Text style={{ fontSize: 11, fontWeight: "bold" }}>Détai de base</Text>
                     </View>
                 </View>
                 <View style={{ height: 253 }}>
@@ -241,3 +243,8 @@ export default function MonProfile() {
         </View>
     )
 }
+
+const mapStateToProps = ({ UserReducer }) => ({
+    userInfos: UserReducer.userInfos,
+  })
+export default connect(mapStateToProps)(MonProfile)

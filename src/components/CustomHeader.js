@@ -4,6 +4,7 @@ import * as SCREENS from '../constants/screens'
 import colors from "../constants/colours"
 import { Entypo } from '@expo/vector-icons';
 import { connect } from "react-redux";
+import { useEffect, useState } from "react";
 
 const styles = StyleSheet.create({
     boxGoogle: {
@@ -18,7 +19,11 @@ const styles = StyleSheet.create({
 })
 
 const CustomHeader = ({ navigation, mb, userInfos, screen }) => {
-    const { user } = userInfos
+    const [user, setUser] = useState(null)
+
+    useEffect(() => {
+        if(userInfos?.user) setUser(userInfos.user)
+    }, [userInfos]);
 
     return (
         <HStack
@@ -49,7 +54,7 @@ const CustomHeader = ({ navigation, mb, userInfos, screen }) => {
                             uri: null
                         }}></Avatar>
                 </Pressable>
-                <Text style={{ marginLeft: 15, fontSize: 18 }}>{user.name + " " + user?.surname}</Text>
+                <Text style={{ marginLeft: 15, fontSize: 18 }}>{user?.name + " " + user?.surname}</Text>
             </HStack>
             <TouchableOpacity onPress={() => navigation.navigate(SCREENS.MAKE_APPOINTMENT_SCREEN)}>
                 <Box style={styles.boxGoogle} width={50} rounded={50} shadow={2}>

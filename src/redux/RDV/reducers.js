@@ -169,7 +169,7 @@ const RDVReducer = (state = initialState, action) => {
             return {
                 ...state,
                 errorMsgPostRDV: null,
-                success: null
+                successPostRdv: null
             }
         case types.POST_RDV_REQUEST_FAILED:
             console.log("---------------failed")

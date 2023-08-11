@@ -24,3 +24,8 @@ export const userLogout = () => ({
 })
 
 export const reinitialize = () => ({ type: types.REINITIALIZE })
+
+export const userInfoUpdate = (payload, _id) =>({ 
+  type: types.UPDATE_USER_INFORMATION_RESQUEST,
+  payload, _id
+})
