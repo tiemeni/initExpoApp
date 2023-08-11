@@ -42,7 +42,6 @@ function* authUpdateInfo({ payload, _id }) {
   const url = BASE_URL + USER_INFO_UPDATE + "/" + _id;
   try {
     const result = yield patchUnauthRequest(url, payload);
-    console.log(result, 'helllllllo')
     if (result.success) {
       yield AsyncStorage.setItem(
         "userInfos",
