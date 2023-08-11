@@ -31,7 +31,7 @@ const ModalPaySuccess = ({ isVisible, onClose, isLoader, title }) => {
           }}
         >
           <Center marginBottom={5}>
-            <AntDesign name="checkcircle" size={60} color={colors.success} />
+            <AntDesign name="checkcircle" size={60} color={colors.yellow} />
           </Center>
           <Text
             style={{

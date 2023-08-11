@@ -50,7 +50,7 @@ export default function Rdv() {
                 <HStack justifyContent={"space-between"}>
                     <TouchableOpacity style={{
                         backgroundColor: "#fdf2f2",
-                        height: 47,
+                        height: 40,
                         width: 133,
                         display: "flex",
                         flexDirection: "row",
@@ -63,7 +63,7 @@ export default function Rdv() {
                     </TouchableOpacity>
                     <TouchableOpacity style={{
                         backgroundColor: colors.primary,
-                        height: 47,
+                        height: 40,
                         width: 133,
                         display: "flex",
                         flexDirection: "row",

@@ -24,6 +24,7 @@ import { userLogin, reinitialize } from "../../../redux/User/action"
 
 const Login = ({ navigation, error, loading, errorMsg }) => {
   const toast = useToast();
+  const translate = useTranslation().t;
   const dispatch = useDispatch();
   const [show, setShow] = React.useState(false);
   const { isFieldInError } = useValidation({ state: formData });
@@ -90,8 +91,7 @@ const Login = ({ navigation, error, loading, errorMsg }) => {
         <View style={styles.logoBox}>
           <Image style={styles.image} source={logo} alt="logo" />
           <Text style={styles.text1}>
-            S’il vous plaît, entrez votre email et votre mot de passe
-          </Text>
+          {translate('TEXT.LOGIN_TITRE') }</Text>
         </View>
         <VStack space={4} style={styles.formContent}>
           <Input
@@ -108,7 +108,7 @@ const Login = ({ navigation, error, loading, errorMsg }) => {
                 color={colors.primary}
               />
             }
-            placeholder="Entrer votre addresse mail"
+            placeholder={translate('TEXT.EMAIL_FIELD')}
             keyboardType="default"
             isInvalid={isFieldInError("email")}
             onChangeText={(value) => handleInputChange("email", value)}
@@ -182,8 +182,8 @@ const Login = ({ navigation, error, loading, errorMsg }) => {
 
         <Center mt={2}>
           <PrimaryButton
-            title="Se connecter"
-            isLoadingText="Veuillez patienter..."
+            title={translate("TEXT.BUTTON_LOGIN")}
+            isLoadingText={translate("TEXT.BUTTON_LOGIN_LOADER")}
             isLoading={loading}
             style={styles.submitBtnText}
             color={colors.primary}

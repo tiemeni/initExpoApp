@@ -168,7 +168,7 @@ export const specialites = [
     },
     {
         id: 5,
-        value: "Cardiologie"
+        value: "Ondontostomatologie"
     },
     {
         id: 6,

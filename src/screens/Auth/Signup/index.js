@@ -13,7 +13,7 @@ import {
   Box,
   useToast
 } from "native-base";
-import { MaterialIcons, MaterialCommunityIcons, Foundation, Ionicons } from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
 import colors from "../../../constants/colours";
@@ -22,13 +22,18 @@ import moment from "moment";
 import * as SCREENS from "../../../constants/screens";
 import { useDispatch, connect } from "react-redux";
 import { userRegistration, reinitialize } from "../../../redux/User/action"
+import { useTranslation } from "react-i18next";
 import { isValidEmail } from "../../../utils/helper";
+import CustomToast from "../../../components/CustomToast";
+import { render } from "react-dom";
 
 const Signup = ({ navigation, error, loading, errorMsg }) => {
   const toast = useToast()
   const dispatch = useDispatch();
   const [date, setDate] = useState(moment().format("DD/MM/YYYY"));
   const [isCkeck, setIsCheck] = useState(false);
+  const translate = useTranslation().t
+  const [show, setShow] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -40,7 +45,8 @@ const Signup = ({ navigation, error, loading, errorMsg }) => {
   });
   const [errors, setErrors] = useState({
     email: isValidEmail(formData.email),
-    password: null
+    password: length = 8,
+    birth: moment().format("DD/MM/YYYY")
   })
 
   const [textDate, setTextDate] = useState(false);
@@ -66,6 +72,15 @@ const Signup = ({ navigation, error, loading, errorMsg }) => {
   }, []);
 
   const handleInputChange = (field, value) => {
+
+    let newErrors = { ...errors };
+    if (field === 'email') {
+      newErrors.email = isValidEmail(value);
+    } else if (field === 'password') {
+      newErrors.password = value.length < 8;
+    }
+
+    setErrors(newErrors);
     setFormData({
       ...formData,
       [field]: value,
@@ -96,24 +111,7 @@ const Signup = ({ navigation, error, loading, errorMsg }) => {
       toast.show({
         render: () => {
           return (
-            <Box
-              bg="red.100"
-              px={4}
-              py={3}
-              rounded="md"
-              shadow={3}
-              _text={{ color: 'white' }}
-              w="100%"
-            >
-              <HStack space={2} flex={1} alignItems={'center'}>
-                <Icon
-                  as={<Foundation name="alert" size={24} color={colors.danger} />}
-                  size={5}
-                  color={colors.danger}
-                />
-                <Text>{errorMsg}</Text>
-              </HStack>
-            </Box>
+            <CustomToast message={errorMsg} />
           );
         },
         placement: "top",
@@ -125,6 +123,17 @@ const Signup = ({ navigation, error, loading, errorMsg }) => {
   const onSubmit = () => {
     if (!isFieldsEmpty) {
       dispatch(userRegistration({ ...formData, active: true }))
+    } else {
+      toast.show({
+        render: () => {
+          return (
+            <CustomToast message={'Veuillez remplir tous les champs'} />
+          );
+        },
+        placement: "top",
+        duration: 5000
+      }
+      )
     }
   };
 
@@ -141,12 +150,6 @@ const Signup = ({ navigation, error, loading, errorMsg }) => {
         </Text>
       </View>
       <VStack space={5} mt={5} style={styles.contentForm}>
-        <Center>
-          <HStack alignItems={'center'} space={1}>
-            <Icon as={<Ionicons name="alert-circle" size={24} />} size={5} color={colors.danger} />
-            <Text style={{ color: colors.danger }}>Veuillez remplir tous les champs</Text>
-          </HStack>
-        </Center>
         <VStack space={4}>
           <Input
             h={50}
@@ -206,6 +209,7 @@ const Signup = ({ navigation, error, loading, errorMsg }) => {
           {!errors.email && formData.email !== "" &&
             <Text style={{
               fontSize: 12,
+              marginLeft: 10,
               color: colors.danger,
             }}>Veillez entrez une adresse mail valide</Text>}
 
@@ -217,18 +221,38 @@ const Signup = ({ navigation, error, loading, errorMsg }) => {
             bg={colors.desable}
             InputLeftElement={
               <Icon
-                as={<MaterialIcons name="email" />}
+                as={<MaterialIcons name="lock" />}
                 size={5}
                 ml="3"
                 color={colors.primary}
               />
             }
+            InputRightElement={
+              <Pressable onPress={() => setShow(!show)}>
+                <Icon
+                  as={
+                    show ? (
+                      <MaterialIcons name="remove-red-eye" />
+                    ) : (
+                      <Ionicons name="ios-eye-off" />
+                    )
+                  }
+                  size={5}
+                  mr="4"
+                  color={colors.primary}
+                />
+              </Pressable>}
             placeholder="Mot de passe"
             onChangeText={(value) => handleInputChange("password", value)}
             value={formData.password}
-            type="password"
+            type={show ? "text" : "password"}
           />
-
+          {errors.password && formData.password !== "" &&
+            <Text style={{
+              fontSize: 12,
+              marginLeft: 10,
+              color: colors.danger,
+            }}>Le mot de passe doit avoir au mois 08 carractères</Text>}
           <Input
             h={50}
             rounded={50}
@@ -273,14 +297,13 @@ const Signup = ({ navigation, error, loading, errorMsg }) => {
                 mode="date"
                 display="default"
                 collapsable
+                maximumDate={new Date()}
                 accentColor={colors.primary}
-                placeholderText="gggfgfgfgf"
                 onChange={handleDateChange}
                 style={{ backgroundColor: colors.primary }}
               />
             )}
           </VStack>
-
           <HStack alignItems={"center"} space={2} mt={2}>
             <Checkbox
               isChecked={isCkeck}
@@ -310,7 +333,7 @@ const Signup = ({ navigation, error, loading, errorMsg }) => {
             isLoading={loading}
             style={styles.submitBtnText}
             color={colors.primary}
-            disabled={isFieldsEmpty}
+            // disabled={isFieldsEmpty}
             onPress={onSubmit}
           />
         </Center>

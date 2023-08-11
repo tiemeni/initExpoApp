@@ -24,16 +24,20 @@ const styles = StyleSheet.create({
     },
     specialityBox: {
         flexWrap: 'wrap',
+       //justifyContent:'center',
+        alignItems:'center'
     },
     speciality: {
         padding: 5,
         borderRadius: 50,
-        backgroundColor: colors.transp_success,
+        backgroundColor: colors.trans_primary,
         marginTop: 10,
         marginRight: 10,
     },
     specialityText: {
-        color: colors.primary
+        color: colors.black,
+        fontSize:14,
+        fontWeight:'600'
     }
 })
 

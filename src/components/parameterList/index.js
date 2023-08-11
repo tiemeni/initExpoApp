@@ -1,19 +1,19 @@
-import { View } from 'native-base'
+import { View, Icon, HStack } from 'native-base'
 import React from 'react'
-import { Image, Text } from 'react-native'
-import user from "../../assets/img/user.png"
+import {Text} from 'react-native'
 import { styles } from './style'
-import right from "../../assets/img/right-chevron.png"
+import colors from '../../constants/colours'
+import { AntDesign } from '@expo/vector-icons';
 
-export default function ParameterList({ image, label, icon }) {
+export default function ParameterList({ label, icon }) {
     return (
         <View style={styles.container}>
-            <View style={styles.subContainer}>
-                <Image source={icon ?? user} style={styles.image} />
+            <HStack space={3} style={styles.subContainer}>
+                <Icon as={icon} color={colors.primary} size={6}/>
                 <Text style={styles.label}>{label}</Text>
-            </View>
+            </HStack>
             <View>
-                <Image source={right} style={styles.rimage} />
+             <Icon as={<AntDesign name='right'/>} color={colors.black} size={4}/>
             </View>
         </View>
     )
