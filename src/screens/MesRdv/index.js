@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Avatar, Box, HStack, ScrollView, View, VStack } from 'native-base'
-import { ActivityIndicator, Image, StyleSheet, Text } from 'react-native'
+import { Box, HStack, ScrollView, View, VStack } from 'native-base'
+import { ActivityIndicator, Text } from 'react-native'
 import colors from '../../constants/colours'
-import plusBlack from "../../assets/img/plus_black.png"
 import Rdv from '../../components/Rdv'
-import { Entypo } from '@expo/vector-icons';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import * as SCREENS from '../../constants/screens'
-import styles from './style'
+import CustomHeader from '../../components/CustomHeader'
 
 export const IsLoadingComponent = () => {
     return (
@@ -29,47 +27,6 @@ export const IsLoadingComponent = () => {
                     }} />
             </View>
         </View>
-    )
-}
-
-export const CustomHeader = ({ navigation, mb, screen }) => {
-    return (
-        <HStack
-            justifyContent={"space-between"}
-            padding={2}
-            alignItems={'center'}
-            backgroundColor={'white'}
-            style={{
-                shadowColor: "#000",
-                shadowOffset: {
-                    width: 0,
-                    height: 1,
-                },
-                shadowOpacity: 0.1,
-                shadowRadius: 3.84,
-                elevation: 1
-            }}
-            mb={mb}>
-            <HStack
-                alignItems={"center"}>
-                <Pressable
-                    onPress={() => navigation.navigate(screen)}>
-                    <Avatar
-                        bg={colors.primary}
-                        width={37}
-                        height={37}
-                        source={{
-                            uri: null
-                        }}></Avatar>
-                </Pressable>
-                <Text style={{ marginLeft: 15, fontSize: 18 }}>John Doe</Text>
-            </HStack>
-            <TouchableOpacity onPress={() => navigation.navigate(SCREENS.MAKE_APPOINTMENT_SCREEN)}>
-             <Box style={styles.boxGoogle} width={50} rounded={50} shadow={2}>
-                 <Entypo name="plus" size={29} color={colors.white} />
-             </Box>
-            </TouchableOpacity>
-        </HStack>
     )
 }
 
@@ -216,3 +173,7 @@ export default function MesRdv({ navigation }) {
         </View>
     )
 }
+
+const mapStateToProps = ({ UserReducer }) => ({
+    userInfos: UserReducer.userInfos
+  })

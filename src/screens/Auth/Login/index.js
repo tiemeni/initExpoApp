@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Image, Pressable, View } from "react-native";
-import { Checkbox } from "react-native-paper";
 import {
   Box,
   Center,
@@ -10,50 +9,80 @@ import {
   Input,
   Text,
   ScrollView,
+  useToast,
+  Checkbox
 } from "native-base";
-import { MaterialIcons, Ionicons, FontAwesome } from "@expo/vector-icons";
+import { MaterialIcons, Ionicons, Foundation } from "@expo/vector-icons";
 import { useValidation } from "react-native-form-validator";
 import colors from "../../../constants/colours";
 import styles from "./styles";
 import logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
 import * as SCREENS from "../../../constants/screens";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, connect } from "react-redux";
+import { userLogin, reinitialize } from "../../../redux/User/action"
 
-const Login = ({ navigation }) => {
-
-  const [formFields, setFormFields] = useState({
-    email: "",
-    password: "",
-  });
+const Login = ({ navigation, error, loading, errorMsg }) => {
+  const toast = useToast();
   const dispatch = useDispatch();
-  const [loader, setLoading] = useState(false)
-  const [show, setShow] = useState(false);
-  const [isCkeck, setIsCheck] = useState(false);
-  const { isFieldInError } = useValidation({
-    state: formFields,
+  const [show, setShow] = React.useState(false);
+  const { isFieldInError } = useValidation({ state: formData });
+  const [formData, setformData] = React.useState({
+    email: "dongmo@gmail.com",
+    password: "thepunisherr",
+    saveCredentials: true
   });
-
-  const handleCheck = () => {
-    setIsCheck(!isCkeck);
-  };
 
   const handleInputChange = (field, value) => {
-    setFormFields({
-      ...formFields,
+    setformData({
+      ...formData,
       [field]: value,
     });
   };
 
-  const isFieldsEmpty =
-    formFields.email.trim() === "" ||
-    formFields.password === "" ||
-    formFields.password.length < 6 ||
-    formFields.email.length < 4;
+  const formValidator = () => {
+    return formData.email.trim() === "" ||
+      formData.password === "" ||
+      formData.password.length < 6 ||
+      formData.email.length < 4;
+  }
+  const isFieldsEmpty = formValidator()
+
 
   const handleSubmit = () => {
-    navigation.navigate(SCREENS.HOME_CONTAINER_ROUTE);
+    dispatch(userLogin(formData))
   };
+
+  React.useEffect(() => {
+    if (error && errorMsg !== '') {
+      toast.show({
+        render: () => {
+          return (
+            <Box
+              bg="red.100"
+              px={4}
+              py={3}
+              rounded="md"
+              shadow={3}
+              _text={{ color: 'white' }}
+              w="100%"
+            >
+              <HStack space={2} flex={1} alignItems={'center'}>
+                <Icon
+                  as={<Foundation name="alert" size={24} color={colors.danger} />}
+                  size={5}
+                  color={colors.danger}
+                />
+                <Text>{errorMsg}</Text>
+              </HStack>
+            </Box>
+          );
+        },
+        placement: "top",
+        duration: 5000
+      })
+    }
+  }, [error])
 
   return (
     <ScrollView style={styles.container}>
@@ -83,7 +112,7 @@ const Login = ({ navigation }) => {
             keyboardType="default"
             isInvalid={isFieldInError("email")}
             onChangeText={(value) => handleInputChange("email", value)}
-            value={formFields.email}
+            value={formData.email}
           />
           <Input
             rounded={50}
@@ -119,49 +148,43 @@ const Login = ({ navigation }) => {
             type={show ? "text" : "password"}
             placeholder="Entrer votre mot de passe"
             onChangeText={(value) => handleInputChange("password", value)}
-            value={formFields.password}
+            value={formData.password}
           />
           {(isFieldInError("email") || isFieldInError("password")) && (
             <Text style={styles.errorMsg}>
               Remplissez bien les champs !
             </Text>
           )}
+
+          <HStack space={2} mt={1}>
+            <Checkbox
+              aria-label="cgu"
+              isChecked={formData.saveCredentials}
+              onPress={() => handleInputChange("saveCredentials", !formData.saveCredentials)}
+              color={colors.primary}
+            />
+            <Text
+              style={{
+                fontWeight: "400",
+                fontSize: 14,
+                color: "#5C5C5C",
+                fontStyle: "normal",
+              }}
+            >
+              Se souvenir de moi
+            </Text>
+          </HStack>
         </VStack>
-        <HStack
-          style={{
-            alignItems: "center",
-            marginTop: 15,
-            marginBottom: 5,
-            marginLeft: 3,
-          }}
-        >
-          <Checkbox
-            status={isCkeck ? "checked" : "unchecked"}
-            onPress={handleCheck}
-            color={colors.primary}
-          />
-          <Text
-            style={{
-              fontWeight: "400",
-              fontSize: 14,
-              color: "#5C5C5C",
-              fontStyle: "normal",
-              marginLeft: 10,
-            }}
-          >
-            Se souvenir de moi
-          </Text>
-        </HStack>
 
         <Pressable onPress={() => navigation.navigate(SCREENS.PHONE_CONFIRMATION_SCREEN)}>
           <Text style={styles.forgetPassword} mt={5}>Mot de passe oublié ?</Text>
         </Pressable>
 
-        <Center mt={1}>
+        <Center mt={2}>
           <PrimaryButton
             title="Se connecter"
-            isLoadingText="Connexion en cours..."
-            isLoading={loader}
+            isLoadingText="Veuillez patienter..."
+            isLoading={loading}
             style={styles.submitBtnText}
             color={colors.primary}
             onPress={handleSubmit}
@@ -175,7 +198,10 @@ const Login = ({ navigation }) => {
             </Text>
             <Text
               style={[styles.forgetPassword, styles.registerText]}
-              onPress={() => navigation.navigate(SCREENS.SIGNUP)}
+              onPress={() => {
+                dispatch(reinitialize())
+                navigation.navigate(SCREENS.SIGNUP)
+              }}
               ml={1}
             >
               Inscrivez-vous !
@@ -188,4 +214,10 @@ const Login = ({ navigation }) => {
   );
 };
 
-export default Login;
+const mapStateToProps = ({ UserReducer }) => ({
+  loading: UserReducer.loading,
+  error: UserReducer.error,
+  errorMsg: UserReducer.errorMsg
+})
+
+export default connect(mapStateToProps)(Login);

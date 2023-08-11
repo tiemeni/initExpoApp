@@ -4,8 +4,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 import NotificationsCard from '../../components/NotificationsCard';
 import styles from './styles';
 import { notifications } from '../../utils/helper';
-import { CustomHeader, IsLoadingComponent } from '../MesRdv';
+import { IsLoadingComponent } from '../MesRdv';
 import { PROFILE } from '../../constants/screens';
+import CustomHeader from '../../components/CustomHeader';
 
 const Notifications = ({ navigation }) => {
     const [loading, setLoading] = useState(true)

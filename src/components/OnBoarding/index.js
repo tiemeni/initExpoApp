@@ -49,12 +49,10 @@ export default function OnBoarding2() {
                 console.log("cool")
             }} /> : <View></View>}
             <VStack>
-                <Center>
-                <VStack alignItems={'center'} style={{ paddingLeft: 15, paddingTop: 20, }}>
+                <VStack justifyContent={'center'} style={{ paddingLeft: 15, paddingTop: 20, }}>
                     <Text style={styles.greetfr}>Welcome</Text>
                     <Text style={styles.greetEn}>Bienvenue</Text>
                 </VStack>
-                </Center>
                 <View>
                     <FlatList
                         overScrollMode='never'

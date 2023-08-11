@@ -1,8 +1,5 @@
-import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
-import { View } from "native-base";
 import * as SCREENS from "../constants/screens";
-import ContainerBottom from "./ContainerBottom";
 import ContainerStack from "./ContainerStack";
 import HomeStack from "./HomeStack";
 

@@ -13,9 +13,14 @@ import file from "../../assets/img/file.png"
 import faq from "../../assets/img/faq.png"
 import about from "../../assets/img/about.png"
 import logout from "../../assets/img/logout.png"
+import { useDispatch } from 'react-redux'
+import { userLogout } from '../../redux/User/action'
 
 function Profile() {
   const navigation = useNavigation()
+  const dispatch = useDispatch()
+
+
   return (
     <View style={{ ...styles.contenair }}>
       <Header title={"A propos de votre compte"} />
@@ -36,7 +41,7 @@ function Profile() {
           <ParameterList label={"Mon Profile"} />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={()=>navigation.navigate(SCREENS.SETTINGS)}
+          onPress={() => navigation.navigate(SCREENS.SETTINGS)}
           style={styles.item}>
           <ParameterList label={"Parametres"} icon={settingIcon} />
         </TouchableOpacity>
@@ -46,12 +51,12 @@ function Profile() {
         <TouchableOpacity style={styles.item} onPress={() => navigation.navigate(SCREENS.FAQ_SCREEN)}>
           <ParameterList icon={faq} label={"FAQ et Assistance"} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() =>navigation.navigate(SCREENS.ABOUT_US)} style={styles.item}>
+        <TouchableOpacity onPress={() => navigation.navigate(SCREENS.ABOUT_US)} style={styles.item}>
           <ParameterList icon={about} label={"A propos"} />
         </TouchableOpacity>
       </View>
       <View style={styles.section3}>
-        <TouchableOpacity onPress={()=>navigation.navigate(SCREENS.LOGIN)} style={{ ...styles.item, height: "50%" }}>
+        <TouchableOpacity onPress={() => dispatch(userLogout())} style={{ ...styles.item, height: "50%" }}>
           <ParameterList icon={logout} label={"Deconnexion"} />
         </TouchableOpacity>
       </View>

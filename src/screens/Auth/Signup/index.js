@@ -21,7 +21,7 @@ import styles from "./styles";
 import moment from "moment";
 import * as SCREENS from "../../../constants/screens";
 import { useDispatch, connect } from "react-redux";
-import { userRegistration } from "../../../redux/User/action"
+import { userRegistration, reinitialize } from "../../../redux/User/action"
 import { isValidEmail } from "../../../utils/helper";
 
 const Signup = ({ navigation, error, loading, errorMsg }) => {
@@ -92,7 +92,7 @@ const Signup = ({ navigation, error, loading, errorMsg }) => {
   const isFieldsEmpty = checkEmptyField()
 
   useEffect(() => {
-    if (error) {
+    if (error && errorMsg !== '') {
       toast.show({
         render: () => {
           return (
@@ -122,8 +122,6 @@ const Signup = ({ navigation, error, loading, errorMsg }) => {
     }
   }, [error])
 
-
-
   const onSubmit = () => {
     if (!isFieldsEmpty) {
       dispatch(userRegistration({ ...formData, active: true }))
@@ -145,8 +143,8 @@ const Signup = ({ navigation, error, loading, errorMsg }) => {
       <VStack space={5} mt={5} style={styles.contentForm}>
         <Center>
           <HStack alignItems={'center'} space={1}>
-            <Icon as={<Ionicons name="alert-circle" size={24} />} size={5} color={colors.danger}/>
-            <Text style={{color: colors.danger}}>Veuillez remplir tous les champs</Text>
+            <Icon as={<Ionicons name="alert-circle" size={24} />} size={5} color={colors.danger} />
+            <Text style={{ color: colors.danger }}>Veuillez remplir tous les champs</Text>
           </HStack>
         </Center>
         <VStack space={4}>
@@ -308,7 +306,7 @@ const Signup = ({ navigation, error, loading, errorMsg }) => {
         <Center w={"100%"} mt={5}>
           <PrimaryButton
             title="Créez votre compte"
-            isLoadingText="En cours..."
+            isLoadingText="Veuillez patienter..."
             isLoading={loading}
             style={styles.submitBtnText}
             color={colors.primary}
@@ -323,7 +321,10 @@ const Signup = ({ navigation, error, loading, errorMsg }) => {
             </Text>
             <Text
               style={[styles.forgetPassword, styles.registerText]}
-              onPress={() => navigation.navigate(SCREENS.LOGIN)}
+              onPress={() => {
+                dispatch(reinitialize())
+                navigation.navigate(SCREENS.LOGIN)
+              }}
             >
               Connectez-vous !
             </Text>

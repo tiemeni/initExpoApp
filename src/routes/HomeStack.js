@@ -1,16 +1,9 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import * as SCREENS from "../constants/screens";
 import Home from "../screens/Home";
-import FAQ from "../screens/FAQ";
 import PhoneConfirm from "../screens/PhoneConfirm";
-import Notifications from "../screens/Notifications";
 import Login from "../screens/Auth/Login";
-import MakeAppointment from "../screens/MakeAppointment"
 import Signup from "../screens/Auth/Signup";
-import Profile from "../screens/Profile";
-import MonProfile2 from "../screens/MonProfile/index2";
-import MesRdv from "../screens/MesRdv";
-import Transaction from "../screens/Transactions";
 
 const Stack = createStackNavigator();
 
