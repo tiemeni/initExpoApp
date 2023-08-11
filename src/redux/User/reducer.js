@@ -41,6 +41,32 @@ const UserReducer = (state = initialState, action) => {
                 error: true,
                 success: false
             }
+            case types.UPDATE_USER_INFORMATION_RESQUEST:
+            return {
+                ...state,
+                userInfos: action.payload,
+                loading: true,
+                error: false,
+                errorMsg: "",
+                success: null
+            }
+        case types.UPDATE_USER_INFORMATION_SUCCESS:
+            console.log(action.payload)
+            return {
+                ...state,
+                userInfos: action.payload,
+                loading: false,
+                success: true
+            }
+        case types.UPDATE_USER_INFORMATION_FAILED:
+            return {
+                ...state,
+                errorMsg: action.payload,
+                loading: false,
+                error: true,
+                success: false
+            }
+            
         case types.LOGIN_REQUEST:
             return {
                 ...state,

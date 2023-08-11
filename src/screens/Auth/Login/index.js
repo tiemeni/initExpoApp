@@ -21,6 +21,7 @@ import * as SCREENS from "../../../constants/screens";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
 import { useDispatch, connect } from "react-redux";
 import { userLogin, reinitialize } from "../../../redux/User/action"
+import { useTranslation } from "react-i18next";
 
 const Login = ({ navigation, error, loading, errorMsg }) => {
   const toast = useToast();

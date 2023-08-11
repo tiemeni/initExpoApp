@@ -22,4 +22,5 @@ const unAuthRequest = async (contentType, method, url, data) => {
 };
 
 export const postUnauthRequest = (url, data) => unAuthRequest(json, 'POST', url, data);
+export const patchUnauthRequest = (url, data) => unAuthRequest(json, 'PATCH', url, data);
 export const getUnauthRequest = (url) => unAuthRequest(json, 'GET', url);
