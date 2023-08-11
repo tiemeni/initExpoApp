@@ -305,7 +305,7 @@ const Payment = ({ navigation }) => {
                   }}
                 >
                   <Pressable
-                   style={styles.paymentMethod}
+                    style={styles.paymentMethod}
                     onPress={() => handlePaymentMethodPress("orange_money")}
                   >
                     <Image
@@ -365,6 +365,7 @@ const Payment = ({ navigation }) => {
         {renderPaymentForm() && (
           <VStack flex={1} style={styles.btnBox}>
             <PrimaryButton
+              // disabled={!formData.name || !formData.cardNumber || !formData.expirationDate || !formData.securityCode}
               title="Confirmez et Continuez"
               isLoadingText="Paiement en cours"
               isLoading={isLoading}

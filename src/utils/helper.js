@@ -1,5 +1,4 @@
 import colors from "../constants/colours"
-import logo from  "../assets/img/logo.png"
 
 export const notifications = [
     {
@@ -171,4 +170,29 @@ export const specialites = [
         id: 5,
         value: "Ondontostomatologie"
     },
+    {
+        id: 6,
+        value: "Gériaitrie"
+    }
 ]
+
+export const isValidEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+};
+
+export const sortArray = (key, array) => {
+    const sorted = array.reduce((rv, x) => {
+        let v = key instanceof Function ? key(x) : x[key];
+        let el = rv.find((r) => r && r.key === v);
+        if (el) {
+            el.values.push(x);
+        } else {
+            rv.push(
+                { key: v, values: [x] }
+            );
+        }
+        return rv;
+    }, []);
+    return sorted;
+}

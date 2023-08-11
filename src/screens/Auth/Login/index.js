@@ -16,14 +16,9 @@ import { useValidation } from "react-native-form-validator";
 import colors from "../../../constants/colours";
 import styles from "./styles";
 import logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
-import {
-  HOME_CONTAINER_ROUTE,
-  PHONE_CONFIRMATION_SCREEN,
-  SIGNUP,
-} from "../../../constants/screens";
+import * as SCREENS from "../../../constants/screens";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
 import { useDispatch } from "react-redux";
-import { login } from "../../../redux/Auth/action";
 
 const Login = ({ navigation }) => {
 
@@ -33,15 +28,12 @@ const Login = ({ navigation }) => {
   });
   const dispatch = useDispatch();
   const [loader, setLoading] = useState(false)
-  const [viewPass, setView] = useState(false);
+  const [show, setShow] = useState(false);
   const [isCkeck, setIsCheck] = useState(false);
   const { isFieldInError } = useValidation({
     state: formFields,
   });
 
-  const handleViewPass = () => {
-    setView(!viewPass);
-  };
   const handleCheck = () => {
     setIsCheck(!isCkeck);
   };
@@ -59,37 +51,20 @@ const Login = ({ navigation }) => {
     formFields.password.length < 6 ||
     formFields.email.length < 4;
 
-  const HanleLogin = () => {
-    console.log('info pour le login', formFields);
-    setLoading(true);
-    // dispatch(login(formFields))
-    setTimeout(() => {
-      navigation.navigate(HOME_CONTAINER_ROUTE);
-      setLoading(false);
-    }, 5000); // 10000 ms = 10 secondes
+  const handleSubmit = () => {
+    navigation.navigate(SCREENS.HOME_CONTAINER_ROUTE);
   };
 
   return (
-    <ScrollView style={styles.contenair}>
+    <ScrollView style={styles.container}>
       <View flex={1}>
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            marginBottom: 30,
-            marginTop: 10,
-          }}
-        >
-          <Image
-            style={{ width: 200, height: 150, marginTop: 20 }}
-            source={logo}
-            alt={logo}
-          />
+        <View style={styles.logoBox}>
+          <Image style={styles.image} source={logo} alt="logo" />
           <Text style={styles.text1}>
             S’il vous plaît, entrez votre email et votre mot de passe
           </Text>
         </View>
-        <VStack space={5} style={styles.formContent}>
+        <VStack space={4} style={styles.formContent}>
           <Input
             h={50}
             rounded={50}
@@ -126,39 +101,28 @@ const Login = ({ navigation }) => {
               />
             }
             InputRightElement={
-              formFields.password === "" ? (
-                ""
-              ) : (
-                <Pressable onPress={handleViewPass}>
-                  <Icon
-                    as={
-                      viewPass ? (
-                        <MaterialIcons name="remove-red-eye" />
-                      ) : (
-                        <Ionicons name="ios-eye-off" />
-                      )
-                    }
-                    size={5}
-                    mr="4"
-                    color={colors.primary}
-                  />
-                </Pressable>
-              )
+              <Pressable onPress={() => setShow(!show)}>
+                <Icon
+                  as={
+                    show ? (
+                      <MaterialIcons name="remove-red-eye" />
+                    ) : (
+                      <Ionicons name="ios-eye-off" />
+                    )
+                  }
+                  size={5}
+                  mr="4"
+                  color={colors.primary}
+                />
+              </Pressable>
             }
-            type={viewPass ? "text" : "password"}
+            type={show ? "text" : "password"}
             placeholder="Entrer votre mot de passe"
             onChangeText={(value) => handleInputChange("password", value)}
             value={formFields.password}
           />
           {(isFieldInError("email") || isFieldInError("password")) && (
-            <Text
-              style={{
-                color: "red",
-                fontSize: 14,
-                marginTop: 3,
-                marginLeft: 8,
-              }}
-            >
+            <Text style={styles.errorMsg}>
               Remplissez bien les champs !
             </Text>
           )}
@@ -188,34 +152,35 @@ const Login = ({ navigation }) => {
             Se souvenir de moi
           </Text>
         </HStack>
-        <Pressable
-          onPress={() => navigation.navigate(PHONE_CONFIRMATION_SCREEN)}
-        >
-          <Text style={styles.fogetpass}>Avez-vous oublié votre mot de passe ?</Text>
+
+        <Pressable onPress={() => navigation.navigate(SCREENS.PHONE_CONFIRMATION_SCREEN)}>
+          <Text style={styles.forgetPassword} mt={5}>Mot de passe oublié ?</Text>
         </Pressable>
-        <Center>
+
+        <Center mt={1}>
           <PrimaryButton
             title="Se connecter"
             isLoadingText="Connexion en cours..."
             isLoading={loader}
             style={styles.submitBtnText}
-            color={isFieldsEmpty ? colors.text_grey_hint : colors.primary}
-            onPress={HanleLogin}
+            color={colors.primary}
+            onPress={handleSubmit}
             disabled={isFieldsEmpty}
           />
         </Center>
         <Center>
-          <VStack mt={2}>
-            <Text style={{ marginBottom: 10, color: "#858585" }}>
-              Pas encore de compte ?{" "}
-              <Text
-                style={styles.fogetpass}
-                onPress={() => navigation.navigate(SIGNUP)}
-              >
-                Inscrivez-vous !
-              </Text>
+          <HStack mt={5}>
+            <Text style={styles.labelText}>
+              Pas encore de compte?
             </Text>
-          </VStack>
+            <Text
+              style={[styles.forgetPassword, styles.registerText]}
+              onPress={() => navigation.navigate(SCREENS.SIGNUP)}
+              ml={1}
+            >
+              Inscrivez-vous !
+            </Text>
+          </HStack>
         </Center>
         {/*<SocialMedia/>*/}
       </View>

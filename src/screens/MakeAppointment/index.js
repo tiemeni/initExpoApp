@@ -16,6 +16,7 @@ import { Dialog, RadioButton } from 'react-native-paper';
 import ModaleChoixProfession from '../../components/ModaleChoixSpecialite';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProfessionForRdv, setShouldSeeBehind } from '../../redux/commons/action';
+import { getClinique, getDispo, getMotifs, getPraticiens, setRDVForm } from '../../redux/RDV/actions';
 
 
 const HeaderBox = ({ number, title, hintText }) => {
@@ -38,15 +39,25 @@ const HeaderBox = ({ number, title, hintText }) => {
 
 const MakeAppointment = ({ navigation, route }) => {
     const isProfession = useSelector(state => state.Common.isProfession)
+    const idCentre = useSelector(state => state.Common.idc)
+    const [actualDayCreneaux, setActualDayCreneau] = useState([])
+    const RDVForm = useSelector(state => state.RdvForm.rdvForm)
+    const dispo = useSelector(state => state.RdvForm.dispo)
+    const motifs = useSelector(state => state.RdvForm.motifs)
+    const specialities = useSelector(state => state.RdvForm.specialities)
+    const cliniques = useSelector(state => state.RdvForm.cliniques)
+    const praticiens = useSelector(state => state.RdvForm.praticiens)
+    console.log('praticiens--', praticiens)
+    // const selectedProfession = isProfession ? professions.
+    console.log("prof", isProfession)
     const shouldSeeBehind = useSelector(state => state.Common.shouldSeeBehind)
     const screenWidth = Dimensions.get('screen').width;
     const dispatch = useDispatch()
     console.log("-----", shouldSeeBehind)
-    const [wait, setWait] = useState(true)
     const [formData, setFormData] = React.useState({
         motif: null,
         praticien: null,
-        profession: isProfession,
+        profession: true,
         period: {
             day: null,
             time: null
@@ -73,6 +84,11 @@ const MakeAppointment = ({ navigation, route }) => {
                         time: null
                     }
                 });
+                dispatch(setRDVForm({
+                    ...RDVForm,
+                    motif: value,
+                }))
+                dispatch(getClinique(value))
                 break;
             case 'praticien':
                 setFormData({
@@ -83,49 +99,72 @@ const MakeAppointment = ({ navigation, route }) => {
                         time: null
                     }
                 });
+                dispatch(setRDVForm({
+                    ...RDVForm,
+                    praticien: value,
+                }))
+                dispatch(getDispo({ idCentre: idCentre, idp: value }))
                 break;
             case 'profession':
                 setFormData({
                     ...formData,
                     profession: value,
                 });
+                dispatch(setRDVForm({
+                    ...RDVForm,
+                    profession: value,
+                }))
                 break;
             case 'speciality':
                 setFormData({
                     ...formData,
                     speciality: value,
                 });
+                dispatch(setRDVForm({
+                    ...RDVForm,
+                    specialities: value,
+                }))
+                dispatch(getMotifs({ id: value, forSpec: true }))
                 break;
             case 'lieu':
                 setFormData({
                     ...formData,
                     lieu: value,
                 });
+                dispatch(setRDVForm({
+                    ...RDVForm,
+                    lieu: value,
+                }))
+                dispatch(getPraticiens({ id: value, ids: RDVForm.specialities }))
                 break;
             case 'day':
                 setFormData({
                     ...formData,
                     period: { time: null, day: value }
                 });
+                dispatch(setRDVForm({
+                    ...RDVForm,
+                    period: { time: null, day: value }
+                }))
+                setActualDayCreneau(generateValuesTab(value))
                 break;
             case 'time':
                 setFormData({ ...formData, period: { ...formData.period, time: value } });
+                dispatch(setRDVForm({
+                    ...RDVForm,
+                    period: { ...formData.period, time: value }
+                }))
                 break;
             default:
                 break;
         }
+        console.log(formData)
     }
 
     const handlePress = () => {
-        console.log(formData)
+        console.log(RDVForm)
         navigation.navigate(SCREENS.PAYMENT)
     }
-
-    useEffect(() => {
-        // setTimeout(() => {
-        //     setWait(false)
-        // }, 2000)
-    })
 
     useEffect(() => {
         return () => {
@@ -133,6 +172,25 @@ const MakeAppointment = ({ navigation, route }) => {
             dispatch(setShouldSeeBehind(false))
         }
     }, [])
+
+    const generateKeyTab = tab => {
+        let keyTab = []
+        tab.forEach((e) => {
+            keyTab.push(e.key)
+        })
+        console.log(keyTab)
+        return keyTab
+    }
+
+    const generateValuesTab = key => {
+        let valuesTab = []
+        dispo.forEach((e) => {
+            if (e.key === key) {
+                valuesTab = e.values
+            }
+        })
+        return valuesTab
+    }
 
     return (
         <View bgColor={colors.white} flex={1} style={styles.container}>
@@ -150,7 +208,7 @@ const MakeAppointment = ({ navigation, route }) => {
                     </Pressable>
                 </Box>
             </HStack>
-            <ScrollView showsVerticalScrollIndicator={false} height={"80%"} borderColor={'red'}>
+            <ScrollView showsVerticalScrollIndicator={false} height={"80%"} borderColor={'red'} mb={2}>
                 {shouldSeeBehind && isProfession === true && <VStack mt={5} style={styles.card}>
                     <HeaderBox
                         number={1}
@@ -160,19 +218,19 @@ const MakeAppointment = ({ navigation, route }) => {
                         <Box>
                             <SelectList
                                 setSelected={(val) => {
-                                    console.log(val)
+                                    console.log("val--", val)
                                     handleChange('speciality', val)
                                 }}
-                                data={motifs.map((e) => {
-                                    return { key: e.id, value: e.label }
+                                data={specialities?.map((e) => {
+                                    return { key: e._id, value: e.label }
                                 })}
-                                save="value"
+                                save="key"
                                 boxStyles={{ borderRadius: 5 }}
                                 dropdownStyles={{
                                     borderRadius: 5,
                                     marginTop: 0,
                                 }}
-                                notFoundText={"Aucun motif trouvé"}
+                                notFoundText={"Aucune specialité trouvée"}
                                 searchPlaceholder={'Recherche'}
                                 searchicon={<Icon
                                     as={MaterialIcons}
@@ -196,9 +254,9 @@ const MakeAppointment = ({ navigation, route }) => {
                                     handleChange('motif', val)
                                 }}
                                 data={motifs.map((e) => {
-                                    return { key: e.id, value: e.label }
+                                    return { key: e._id, value: e.label }
                                 })}
-                                save="value"
+                                save="key"
                                 boxStyles={{ borderRadius: 5 }}
                                 dropdownStyles={{
                                     borderRadius: 5,
@@ -234,14 +292,15 @@ const MakeAppointment = ({ navigation, route }) => {
                             hintText={'Sélectionner une clinique pour votre rendez-vous'} />
                         <VStack style={styles.inputBox}>
                             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-                                {practiciens.map((p, index) => {
+                                {cliniques.map((p, index) => {
                                     console.log('rended praticiens 2')
                                     return <MedItem
-                                        key={p.id}
-                                        value={formData.lieu}
+                                        key={p._id}
+                                        value={p?._id}
                                         trigger={'lieu'}
                                         handleChange={handleChange}
-                                        infosPraticien={p}
+                                        infosPraticien={null}
+                                        infosClinique={p}
                                         index={index}
                                     />
                                 })}
@@ -267,12 +326,13 @@ const MakeAppointment = ({ navigation, route }) => {
                             hintText={'Sélectionner un praticien pour votre rendez-vous'} />
                         <VStack style={styles.inputBox}>
                             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-                                {practiciens.map((p, index) => {
+                                {praticiens.map((p, index) => {
                                     console.log('rended praticiens 2')
                                     return <MedItem
-                                        key={p.id}
-                                        value={formData.praticien}
-                                        handleChange={() => handleChange("praticien", p?.id)}
+                                        key={p._id}
+                                        value={p._id}
+                                        trigger={'praticien'}
+                                        handleChange={handleChange}
                                         infosPraticien={p}
                                         index={index}
                                     />
@@ -300,23 +360,23 @@ const MakeAppointment = ({ navigation, route }) => {
                             hintText={'Sélectionner une période pour votre rendez-vous'} />
                         <VStack style={styles.inputBox}>
                             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-                                {appointmentDate.map((d, index) =>
-                                    <Pressable onPress={() => handleChange('day', d.id)} key={d.id}>
+                                {generateKeyTab(dispo).map((d, index) =>
+                                    <Pressable onPress={() => handleChange('day', d)} key={d}>
                                         <Box
                                             ml={index !== 0 ? 2 : 0}
                                             style={{
                                                 ...styles.period,
-                                                borderColor: formData.period.day === d.id ? colors.trans_primary : colors.text_grey_hint,
-                                                backgroundColor: formData.period.day === d.id ? colors.trans_primary : 'transparent',
+                                                borderColor: formData.period.day === d ? colors.trans_primary : colors.text_grey_hint,
+                                                backgroundColor: formData.period.day === d ? colors.trans_primary : 'transparent',
                                             }}
                                         >
                                             <Text
                                                 style={{
                                                     ...styles.periodText,
-                                                    color: formData.period.day === d.id ? colors.primary : colors.black,
+                                                    color: formData.period.day === d?.id ? colors.primary : colors.black,
                                                 }}
                                             >
-                                                {d.date}
+                                                {d}
                                             </Text>
                                         </Box>
                                     </Pressable>
@@ -343,23 +403,23 @@ const MakeAppointment = ({ navigation, route }) => {
                                     </Box>
                                     <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
                                         <HStack alignItems={'center'}>
-                                            {disponibilites.map((d, index) =>
-                                                <Pressable onPress={() => handleChange('time', d.id)} key={d.id}>
+                                            {actualDayCreneaux.map((d, index) =>
+                                                <Pressable onPress={() => handleChange('time', d.start)} key={d.start}>
                                                     <Box
                                                         ml={index !== 0 ? 2 : 0}
                                                         style={{
                                                             ...styles.period,
-                                                            borderColor: formData.period.time === d.id ? colors.trans_primary : colors.text_grey_hint,
-                                                            backgroundColor: formData.period.time === d.id ? colors.trans_primary : 'transparent',
+                                                            borderColor: formData.period.time === d.start ? colors.trans_primary : colors.text_grey_hint,
+                                                            backgroundColor: formData.period.time === d.start ? colors.trans_primary : 'transparent',
                                                         }}
                                                     >
                                                         <Text
                                                             style={{
                                                                 ...styles.periodText,
-                                                                color: formData.period.time === d.id ? colors.primary : colors.black,
+                                                                color: formData.period.time === d.start ? colors.primary : colors.black,
                                                             }}
                                                         >
-                                                            {d.period}
+                                                            {d.start}
                                                         </Text>
                                                     </Box>
                                                 </Pressable>

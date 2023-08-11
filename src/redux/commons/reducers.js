@@ -1,4 +1,4 @@
-import { LAUNCH_APP, SET_PROFESSION, SHOULD_SEE_BEHIND } from "./types";
+import { LAUNCH_APP, SETIDCENTRE, SET_PROFESSION, SHOULD_SEE_BEHIND } from "./types";
 
 let initialState = {
     shouldSeeBehind: false
@@ -16,6 +16,12 @@ const common = (state = initialState, action) => {
                 ...state,
                 isProfession: action.p
             };
+        case SETIDCENTRE:
+            console.log(action.payload)
+            return {
+                ...state,
+                idc: action.payload
+            }
         case SHOULD_SEE_BEHIND:
             return {
                 ...state,

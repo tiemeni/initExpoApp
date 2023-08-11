@@ -4,12 +4,23 @@ import { Box, HStack, Icon, Pressable, Text } from "native-base";
 import { FontAwesome, Fontisto, Entypo } from '@expo/vector-icons';
 import styles from './style';
 import colors from "../../constants/colours";
+import { useDispatch, useSelector } from "react-redux";
+import { setRDVForm } from "../../redux/RDV/actions";
+import { setIdCentre } from "../../redux/commons/action";
 
-const MedItem = ({ value, infosPraticien, handleChange, index, trigger }) => {
-    let isSelected = value === infosPraticien.id;
+const MedItem = ({ value, infosPraticien, handleChange, index, trigger, infosClinique }) => {
+    const dispatch = useDispatch()
+    // const RDVForm = useSelector(state => state.RdvForm.rdvForm)
+    let isSelected = infosPraticien ? value === infosPraticien.id : value === infosClinique._id;
 
     const handlePress = () => {
-        handleChange(trigger, infosPraticien.id)
+        if (infosPraticien) {
+            console.log("com--", infosPraticien.idCentre)
+            dispatch(setIdCentre(infosPraticien.idCentre))
+            handleChange(trigger, infosPraticien._id)
+        } else {
+            handleChange(trigger, infosClinique._id)
+        }
     }
 
     return (
@@ -23,15 +34,15 @@ const MedItem = ({ value, infosPraticien, handleChange, index, trigger }) => {
                 }}>
                 <HStack alignItems={'center'}>
                     <Icon color={colors.primary} as={Fontisto} name='doctor' />
-                    <Text ml={1} style={styles.medName}>Dr. {infosPraticien.name}</Text>
+                    <Text ml={1} style={styles.medName}>{infosPraticien ? "Dr " + infosPraticien.name : infosClinique.label}</Text>
                 </HStack>
                 <HStack mt={1} alignItems={'center'}>
                     <Icon color={colors.primary} as={FontAwesome} name='hospital-o' />
-                    <Text ml={1} style={styles.medCenter}>{infosPraticien.center}</Text>
+                    <Text ml={1} style={styles.medCenter}>{infosPraticien ? infosPraticien.email : infosClinique.label}</Text>
                 </HStack>
                 <HStack mt={1} alignItems={'center'}>
                     <Icon color={colors.secondary} as={Entypo} name='wallet' />
-                    <Text ml={1} style={styles.medTax}>{infosPraticien.cost}FCfa</Text>
+                    <Text ml={1} style={styles.medTax}>{infosPraticien ? infosPraticien.telephone : "5000 fcfa"}</Text>
                 </HStack>
             </Box>
         </Pressable >

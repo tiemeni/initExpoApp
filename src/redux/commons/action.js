@@ -1,4 +1,4 @@
-import { LAUNCH_APP, SET_PROFESSION, SHOULD_SEE_BEHIND } from "./types"
+import { LAUNCH_APP, SETIDCENTRE, SET_PROFESSION, SHOULD_SEE_BEHIND } from "./types"
 
 export const setApp = (step) => {
     return {
@@ -18,5 +18,12 @@ export const setShouldSeeBehind = s => {
     return {
         type: SHOULD_SEE_BEHIND,
         s
+    }
+}
+
+export const setIdCentre = idc => {
+    return {
+        type: SETIDCENTRE,
+        idc
     }
 }
