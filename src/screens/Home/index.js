@@ -5,7 +5,7 @@ import { setApp } from "../../redux/commons/action";
 import logo from "../../assets/img/hospi-rdv__9_-removebg-preview.png";
 import { Center, Image, Spinner, Text, VStack } from "native-base";
 import { useEffect } from "react";
-import { userLocalAuth, userLogout } from "../../redux/User/action";
+import { userLocalAuth } from "../../redux/User/action";
 import colors from "../../constants/colours";
 
 
@@ -32,7 +32,7 @@ const Home = ({ loading, localAuth }) => {
                             alt="logo" />
                         <Spinner accessibilityLabel="Loading" size={'sm'} />
                         <Center>
-                            <Text color={colors.text_grey_hint} fontSize={14}>Tentative de connexion...</Text>
+                            <Text color={colors.text_grey_hint} fontSize={14}>Paatientez...</Text>
                         </Center>
                     </VStack>
                 </Center>

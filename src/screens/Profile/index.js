@@ -1,4 +1,4 @@
-import { Divider, View } from 'native-base'
+import { View } from 'native-base'
 import React from 'react'
 import { Text, TouchableOpacity } from 'react-native'
 import Header from '../../components/Header'
@@ -7,12 +7,6 @@ import UserAvatar from '../../components/UserAvatar'
 import styles from "./styles"
 import * as SCREENS from '../../constants/screens'
 import { useNavigation } from '@react-navigation/native'
-import settingIcon from "../../assets/img/settings.png"
-import user from "../../assets/img/user.png"
-import file from "../../assets/img/file.png"
-import faq from "../../assets/img/faq.png"
-import about from "../../assets/img/about.png"
-import logout from "../../assets/img/logout.png"
 import { useDispatch } from 'react-redux'
 import { userLogout } from '../../redux/User/action'
 import { Ionicons, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';

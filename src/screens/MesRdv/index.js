@@ -1,24 +1,18 @@
 import React, { useEffect, useState } from "react";
 import {
-  Avatar,
   Box,
   HStack,
   ScrollView,
   View,
   VStack,
-  Skeleton,
-  Center,
 } from "native-base";
-import { ActivityIndicator, Image, StyleSheet, Text } from "react-native";
-import colors from "../../constants/colours";
-import plusBlack from "../../assets/img/plus_black.png";
+import { Text } from "react-native";
 import Rdv from "../../components/Rdv";
-import { Entypo } from "@expo/vector-icons";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as SCREENS from "../../constants/screens";
-import styles from "./style";
 import { Skelette } from "./squelette";
+import CustomHeader from '../../components/CustomHeader';
 
 
 export default function MesRdv({ navigation }) {

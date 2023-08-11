@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
 
 const CustomHeader = ({ navigation, mb, userInfos, screen }) => {
     const { user } = userInfos
+    console.log("user", user)
 
     return (
         <HStack

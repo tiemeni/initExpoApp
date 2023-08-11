@@ -13,7 +13,7 @@ import {
   Box,
   useToast
 } from "native-base";
-import { MaterialIcons, MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons, Ionicons, Foundation, AntDesign } from "@expo/vector-icons";
 import logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
 import colors from "../../../constants/colours";
@@ -22,30 +22,27 @@ import moment from "moment";
 import * as SCREENS from "../../../constants/screens";
 import { useDispatch, connect } from "react-redux";
 import { userRegistration, reinitialize } from "../../../redux/User/action"
-import { useTranslation } from "react-i18next";
 import { isValidEmail } from "../../../utils/helper";
 import CustomToast from "../../../components/CustomToast";
-import { render } from "react-dom";
 
-const Signup = ({ navigation, error, loading, errorMsg }) => {
+const Signup = ({ navigation, error, loading, errorMsg, success }) => {
   const toast = useToast()
   const dispatch = useDispatch();
   const [date, setDate] = useState(moment().format("DD/MM/YYYY"));
   const [isCkeck, setIsCheck] = useState(false);
-  const translate = useTranslation().t
   const [show, setShow] = useState(false);
 
   const [formData, setFormData] = useState({
-    name: "",
-    surname: "",
-    email: "",
-    password: "",
-    telephone: "",
+    name: "DONGMO",
+    surname: "Donald",
+    email: "dongmo@gmail.com",
+    password: "thepunisher",
+    telephone: "698789098",
     birthdate: "",
   });
   const [errors, setErrors] = useState({
     email: isValidEmail(formData.email),
-    password: length = 8,
+    password: null,
     birth: moment().format("DD/MM/YYYY")
   })
 
@@ -111,14 +108,36 @@ const Signup = ({ navigation, error, loading, errorMsg }) => {
       toast.show({
         render: () => {
           return (
-            <CustomToast message={errorMsg} />
+            <CustomToast
+              message={errorMsg}
+              color={colors.danger}
+              bgColor={"red.100"}
+              icon={<Foundation name="alert" size={24}/>}
+              iconColor={colors.danger}
+            />
           );
         },
         placement: "top",
         duration: 5000
       })
     }
-  }, [error])
+
+    if (success) {
+      toast.show({
+        render: () => {
+          return <CustomToast
+            message={"Compte crée avec succès"}
+            color={colors.success}
+            bgColor={"green.100"}
+            icon={<AntDesign name="checkcircle" size={24} />}
+            iconColor={colors.success}
+          />
+        },
+        placement: "top",
+        duration: 1000
+      })
+    }
+  }, [error, success])
 
   const onSubmit = () => {
     if (!isFieldsEmpty) {
@@ -127,7 +146,13 @@ const Signup = ({ navigation, error, loading, errorMsg }) => {
       toast.show({
         render: () => {
           return (
-            <CustomToast message={'Veuillez remplir tous les champs'} />
+            <CustomToast
+              message={'Veuillez remplir tous les champs'}
+              color={colors.danger}
+              bgColor={"red.100"}
+              icon={<Foundation name="alert" size={24}/>}
+              iconColor={colors.danger}
+            />
           );
         },
         placement: "top",

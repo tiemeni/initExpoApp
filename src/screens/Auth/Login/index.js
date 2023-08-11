@@ -1,7 +1,6 @@
 import React from "react";
 import { Image, Pressable, View } from "react-native";
 import {
-  Box,
   Center,
   HStack,
   VStack,
@@ -12,7 +11,7 @@ import {
   useToast,
   Checkbox
 } from "native-base";
-import { MaterialIcons, Ionicons, Foundation } from "@expo/vector-icons";
+import { MaterialIcons, Ionicons, AntDesign, Foundation } from "@expo/vector-icons";
 import { useValidation } from "react-native-form-validator";
 import colors from "../../../constants/colours";
 import styles from "./styles";
@@ -21,8 +20,10 @@ import * as SCREENS from "../../../constants/screens";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
 import { useDispatch, connect } from "react-redux";
 import { userLogin, reinitialize } from "../../../redux/User/action"
+import CustomToast from "../../../components/CustomToast";
+import { useTranslation } from "react-i18next";
 
-const Login = ({ navigation, error, loading, errorMsg }) => {
+const Login = ({ navigation, error, loading, errorMsg, success }) => {
   const toast = useToast();
   const translate = useTranslation().t;
   const dispatch = useDispatch();
@@ -58,32 +59,35 @@ const Login = ({ navigation, error, loading, errorMsg }) => {
     if (error && errorMsg !== '') {
       toast.show({
         render: () => {
-          return (
-            <Box
-              bg="red.100"
-              px={4}
-              py={3}
-              rounded="md"
-              shadow={3}
-              _text={{ color: 'white' }}
-              w="100%"
-            >
-              <HStack space={2} flex={1} alignItems={'center'}>
-                <Icon
-                  as={<Foundation name="alert" size={24} color={colors.danger} />}
-                  size={5}
-                  color={colors.danger}
-                />
-                <Text>{errorMsg}</Text>
-              </HStack>
-            </Box>
-          );
+          return <CustomToast
+            message={"E-mail ou mot de passe incorrecte"}
+            color={colors.danger}
+            bgColor={"red.100"}
+            icon={<Foundation name="alert" size={24} />}
+            iconColor={colors.danger}
+          />
         },
         placement: "top",
         duration: 5000
       })
     }
-  }, [error])
+
+    if (success) {
+      toast.show({
+        render: () => {
+          return <CustomToast
+            message={"Authentification réussi"}
+            color={colors.success}
+            bgColor={"green.100"}
+            icon={<AntDesign name="checkcircle" size={24} />}
+            iconColor={colors.success}
+          />
+        },
+        placement: "top",
+        duration: 1000
+      })
+    }
+  }, [error, success])
 
   return (
     <ScrollView style={styles.container}>
@@ -91,7 +95,7 @@ const Login = ({ navigation, error, loading, errorMsg }) => {
         <View style={styles.logoBox}>
           <Image style={styles.image} source={logo} alt="logo" />
           <Text style={styles.text1}>
-          {translate('TEXT.LOGIN_TITRE') }</Text>
+            {translate('TEXT.LOGIN_TITRE')}</Text>
         </View>
         <VStack space={4} style={styles.formContent}>
           <Input
@@ -150,6 +154,7 @@ const Login = ({ navigation, error, loading, errorMsg }) => {
             onChangeText={(value) => handleInputChange("password", value)}
             value={formData.password}
           />
+
           {(isFieldInError("email") || isFieldInError("password")) && (
             <Text style={styles.errorMsg}>
               Remplissez bien les champs !
@@ -217,7 +222,8 @@ const Login = ({ navigation, error, loading, errorMsg }) => {
 const mapStateToProps = ({ UserReducer }) => ({
   loading: UserReducer.loading,
   error: UserReducer.error,
-  errorMsg: UserReducer.errorMsg
+  errorMsg: UserReducer.errorMsg,
+  success: UserReducer.success
 })
 
 export default connect(mapStateToProps)(Login);

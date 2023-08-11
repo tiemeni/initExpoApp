@@ -17,13 +17,14 @@ function* authRegister({ payload }) {
         const result = yield postUnauthRequest(url, payload);
 
         if (result.success) {
-            yield AsyncStorage.setItem('accessToken', result.data.access_token);
-            yield AsyncStorage.setItem('userInfos', result.data);
+            yield AsyncStorage.setItem('access_token', result.data.access_token);
+            yield AsyncStorage.setItem('userInfos', JSON.stringify(result.data));
             if (payload.saveCredentials) yield AsyncStorage.setItem('userCredentials', JSON.stringify(payload));
 
-
             yield put({ type: types.REGISTER_USER_SUCCESS, payload: result.data })
-            RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
+            setTimeout(() => {
+                RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
+            }, 1000);
         } else {
             yield put({ type: types.REGISTER_USER_FAILED, payload: result.message })
         }
@@ -48,7 +49,9 @@ function* authLogin({ payload }) {
             }
 
             yield put({ type: types.LOGIN_SUCCESS, payload: result.data })
-            RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
+            setTimeout(() => {
+                RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
+            }, 1000);
         } else {
             yield put({ type: types.LOGIN_FAILED, payload: result.message })
         }
