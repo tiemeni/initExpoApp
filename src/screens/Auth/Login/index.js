@@ -60,7 +60,7 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
       toast.show({
         render: () => {
           return <CustomToast
-            message={"E-mail ou mot de passe incorrecte"}
+            message={errorMsg}
             color={colors.danger}
             bgColor={"red.100"}
             icon={<Foundation name="alert" size={24} />}
