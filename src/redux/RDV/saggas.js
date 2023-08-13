@@ -154,7 +154,7 @@ function* postRDV({ data }) {
             yield put({ type: types.POST_RDV_REQUEST_SUCCESS, payload: rdv?.data })
             yield put({ type: MY_FICHES, payload: idFiche })
             yield setTimeout(() => {
-                RootNavigation.navigate(SCREENS.RDV)
+                // RootNavigation.navigate(SCREENS.RDV)
                 put({ type: "CLEAR_ERR_SUCC" })
             }, 3000)
         } else {

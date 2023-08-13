@@ -110,57 +110,57 @@ const Payment = ({ navigation }) => {
   };
 
   const onSubmitPayment = () => {
-    // setIsLoading(true);
+    setIsLoading(true);
     dispatch(postRDV({ ...formRDV, ...userInfo, }))
-    // setTimeout(() => {
-    //   setIsModalVisible(true);
-    //   setIsLoading(false);
-    // }, 5000);
+    setTimeout(() => {
+      setIsModalVisible(true);
+      setIsLoading(false);
+    }, 3000);
   };
 
   useEffect(() => {
-    if (isModalVisible) {
+    if (success) {
       setShowLoaderInModal(true);
       const timeoutId = setTimeout(() => {
         handleCloseModal();
-      }, 3000);
+      }, 4000);
       return () => clearTimeout(timeoutId);
     }
   }, [isModalVisible, success]);
 
-  React.useEffect(() => {
-    if (error) {
-      toast.show({
-        render: () => {
-          return <CustomToast
-            message={"Une erreur est survenue !"}
-            color={colors.danger}
-            bgColor={"red.100"}
-            icon={<Foundation name="alert" size={24} />}
-            iconColor={colors.danger}
-          />
-        },
-        placement: "top",
-        duration: 5000
-      })
-    }
+  // React.useEffect(() => {
+  //   if (error) {
+  //     toast.show({
+  //       render: () => {
+  //         return <CustomToast
+  //           message={"Une erreur est survenue !"}
+  //           color={colors.danger}
+  //           bgColor={"red.100"}
+  //           icon={<Foundation name="alert" size={24} />}
+  //           iconColor={colors.danger}
+  //         />
+  //       },
+  //       placement: "top",
+  //       duration: 5000
+  //     })
+  //   }
 
-    if (success) {
-      toast.show({
-        render: () => {
-          return <CustomToast
-            message={"Rendez-vous crée avec succès !"}
-            color={colors.success}
-            bgColor={"green.100"}
-            icon={<AntDesign name="checkcircle" size={24} />}
-            iconColor={colors.success}
-          />
-        },
-        placement: "top",
-        duration: 3000
-      })
-    }
-  }, [error, success])
+  //   if (success) {
+  //     toast.show({
+  //       render: () => {
+  //         return <CustomToast
+  //           message={"Rendez-vous crée avec succès !"}
+  //           color={colors.success}
+  //           bgColor={"green.100"}
+  //           icon={<AntDesign name="checkcircle" size={24} />}
+  //           iconColor={colors.success}
+  //         />
+  //       },
+  //       placement: "top",
+  //       duration: 3000
+  //     })
+  //   }
+  // }, [error, success])
 
   const handleCloseModal = () => {
     setIsModalVisible(false);
