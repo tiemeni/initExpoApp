@@ -43,7 +43,6 @@ const IconItem = (props) => {
         data={countries}
         onSelect={(selectedItem, index) => {
           handleLangChange(selectedItem);
-          console.log(selectedItem, index);
         }}
         defaultValue={selectedLang}
         buttonTextAfterSelection={(selectedItem, index) => {

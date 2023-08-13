@@ -51,7 +51,6 @@ const UserReducer = (state = initialState, action) => {
                 success: null
             }
         case types.UPDATE_USER_INFORMATION_SUCCESS:
-            console.log(action.payload)
             return {
                 ...state,
                 userInfos: action.payload,

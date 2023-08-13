@@ -12,11 +12,9 @@ const MedItem = ({ value, infosPraticien, handleChange, index, trigger, infosCli
     const dispatch = useDispatch()
     // const RDVForm = useSelector(state => state.RdvForm.rdvForm)
     let isSelected = infosPraticien && (value == infosPraticien?._id) || infosClinique && (value == infosClinique?._id);
-    console.log(value)
 
     const handlePress = () => {
         if (infosPraticien) {
-            console.log("com--", infosPraticien.idCentre)
             dispatch(setIdCentre(infosPraticien.idCentre))
             handleChange(trigger, infosPraticien._id)
         } else {

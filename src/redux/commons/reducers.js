@@ -24,7 +24,6 @@ const common = (state = initialState, action) => {
                 mesFiches: [...actualFiches, action.payload]
             }
         case SETIDCENTRE:
-            console.log(action.payload)
             return {
                 ...state,
                 idc: action.payload

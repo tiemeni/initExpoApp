@@ -9,8 +9,7 @@ import * as SCREENS from '../../constants/screens'
 /**
  * @description user sign up.
  */
-function* getProfession() {
-    yield console.log("process get prof")
+function* processProfessions() {
     let url = BASE_URL + '/profession/'
     try {
         const result = yield getUnauthRequest(url);
@@ -27,5 +26,5 @@ function* getProfession() {
 }
 
 export default function* ProfessionSagga() {
-    yield takeLatest(types.GET_PROFESSION_REQUEST, getProfession);
+    yield takeLatest(types.GET_PROFESSION_REQUEST, processProfessions);
 }

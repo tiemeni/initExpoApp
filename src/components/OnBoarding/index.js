@@ -46,7 +46,6 @@ export default function OnBoarding2() {
     return (
         <View flex={1} backgroundColor={colors.primary} >
             {currentIndex === 2 ? <CustomeFab navigation={navigation} onBoarding={true} editeMode={false} action={() => {
-                console.log("cool")
             }} /> : <View></View>}
             <VStack>
                 <VStack justifyContent={'center'} style={{ paddingLeft: 15, paddingTop: 20, }}>

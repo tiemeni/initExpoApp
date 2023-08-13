@@ -14,7 +14,6 @@ const ProfessionReducer = (state = initialState, action) => {
                 errorMsg: ""
             }
         case types.GET_PROFESSION_SUCCESS:
-            console.log(action.payload)
             return {
                 ...state,
                 professions: action.payload,

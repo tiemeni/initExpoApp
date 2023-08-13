@@ -161,7 +161,6 @@ const RDVReducer = (state = initialState, action) => {
                 successPostRdv: true
             }
         case types.CLEAR_ERR_SUCC:
-            console.log('-------------------clear rdv cache')
             return {
                 ...state,
                 errorMsgPostRDV: null,

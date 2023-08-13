@@ -136,7 +136,6 @@ const MakeAppointment = ({ navigation, route }) => {
                 dispatch(getMotifs({ id: value, forSpec: true }))
                 break;
             case 'lieu':
-                console.log('------lieu ------', value)
                 setFormData({
                     ...formData,
                     lieu: value,
@@ -198,6 +197,8 @@ const MakeAppointment = ({ navigation, route }) => {
         })
         return valuesTab
     }
+
+    console.log(shouldSeeBehind, isProfession)
 
     return (
         <View bgColor={colors.white} flex={1} style={styles.container}>

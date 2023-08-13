@@ -8,6 +8,8 @@ import colors from '../../constants/colours'
 import { useDispatch, useSelector } from 'react-redux'
 import { setProfessionForRdv, setShouldSeeBehind } from '../../redux/commons/action'
 import { getMotifs, getSpecialities, setRDVForm } from '../../redux/RDV/actions'
+import LoadingChoiceComponent from './choiceItemsComponentLabel'
+import LoadingCircle from './choiceItemsComponentCircle'
 
 
 const searchByName = (tab, val) => {
@@ -22,7 +24,7 @@ const searchByName = (tab, val) => {
 
 
 export default function ModaleChoixProfession({ navigation }) {
-
+    const professionLoading = useSelector(state => state.Profession.loading)
     const [isSpecialiste, setIsSpecialiste] = useState(false)
     const [visible, setVisible] = React.useState(true);
     const professions = useSelector(state => state.Profession.professions)
@@ -63,50 +65,56 @@ export default function ModaleChoixProfession({ navigation }) {
                                 flexDirection: "column",
                             }}>
                                 <View style={{ ...styles.radio }}>
-                                    <RadioButton.Android
+                                    {!professionLoading ? <RadioButton.Android
                                         style={{ height: 100 }}
                                         uncheckedColor={"#F0F0F0"}
                                         color={colors.primary}
                                         value="first"
                                         status={isSpecialiste ? "checked" : "unchecked"}
                                         onPress={() => setIsSpecialiste(true)}
-                                    />
-                                    <Text style={{ fontSize: 15 }}>{professions[0]?.name}</Text>
+                                    /> : <LoadingCircle />}
+                                    {!professionLoading ?
+                                        <Text style={{ fontSize: 15 }}>{professions[0]?.name}</Text> :
+                                        <LoadingChoiceComponent />}
                                 </View>
                                 <View style={{ ...styles.radio }}>
-                                    <RadioButton.Android
+                                    {!professionLoading ? <RadioButton.Android
                                         style={{ height: 100 }}
                                         uncheckedColor={"#F0F0F0"}
                                         color={colors.primary}
                                         value="first"
                                         status={isSpecialiste ? "unchecked" : "checked"}
                                         onPress={() => setIsSpecialiste(false)}
-                                    />
-                                    <Text style={{ fontSize: 15 }}>{professions[1]?.name}</Text>
+                                    /> : <LoadingCircle />}
+                                    {!professionLoading ? <Text style={{ fontSize: 15 }}>{professions[1]?.name}</Text> :
+                                        <LoadingChoiceComponent />}
                                 </View>
                             </View>
                         </View>
                     </View>
                 </Box>
                 <Box>
-                    <Button width={"100%"} onPress={() => {
-                        setVisible(false)
-                        dispatch(setProfessionForRdv(isSpecialiste))
-                        dispatch(setShouldSeeBehind(true))
-                        dispatch(setRDVForm(
-                            {
-                                motif: null,
-                                praticien: null,
-                                profession: isSpecialiste ? searchByName(professions, "Specialiste") : searchByName(professions, "Generaliste"),
-                                period: {
-                                    day: null,
-                                    time: null
+                    <Button
+                        width={"100%"}
+                        disabled={professionLoading}
+                        onPress={() => {
+                            setVisible(false)
+                            dispatch(setProfessionForRdv(isSpecialiste))
+                            dispatch(setShouldSeeBehind(true))
+                            dispatch(setRDVForm(
+                                {
+                                    motif: null,
+                                    praticien: null,
+                                    profession: isSpecialiste ? searchByName(professions, "Specialiste") : searchByName(professions, "Generaliste"),
+                                    period: {
+                                        day: null,
+                                        time: null
+                                    }
                                 }
-                            }
-                        ))
-                        isSpecialiste && dispatch(getSpecialities(searchByName(professions, "Specialiste")))
-                        !isSpecialiste && dispatch(getMotifs({ id: searchByName(professions, "Generaliste") }))
-                    }}>
+                            ))
+                            isSpecialiste && dispatch(getSpecialities(searchByName(professions, "Specialiste")))
+                            !isSpecialiste && dispatch(getMotifs({ id: searchByName(professions, "Generaliste") }))
+                        }}>
                         <Text color={colors.white} style={styles.btnLabel}>Continuer</Text>
                     </Button>
                 </Box>

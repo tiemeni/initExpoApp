@@ -3,6 +3,7 @@ import {
   Box,
   HStack,
   ScrollView,
+  Skeleton,
   View,
   VStack,
 } from "native-base";
@@ -21,7 +22,6 @@ export default function MesRdv({ navigation }) {
   const [actualState, setActualState] = useState(1);
   const dispatch = useDispatch()
   const rdvs = useSelector(state => state.RdvForm.myRdv)
-  console.log(rdvs)
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     dispatch(clearCache())
@@ -190,7 +190,7 @@ export default function MesRdv({ navigation }) {
               <Skelette />
             </VStack>
             <VStack>
-              <Skelette />
+              <Skelette last={true} />
             </VStack>
           </VStack>
         )}
