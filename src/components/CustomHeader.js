@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
 
 const CustomHeader = ({ navigation, mb, userInfos, screen }) => {
     const [user, setUser] = useState(null)
-    console.log(userInfos)
 
     useEffect(() => {
         if(userInfos?.user) setUser(userInfos.user)
