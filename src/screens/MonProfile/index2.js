@@ -163,7 +163,7 @@ const MonProfile2 = ({ userInfos, loading }) => {
         name: userInfos.user.name,
         email: userInfos.user.email,
         telephone: userInfos.user.telephone,
-        birthdate: moment(userInfos.user.birthdate).format("DD/MM/YYYY"),
+        birthdate: moment(userInfos.user.birthdate).format("YYYY-MM-DD"),
       });
     }
   }, [userInfos]);
