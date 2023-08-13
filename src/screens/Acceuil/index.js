@@ -10,7 +10,7 @@ import { MaterialIcons, Ionicons, FontAwesome } from "@expo/vector-icons";
 import colors from '../../constants/colours';
 import { useDispatch } from 'react-redux';
 import { getProfession } from '../../redux/professions/actions';
-import { getMotifs } from '../../redux/RDV/actions';
+import { clearCache, getMotifs } from '../../redux/RDV/actions';
 import { connect } from 'react-redux';
 import CustomHeader from '../../components/CustomHeader';
 
@@ -34,7 +34,7 @@ const Acceuil = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(getProfession())
-    console.log('home')
+    dispatch(clearCache())
   }, [])
 
   return (

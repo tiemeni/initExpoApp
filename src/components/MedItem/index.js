@@ -11,7 +11,8 @@ import { setIdCentre } from "../../redux/commons/action";
 const MedItem = ({ value, infosPraticien, handleChange, index, trigger, infosClinique }) => {
     const dispatch = useDispatch()
     // const RDVForm = useSelector(state => state.RdvForm.rdvForm)
-    let isSelected = infosPraticien ? value === infosPraticien.id : value === infosClinique._id;
+    let isSelected = infosPraticien && (value == infosPraticien?._id) || infosClinique && (value == infosClinique?._id);
+    console.log(value)
 
     const handlePress = () => {
         if (infosPraticien) {

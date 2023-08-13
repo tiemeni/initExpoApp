@@ -154,24 +154,24 @@ function* postRDV({ data }) {
             rdv = yield postUnauthRequest(url2, rdvData);
         } else {
             yield put({ type: types.POST_RDV_REQUEST_FAILED, payload: "Erreur lors de la creation du rendez-vous!" })
-            setTimeout(() => {
+            yield setTimeout(() => {
                 RootNavigation.navigate(SCREENS.ACCEUIL)
+                put({ type: "CLEAR_ERR_SUCC" })
             }, 3000)
         }
-        console.log(rdv)
         if (rdv.success) {
             console.log("rdv success", rdv)
 
             yield put({ type: types.POST_RDV_REQUEST_SUCCESS, payload: rdv?.data })
             yield put({ type: MY_FICHES, payload: idFiche })
-            setTimeout(() => {
+            yield setTimeout(() => {
                 RootNavigation.navigate(SCREENS.RDV)
                 put({ type: "CLEAR_ERR_SUCC" })
             }, 3000)
         } else {
             console.log("Erreur lors de la creation du rendez-vous!")
             yield put({ type: types.POST_RDV_REQUEST_FAILED, payload: "Erreur lors de la creation du rendez-vous!" })
-            setTimeout(() => {
+            yield setTimeout(() => {
                 RootNavigation.navigate(SCREENS.ACCEUIL)
                 put({ type: "CLEAR_ERR_SUCC" })
             }, 3000)
@@ -179,7 +179,7 @@ function* postRDV({ data }) {
     } catch (error) {
         console.error(error);
         yield put({ type: types.POST_RDV_REQUEST_FAILED, payload: error })
-        setTimeout(() => {
+        yield setTimeout(() => {
             RootNavigation.navigate(SCREENS.ACCEUIL)
             put({ type: "CLEAR_ERR_SUCC" })
         }, 3000)

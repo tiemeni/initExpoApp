@@ -33,119 +33,115 @@ const RDVReducer = (state = initialState, action) => {
                 errorMsg: ""
             }
         case types.GET_MOTIFS_REQUEST:
-            console.log(action.payload)
             return {
                 ...state,
-                loading: true,
-                error: false,
-                errorMsg: ""
+                motifsLoading: true,
+                motifsError: false,
+                motifsErrorMsg: ""
             }
         case types.GET_MOTIFS_REQUEST_SUCCESS:
             return {
                 ...state,
                 motifs: action.payload,
-                loading: false,
-                success: true
+                motifsLoading: false,
+                motifsSuccess: true
             }
         case types.GET_MOTIFS_REQUEST_FAILED:
             return {
                 ...state,
                 errorMsg: action.payload,
-                loading: false,
-                success: false,
-                error: true,
+                motifsLoading: false,
+                motifsSuccess: true,
+                motifsError: true,
             }
         case types.GET_SPECIALITIES_REQUEST:
             return {
                 ...state,
-                loading: true,
+                specialityLoading: true,
                 error: false,
-                errorMsg: ""
+                specialityErrorMsg: ""
             }
         case types.GET_SPECIALITIES_REQUEST_SUCCESS:
-            console.log("in store-", action.payload)
             return {
                 ...state,
                 specialities: action.payload ?? [],
-                loading: false,
+                specialityLoading: false,
                 success: true
             }
         case types.GET_SPECIALITIES_REQUEST_FAILED:
             return {
                 ...state,
                 errorMsg: action.payload,
-                loading: false,
+                specialityLoading: false,
                 success: false,
                 error: true,
             }
         case types.GET_CLINIQUES_REQUEST:
             return {
                 ...state,
-                loading: true,
-                error: false,
-                errorMsg: ""
+                clinicLoading: true,
+                clinicError: false,
+                clinicErrorMsg: ""
             }
         case types.GET_CLINIQUE_REQUEST_SUCCESS:
-            console.log(action.payload)
             return {
                 ...state,
                 cliniques: action.payload,
-                loading: false,
-                success: true
+                clinicLoading: false,
+                clinicSuccess: true,
+                clinicError: false
             }
         case types.GET_CLINIQUE_REQUEST_FAILED:
             return {
                 ...state,
                 errorMsg: action.payload,
-                loading: false,
-                success: false,
-                error: true,
+                clinicLoading: false,
+                clinicSuccess: false,
+                clinicError: true,
             }
         case types.GET_PRATICIENS_REQUEST:
             return {
                 ...state,
-                loading: true,
-                error: false,
-                errorMsg: ""
+                praticiensLoading: true,
+                praticiensError: false,
+                praticiensErrorMsg: ""
             }
         case types.GET_PRATICIENS_REQUEST_SUCCESS:
-            console.log("HERER PRATS", action.payload)
             return {
                 ...state,
                 praticiens: action.payload,
-                loading: false,
-                success: true
+                praticiensLoading: false,
+                praticiensSuccess: true
             }
         case types.GET_PRATICIENS_REQUEST_FAILED:
             return {
                 ...state,
-                errorMsg: action.payload,
-                loading: false,
-                success: false,
-                error: true,
+                praticiensErrorMsg: action.payload,
+                praticiensLoading: false,
+                praticiensSuccess: false,
+                praticiensError: true,
             }
         case types.GET_DISPO_REQUEST:
             return {
                 ...state,
-                loading: true,
-                error: false,
-                errorMsg: ""
+                dispoLoading: true,
+                dispoError: false,
+                dispoErrorMsg: ""
             }
         case types.GET_DISPO_REQUEST_SUCCESS:
-            console.log("------", sortArray("date", action.payload)[0])
             return {
                 ...state,
                 dispo: sortArray("date", action.payload),
-                loading: false,
-                success: true
+                dispoLoading: false,
+                dispoSuccess: true
             }
         case types.GET_DISPO_REQUEST_FAILED:
             return {
                 ...state,
-                errorMsg: action.payload,
-                loading: false,
-                success: false,
-                error: true,
+                dispoErrorMsg: action.payload,
+                dispoLoading: false,
+                dispoSuccess: false,
+                dispoError: true,
             }
         case types.POST_RDV_REQUEST:
             return {
@@ -156,7 +152,6 @@ const RDVReducer = (state = initialState, action) => {
                 successPostRdv: false
             }
         case types.POST_RDV_REQUEST_SUCCESS:
-            console.log("---------------success")
             let actualRdvs = state.myRdv
             return {
                 ...state,
@@ -165,14 +160,14 @@ const RDVReducer = (state = initialState, action) => {
                 loadingPostRdv: false,
                 successPostRdv: true
             }
-        case "CLEAR_ERR_SUCC":
+        case types.CLEAR_ERR_SUCC:
+            console.log('-------------------clear rdv cache')
             return {
                 ...state,
                 errorMsgPostRDV: null,
-                successPostRdv: null
+                successPostRdv: false
             }
         case types.POST_RDV_REQUEST_FAILED:
-            console.log("---------------failed")
             return {
                 ...state,
                 errorMsgPostRDV: action.payload,

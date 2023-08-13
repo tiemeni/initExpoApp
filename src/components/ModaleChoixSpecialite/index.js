@@ -1,13 +1,12 @@
 import { View, Pressable } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Dialog, RadioButton } from 'react-native-paper'
 import { Box, Button, Icon, Text } from 'native-base'
 import styles from './style'
-import { MaterialIcons, AntDesign } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import colors from '../../constants/colours'
 import { useDispatch, useSelector } from 'react-redux'
 import { setProfessionForRdv, setShouldSeeBehind } from '../../redux/commons/action'
-import { getProfession } from '../../redux/professions/actions'
 import { getMotifs, getSpecialities, setRDVForm } from '../../redux/RDV/actions'
 
 
@@ -15,7 +14,6 @@ const searchByName = (tab, val) => {
     let id = ""
     tab.forEach(element => {
         if (element.name === val) {
-            console.log(element._id)
             id = element._id
         }
     });
@@ -28,7 +26,6 @@ export default function ModaleChoixProfession({ navigation }) {
     const [isSpecialiste, setIsSpecialiste] = useState(false)
     const [visible, setVisible] = React.useState(true);
     const professions = useSelector(state => state.Profession.professions)
-    console.log(isSpecialiste)
     const hideDialog = () => setVisible(false);
     const dispatch = useDispatch()
 
@@ -107,9 +104,8 @@ export default function ModaleChoixProfession({ navigation }) {
                                 }
                             }
                         ))
-                        console.log(isSpecialiste, isSpecialiste ? searchByName(professions, "Specialiste") : searchByName(professions, "Generaliste"))
-                        isSpecialiste && dispatch(getSpecialities(searchByName(professions, "Specialiste"))) && console.log("special")
-                        !isSpecialiste && dispatch(getMotifs({ id: searchByName(professions, "Generaliste") })) && console.log("gene")
+                        isSpecialiste && dispatch(getSpecialities(searchByName(professions, "Specialiste")))
+                        !isSpecialiste && dispatch(getMotifs({ id: searchByName(professions, "Generaliste") }))
                     }}>
                         <Text color={colors.white} style={styles.btnLabel}>Continuer</Text>
                     </Button>

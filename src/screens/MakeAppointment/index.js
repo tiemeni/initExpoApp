@@ -17,9 +17,12 @@ import ModaleChoixProfession from '../../components/ModaleChoixSpecialite';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProfessionForRdv, setShouldSeeBehind } from '../../redux/commons/action';
 import { getClinique, getDispo, getMotifs, getPraticiens, setRDVForm } from '../../redux/RDV/actions';
+import LoadingSelectComponent from './LoadingComponentForSelect';
+import LoadingItemsComponents from './LoadingItemsComponent';
+import LoadingDispoComponent from './LoadingDispoComponent';
 
 
-const HeaderBox = ({ number, title, hintText }) => {
+const HeaderBox = ({ number, title, hintText, error }) => {
     return (
         <VStack>
             <HStack mb={2} style={styles.titleBox}>
@@ -30,7 +33,7 @@ const HeaderBox = ({ number, title, hintText }) => {
                     {title}
                 </Text>
             </HStack>
-            <Text mb={2} style={styles.hintText}>
+            <Text mb={2} style={{ ...styles.hintText, color: error ? "red" : colors.text_grey_hint }}>
                 {hintText}
             </Text>
         </VStack>
@@ -42,18 +45,20 @@ const MakeAppointment = ({ navigation, route }) => {
     const idCentre = useSelector(state => state.Common.idc)
     const [actualDayCreneaux, setActualDayCreneau] = useState([])
     const RDVForm = useSelector(state => state.RdvForm.rdvForm)
+    const specialityLoading = useSelector(state => state.RdvForm.specialityLoading)
+    const motifsLoading = useSelector(state => state.RdvForm.motifsLoading)
+    const clinicLoading = useSelector(state => state.RdvForm.clinicLoading)
+    const praticiensLoading = useSelector(state => state.RdvForm.praticiensLoading)
+    const dispoLoading = useSelector(state => state.RdvForm.dispoLoading)
     const dispo = useSelector(state => state.RdvForm.dispo)
     const motifs = useSelector(state => state.RdvForm.motifs)
     const specialities = useSelector(state => state.RdvForm.specialities)
     const cliniques = useSelector(state => state.RdvForm.cliniques)
     const praticiens = useSelector(state => state.RdvForm.praticiens)
-    console.log('praticiens--', praticiens)
     // const selectedProfession = isProfession ? professions.
-    console.log("prof", isProfession)
     const shouldSeeBehind = useSelector(state => state.Common.shouldSeeBehind)
     const screenWidth = Dimensions.get('screen').width;
     const dispatch = useDispatch()
-    console.log("-----", shouldSeeBehind)
     const [formData, setFormData] = React.useState({
         motif: null,
         praticien: null,
@@ -78,7 +83,7 @@ const MakeAppointment = ({ navigation, route }) => {
                 setFormData({
                     ...formData,
                     motif: value,
-                    praticien: null,
+                    lieu: null,
                     period: {
                         day: null,
                         time: null
@@ -120,6 +125,9 @@ const MakeAppointment = ({ navigation, route }) => {
                 setFormData({
                     ...formData,
                     speciality: value,
+                    motif: null,
+                    lieu: null,
+                    praticien: null
                 });
                 dispatch(setRDVForm({
                     ...RDVForm,
@@ -128,9 +136,11 @@ const MakeAppointment = ({ navigation, route }) => {
                 dispatch(getMotifs({ id: value, forSpec: true }))
                 break;
             case 'lieu':
+                console.log('------lieu ------', value)
                 setFormData({
                     ...formData,
                     lieu: value,
+                    praticien: null
                 });
                 dispatch(setRDVForm({
                     ...RDVForm,
@@ -159,17 +169,14 @@ const MakeAppointment = ({ navigation, route }) => {
             default:
                 break;
         }
-        console.log(formData)
     }
 
     const handlePress = () => {
-        console.log(RDVForm)
         navigation.navigate(SCREENS.PAYMENT)
     }
 
     useEffect(() => {
         return () => {
-            console.log('out')
             dispatch(setShouldSeeBehind(false))
         }
     }, [])
@@ -179,7 +186,6 @@ const MakeAppointment = ({ navigation, route }) => {
         tab.forEach((e) => {
             keyTab.push(e.key)
         })
-        console.log(keyTab)
         return keyTab
     }
 
@@ -210,69 +216,78 @@ const MakeAppointment = ({ navigation, route }) => {
                 </Box>
             </HStack>
             <ScrollView showsVerticalScrollIndicator={false} height={"80%"} borderColor={'red'} mb={2}>
-                {shouldSeeBehind && isProfession === true && <VStack mt={5} style={styles.card}>
-                    <HeaderBox
-                        number={1}
-                        title={'Spécialité du rendez-vous'}
-                        hintText={'Sélectionnez une specialité pour votre rendez-vous'} />
-                    <VStack style={styles.inputBox}>
-                        <Box>
-                            <SelectList
-                                setSelected={(val) => {
-                                    console.log("val--", val)
-                                    handleChange('speciality', val)
-                                }}
-                                data={specialities?.map((e) => {
-                                    return { key: e._id, value: e.label }
-                                })}
-                                save="key"
-                                boxStyles={{ borderRadius: 5 }}
-                                dropdownStyles={{
-                                    borderRadius: 5,
-                                    marginTop: 0,
-                                }}
-                                notFoundText={"Aucune specialité trouvée"}
-                                searchPlaceholder={'Recherche'}
-                                searchicon={<Icon
-                                    as={MaterialIcons}
-                                    name='search'
-                                    mr={2}
-                                    size={'lg'} />}
-                            />
-                        </Box>
-                    </VStack>
-                </VStack>}
+                {(shouldSeeBehind && isProfession === true)
+                    &&
+                    <VStack mt={5} style={styles.card}>
+                        {(specialityLoading) ?
+                            <LoadingSelectComponent /> :
+                            <Box>
+                                <HeaderBox
+                                    number={1}
+                                    title={'Spécialité du rendez-vous'}
+                                    hintText={'Sélectionnez une specialité pour votre rendez-vous'} />
+                                <VStack style={styles.inputBox}>
+                                    <Box>
+                                        <SelectList
+                                            setSelected={(val) => {
+                                                handleChange('speciality', val)
+                                            }}
+                                            data={specialities?.map((e) => {
+                                                return { key: e._id, value: e.label }
+                                            })}
+                                            save="key"
+                                            boxStyles={{ borderRadius: 5 }}
+                                            dropdownStyles={{
+                                                borderRadius: 5,
+                                                marginTop: 0,
+                                            }}
+                                            notFoundText={"Aucune specialité trouvée"}
+                                            searchPlaceholder={'Recherche'}
+                                            searchicon={<Icon
+                                                as={MaterialIcons}
+                                                name='search'
+                                                mr={2}
+                                                size={'lg'} />}
+                                        />
+                                    </Box>
+                                </VStack>
+                            </Box>}
+                    </VStack>}
                 {shouldSeeBehind && ((isProfession === true && formData.speciality) || (isProfession === false)) && <VStack mt={5} style={styles.card}>
-                    <HeaderBox
-                        number={handleStepNumber(2)}
-                        title={'Motif du rendez-vous'}
-                        hintText={'Sélectionnez un motif pour votre rendez-vous'} />
-                    <VStack style={styles.inputBox}>
+                    {(motifsLoading) ?
+                        <LoadingSelectComponent /> :
                         <Box>
-                            <SelectList
-                                setSelected={(val) => {
-                                    console.log(val)
-                                    handleChange('motif', val)
-                                }}
-                                data={motifs.map((e) => {
-                                    return { key: e._id, value: e.label }
-                                })}
-                                save="key"
-                                boxStyles={{ borderRadius: 5 }}
-                                dropdownStyles={{
-                                    borderRadius: 5,
-                                    marginTop: 0,
-                                }}
-                                notFoundText={"Aucun motif trouvé"}
-                                searchPlaceholder={'Recherche'}
-                                searchicon={<Icon
-                                    as={MaterialIcons}
-                                    name='search'
-                                    mr={2}
-                                    size={'lg'} />}
-                            />
-                        </Box>
-                    </VStack>
+                            <HeaderBox
+                                number={handleStepNumber(2)}
+                                title={'Motif du rendez-vous'}
+                                error={motifs?.length <= 0}
+                                hintText={motifs?.length > 0 ? 'Sélectionnez un motif pour votre rendez-vous' : 'Aucun motif ne corresponds à vos choix'} />
+                            <VStack style={styles.inputBox}>
+                                <Box>
+                                    {motifs?.length > 0 && <SelectList
+                                        setSelected={(val) => {
+                                            handleChange('motif', val)
+                                        }}
+                                        data={motifs?.map((e) => {
+                                            return { key: e._id, value: e.label }
+                                        })}
+                                        save="key"
+                                        boxStyles={{ borderRadius: 5 }}
+                                        dropdownStyles={{
+                                            borderRadius: 5,
+                                            marginTop: 0,
+                                        }}
+                                        notFoundText={"Aucun motif trouvé"}
+                                        searchPlaceholder={'Recherche'}
+                                        searchicon={<Icon
+                                            as={MaterialIcons}
+                                            name='search'
+                                            mr={2}
+                                            size={'lg'} />}
+                                    />}
+                                </Box>
+                            </VStack>
+                        </Box>}
                 </VStack>}
 
                 {/*Medecin traitant*/}
@@ -287,26 +302,30 @@ const MakeAppointment = ({ navigation, route }) => {
                         }
                     }}>
                     <VStack mt={5} style={styles.card}>
-                        <HeaderBox
-                            number={handleStepNumber(3)}
-                            title={'Choix clinique'}
-                            hintText={'Sélectionner une clinique pour votre rendez-vous'} />
-                        <VStack style={styles.inputBox}>
-                            <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-                                {cliniques.map((p, index) => {
-                                    console.log('rended praticiens 2')
-                                    return <MedItem
-                                        key={p._id}
-                                        value={p?._id}
-                                        trigger={'lieu'}
-                                        handleChange={handleChange}
-                                        infosPraticien={null}
-                                        infosClinique={p}
-                                        index={index}
-                                    />
-                                })}
-                            </ScrollView>
-                        </VStack>
+                        {(clinicLoading) ?
+                            <LoadingItemsComponents /> :
+                            <Box>
+                                <HeaderBox
+                                    number={handleStepNumber(3)}
+                                    title={'Choix clinique'}
+                                    error={cliniques?.length <= 0}
+                                    hintText={cliniques?.length > 0 ? 'Sélectionner une clinique pour votre rendez-vous' : 'Aucune clinique ne reponds a vos selections'} />
+                                <VStack style={styles.inputBox}>
+                                    <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
+                                        {cliniques.map((p, index) => {
+                                            return <MedItem
+                                                key={p._id}
+                                                value={formData.lieu}
+                                                trigger={'lieu'}
+                                                handleChange={handleChange}
+                                                infosPraticien={null}
+                                                infosClinique={p}
+                                                index={index}
+                                            />
+                                        })}
+                                    </ScrollView>
+                                </VStack>
+                            </Box>}
                     </VStack>
                 </PresenceTransition>}
 
@@ -321,25 +340,29 @@ const MakeAppointment = ({ navigation, route }) => {
                         }
                     }}>
                     <VStack mt={5} style={styles.card}>
-                        <HeaderBox
-                            number={handleStepNumber(4)}
-                            title={'Médecin traitant'}
-                            hintText={'Sélectionner un praticien pour votre rendez-vous'} />
-                        <VStack style={styles.inputBox}>
-                            <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-                                {praticiens.map((p, index) => {
-                                    console.log('rended praticiens 2')
-                                    return <MedItem
-                                        key={p._id}
-                                        value={p._id}
-                                        trigger={'praticien'}
-                                        handleChange={handleChange}
-                                        infosPraticien={p}
-                                        index={index}
-                                    />
-                                })}
-                            </ScrollView>
-                        </VStack>
+                        {(praticiensLoading) ?
+                            <LoadingItemsComponents /> :
+                            <Box>
+                                <HeaderBox
+                                    number={handleStepNumber(4)}
+                                    title={'Médecin traitant'}
+                                    error={praticiens?.length <= 0}
+                                    hintText={praticiens?.length > 0 ? 'Sélectionner un praticien pour votre rendez-vous' : "Aucun praticien dans cette clinique"} />
+                                <VStack style={styles.inputBox}>
+                                    <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
+                                        {praticiens.map((p, index) => {
+                                            return <MedItem
+                                                key={p._id}
+                                                value={formData.praticien}
+                                                trigger={'praticien'}
+                                                handleChange={handleChange}
+                                                infosPraticien={p}
+                                                index={index}
+                                            />
+                                        })}
+                                    </ScrollView>
+                                </VStack>
+                            </Box>}
                     </VStack>
                 </PresenceTransition>}
 
@@ -355,88 +378,93 @@ const MakeAppointment = ({ navigation, route }) => {
                         }
                     }}>
                     <VStack mt={5} style={styles.card}>
-                        <HeaderBox
-                            number={handleStepNumber(5)}
-                            title={'Période du rendez-vous'}
-                            hintText={'Sélectionner une période pour votre rendez-vous'} />
-                        <VStack style={styles.inputBox}>
-                            <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-                                {generateKeyTab(dispo).map((d, index) =>
-                                    <Pressable onPress={() => handleChange('day', d)} key={d}>
-                                        <Box
-                                            ml={index !== 0 ? 2 : 0}
-                                            style={{
-                                                ...styles.period,
-                                                borderColor: formData.period.day === d ? colors.trans_primary : colors.text_grey_hint,
-                                                backgroundColor: formData.period.day === d ? colors.trans_primary : 'transparent',
-                                            }}
-                                        >
-                                            <Text
-                                                style={{
-                                                    ...styles.periodText,
-                                                    color: formData.period.day === d?.id ? colors.primary : colors.black,
-                                                }}
-                                            >
-                                                {d}
-                                            </Text>
-                                        </Box>
-                                    </Pressable>
-                                )}
-                            </ScrollView>
-
-                            <PresenceTransition
-                                visible={formData.period.day}
-                                initial={{
-                                    opacity: 0
-                                }} animate={{
-                                    opacity: 1,
-                                    transition: {
-                                        duration: 250
-                                    }
-                                }}>
-                                <HStack mt={5} justifyContent={'space-between'} alignItems={'center'}>
-                                    <Box mr={1.5} style={styles.prev}>
-                                        <Icon
-                                            as={MaterialIcons}
-                                            name='keyboard-arrow-left'
-                                            size={'lg'}
-                                        />
-                                    </Box>
+                        {(dispoLoading) ?
+                            <LoadingDispoComponent /> :
+                            <Box>
+                                <HeaderBox
+                                    number={handleStepNumber(5)}
+                                    error={generateKeyTab(dispo)?.length <= 0}
+                                    title={'Période du rendez-vous'}
+                                    hintText={generateKeyTab(dispo)?.length > 0 ? 'Sélectionner une période pour votre rendez-vous' : 'Aucune disponibilité pour vos choix'} />
+                                <VStack style={styles.inputBox}>
                                     <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-                                        <HStack alignItems={'center'}>
-                                            {actualDayCreneaux.map((d, index) =>
-                                                <Pressable onPress={() => handleChange('time', d.start)} key={d.start}>
-                                                    <Box
-                                                        ml={index !== 0 ? 2 : 0}
+                                        {generateKeyTab(dispo).map((d, index) =>
+                                            <Pressable onPress={() => handleChange('day', d)} key={d}>
+                                                <Box
+                                                    ml={index !== 0 ? 2 : 0}
+                                                    style={{
+                                                        ...styles.period,
+                                                        borderColor: formData.period.day === d ? colors.trans_primary : colors.text_grey_hint,
+                                                        backgroundColor: formData.period.day === d ? colors.trans_primary : 'transparent',
+                                                    }}
+                                                >
+                                                    <Text
                                                         style={{
-                                                            ...styles.period,
-                                                            borderColor: formData.period.time === d.start ? colors.trans_primary : colors.text_grey_hint,
-                                                            backgroundColor: formData.period.time === d.start ? colors.trans_primary : 'transparent',
+                                                            ...styles.periodText,
+                                                            color: formData.period.day === d?.id ? colors.primary : colors.black,
                                                         }}
                                                     >
-                                                        <Text
-                                                            style={{
-                                                                ...styles.periodText,
-                                                                color: formData.period.time === d.start ? colors.primary : colors.black,
-                                                            }}
-                                                        >
-                                                            {d.start}
-                                                        </Text>
-                                                    </Box>
-                                                </Pressable>
-                                            )}
-                                        </HStack>
+                                                        {d}
+                                                    </Text>
+                                                </Box>
+                                            </Pressable>
+                                        )}
                                     </ScrollView>
-                                    <Box ml={1.5} style={styles.prev}>
-                                        <Icon
-                                            as={MaterialIcons}
-                                            name='keyboard-arrow-right'
-                                            size={'lg'}
-                                        />
-                                    </Box>
-                                </HStack>
-                            </PresenceTransition>
-                        </VStack>
+
+                                    <PresenceTransition
+                                        visible={formData.period.day}
+                                        initial={{
+                                            opacity: 0
+                                        }} animate={{
+                                            opacity: 1,
+                                            transition: {
+                                                duration: 250
+                                            }
+                                        }}>
+                                        <HStack mt={5} justifyContent={'space-between'} alignItems={'center'}>
+                                            <Box mr={1.5} style={styles.prev}>
+                                                <Icon
+                                                    as={MaterialIcons}
+                                                    name='keyboard-arrow-left'
+                                                    size={'lg'}
+                                                />
+                                            </Box>
+                                            <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
+                                                <HStack alignItems={'center'}>
+                                                    {actualDayCreneaux.map((d, index) =>
+                                                        <Pressable onPress={() => handleChange('time', d.start)} key={d.start}>
+                                                            <Box
+                                                                ml={index !== 0 ? 2 : 0}
+                                                                style={{
+                                                                    ...styles.period,
+                                                                    borderColor: formData.period.time === d.start ? colors.trans_primary : colors.text_grey_hint,
+                                                                    backgroundColor: formData.period.time === d.start ? colors.trans_primary : 'transparent',
+                                                                }}
+                                                            >
+                                                                <Text
+                                                                    style={{
+                                                                        ...styles.periodText,
+                                                                        color: formData.period.time === d.start ? colors.primary : colors.black,
+                                                                    }}
+                                                                >
+                                                                    {d.start}
+                                                                </Text>
+                                                            </Box>
+                                                        </Pressable>
+                                                    )}
+                                                </HStack>
+                                            </ScrollView>
+                                            <Box ml={1.5} style={styles.prev}>
+                                                <Icon
+                                                    as={MaterialIcons}
+                                                    name='keyboard-arrow-right'
+                                                    size={'lg'}
+                                                />
+                                            </Box>
+                                        </HStack>
+                                    </PresenceTransition>
+                                </VStack>
+                            </Box>}
                     </VStack>
                 </PresenceTransition>}
             </ScrollView>

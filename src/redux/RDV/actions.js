@@ -49,3 +49,9 @@ export const postRDV = data => {
         data
     }
 }
+
+export const clearCache = () => {
+    return {
+        type: types.CLEAR_ERR_SUCC
+    }
+}

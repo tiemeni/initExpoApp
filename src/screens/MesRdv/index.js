@@ -13,15 +13,18 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import * as SCREENS from "../../constants/screens";
 import { Skelette } from "./squelette";
 import CustomHeader from '../../components/CustomHeader';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCache } from "../../redux/RDV/actions";
 
 
 export default function MesRdv({ navigation }) {
   const [actualState, setActualState] = useState(1);
+  const dispatch = useDispatch()
   const rdvs = useSelector(state => state.RdvForm.myRdv)
   console.log(rdvs)
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    dispatch(clearCache())
     setTimeout(() => {
       setLoading(false);
     }, 2000);
