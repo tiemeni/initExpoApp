@@ -152,10 +152,8 @@ const RDVReducer = (state = initialState, action) => {
                 successPostRdv: false
             }
         case types.POST_RDV_REQUEST_SUCCESS:
-            let actualRdvs = state.myRdv
             return {
                 ...state,
-                myRdv: [...actualRdvs, action.payload],
                 loading: false,
                 loadingPostRdv: false,
                 successPostRdv: true
@@ -174,6 +172,28 @@ const RDVReducer = (state = initialState, action) => {
                 success: false,
                 loadingPostRdv: false,
                 error: true,
+            }
+        case types.GET_ALL_MY_RDV:
+            return {
+                ...state,
+                rdvLoading: true,
+                rdvError: false,
+                rdvErrorMsg: ""
+            }
+        case types.GET_ALL_MY_RDV_SUCCESS:
+            return {
+                ...state,
+                myRdv: action.payload,
+                rdvLoading: false,
+                rdvSuccess: true
+            }
+        case types.GET_ALL_MY_RDV_FAILED:
+            return {
+                ...state,
+                dispoErrorMsg: action.payload,
+                rdvLoading: false,
+                rdvSuccess: false,
+                rdvError: true,
             }
         default:
             return state;

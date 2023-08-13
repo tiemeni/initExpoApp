@@ -164,6 +164,7 @@ const Payment = ({ navigation }) => {
 
   const handleCloseModal = () => {
     setIsModalVisible(false);
+    console.log('------------------end')
     navigation.navigate(RDV);
   };
 

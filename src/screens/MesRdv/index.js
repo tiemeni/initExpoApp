@@ -15,20 +15,24 @@ import * as SCREENS from "../../constants/screens";
 import { Skelette } from "./squelette";
 import CustomHeader from '../../components/CustomHeader';
 import { useDispatch, useSelector } from "react-redux";
-import { clearCache } from "../../redux/RDV/actions";
+import { clearCache, getMyRDV } from "../../redux/RDV/actions";
 
 
 export default function MesRdv({ navigation }) {
   const [actualState, setActualState] = useState(1);
   const dispatch = useDispatch()
+  const loadingRDV = useSelector(state => state.RdvForm.rdvLoading)
+
   const rdvs = useSelector(state => state.RdvForm.myRdv)
+  const user = useSelector(state => state.UserReducer.userInfos)
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     dispatch(clearCache())
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  });
+    dispatch(getMyRDV(user?.user?._id))
+    !loadingRDV && setTimeout(() => {
+      setLoading(false)
+    }, 1000)
+  }, []);
 
   return (
     <View flex={1}>
@@ -62,7 +66,7 @@ export default function MesRdv({ navigation }) {
                 setLoading(true);
                 setTimeout(() => {
                   setLoading(false);
-                }, 1000);
+                }, 2000);
               }}
               display={"flex"}
               flexDirection={"row"}
@@ -153,7 +157,7 @@ export default function MesRdv({ navigation }) {
         </HStack>
       </Box>
       <ScrollView overScrollMode="never">
-        {actualState === 1 && !loading ? (
+        {actualState === 1 && (!loadingRDV && !loading) ? (
           <VStack justifyContent={"center"} alignItems={"center"}>
             {rdvs?.map((_e, i) => (
               <View
@@ -175,11 +179,11 @@ export default function MesRdv({ navigation }) {
                   elevation: 1,
                 }}
               >
-                <Rdv praticien={_e?.practitioner} date={_e?.date} status={_e?.status} startTime={_e?.startTime} duration={_e?.duration} />
+                <Rdv praticien={_e?.practitioner} date={_e?.date} status={_e?.status} startTime={_e?.displayedDate} duration={_e?.motif} />
               </View>
             ))}
           </VStack>
-        ) : actualState !== 1 && !loading ? (
+        ) : actualState !== 1 && !loadingRDV ? (
           <VStack></VStack>
         ) : (
           <VStack padding={4} space={1}>
