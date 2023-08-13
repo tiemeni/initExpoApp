@@ -198,8 +198,6 @@ const MakeAppointment = ({ navigation, route }) => {
         return valuesTab
     }
 
-    console.log(shouldSeeBehind, isProfession)
-
     return (
         <View bgColor={colors.white} flex={1} style={styles.container}>
             {/* Header */}

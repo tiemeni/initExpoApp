@@ -100,6 +100,7 @@ function* postRDV({ data }) {
         birthdate: data?.user.birthdate,
         telephone: data?.user.telephone,
         email: data?.user.email,
+        user: data.user._id,
         active: true,
         idCentre: data?.idCentre
     }

@@ -102,7 +102,7 @@ const UserReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 error: true,
-                errorMsg: null,
+                errorMsg: action.payload,
                 localAuth: false,
             }
         case types.LOCAL_AUTH_SUCCESS:
