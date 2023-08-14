@@ -100,7 +100,7 @@ function* postRDV({ data }) {
         birthdate: data?.user.birthdate,
         telephone: data?.user.telephone,
         email: data?.user.email,
-        user: data.user._id,
+        user: data?.user?._id,
         active: true,
         idCentre: data?.idCentre
     }
@@ -152,9 +152,10 @@ function* postRDV({ data }) {
         if (rdv.success) {
 
             yield put({ type: types.POST_RDV_REQUEST_SUCCESS, payload: rdv?.data })
+            yield put({ type: types.GET_ALL_MY_RDV, id: payload.user })
             yield put({ type: MY_FICHES, payload: idFiche })
             yield setTimeout(() => {
-                RootNavigation.navigate(SCREENS.RDV)
+                // RootNavigation.navigate(SCREENS.RDV)
                 put({ type: "CLEAR_ERR_SUCC" })
             }, 3000)
         } else {
@@ -175,6 +176,23 @@ function* postRDV({ data }) {
     }
 }
 
+function* getAllRdv({ id }) {
+    let url = BASE_URL + "/appointments/?module=externe&iduser=" + id
+    console.log(url)
+    try {
+        const result = yield getUnauthRequest(url);
+        if (result.success) {
+            yield put({ type: types.GET_ALL_MY_RDV_SUCCESS, payload: result.data })
+            // RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
+        } else {
+            yield put({ type: types.GET_ALL_MY_RDV_FAILED, payload: result.message })
+        }
+    } catch (error) {
+        console.error(error);
+        yield put({ type: types.GET_ALL_MY_RDV_FAILED, payload: error })
+    }
+}
+
 
 export default function* RDVSagga() {
     yield takeLatest(types.GET_MOTIFS_REQUEST, getMotifs);
@@ -183,4 +201,5 @@ export default function* RDVSagga() {
     yield takeLatest(types.GET_PRATICIENS_REQUEST, getPraticiens);
     yield takeLatest(types.GET_DISPO_REQUEST, getDispo);
     yield takeLatest(types.POST_RDV_REQUEST, postRDV);
+    yield takeLatest(types.GET_ALL_MY_RDV, getAllRdv);
 }

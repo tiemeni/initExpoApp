@@ -32,7 +32,7 @@ const Home = ({ loading, localAuth }) => {
                             alt="logo" />
                         <Spinner accessibilityLabel="Loading" size={'sm'} />
                         <Center>
-                            <Text color={colors.text_grey_hint} fontSize={14}>Paatientez...</Text>
+                            <Text color={colors.text_grey_hint} fontSize={14}>Patientez...</Text>
                         </Center>
                     </VStack>
                 </Center>

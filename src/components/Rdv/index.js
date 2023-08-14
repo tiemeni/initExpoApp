@@ -26,8 +26,8 @@ export default function Rdv({ date, duration, startTime, praticien, status }) {
 
             >
                 <VStack>
-                    <Text style={{ fontSize: 16 }}>{praticien?.name ? "Dr. " + praticien?.name : "Dr. Tiemeni"}</Text>
-                    <Text style={{ fontSize: 14, color: "#A8A8A8" }}>{duration ? duration + " minutes" : ""}</Text>
+                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>{praticien?.name ? "Dr. " + praticien?.name : "Dr. Tiemeni"}</Text>
+                    <Text style={{ fontSize: 14, }}>{duration ?? ""}</Text>
                 </VStack>
                 <Avatar
                     bg={colors.primary}

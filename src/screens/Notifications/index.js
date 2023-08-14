@@ -17,7 +17,7 @@ const Notifications = ({ navigation }) => {
         }, 8000)
     })
 
-   {/* if (loading) {
+    {/* if (loading) {
          return <VStack mt={5}>
              <IsLoadingComponent />
         </VStack>
@@ -26,7 +26,7 @@ const Notifications = ({ navigation }) => {
         <Box flex={1} mb={10}>
             <CustomHeader navigation={navigation} screen={PROFILE} />
             <Box style={styles.container}>
-                <Text mb={5} style={styles.headerTitle}>Notifications</Text> 
+                <Text mb={5} style={styles.headerTitle}>Notifications</Text>
                 <ScrollView
                     overScrollMode='never'
                     showsVerticalScrollIndicator={false}>
@@ -43,22 +43,22 @@ const Notifications = ({ navigation }) => {
                                 {notifications.map((notif, i) => <NotificationsCard key={notif.id} notification={notif} />)}
                             </VStack>
                         </Box>
-                    </> : 
-                     (
-                        <VStack padding={1} space={1}> 
-                        <VStack>
-                          <SkeletteNotif />
-                        </VStack>
-                        <VStack>
-                          <SkeletteNotif />
-                        </VStack>
-                        <VStack>
-                          <SkeletteNotif />
-                        </VStack>
-                        </VStack>)
-                     
-                }
-                    
+                    </> :
+                        (
+                            <VStack padding={1} space={1} mt={5}>
+                                <VStack>
+                                    <SkeletteNotif />
+                                </VStack>
+                                <VStack>
+                                    <SkeletteNotif />
+                                </VStack>
+                                <VStack>
+                                    <SkeletteNotif last={true} />
+                                </VStack>
+                            </VStack>)
+
+                    }
+
                 </ScrollView>
             </Box>
         </Box>

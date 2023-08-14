@@ -61,9 +61,9 @@ const FAB = (props) => {
         width: props.onBoarding ? "95%" : 60,
         right: props.onBoarding ? "2.5%" : 30,
         bottom: props.onBoarding ? 15 : 30,
-        borderRadius: props.onBoarding ? 10 : 10,
+        borderRadius: props.onBoarding ? 10 : 50,
         backgroundColor: props.onBoarding ? "white" : colors.primary,
-        height: 48,
+        height: 60,
       }}
     >
       <TouchableOpacity onPress={props.onPress}>
@@ -164,7 +164,7 @@ const MonProfile2 = ({ userInfos, loading }) => {
         name: userInfos.user.name,
         email: userInfos.user.email,
         telephone: userInfos.user.telephone,
-        birthdate: moment(userInfos.user.birthdate).format("DD/MM/YYYY"),
+        birthdate: moment(userInfos.user.birthdate).format("YYYY-MM-DD"),
       });
     }
   }, [userInfos]);

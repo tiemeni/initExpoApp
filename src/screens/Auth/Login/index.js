@@ -52,6 +52,7 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
 
 
   const handleSubmit = () => {
+    dispatch(reinitialize())
     dispatch(userLogin(formData))
   };
 

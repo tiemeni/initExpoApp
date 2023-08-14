@@ -55,3 +55,10 @@ export const clearCache = () => {
         type: types.CLEAR_ERR_SUCC
     }
 }
+
+export const getMyRDV = (id) => {
+    return {
+        type: types.GET_ALL_MY_RDV,
+        id
+    }
+} 

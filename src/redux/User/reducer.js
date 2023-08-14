@@ -15,6 +15,7 @@ const UserReducer = (state = initialState, action) => {
             return {
                 ...state,
                 error: false,
+                errorMsg: null,
                 success: null
             }
         case types.REGISTER_USER_REQUEST:
@@ -23,7 +24,7 @@ const UserReducer = (state = initialState, action) => {
                 userInfos: action.payload,
                 loading: true,
                 error: false,
-                errorMsg: "",
+                errorMsg: null,
                 success: null
             }
         case types.REGISTER_USER_SUCCESS:
@@ -47,7 +48,7 @@ const UserReducer = (state = initialState, action) => {
                 userInfos: action.payload,
                 loading: true,
                 error: false,
-                errorMsg: "",
+                errorMsg: null,
                 success: null
             }
         case types.UPDATE_USER_INFORMATION_SUCCESS:
@@ -72,7 +73,7 @@ const UserReducer = (state = initialState, action) => {
                 userInfos: action.payload,
                 loading: true,
                 error: false,
-                errorMsg: '',
+                errorMsg: null,
                 success: null
             }
         case types.LOGIN_SUCCESS:
@@ -102,7 +103,7 @@ const UserReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 error: true,
-                errorMsg: action.payload,
+                errorMsg: '',
                 localAuth: false,
             }
         case types.LOCAL_AUTH_SUCCESS:
