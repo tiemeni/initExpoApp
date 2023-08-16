@@ -10,8 +10,7 @@ import watch from "../../assets/img/clock.png"
 import styles from './style'
 import * as SCREENS from '../../constants/screens'
 
-
-export default function Rdv({ navigation, date, duration, startTime, praticien, status }) {
+export default function Rdv({ _id, navigation, date, duration, startTime, praticien, status }) {
     const date2 = new Date(date);
     const day = date2.getDate();
     const month = date2.getMonth() + 1; // Les mois commencent à partir de 0, donc on ajoute 1
@@ -24,7 +23,7 @@ export default function Rdv({ navigation, date, duration, startTime, praticien, 
         }}>
             <HStack justifyContent={"space-between"}>
                 <VStack>
-                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>{praticien?.name ? "Dr. " + praticien?.name : "Dr. Tiemeni"}</Text>
+                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>{"Dr. " + praticien}</Text>
                     <Text style={{ fontSize: 14, }}>{duration ?? ""}</Text>
                 </VStack>
                 <Avatar
@@ -52,7 +51,7 @@ export default function Rdv({ navigation, date, duration, startTime, praticien, 
                     </HStack>
                 </HStack>
                 <HStack justifyContent={"space-between"}>
-                    <Button onPress={() => navigation.navigate(SCREENS.APPOINTMENT_DETAILS_SCREEN)} style={styles.reportBtn}>
+                    <Button onPress={() => navigation.navigate(SCREENS.APPOINTMENT_DETAILS_SCREEN, { _id: _id })} style={styles.reportBtn}>
                         <Text style={styles.reportText}>Afficher</Text>
                     </Button>
                 </HStack>

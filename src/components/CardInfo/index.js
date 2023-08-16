@@ -36,7 +36,7 @@ const CardInfo = (props) => {
                 </VStack>
 
                 <Center mt={2}>
-                    <Text style={styles.message}>Rendez-vous fixé au {props.date} à {props.heure}</Text>
+                    <Text style={styles.message}>Rendez-vous fixé au {props.date}</Text>
                     <Text color={"primary.500"}>Vous serez prévenu 30 minutes à l'avance.</Text>
                 </Center>
             </VStack>

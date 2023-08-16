@@ -1,14 +1,27 @@
 import React from "react";
 import CustomHeader from "../../components/CustomHeader";
 import * as SCREENS from "../../constants/screens";
-import { Box, Button, Center, HStack, Icon, ScrollView, Text, VStack, View } from "native-base";
+import { Box, Button, HStack, Icon, ScrollView, Text, VStack, View } from "native-base";
 import styles from "./style";
 import colors from "../../constants/colours";
 import { Ionicons } from '@expo/vector-icons';
 import CardInfo from "../../components/CardInfo";
+import { useRoute } from "@react-navigation/native"
+import { connect } from "react-redux";
 
 
-const AppointmentDetails = ({ navigation }) => {
+
+const AppointmentDetails = ({ navigation, appointments }) => {
+  const route = useRoute()
+  const { _id } = route.params
+  const [appointment, setAppointment] = React.useState({})
+
+  React.useEffect(() => {
+    const apt = appointments.find(apt => apt._id === _id);
+    setAppointment(apt);
+  }, [])
+
+
   return (
     <View flex={1}>
       <CustomHeader navigation={navigation} mb={5} screen={SCREENS.PROFILE} />
@@ -19,8 +32,8 @@ const AppointmentDetails = ({ navigation }) => {
             <HStack alignItems={'center'} space={4} style={styles.medCard}>
               <Box style={styles.profile}></Box>
               <VStack>
-                <Text style={styles.medName}>Dr Genseric John Doe</Text>
-                <Text style={styles.label}>Chirurgien oncologue</Text>
+                <Text style={styles.medName}>Dr {appointment?.name} {appointment?.surname}</Text>
+                <Text style={styles.label}>{appointment?.profession}</Text>
                 <Text style={styles.label}>4,5/5 (388 avis)</Text>
               </VStack>
             </HStack>
@@ -36,12 +49,11 @@ const AppointmentDetails = ({ navigation }) => {
 
           <CardInfo
             lieu={'Clinique FOUDA'}
-            patient={"Mr. TIEMENI Christian"}
-            motif={"Lorem ipsum dolor sit amet"}
+            patient={appointment?.patient?.name + " " + appointment?.patient?.surname}
+            motif={appointment.motif}
             infos={"23 ans, 85Kg, Homme"}
-            status={"Planifié"}
-            date={"9 Juillet 2012"}
-            heure={"10h00"}
+            status={appointment?.status}
+            date={appointment?.displayedDate}
           />
 
           <VStack space={2}>
@@ -85,4 +97,8 @@ const AppointmentDetails = ({ navigation }) => {
   );
 };
 
-export default AppointmentDetails;
+const mapStateToProps = ({ RdvForm }) => ({
+  appointments: RdvForm.myRdv
+})
+
+export default connect(mapStateToProps)(AppointmentDetails);

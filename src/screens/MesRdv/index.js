@@ -178,7 +178,7 @@ export default function MesRdv({ navigation }) {
                   elevation: 1,
                 }}
               >
-                <Rdv navigation={navigation} praticien={_e?.practitioner} date={_e?.date} status={_e?.status} startTime={_e?.displayedDate} duration={_e?.motif} />
+                <Rdv _id={_e._id} navigation={navigation} praticien={_e?.name + " " + _e.surname} date={_e?.date} status={_e?.status} startTime={_e?.displayedDate} duration={_e?.motif} />
               </View>
             ))}
           </VStack>

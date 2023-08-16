@@ -6,7 +6,6 @@ import Profile from '../screens/Profile';
 import MonProfile2 from '../screens/MonProfile/index2';
 import MakeAppointment from '../screens/MakeAppointment';
 import { createStackNavigator } from '@react-navigation/stack';
-import Acceuil from '../screens/Acceuil';
 import ContainerBottom from './ContainerBottom';
 import Transaction from '../screens/Transactions'
 import Payment from '../screens/Payment';
