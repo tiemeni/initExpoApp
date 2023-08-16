@@ -12,6 +12,7 @@ import Transaction from '../screens/Transactions'
 import Payment from '../screens/Payment';
 import Parametres from '../screens/Parametres';
 import AboutUs from '../screens/AboutUs';
+import AppointmentDetails from "../screens/AppointmentDetails";
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,7 @@ const ContainerStack = () => {
             <Stack.Screen name={SCREENS.PAYMENT} component={Payment} />
             <Stack.Screen name={SCREENS.SETTINGS} component={Parametres} />
             <Stack.Screen name={SCREENS.ABOUT_US} component={AboutUs} />
+            <Stack.Screen name={SCREENS.APPOINTMENT_DETAILS_SCREEN} component={AppointmentDetails} />
         </Stack.Navigator>
     )
 }

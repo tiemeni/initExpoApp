@@ -17,3 +17,4 @@ export const TrANSACTION = "TRANSACTION";
 export const PAYMENT = "PAYMENT";
 export const SETTINGS = "SETTINGS";
 export const ABOUT_US = "ABOUT_US";
+export const APPOINTMENT_DETAILS_SCREEN = "APPOINTMENT_DETAILS_SCREEN"

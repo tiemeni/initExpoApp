@@ -1,0 +1,47 @@
+import { Center, HStack, Icon, Text, VStack } from "native-base"
+import { MaterialIcons } from '@expo/vector-icons';
+import styles from "./style";
+
+
+const CardInfo = (props) => {
+    return (
+        <VStack space={2}>
+            <Text style={styles.sectionTitle}>Informations sur le rendez-vous</Text>
+            <VStack space={2} style={styles.appoinmentsBox}>
+                <HStack justifyContent={'space-between'}>
+                    <Text color={'primary.500'}>{props.lieu}</Text>
+                    <Text color={'primary.500'}>{props.status}</Text>
+                </HStack>
+
+                <VStack>
+                    <Text style={styles.medName}>{props.patient}</Text>
+                    <Text style={styles.label}>{props.infos}</Text>
+                </VStack>
+
+                <VStack>
+                    <Text style={styles.label}>Motif du rendez-vous:</Text>
+                    <Text style={styles.label}>{props.motif}</Text>
+                </VStack>
+
+                <VStack space={2} style={styles.consignes}>
+                    <HStack space={2} alignItems={"center"}>
+                        <Icon as={<MaterialIcons />} name="info" size={"md"} color={"primary.500"} />
+                        <Text color={"primary.500"} fontWeight={500}>Consignes</Text>
+                    </HStack>
+                    <VStack space={1}>
+                        <Text>- Lorem ipsum dolor sit amet</Text>
+                        <Text>- Lorem ipsum dolor sit amet</Text>
+                        <Text>- Lorem ipsum dolor sit amet</Text>
+                    </VStack>
+                </VStack>
+
+                <Center mt={2}>
+                    <Text style={styles.message}>Rendez-vous fixé au {props.date} à {props.heure}</Text>
+                    <Text color={"primary.500"}>Vous serez prévenu 30 minutes à l'avance.</Text>
+                </Center>
+            </VStack>
+        </VStack>
+    )
+}
+
+export default CardInfo
