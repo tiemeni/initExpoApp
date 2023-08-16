@@ -53,19 +53,7 @@ const creditCardMask = [
 ];
 const expirationMask = [/\d/, /\d/, "/", /\d/, /\d/];
 
-const telMask = [
-  /\d/,
-  /\d/,
-  /\d/,
-  " ",
-  /\d/,
-  /\d/,
-  /\d/,
-  " ",
-  /\d/,
-  /\d/,
-  /\d/,
-];
+const telMask = [/\d/, /\d/, /\d/, " ", /\d/, /\d/, /\d/, " ", /\d/, /\d/, /\d/,];
 
 const Payment = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -76,11 +64,9 @@ const Payment = ({ navigation }) => {
   const success = useSelector(state => state.RdvForm.successPostRdv)
   const error = useSelector(state => state.RdvForm.errorMsgPostRDV)
   const loadingPostRdv = useSelector(state => state.RdvForm.loadingPostRdv)
-  console.log(success, error)
   const formRDV = useSelector(state => state.RdvForm.rdvForm)
   console.log(formRDV, userInfo)
-  const [selectedPaymentMethod, setSelectedPaymentMethod] =
-    useState("visa");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("visa");
   const [showLoaderInModal, setShowLoaderInModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 

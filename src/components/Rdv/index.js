@@ -1,16 +1,16 @@
 import { View, Text, Image } from 'react-native'
 import React from 'react'
-import { Avatar, Circle, HStack, VStack } from 'native-base'
+import { Avatar, Button, Circle, HStack, VStack } from 'native-base'
 import colors from '../../constants/colours'
 import icon from "../../assets/img/account.png"
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import calendar from "../../assets/img/calendar.png"
 import dot from "../../assets/img/black-circle.png"
 import watch from "../../assets/img/clock.png"
+import styles from './style'
+import * as SCREENS from '../../constants/screens'
 
-
-export default function Rdv({ date, duration, startTime, praticien, status }) {
-
+export default function Rdv({ _id, navigation, date, duration, startTime, praticien, status }) {
     const date2 = new Date(date);
     const day = date2.getDate();
     const month = date2.getMonth() + 1; // Les mois commencent à partir de 0, donc on ajoute 1
@@ -21,12 +21,9 @@ export default function Rdv({ date, duration, startTime, praticien, status }) {
             height: "100%",
             width: "100%"
         }}>
-            <HStack
-                justifyContent={"space-between"}
-
-            >
+            <HStack justifyContent={"space-between"}>
                 <VStack>
-                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>{praticien?.name ? "Dr. " + praticien?.name : "Dr. Tiemeni"}</Text>
+                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>{"Dr. " + praticien}</Text>
                     <Text style={{ fontSize: 14, }}>{duration ?? ""}</Text>
                 </VStack>
                 <Avatar
@@ -54,32 +51,9 @@ export default function Rdv({ date, duration, startTime, praticien, status }) {
                     </HStack>
                 </HStack>
                 <HStack justifyContent={"space-between"}>
-                    <TouchableOpacity style={{
-                        backgroundColor: "#fdf2f2",
-                        height: 40,
-                        width: 133,
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "center",
-                        borderRadius: 10,
-                        marginLeft: 10,
-                        alignItems: "center"
-                    }}>
-                        <Text style={{ fontSize: 16, color: "#FF0000" }}>Annuler</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{
-                        backgroundColor: colors.primary,
-                        height: 40,
-                        width: 133,
-                        display: "flex",
-                        flexDirection: "row",
-                        borderRadius: 10,
-                        justifyContent: "center",
-                        marginRight: 10,
-                        alignItems: "center"
-                    }}>
-                        <Text style={{ color: "white", fontSize: 16 }}>Reporter</Text>
-                    </TouchableOpacity>
+                    <Button onPress={() => navigation.navigate(SCREENS.APPOINTMENT_DETAILS_SCREEN, { _id: _id })} style={styles.reportBtn}>
+                        <Text style={styles.reportText}>Afficher</Text>
+                    </Button>
                 </HStack>
             </VStack>
         </View >

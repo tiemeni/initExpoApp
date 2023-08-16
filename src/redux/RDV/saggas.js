@@ -159,7 +159,6 @@ function* postRDV({ data }) {
                 put({ type: "CLEAR_ERR_SUCC" })
             }, 3000)
         } else {
-            console.log("Erreur lors de la creation du rendez-vous!")
             yield put({ type: types.POST_RDV_REQUEST_FAILED, payload: "Erreur lors de la creation du rendez-vous!" })
             yield setTimeout(() => {
                 RootNavigation.navigate(SCREENS.ACCEUIL)
@@ -178,7 +177,6 @@ function* postRDV({ data }) {
 
 function* getAllRdv({ id }) {
     let url = BASE_URL + "/appointments/?module=externe&iduser=" + id
-    console.log(url)
     try {
         const result = yield getUnauthRequest(url);
         if (result.success) {

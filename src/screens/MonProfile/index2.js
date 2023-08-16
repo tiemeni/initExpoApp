@@ -11,6 +11,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import {
   Image,
+  KeyboardAvoidingView,
   Platform,
   Pressable,
   StyleSheet,
@@ -169,216 +170,64 @@ const MonProfile2 = ({ userInfos, loading }) => {
   }, [userInfos]);
 
   return (
-    <View flex={1} style={{ backgroundColor: "white" }}>
-      <View height={50}>
-        <Header title={"Vos informations"} />
-      </View>
-      <ScrollView>
-        <VStack>
-          <View
-            height={120}
-            borderColor={"blue"}
-            justifyContent={"center"}
-            alignItems={"center"}
-          >
-            <Avatar
-              bg={colors.bg_grey}
-              width={92}
-              height={92}
-              source={{
-                uri: null,
-              }}
-            ></Avatar>
-          </View>
-          <View height={25} alignItems={"center"} mb={5}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
+    >
+      <View flex={1} style={{ backgroundColor: "white" }}>
+        <View height={50}>
+          <Header title={"Vos informations"} />
+        </View>
+        <ScrollView>
+          <VStack>
             <View
-              style={{
-                backgroundColor: "rgba(240, 240, 240, 0.69)",
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                height: "100%",
-                width: "90%",
-                borderRadius: 10,
-                paddingLeft: 10,
-              }}
-            >
-              <Text
-                style={{
-                  lineHeight: 19.36,
-                  fontSize: 17,
-                  fontWeight: "bold",
-                }}
-              >
-                Détail de base
-              </Text>
-            </View>
-          </View>
-          <View
-            width={"100%"}
-            marginBottom={5}
-            justifyContent={"center"}
-            alignItems={"center"}
-          >
-            <View width={"85%"} mb={5}>
-              <Text style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}>
-                Nom(s) et prenom(s)
-              </Text>
-              <TextInput
-                isInvalid={true}
-                placeholderTextColor={"#343434"}
-                style={{
-                  borderRadius: 5,
-                  backgroundColor: "white",
-                  borderWidth: 1,
-                  borderColor: "#F0F0F0",
-                  padding: 10,
-                  height: 45,
-                  fontSize: 15,
-                }}
-                placeholder="Tiemani hapi christian"
-                underlineColor="transparent"
-                keyboardType="default"
-                selectionColor={colors.primary}
-                activeUnderlineColor="transparent"
-                onChangeText={(value) => handleInputChange("name", value)}
-                value={formData.name}
-                editable={!editeMode}
-              />
-            </View>
-            <View width={"85%"} mb={4}>
-              <Text style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}>
-                Date de naissance
-              </Text>
-              <TextInput
-                isInvalid={true}
-                placeholderTextColor={"#343434"}
-                style={{
-                  borderRadius: 5,
-                  backgroundColor: "white",
-                  borderWidth: 1,
-                  borderColor: "#F0F0F0",
-                  padding: 10,
-                  height: 45,
-                  fontSize: 15,
-                }}
-                placeholder="17 Decembre 2004"
-                underlineColor="transparent"
-                keyboardType="default"
-                selectionColor={colors.primary}
-                activeUnderlineColor="transparent"
-                onChangeText={(value) => handleInputChange("birthdate", value)}
-                value={formData.birthdate}
-                editable={!editeMode}
-              />
-            </View>
-            <View
-              width={"95%"}
-              mt={2}
+              height={120}
+              borderColor={"blue"}
               justifyContent={"center"}
               alignItems={"center"}
             >
-              <View style={{ width: "90%" }}>
-                <Text style={{ marginBottom: 2, color: "#626262" }}>Sexe</Text>
-                <View
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    flexDirection: "row",
-                  }}
-                >
-                  <View
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      borderWidth: 1,
-                      width: "40%",
-                      height: 45,
-                      padding: 5,
-                      borderRadius: 10,
-                      borderColor: "#F0F0F0",
-                    }}
-                  >
-                    <RadioButton.Android
-                      style={{ height: 100 }}
-                      uncheckedColor={"#F0F0F0"}
-                      color={colors.primary}
-                      value="first"
-                      status={gender === "male" ? "checked" : "unchecked"}
-                      onPress={() => handleGenderChange("male")}
-                      disabled={editeMode}
-                    />
-                    <Text style={{ fontSize: 15, color: "#343434" }}>
-                      Homme
-                    </Text>
-                  </View>
-                  <View
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      borderWidth: 1,
-                      width: "40%",
-                      height: 45,
-                      padding: 5,
-                      borderRadius: 10,
-                      borderColor: "#F0F0F0",
-                    }}
-                  >
-                    <RadioButton.Android
-                      style={{ height: 100 }}
-                      uncheckedColor={"#F0F0F0"}
-                      color={colors.primary}
-                      value="first"
-                      status={gender === "female" ? "checked" : "unchecked"}
-                      onPress={() => handleGenderChange("female")}
-                      disabled={editeMode}
-                    />
-                    <Text style={{ fontSize: 15, color: "#343434" }}>
-                      Femme
-                    </Text>
-                  </View>
-                </View>
-              </View>
+              <Avatar
+                bg={colors.bg_grey}
+                width={92}
+                height={92}
+                source={{
+                  uri: null,
+                }}
+              ></Avatar>
             </View>
-          </View>
-          <View height={25} alignItems={"center"} mt={11} mb={5}>
-            <View
-              style={{
-                backgroundColor: "rgba(240, 240, 240, 0.69)",
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                width: "90%",
-                height: "100%",
-                borderRadius: 10,
-                paddingLeft: 10,
-              }}
-            >
-              <Text
+            <View height={25} alignItems={"center"} mb={5}>
+              <View
                 style={{
-                  lineHeight: 19.36,
-                  fontSize: 17,
-                  fontWeight: "bold",
+                  backgroundColor: "rgba(240, 240, 240, 0.69)",
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  height: "100%",
+                  width: "90%",
+                  borderRadius: 10,
+                  paddingLeft: 10,
                 }}
               >
-                Coordonnées
-              </Text>
+                <Text
+                  style={{
+                    lineHeight: 19.36,
+                    fontSize: 17,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Détail de base
+                </Text>
+              </View>
             </View>
-          </View>
-          <View mb={5}>
             <View
               width={"100%"}
-              marginBottom={11}
+              marginBottom={5}
               justifyContent={"center"}
               alignItems={"center"}
             >
               <View width={"85%"} mb={5}>
-                <Text
-                  style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}
-                >
-                  Adresse mail
+                <Text style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}>
+                  Nom(s) et prenom(s)
                 </Text>
                 <TextInput
                   isInvalid={true}
@@ -392,21 +241,19 @@ const MonProfile2 = ({ userInfos, loading }) => {
                     height: 45,
                     fontSize: 15,
                   }}
-                  placeholder="tiemanirocket@gmail.com"
+                  placeholder="Tiemani hapi christian"
                   underlineColor="transparent"
                   keyboardType="default"
                   selectionColor={colors.primary}
                   activeUnderlineColor="transparent"
-                  onChangeText={(value) => handleInputChange("email", value)}
-                  value={formData.email}
+                  onChangeText={(value) => handleInputChange("name", value)}
+                  value={formData.name}
                   editable={!editeMode}
                 />
               </View>
-              <View width={"85%"}>
-                <Text
-                  style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}
-                >
-                  Numero de telephone
+              <View width={"85%"} mb={4}>
+                <Text style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}>
+                  Date de naissance
                 </Text>
                 <TextInput
                   isInvalid={true}
@@ -420,31 +267,190 @@ const MonProfile2 = ({ userInfos, loading }) => {
                     height: 45,
                     fontSize: 15,
                   }}
-                  placeholder="+237658686162"
+                  placeholder="17 Decembre 2004"
                   underlineColor="transparent"
                   keyboardType="default"
                   selectionColor={colors.primary}
                   activeUnderlineColor="transparent"
-                  onChangeText={(value) =>
-                    handleInputChange("telephone", value)
-                  }
-                  value={formData.telephone}
+                  onChangeText={(value) => handleInputChange("birthdate", value)}
+                  value={formData.birthdate}
                   editable={!editeMode}
                 />
+              </View>
+              <View
+                width={"95%"}
+                mt={2}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <View style={{ width: "90%" }}>
+                  <Text style={{ marginBottom: 2, color: "#626262" }}>Sexe</Text>
+                  <View
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <View
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        borderWidth: 1,
+                        width: "40%",
+                        height: 45,
+                        padding: 5,
+                        borderRadius: 10,
+                        borderColor: "#F0F0F0",
+                      }}
+                    >
+                      <RadioButton.Android
+                        style={{ height: 100 }}
+                        uncheckedColor={"#F0F0F0"}
+                        color={colors.primary}
+                        value="first"
+                        status={gender === "male" ? "checked" : "unchecked"}
+                        onPress={() => handleGenderChange("male")}
+                        disabled={editeMode}
+                      />
+                      <Text style={{ fontSize: 15, color: "#343434" }}>
+                        Homme
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        borderWidth: 1,
+                        width: "40%",
+                        height: 45,
+                        padding: 5,
+                        borderRadius: 10,
+                        borderColor: "#F0F0F0",
+                      }}
+                    >
+                      <RadioButton.Android
+                        style={{ height: 100 }}
+                        uncheckedColor={"#F0F0F0"}
+                        color={colors.primary}
+                        value="first"
+                        status={gender === "female" ? "checked" : "unchecked"}
+                        onPress={() => handleGenderChange("female")}
+                        disabled={editeMode}
+                      />
+                      <Text style={{ fontSize: 15, color: "#343434" }}>
+                        Femme
+                      </Text>
+                    </View>
+                  </View>
+                </View>
               </View>
             </View>
-          </View>
-        </VStack>
-      </ScrollView>
-      <CustomeFab
-        editeMode={editeMode}
-        action={() => {
-          setEditeMode(!editeMode);
-          UpdateInfo();
-        }}
-        loading={loading}
-      />
-    </View>
+            <View height={25} alignItems={"center"} mt={11} mb={5}>
+              <View
+                style={{
+                  backgroundColor: "rgba(240, 240, 240, 0.69)",
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  width: "90%",
+                  height: "100%",
+                  borderRadius: 10,
+                  paddingLeft: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    lineHeight: 19.36,
+                    fontSize: 17,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Coordonnées
+                </Text>
+              </View>
+            </View>
+            <View mb={5}>
+              <View
+                width={"100%"}
+                marginBottom={11}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <View width={"85%"} mb={5}>
+                  <Text
+                    style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}
+                  >
+                    Adresse mail
+                  </Text>
+                  <TextInput
+                    isInvalid={true}
+                    placeholderTextColor={"#343434"}
+                    style={{
+                      borderRadius: 5,
+                      backgroundColor: "white",
+                      borderWidth: 1,
+                      borderColor: "#F0F0F0",
+                      padding: 10,
+                      height: 45,
+                      fontSize: 15,
+                    }}
+                    placeholder="tiemanirocket@gmail.com"
+                    underlineColor="transparent"
+                    keyboardType="default"
+                    selectionColor={colors.primary}
+                    activeUnderlineColor="transparent"
+                    onChangeText={(value) => handleInputChange("email", value)}
+                    value={formData.email}
+                    editable={!editeMode}
+                  />
+                </View>
+                <View width={"85%"}>
+                  <Text
+                    style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}
+                  >
+                    Numero de telephone
+                  </Text>
+                  <TextInput
+                    isInvalid={true}
+                    placeholderTextColor={"#343434"}
+                    style={{
+                      borderRadius: 5,
+                      backgroundColor: "white",
+                      borderWidth: 1,
+                      borderColor: "#F0F0F0",
+                      padding: 10,
+                      height: 45,
+                      fontSize: 15,
+                    }}
+                    placeholder="+237658686162"
+                    underlineColor="transparent"
+                    keyboardType="default"
+                    selectionColor={colors.primary}
+                    activeUnderlineColor="transparent"
+                    onChangeText={(value) =>
+                      handleInputChange("telephone", value)
+                    }
+                    value={formData.telephone}
+                    editable={!editeMode}
+                  />
+                </View>
+              </View>
+            </View>
+          </VStack>
+        </ScrollView>
+        <CustomeFab
+          editeMode={editeMode}
+          action={() => {
+            setEditeMode(!editeMode);
+            UpdateInfo();
+          }}
+          loading={loading}
+        />
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 

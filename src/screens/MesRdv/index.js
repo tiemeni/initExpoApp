@@ -3,7 +3,6 @@ import {
   Box,
   HStack,
   ScrollView,
-  Skeleton,
   View,
   VStack,
 } from "native-base";
@@ -16,7 +15,7 @@ import { Skelette } from "./squelette";
 import CustomHeader from '../../components/CustomHeader';
 import { useDispatch, useSelector } from "react-redux";
 import { clearCache, getMyRDV } from "../../redux/RDV/actions";
-
+import { Ionicons } from '@expo/vector-icons';
 
 export default function MesRdv({ navigation }) {
   const [actualState, setActualState] = useState(1);
@@ -179,7 +178,7 @@ export default function MesRdv({ navigation }) {
                   elevation: 1,
                 }}
               >
-                <Rdv praticien={_e?.practitioner} date={_e?.date} status={_e?.status} startTime={_e?.displayedDate} duration={_e?.motif} />
+                <Rdv _id={_e._id} navigation={navigation} praticien={_e?.name + " " + _e.surname} date={_e?.date} status={_e?.status} startTime={_e?.displayedDate} duration={_e?.motif} />
               </View>
             ))}
           </VStack>
