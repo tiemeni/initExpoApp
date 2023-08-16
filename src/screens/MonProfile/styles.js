@@ -17,6 +17,18 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  iconCam:{
+    marginLeft:-14,
+    marginTop:65, 
+    width:20,
+    height:20,
+    borderRadius:50,
+    borderColor: colors.text_grey_hint,
+    borderWidth:0.5,
+    justifyContent:'center',
+    alignItems: 'center'
+  },
+
   viewStyle2: {
     backgroundColor: "rgba(240, 240, 240, 0.69)",
     display: "flex",

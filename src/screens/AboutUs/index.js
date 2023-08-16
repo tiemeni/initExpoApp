@@ -10,13 +10,14 @@ import {
   VStack,
   Center,
   Image,
-  ScrollView
+  ScrollView,
+  Link
 } from "native-base";
 import {
-  MaterialCommunityIcons,
   AntDesign,
-  Foundation,
+  FontAwesome5 ,
   Entypo,
+  FontAwesome ,
   MaterialIcons,
 } from "@expo/vector-icons";
 import styles from "./styles";
@@ -93,48 +94,67 @@ const AboutUs = () => {
         title={
           <VStack>
             <Center marginLeft={10}>
-              <Text style={{ fontSize: 20 }}>GatewayDoc Heatlty</Text>
-              <Text style={{ fontSize: 11 }}>Version 1.23..14.82</Text>
+              <Text style={{ fontSize: 20 }}>Informations</Text>
             </Center>
           </VStack>
         }
       />
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          marginBottom: 30,
-          marginTop: 40,
-        }}
-      >
-        <Image
-          style={{ width: 500, height: 200, marginTop: 20 }}
-          source={logo}
-          alt={'logo'}
-        />
-      </View>
-
       <VStack marginBottom={5} marginTop={25} style={styles.headerItemGroup}>
-        <Box>
-          <IconItem
-            iconName="call"
-            iconType={MaterialIcons}
-            text="Contactez-nous"
-          />
-          <Divider mb={3} />
-          <IconItem
-            iconName="filetext1"
-            iconType={AntDesign}
-            text="Condition générale d'utilisation"
-          />
-          <Divider mb={3}  />
-          <IconItem
-            iconName="text-document-inverted"
-            iconType={Entypo}
-            text="Politique de de confidentialité"
-          />
-        </Box>
-        <Text style={{fontSize:9 , textAlign:'center', marginTop:3}}> © 2023 GatewaysDoc Healty</Text>
+        <Text style={styles.titreContact}>Contactez-nous</Text>
+        <HStack style={styles.hstackItem} space={5}>
+          <Box style={{...styles.iconBox, backgroundColor:'#a2d2ff'}}>
+            <FontAwesome size={30} name="phone" color={'white'} />
+          </Box>
+          <Box style={{...styles.iconBox}}>
+          <Entypo name="facebook-with-circle" color={'#457b9d'} size={50}  />
+          </Box>
+          <Box style={{...styles.iconBox}}>
+          <Entypo name="mail-with-circle" color={colors.danger} size={50}  />
+          </Box>
+          <Box style={{...styles.iconBox, backgroundColor:colors.success}}>
+          <FontAwesome5  name="whatsapp"  color={colors.white} size={30} />    
+          </Box>
+        </HStack>
+        <Text style={{...styles.titreContact, marginTop:40}}>A propos</Text>
+        <VStack mt={3} space={2}>
+          <HStack>
+          <Entypo name="dot-single" size={30} color={colors.primary} />
+          <Text fontSize={16}>
+           GatewaysDocs est une application de prise de rendez-vous médical
+            conçue pour faciliter la vie des patients et des professionnels de santé.
+            Grâce à cette application, les
+            <Text> patients peuvent prendre des rendez-vous en 
+             ligne avec des médecins et des spécialistes, sans avoir à se déplacer ou à passer
+             des heures à chercher un rendez-vous disponible.
+             </Text>
+          </Text>
+          </HStack>
+
+          <HStack>
+          <Entypo name="dot-single" size={30} color={colors.primary} />
+          <Text>
+           L'application GatewaysDocs est facile àutiliser et offre une grande flexibilité aux patients
+           pour choisir le moment qui convient le mieux à leur emploi du temps.
+            Les patients peuvent prendre des rendez-vous pour une consultation, 
+            une analyse de laboratoire ou une procédure médicale, en fonction des
+             disponibilités des médecins et des cliniques.
+
+          </Text>
+          </HStack>
+
+          <HStack>
+          <Entypo name="dot-single" size={30} color={colors.primary} />
+          <Text>
+          Les professionnels de santé bénéficient également de l'application GatewaysDocs, 
+          car elle leur permet de gérer facilement leur calendrier de rendez-vous et de gagner
+           du temps en évitant les appels téléphoniques ou les courriers électroniques. 
+           Les médecins peuvent consulter leur planning à tout moment et vérifier les rendez-vous à 
+           venir, ce qui leur permet de mieux organiser
+           leur travail et de consacrer plus de temps à leurs patients.
+          </Text>
+          </HStack>
+        </VStack>
+        <Text style={{fontSize:9 , textAlign:'center', marginTop:10}}> © 2023 GatewaysDoc Healty</Text>
       </VStack>
     </ScrollView>
   );

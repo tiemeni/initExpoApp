@@ -6,7 +6,9 @@ import {
   Icon,
   Button,
   Spinner,
-  useToast
+  useToast,
+  HStack,
+  Box
 } from "native-base";
 import React, { useEffect } from "react";
 import { useState } from "react";
@@ -14,7 +16,6 @@ import {
   Image,
   Platform,
   Pressable,
-  StyleSheet,
   Text,
   TextInput,
 } from "react-native";
@@ -31,11 +32,9 @@ import { isValidEmail } from "../../utils/helper";
 import moment from "moment";
 import { userInfoUpdate } from "../../redux/User/action";
 import { styles } from "./styles";
-import CustomToast from "../../components/CustomToast";
-import { Foundation, AntDesign } from "@expo/vector-icons";
+import {AntDesign, Ionicons  } from "@expo/vector-icons";
+import * as DocumentPicker from 'expo-document-picker';
 
-
-const IS_ANDROID = Platform.OS === "android";
 
 
 const FAB = (props) => {
@@ -103,6 +102,11 @@ export const CustomeFab = (props) => {
 };
 
 const MonProfile2 = ({ userInfos, loading }) => {
+
+  const [document, setDocument] = useState(null);
+  const [error, setError] = useState('');
+  const [isSelect, setSetlect] = useState(false);
+
   const [user, setUser] = useState(null);
   const [gender, setGender] = useState(1);
   const [editeMode, setEditeMode] = useState(true);
@@ -182,7 +186,21 @@ const MonProfile2 = ({ userInfos, loading }) => {
       });
     }
   }, [userInfos]);
-  console.log('cddfjdhfdj', user)
+
+  const pickDocument = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({ type: 'image/*'});
+      console.log('Profile', result)
+      if (result.type === 'success' ){
+        console.log('Document sélectionné :', result.uri);
+        setDocument(result.uri);
+      } else {
+        console.log('selection annulé')
+      }
+    } catch (error) {
+      console.log('Erreur de sélection du document :', error);
+    }
+  };
 
   return (
     <View flex={1} style={{ backgroundColor: "white" }}>
@@ -191,18 +209,22 @@ const MonProfile2 = ({ userInfos, loading }) => {
       </View>
       <ScrollView>
         <VStack>
-          <View
+          <HStack
             style={styles.viewStyle}
           >
             <Avatar
-              bg={colors.bg_grey}
+              bg={colors.text_grey_hint}
               width={92}
               height={92}
               source={{
-                uri: null,
+                uri: document,
               }}
-            ></Avatar>
-          </View>
+            >
+            </Avatar>
+              <Pressable onPress={pickDocument} style={styles.iconCam}>
+              <Icon size={3} color={colors.primary}  as={<Ionicons   name="ios-camera"/>}/>
+              </Pressable>
+          </HStack>
           <View height={25} alignItems={"center"} mb={5}>
             <View
               style={styles.viewStyle2}

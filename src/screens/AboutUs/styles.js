@@ -19,11 +19,20 @@ const styles = {
         marginBottom: '5%',
     },
 
+    hstackItem: {
+        marginTop:40,
+        justifyContent:'center'
+    },
+
+    titreContact:{
+      fontSize: 16,
+      fontWeight:'bold'
+    },
+
     iconBox: {
-        height: 40,
-        width: 40,
-        marginRight: '3%',
-        borderRadius: 5,
+        height: 50,
+        width: 50,
+        borderRadius: 50,
         alignItems: 'center',
         justifyContent: 'center'
     }

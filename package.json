@@ -19,6 +19,8 @@
     "@react-navigation/stack": "^6.2.2",
     "deprecated-react-native-prop-types": "^4.2.0",
     "expo": "~48.0.18",
+    "expo-document-picker": "^11.5.4",
+    "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "i18next": "^23.4.4",
     "moment": "^2.29.4",
@@ -49,8 +51,7 @@
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-saga": "^1.2.3",
-    "redux-thunk": "^2.4.1",
-    "expo-splash-screen": "~0.18.2"
+    "redux-thunk": "^2.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
