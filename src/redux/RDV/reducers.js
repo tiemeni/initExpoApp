@@ -99,6 +99,18 @@ const RDVReducer = (state = initialState, action) => {
                 clinicSuccess: false,
                 clinicError: true,
             }
+            case types.SET_RDV_DURATION:
+                let allMotifs = state.motifs
+                let specMotifDuration;
+                allMotifs.forEach(e => {
+                    if(e._id == action.id){
+                        specMotifDuration = e?.default_time
+                    }
+                })
+                return{
+                    ...state,
+                    rdvForm: {...state.rdvForm, duration_rdv: specMotifDuration }
+                }
         case types.GET_PRATICIENS_REQUEST:
             return {
                 ...state,

@@ -5,6 +5,7 @@ import { BASE_URL } from '../../constants/urls';
 import * as RootNavigation from '../../routes/rootNavigation';
 import * as SCREENS from '../../constants/screens'
 import { MY_FICHES, SETIDCENTRE } from '../commons/types';
+import { ajouterDuree } from '../../utils/helper';
 
 
 /**
@@ -114,9 +115,8 @@ function* postRDV({ data }) {
                 practitioner: data?.praticien,
                 patient: result.message,
                 motif: data?.motif,
-                startTime: "09:30",
-                // data?.period?.time,
-                endTime: "10:00",
+                startTime: data?.period?.time,
+                endTime: ajouterDuree(data?.period?.time, data?.duration_rdv),
                 provenance: "mobile",
                 duration: 20,
                 // "dayOfWeek": 1,
