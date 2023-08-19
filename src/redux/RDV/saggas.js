@@ -76,7 +76,8 @@ function* getPraticiens({ data }) {
 }
 
 function* getDispo({ data }) {
-    let url = BASE_URL + "/appointments/rechercher_dispo?idCentre=" + data?.idCentre + "&idp=" + data?.idp
+
+    let url = BASE_URL + "appointments/rechercher_dispo?idCentre=" + data?.idCentre + "&idp=" + data?.idp + "&slotRange=" + data?.creneau + "&startDate=" + data?.date + "&day=" + data?.day
     try {
         const result = yield getUnauthRequest(url);
         if (result.success) {

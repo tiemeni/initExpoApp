@@ -41,7 +41,7 @@ const AppointmentDetails = ({ navigation, appointments }) => {
               <Button style={styles.button} backgroundColor={colors.transp_danger}>
                 <Text color={colors.danger} fontWeight={500}>Annuler</Text>
               </Button>
-              <Button style={styles.button} backgroundColor={colors.trans_primary}>
+              <Button style={styles.button} onPress={() => navigation.navigate(SCREENS.APPOINTMENT_REPORT_SCREEN, { navigation: navigation, appointment: appointment })} backgroundColor={colors.trans_primary}>
                 <Text color={colors.primary} fontWeight={500}>Reporter</Text>
               </Button>
             </HStack>
@@ -50,7 +50,7 @@ const AppointmentDetails = ({ navigation, appointments }) => {
           <CardInfo
             lieu={'Clinique FOUDA'}
             patient={appointment?.patient?.name + " " + appointment?.patient?.surname}
-            motif={appointment.motif}
+            motif={appointment?.motif}
             infos={"23 ans, 85Kg, Homme"}
             status={appointment?.status}
             date={appointment?.displayedDate}

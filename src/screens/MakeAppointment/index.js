@@ -6,7 +6,7 @@ import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import colors from '../../constants/colours';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import MedItem from '../../components/MedItem';
-import { practiciens, disponibilites, appointmentDate, motifs } from '../../utils/helper';
+import { practiciens, disponibilites, appointmentDate, motifs, generateKeyTab, generateValuesTab } from '../../utils/helper';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { MAKE_APPOINTMENT_SCREEN } from '../../constants/screens';
 import * as SCREENS from '../../constants/screens';
@@ -84,6 +84,7 @@ const MakeAppointment = ({ navigation, route }) => {
                 setFormData({
                     ...formData,
                     motif: value,
+                    praticien: null,
                     lieu: null,
                     period: {
                         day: null,
@@ -158,7 +159,7 @@ const MakeAppointment = ({ navigation, route }) => {
                     ...RDVForm,
                     period: { time: null, day: value }
                 }))
-                setActualDayCreneau(generateValuesTab(value))
+                setActualDayCreneau(generateValuesTab(value, dispo))
                 break;
             case 'time':
                 setFormData({ ...formData, period: { ...formData.period, time: value } });
@@ -182,24 +183,6 @@ const MakeAppointment = ({ navigation, route }) => {
         }
     }, [])
 
-    const generateKeyTab = tab => {
-        let keyTab = []
-        tab.forEach((e) => {
-            keyTab.push(e.key)
-        })
-        return keyTab
-    }
-
-    const generateValuesTab = key => {
-        let valuesTab = []
-        dispo.forEach((e) => {
-            if (e.key === key) {
-                valuesTab = e.values
-            }
-        })
-        return valuesTab
-    }
-
     return (
         <View bgColor={colors.white} flex={1} style={styles.container}>
             {/* Header */}
@@ -217,15 +200,15 @@ const MakeAppointment = ({ navigation, route }) => {
                 </Box>
             </HStack>
             <ScrollView
-            ref={scrollViewRef}
-            nestedScrollEnabled={true}
-            onContentSizeChange={(contentWidth, contentHeight) => {
-                formData.praticien && scrollViewRef.current?.scrollTo({ y: contentHeight, animated: true, });
-              }} 
-            showsVerticalScrollIndicator={false} 
-            height={"80%"} 
-            borderColor={'red'}
-             mb={2}>
+                ref={scrollViewRef}
+                nestedScrollEnabled={true}
+                onContentSizeChange={(contentWidth, contentHeight) => {
+                    formData.praticien && scrollViewRef.current?.scrollTo({ y: contentHeight, animated: true, });
+                }}
+                showsVerticalScrollIndicator={false}
+                height={"80%"}
+                borderColor={'red'}
+                mb={2}>
                 {(shouldSeeBehind && isProfession === true)
                     &&
                     <VStack mt={5} style={styles.card}>
