@@ -277,3 +277,14 @@ export const goFromNumberToDay = (n) => {
     }
 }
 
+export function calculerEcartEnMinutes(heure1, heure2) {
+    const [heure1Heures, heure1Minutes] = heure1.split(':');
+    const [heure2Heures, heure2Minutes] = heure2.split(':');
+
+    const totalMinutes1 = parseInt(heure1Heures) * 60 + parseInt(heure1Minutes);
+    const totalMinutes2 = parseInt(heure2Heures) * 60 + parseInt(heure2Minutes);
+
+    const ecartEnMinutes = Math.abs(totalMinutes1 - totalMinutes2);
+
+    return ecartEnMinutes;
+}

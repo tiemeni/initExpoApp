@@ -95,7 +95,7 @@ const styles = {
         fontSize: 15,
         fontWeight: 500,
         color: colors.text_grey_hint,
-        marginBottom: 5
+        marginBottom: 10
     },
     arrowScrollView: {
         height: 25,
@@ -104,6 +104,20 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 50
+    },
+    BoxSelectDayInfo: {
+        display: "flex",
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    btnSubmitPut: {
+        height: 50,
+        width: '100%',
+        borderRadius: 10,
+        borderColor: colors.primary,
+    },
+    btnSubmitText: {
+        fontSize: 15
     }
 }
 

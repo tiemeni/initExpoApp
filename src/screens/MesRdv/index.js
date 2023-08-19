@@ -24,15 +24,12 @@ export default function MesRdv({ navigation }) {
 
   const rdvs = useSelector(state => state.RdvForm.myRdv)
   const user = useSelector(state => state.UserReducer.userInfos)
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   React.useLayoutEffect(() => {
     dispatch(clearCache())
     if(rdvs.length <= 0){
       dispatch(getMyRDV(user?.user?._id))
     }
-    !loadingRDV && setTimeout(() => {
-      setLoading(false)
-    }, 1000)
   }, []);
 
   return (
