@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   Box,
   HStack,
@@ -24,13 +24,12 @@ export default function MesRdv({ navigation }) {
 
   const rdvs = useSelector(state => state.RdvForm.myRdv)
   const user = useSelector(state => state.UserReducer.userInfos)
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
+  const [loading, setLoading] = useState(false);
+  React.useLayoutEffect(() => {
     dispatch(clearCache())
-    dispatch(getMyRDV(user?.user?._id))
-    !loadingRDV && setTimeout(() => {
-      setLoading(false)
-    }, 1000)
+    if(rdvs.length <= 0){
+      dispatch(getMyRDV(user?.user?._id))
+    }
   }, []);
 
   return (

@@ -196,3 +196,95 @@ export const sortArray = (key, array) => {
     }, []);
     return sorted;
 }
+
+export const ajouterDuree = (date, duree) => {
+    const [heure, minute] = date.split(':');
+    const dureeEnMinutes = parseInt(duree, 10);
+
+    let nouvelleHeure = parseInt(heure, 10);
+    let nouveauMinute = parseInt(minute, 10) + dureeEnMinutes;
+
+    // Gérer le dépassement de 60 minutes
+    if (nouveauMinute >= 60) {
+        const heuresSupplementaires = Math.floor(nouveauMinute / 60);
+        nouvelleHeure += heuresSupplementaires;
+        nouveauMinute = nouveauMinute % 60;
+    }
+
+    // Formater la nouvelle heure et minute
+    const nouvelleHeureFormattee = nouvelleHeure.toString().padStart(2, '0');
+    const nouveauMinuteFormattee = nouveauMinute.toString().padStart(2, '0');
+
+    // Renvoyer la nouvelle date au format "hh:mm"
+    return `${nouvelleHeureFormattee}:${nouveauMinuteFormattee}`;
+}
+
+export const dayOfWeek = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche']
+export const creneauxOfDay = ['08:00-17:00', '08:00-10:00', '10:00-12:00', '12:00-14:00', '14:00-16:00', '16:00-18:00']
+export const generateKeyTab = tab => {
+    let keyTab = []
+    tab.forEach((e) => {
+        keyTab.push(e.key)
+    })
+    return keyTab
+}
+
+export const generateValuesTab = (key, dispo) => {
+    let valuesTab = []
+    dispo.forEach((e) => {
+        if (e.key === key) {
+            valuesTab = e.values
+        }
+    })
+    return valuesTab
+}
+
+export const goFromDayToNumber = (string) => {
+    switch (string) {
+        case "lundi":
+            return 1;
+        case "mardi":
+            return 2;
+        case "mercredi":
+            return 3;
+        case "jeudi":
+            return 4;
+        case "vendredi":
+            return 5;
+        case "samedi":
+            return 6;
+        case "dimanche":
+            return 7;
+    }
+}
+
+export const goFromNumberToDay = (n) => {
+    switch (n) {
+        case 1:
+            return "lundi";
+        case 2:
+            return "mardi";
+        case 3:
+            return "mercredi";
+        case 4:
+            return "jeudi";
+        case 5:
+            return "vendredi";
+        case 6:
+            return "samedi";
+        case 7:
+            return "dimanche";
+    }
+}
+
+export function calculerEcartEnMinutes(heure1, heure2) {
+    const [heure1Heures, heure1Minutes] = heure1.split(':');
+    const [heure2Heures, heure2Minutes] = heure2.split(':');
+
+    const totalMinutes1 = parseInt(heure1Heures) * 60 + parseInt(heure1Minutes);
+    const totalMinutes2 = parseInt(heure2Heures) * 60 + parseInt(heure2Minutes);
+
+    const ecartEnMinutes = Math.abs(totalMinutes1 - totalMinutes2);
+
+    return ecartEnMinutes;
+}

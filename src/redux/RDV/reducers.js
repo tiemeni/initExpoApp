@@ -99,6 +99,18 @@ const RDVReducer = (state = initialState, action) => {
                 clinicSuccess: false,
                 clinicError: true,
             }
+        case types.SET_RDV_DURATION:
+            let allMotifs = state.motifs
+            let specMotifDuration;
+            allMotifs.forEach(e => {
+                if (e._id == action.id) {
+                    specMotifDuration = e?.default_time
+                }
+            })
+            return {
+                ...state,
+                rdvForm: { ...state.rdvForm, duration_rdv: specMotifDuration }
+            }
         case types.GET_PRATICIENS_REQUEST:
             return {
                 ...state,
@@ -162,7 +174,10 @@ const RDVReducer = (state = initialState, action) => {
             return {
                 ...state,
                 errorMsgPostRDV: null,
-                successPostRdv: false
+                successPostRdv: false,
+                putingError: false,
+                putingErrorMsg: null,
+                putingSuccess: false
             }
         case types.POST_RDV_REQUEST_FAILED:
             return {
@@ -194,6 +209,37 @@ const RDVReducer = (state = initialState, action) => {
                 rdvLoading: false,
                 rdvSuccess: false,
                 rdvError: true,
+            }
+        case types.PUT_RDV_REQUEST:
+            return {
+                ...state,
+                putingRdv: true,
+                putingError: false,
+                putingErrorMsg: ""
+            }
+        case types.PUT_RDV_REQUEST_SUCCESS:
+            let actualRDVs = state.myRdv
+            let indexToUpdate;
+            actualRDVs.forEach((rdv, index) => {
+                if (rdv._id == action.payload?._id) {
+                    indexToUpdate = index;
+                }
+            })
+            actualRDVs[indexToUpdate] = action.payload
+            console.log(actualRDVs)
+            return {
+                ...state,
+                myRdv: actualRDVs,
+                putingRdv: false,
+                putingSuccess: true
+            }
+        case types.PUT_RDV_REQUEST_FAILED:
+            return {
+                ...state,
+                putingErrorMsg: action.payload,
+                putingRdv: false,
+                putingSuccess: true,
+                putingError: true,
             }
         default:
             return state;

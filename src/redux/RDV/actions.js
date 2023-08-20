@@ -61,4 +61,18 @@ export const getMyRDV = (id) => {
         type: types.GET_ALL_MY_RDV,
         id
     }
-} 
+}
+
+export const setMotifDuration = (id) => {
+    return {
+        type: types.SET_RDV_DURATION,
+        id
+    }
+}
+
+export const putRDV = (data) => {
+    return {
+        type: types.PUT_RDV_REQUEST,
+        data
+    }
+}

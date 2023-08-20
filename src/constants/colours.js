@@ -13,7 +13,9 @@ const colors = {
     text_grey_hint: "#7D7D7D",
     white: '#fff',
     black: '#000',
-    desable: '#F5FAFF'
+    desable: '#F5FAFF',
+    black_gray: "#3F3F3F",
+    normal_gray: "#D4D4D4"
 }
 
 export default colors;
