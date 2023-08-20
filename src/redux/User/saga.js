@@ -135,10 +135,30 @@ function* authLogout() {
   }
 }
 
+/**
+ * 
+ * @param {*} _id identifiant de l'utilisateur 
+ * @param {*} _token identifiant de l'appareil genere par expo 
+ */
+function* sendExpoToken({ payload }) {
+  const url = `${BASE_URL}/users/update-push-token/${payload._id}?module=externe`
+
+  try {
+    const result = yield patchUnauthRequest(url, { token: payload.token })
+    if (!result.success) {
+      yield put({ type: types.SEND_EXPO_TOKEN_FAILED, payload: result.message })
+    }
+    yield put({ type: types.SEND_EXPO_TOKEN_SUCCESS, payload: result.data })
+  } catch (error) {
+    console.error("Something went wrong...", error)
+  }
+}
+
 export default function* UserSaga() {
   yield takeLatest(types.REGISTER_USER_REQUEST, authRegister);
   yield takeLatest(types.LOGIN_REQUEST, authLogin);
   yield takeLatest(types.LOCAL_AUTH_REQUEST, authLocalSignIn);
   yield takeLatest(types.LOGOUT_REQUEST, authLogout);
   yield takeLatest(types.UPDATE_USER_INFORMATION_RESQUEST, authUpdateInfo);
+  yield takeLatest(types.SEND_EXPO_TOKEN_REQUEST, sendExpoToken)
 }

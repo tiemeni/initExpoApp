@@ -6,7 +6,8 @@ const initialState = {
     error: null,
     errorMsg: null,
     localAuth: null,
-    success: null
+    success: null,
+    canBeNotified: null
 };
 
 const UserReducer = (state = initialState, action) => {
@@ -112,6 +113,16 @@ const UserReducer = (state = initialState, action) => {
                 loading: false,
                 localAuth: true,
                 userInfos: action.payload
+            }
+        case types.SEND_EXPO_TOKEN_SUCCESS:
+            return {
+                ...state,
+                canBeNotified: true
+            }
+        case types.SEND_EXPO_TOKEN_FAILED:
+            return {
+                ...state,
+                canBeNotified: false
             }
         default:
             return state;

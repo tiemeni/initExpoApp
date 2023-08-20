@@ -6,21 +6,17 @@ import MedCard from '../../components/MedCard';
 import { specialites, practiciens } from '../../utils/helper';
 import CarouselAstuce from '../../components/MeAstuce';
 import CarouselPub from '../../components/MePub';
-import { MaterialIcons, Ionicons, FontAwesome } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import colors from '../../constants/colours';
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { getProfession } from '../../redux/professions/actions';
 import { clearCache, getMotifs } from '../../redux/RDV/actions';
-import { connect } from 'react-redux';
 import CustomHeader from '../../components/CustomHeader';
+import * as Notifications from 'expo-notifications'
+import { sendExpoToken } from '../../redux/User/action';
 
-const Acceuil = ({ navigation }) => {
-  const healthTips = [
-    "Astuce 1: Boire beaucoup d'eau chaque jour.",
-    "Astuce 2: Manger des fruits et légumes frais.",
-    "Astuce 3: Faire de l'exercice régulièrement.",
-    "Astuce 4: Dormir suffisamment chaque nuit.",
-  ];
+
+const Acceuil = ({ navigation, userInfos }) => {
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const dispatch = useDispatch()
@@ -36,6 +32,26 @@ const Acceuil = ({ navigation }) => {
     dispatch(getProfession())
     dispatch(clearCache())
   }, [])
+
+  useEffect(() => {
+    const { user } = userInfos
+    const requestPermissions = async () => {
+      try {
+        const { status } = await Notifications.requestPermissionsAsync();
+        if (status !== 'granted') {
+          console.log('Permission de notification non accordée');
+          return;
+        }
+
+        const expoPushToken = await Notifications.getExpoPushTokenAsync();
+        dispatch(sendExpoToken({ _id: user._id, token: expoPushToken.data }));
+      } catch (error) {
+        console.error('Erreur lors de la demande de permission de notification:', error);
+      }
+    };
+
+    requestPermissions();
+  }, [userInfos])
 
   return (
     <View flex={1}>
@@ -97,4 +113,8 @@ const Acceuil = ({ navigation }) => {
   )
 }
 
-export default Acceuil
+const mapStateToProps = ({ UserReducer }) => ({
+  userInfos: UserReducer.userInfos
+})
+
+export default connect(mapStateToProps)(Acceuil)
