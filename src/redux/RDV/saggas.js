@@ -76,9 +76,12 @@ function* getPraticiens({ data }) {
 }
 
 function* getDispo({ data }) {
-
-    let url = BASE_URL + "appointments/rechercher_dispo?idCentre=" + data?.idCentre + "&idp=" + data?.idp + "&slotRange=" + data?.creneau + "&startDate=" + data?.date + "&day=" + data?.day
-    console.log(url)
+    let url;
+    if (data?.slotRange) {
+        url = BASE_URL + "appointments/rechercher_dispo?idCentre=" + data?.idCentre + "&idp=" + data?.idp + "&slotRange=" + data?.creneau + "&startDate=" + data?.date + "&day=" + data?.day
+    } else {
+        url = BASE_URL + "appointments/rechercher_dispo?idCentre=" + data?.idCentre + "&idp=" + data?.idp 
+    }
     try {
         const result = yield getUnauthRequest(url);
         if (result.success) {
@@ -147,23 +150,21 @@ function* postRDV({ data }) {
         } else {
             yield put({ type: types.POST_RDV_REQUEST_FAILED, payload: "Erreur lors de la creation du rendez-vous!" })
             yield setTimeout(() => {
-                RootNavigation.navigate(SCREENS.ACCEUIL)
+                //RootNavigation.navigate(SCREENS.ACCEUIL)
                 put({ type: "CLEAR_ERR_SUCC" })
             }, 3000)
         }
-        if (rdv.success) {
-
+        if (rdv?.success) {
             yield put({ type: types.POST_RDV_REQUEST_SUCCESS, payload: rdv?.data })
             yield put({ type: types.GET_ALL_MY_RDV, id: payload.user })
             yield put({ type: MY_FICHES, payload: idFiche })
             yield setTimeout(() => {
-                // RootNavigation.navigate(SCREENS.RDV)
                 put({ type: "CLEAR_ERR_SUCC" })
             }, 3000)
         } else {
             yield put({ type: types.POST_RDV_REQUEST_FAILED, payload: "Erreur lors de la creation du rendez-vous!" })
             yield setTimeout(() => {
-                RootNavigation.navigate(SCREENS.ACCEUIL)
+                //RootNavigation.navigate(SCREENS.ACCEUIL)
                 put({ type: "CLEAR_ERR_SUCC" })
             }, 3000)
         }
@@ -171,7 +172,7 @@ function* postRDV({ data }) {
         console.error(error);
         yield put({ type: types.POST_RDV_REQUEST_FAILED, payload: error })
         yield setTimeout(() => {
-            RootNavigation.navigate(SCREENS.ACCEUIL)
+            //RootNavigation.navigate(SCREENS.ACCEUIL)
             put({ type: "CLEAR_ERR_SUCC" })
         }, 3000)
     }

@@ -33,7 +33,7 @@ const PhoneConfirm = ({ navigation }) => {
                     <CustomInput />
                     <CustomInput />
                 </HStack>
-                <Text style={styles.phoneNumber}>+237 698715999</Text>
+                <Text style={styles.phoneNumber}>tiemanirocket@gmail.com</Text>
             </VStack>
             <Button mb={4} style={styles.btn}>
                 <Text color={colors.white} style={styles.btnLabel}>Renvoyer le code</Text>
