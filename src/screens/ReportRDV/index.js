@@ -304,22 +304,36 @@ export const ReportRDV = ({ route }) => {
                     </VStack>
                 </VStack>
             </ScrollView >
-            <VStack width={"100%"} style={{
+            <HStack width={"100%"} style={{
                 width: '100%',
                 padding: 10,
+                display: "flex",
+                justifyContent: "space-between",
                 top: 0
             }}>
                 <Button
+                    onPress={() => navigation.goBack()}
+                    style={{
+                        ...styles.btnSubmitPut,
+                        backgroundColor: colors.black_gray
+                    }} >
+                    <Text color={colors.white} style={{
+                        ...styles.btnSubmitText,
+                    }}>{"Retour"}</Text>
+                </Button>
+                <Button
                     onPress={handlePutRdv}
+                    isLoading={putingRdv}
                     disabled={putingRdv || !selectedDay || !selectedHour}
                     style={{
-                        ...styles.btnSubmitPut
+                        ...styles.btnSubmitPut,
+                        backgroundColor: colors.primary
                     }} >
                     <Text color={colors.white} style={{
                         ...styles.btnSubmitText
-                    }}>{putingRdv ? "Mise à jour en cours ..." : "Mettre à jour "}</Text>
+                    }}>{putingRdv ? "chargement..." : "Reporter"}</Text>
                 </Button>
-            </VStack>
+            </HStack>
         </View >
     )
 }
