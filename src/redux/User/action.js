@@ -29,3 +29,8 @@ export const userInfoUpdate = (payload, _id) =>({
   type: types.UPDATE_USER_INFORMATION_RESQUEST,
   payload, _id
 })
+
+export const userSetProfile = (payload, _id) => ({
+  type: types.SET_USER_PROFIL_RESQUEST,
+  payload, _id
+})

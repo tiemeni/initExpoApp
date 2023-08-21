@@ -7,7 +7,12 @@ const styles = {
     },
 
     headerItemGroup: {
-        padding: 15,
+        padding:15
+    },
+
+    textStyle:{
+        textAlign:'justify',
+        fontSize:15
     },
 
     headerText: {
@@ -25,8 +30,9 @@ const styles = {
     },
 
     titreContact:{
-      fontSize: 16,
-      fontWeight:'bold'
+      fontSize: 20,
+      fontWeight:'500',
+      letterSpacing:2, 
     },
 
     iconBox: {

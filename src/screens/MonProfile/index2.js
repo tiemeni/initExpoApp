@@ -8,17 +8,11 @@ import {
   Spinner,
   useToast,
   HStack,
-  Box
+  Box,
 } from "native-base";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import {
-  Image,
-  Platform,
-  Pressable,
-  Text,
-  TextInput,
-} from "react-native";
+import { Image, Platform, Pressable, Text, TextInput } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { RadioButton } from "react-native-paper";
 import Header from "../../components/Header";
@@ -30,12 +24,10 @@ import { LOGIN } from "../../constants/screens";
 import { connect, useDispatch } from "react-redux";
 import { isValidEmail } from "../../utils/helper";
 import moment from "moment";
-import { userInfoUpdate } from "../../redux/User/action";
+import { userInfoUpdate, userSetProfile } from "../../redux/User/action";
 import { styles } from "./styles";
-import {AntDesign, Ionicons  } from "@expo/vector-icons";
-import * as DocumentPicker from 'expo-document-picker';
-
-
+import { AntDesign, Ionicons } from "@expo/vector-icons";
+import * as DocumentPicker from "expo-document-picker";
 
 const FAB = (props) => {
   return (
@@ -54,7 +46,7 @@ const FAB = (props) => {
         {!props.onBoarding ? (
           <>
             {props.editeMode && props.loading ? (
-              <Spinner accessibilityLabel="loading" size="sm" color={'white'} />
+              <Spinner accessibilityLabel="loading" size="sm" color={"white"} />
             ) : (
               <Image
                 style={{ ...styles.title }}
@@ -102,10 +94,7 @@ export const CustomeFab = (props) => {
 };
 
 const MonProfile2 = ({ userInfos, loading }) => {
-
   const [document, setDocument] = useState(null);
-  const [error, setError] = useState('');
-  const [isSelect, setSetlect] = useState(false);
 
   const [user, setUser] = useState(null);
   const [gender, setGender] = useState(1);
@@ -153,7 +142,7 @@ const MonProfile2 = ({ userInfos, loading }) => {
   };
 
   const UpdateInfo = () => {
-    if (!editeMode  && hasFormDataChanged()) {
+    if (!editeMode && hasFormDataChanged()) {
       dispatch(userInfoUpdate(formData, user._id));
     }
   };
@@ -161,11 +150,10 @@ const MonProfile2 = ({ userInfos, loading }) => {
   const showDatePickerModal = () => {
     setShowDatePicker(true);
   };
-  
+
   const hideDatePickerModal = () => {
     setShowDatePicker(false);
   };
-  
 
   const handleDateChange = (event, selectedDate) => {
     hideDatePickerModal();
@@ -189,16 +177,14 @@ const MonProfile2 = ({ userInfos, loading }) => {
 
   const pickDocument = async () => {
     try {
-      const result = await DocumentPicker.getDocumentAsync({ type: 'image/*'});
-      console.log('Profile', result)
-      if (result.type === 'success' ){
-        console.log('Document sélectionné :', result.uri);
-        setDocument(result.uri);
-      } else {
-        console.log('selection annulé')
+      const result = await DocumentPicker.getDocumentAsync({ type: "image/*" });
+      if (result.type === "success") {
+        setDocument(result?.uri);
+        console.log('rrrrrrrrrrrrrrrrrrrrrrrr', result)
+        dispatch(userSetProfile(result, user._id));
       }
     } catch (error) {
-      console.log('Erreur de sélection du document :', error);
+      console.log("Erreur lors de la mise à jour du profil:", error);
     }
   };
 
@@ -209,26 +195,25 @@ const MonProfile2 = ({ userInfos, loading }) => {
       </View>
       <ScrollView>
         <VStack>
-          <HStack
-            style={styles.viewStyle}
-          >
+          <HStack style={styles.viewStyle}>
             <Avatar
               bg={colors.text_grey_hint}
               width={92}
               height={92}
               source={{
-                uri: document,
+                uri: user?.photo,
               }}
-            >
-            </Avatar>
-              <Pressable onPress={pickDocument} style={styles.iconCam}>
-              <Icon size={3} color={colors.primary}  as={<Ionicons   name="ios-camera"/>}/>
-              </Pressable>
+            ></Avatar>
+            <Pressable onPress={pickDocument} style={styles.iconCam}>
+              <Icon
+                size={3}
+                color={colors.primary}
+                as={<Ionicons name="ios-camera" />}
+              />
+            </Pressable>
           </HStack>
           <View height={25} alignItems={"center"} mb={5}>
-            <View
-              style={styles.viewStyle2}
-            >
+            <View style={styles.viewStyle2}>
               <Text
                 style={{
                   lineHeight: 19.36,
@@ -240,17 +225,15 @@ const MonProfile2 = ({ userInfos, loading }) => {
               </Text>
             </View>
           </View>
-          <View
-            style={styles.box1}
-          >
+          <View style={styles.box1}>
             <View width={"85%"} mb={5}>
-              <Text style={styles.textLabel}>
-                Nom
-              </Text>
+              <Text style={styles.textLabel}>Nom</Text>
               <TextInput
                 isInvalid={true}
                 placeholderTextColor={colors.text_grey_hint}
-                style={{...styles.textInput, color: !editeMode?colors.text_grey_hint:colors.black
+                style={{
+                  ...styles.textInput,
+                  color: !editeMode ? colors.text_grey_hint : colors.black,
                 }}
                 placeholder="Modifier votre nom"
                 underlineColor="transparent"
@@ -264,13 +247,13 @@ const MonProfile2 = ({ userInfos, loading }) => {
               />
             </View>
             <View width={"85%"} mb={5}>
-              <Text style={styles.textLabel}>
-                Prénom
-              </Text>
+              <Text style={styles.textLabel}>Prénom</Text>
               <TextInput
                 isInvalid={true}
                 placeholderTextColor={colors.text_grey_hint}
-                style={{...styles.textInput, color: !editeMode?colors.text_grey_hint:colors.black,
+                style={{
+                  ...styles.textInput,
+                  color: !editeMode ? colors.text_grey_hint : colors.black,
                 }}
                 placeholder="Modifier votre prénom"
                 underlineColor="transparent"
@@ -283,43 +266,50 @@ const MonProfile2 = ({ userInfos, loading }) => {
               />
             </View>
             <View width={"85%"} mb={4}>
-        <Text style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}>
-          Date de naissance
-        </Text>
-        {editeMode ? (
-          <TextInput
-            isInvalid={true}
-            placeholderTextColor={colors.text_grey_hint}
-            style={{
-              ...styles.textInput,
-              color: !editeMode ? colors.text_grey_hint : colors.black,
-            }}
-            placeholder="17 Decembre 2004"
-            underlineColor="transparent"
-            keyboardType="default"
-            selectionColor={colors.primary}
-            activeUnderlineColor="transparent"
-            onChangeText={(value) => handleInputChange("birthdate", value)}
-            value={formData.birthdate}
-            editable={!editeMode}
-          />
-        ) : (
-          <TouchableOpacity onPress={showDatePickerModal}>
-            <Text style={{ ...styles.textInput, color: !editeMode?colors.text_grey_hint:colors.black }}>
-              {moment(formData.birthdate).format("YYYY-MM-DD")}
-            </Text>
-          </TouchableOpacity>
-        )}
+              <Text style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}>
+                Date de naissance
+              </Text>
+              {editeMode ? (
+                <TextInput
+                  isInvalid={true}
+                  placeholderTextColor={colors.text_grey_hint}
+                  style={{
+                    ...styles.textInput,
+                    color: !editeMode ? colors.text_grey_hint : colors.black,
+                  }}
+                  placeholder="17 Decembre 2004"
+                  underlineColor="transparent"
+                  keyboardType="default"
+                  selectionColor={colors.primary}
+                  activeUnderlineColor="transparent"
+                  onChangeText={(value) =>
+                    handleInputChange("birthdate", value)
+                  }
+                  value={formData.birthdate}
+                  editable={!editeMode}
+                />
+              ) : (
+                <TouchableOpacity onPress={showDatePickerModal}>
+                  <Text
+                    style={{
+                      ...styles.textInput,
+                      color: !editeMode ? colors.text_grey_hint : colors.black,
+                    }}
+                  >
+                    {moment(formData.birthdate).format("YYYY-MM-DD")}
+                  </Text>
+                </TouchableOpacity>
+              )}
 
-        {showDatePicker && (
-          <DateTimePicker
-            value={moment(formData.birthdate).toDate()} // Convertir en objet Date
-            mode="date"
-            display="default"
-            onChange={handleDateChange}
-          />
-        )}
-      </View>
+              {showDatePicker && (
+                <DateTimePicker
+                  value={moment(formData.birthdate).toDate()} // Convertir en objet Date
+                  mode="date"
+                  display="default"
+                  onChange={handleDateChange}
+                />
+              )}
+            </View>
 
             <View
               width={"95%"}
@@ -336,9 +326,7 @@ const MonProfile2 = ({ userInfos, loading }) => {
                     flexDirection: "row",
                   }}
                 >
-                  <View
-                    style={styles.boxRadio}
-                    >
+                  <View style={styles.boxRadio}>
                     <RadioButton.Android
                       style={{ height: 100 }}
                       uncheckedColor={"#F0F0F0"}
@@ -352,9 +340,7 @@ const MonProfile2 = ({ userInfos, loading }) => {
                       Homme
                     </Text>
                   </View>
-                  <View
-                    style={styles.boxRadio}
-                  >
+                  <View style={styles.boxRadio}>
                     <RadioButton.Android
                       style={{ height: 100 }}
                       uncheckedColor={"#F0F0F0"}
@@ -362,7 +348,6 @@ const MonProfile2 = ({ userInfos, loading }) => {
                       value="first"
                       status={gender === 0 ? "checked" : "unchecked"}
                       onPress={() => handleGenderChange(0)}
-                      
                       disabled={editeMode}
                     />
                     <Text style={{ fontSize: 15, color: "#343434" }}>
@@ -374,20 +359,12 @@ const MonProfile2 = ({ userInfos, loading }) => {
             </View>
           </View>
           <View height={25} alignItems={"center"} mt={11} mb={5}>
-            <View
-              style={styles.boxCoord}
-            >
-              <Text
-                style={styles.textCoord}
-              >
-                Coordonnées
-              </Text>
+            <View style={styles.boxCoord}>
+              <Text style={styles.textCoord}>Coordonnées</Text>
             </View>
           </View>
           <View mb={5}>
-            <View
-             style={styles.viewStyle3}
-            >
+            <View style={styles.viewStyle3}>
               <View width={"85%"} mb={5}>
                 <Text
                   style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}
@@ -399,7 +376,7 @@ const MonProfile2 = ({ userInfos, loading }) => {
                   placeholderTextColor={"#343434"}
                   style={{
                     ...styles.textInput,
-                    color: !editeMode?colors.text_grey_hint:colors.black,
+                    color: !editeMode ? colors.text_grey_hint : colors.black,
                   }}
                   placeholder="tiemanirocket@gmail.com"
                   underlineColor="transparent"
@@ -422,7 +399,7 @@ const MonProfile2 = ({ userInfos, loading }) => {
                   placeholderTextColor={"#343434"}
                   style={{
                     ...styles.textInput,
-                    color:!editeMode? colors.text_grey_hint:colors.black,
+                    color: !editeMode ? colors.text_grey_hint : colors.black,
                   }}
                   placeholder="+237658686162"
                   underlineColor="transparent"

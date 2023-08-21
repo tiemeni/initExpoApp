@@ -6,7 +6,7 @@ const initialState = {
     error: null,
     errorMsg: null,
     localAuth: null,
-    success: null
+    success: null,
 };
 
 const UserReducer = (state = initialState, action) => {
@@ -59,6 +59,30 @@ const UserReducer = (state = initialState, action) => {
                 success: true
             }
         case types.UPDATE_USER_INFORMATION_FAILED:
+            return {
+                ...state,
+                errorMsg: action.payload,
+                loading: false,
+                error: true,
+                success: false
+            }
+            case types.SET_USER_PROFIL_RESQUEST:
+            return {
+                ...state,
+                userInfos: action.payload,
+                loading: true,
+                error: false,
+                errorMsg: null,
+                success: null
+            }
+        case types.SET_USER_PROFIL_SUCCESS:
+            return {
+                ...state,
+                userInfos: action.payload,
+                loading: false,
+                success: true
+            }
+        case types.SET_USER_PROFIL_SUCCESS_FAILED:
             return {
                 ...state,
                 errorMsg: action.payload,

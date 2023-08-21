@@ -6,3 +6,4 @@ export const USER_LOGIN = USER + '/signin'
 export const USER_LOGOUT = USER + '/logout'
 export const USER_LOCAL_AUTH = '/verifyToken'
 export const USER_INFO_UPDATE = USER
+export const SET_PROFILE = '/users/upload-photo/'
