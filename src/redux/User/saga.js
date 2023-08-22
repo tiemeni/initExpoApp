@@ -35,7 +35,6 @@ function* authRegister({ payload }) {
       yield put({ type: types.REGISTER_USER_FAILED, payload: result.message })
     }
   } catch (error) {
-    console.error(error);
     yield put({ type: types.REGISTER_USER_FAILED, payload: error })
   }
 }
@@ -60,7 +59,6 @@ function* authUpdateInfo({ payload, _id }) {
       });
     }
   } catch (error) {
-    console.error(error);
     yield put({ type: types.UPDATE_USER_INFORMATION_FAILED, payload: error });
   }
 }
@@ -69,11 +67,8 @@ function* setUserProfile({ payload, _id }) {
   const url = BASE_URL + SET_PROFILE + _id + '?module=externe';
   const formData = new FormData();
   formData.append('photo', payload);
-  console.log('ssdsdsdsdsds', formData)
-  console.log('mes données', payload, _id, url)
   try {
     const result = yield putRequestFormData(url, formData);
-    console.log('forddfdfdfdfdfdfddfdfd', result)
     if (result.success) {
      yield AsyncStorage.setItem(
         "userInfos",
@@ -90,7 +85,6 @@ function* setUserProfile({ payload, _id }) {
       });
     }
   } catch (error) {
-    console.error('sdsdsdsdsdsd',error);
     yield put({ type: types.SET_USER_PROFIL_SUCCESS_FAILED, payload: error });
   }
 }
@@ -102,7 +96,6 @@ function* authLogin({ payload }) {
     const result = yield postUnauthRequest(url, payload);
 
     if (result.success) {
-      console.log('success')
       // save user credentials if asked
       yield AsyncStorage.setItem("access_token", result.data.access_token);
       yield AsyncStorage.setItem("userInfos", JSON.stringify(result.data));
@@ -118,7 +111,6 @@ function* authLogin({ payload }) {
       yield put({ type: types.LOGIN_FAILED, payload: result.message })
     }
   } catch (error) {
-    console.error(error);
     yield put({ type: types.REGISTER_USER_FAILED, payload: error })
   }
 }
@@ -151,7 +143,6 @@ function* authLocalSignIn() {
     }, 1000);
     return;
   } catch (error) {
-    console.error(error);
     yield put({ type: types.LOCAL_AUTH_FAILED });
   }
 }
@@ -162,7 +153,6 @@ function* authLogout() {
     yield AsyncStorage.removeItem("userInfos");
     RootNavigation.navigate(SCREENS.LOGIN, { refresh: true });
   } catch (error) {
-    console.log(error);
     yield put({ type: types.LOGOUT_REQUEST, payload: error });
   }
 }
@@ -191,13 +181,11 @@ function* processVerifCode({ email }) {
   try {
     const result = yield postUnauthRequest(url, { email: email })
     if (result.success) {
-      console.log(result.data)
       yield put({ type: types.PROCESS_VERIF_CODE_SUCCESS, payload: result?.data })
     } else {
       yield put({ type: types.PROCESS_VERIF_CODE_FAILED, payload: "une erreur est survenue , veillez ressayez!" });
     }
   } catch (error) {
-    console.log(error);
     yield put({ type: types.PROCESS_VERIF_CODE_FAILED, payload: "une erreur est survenue , veillez ressayez!" });
   }
 }
@@ -206,7 +194,6 @@ function* resetPassWord({ data }) {
   const url = BASE_URL + "/ext_users/" + data?.id
   try {
     const result = yield patchUnauthRequest(url, { password: data?.password })
-    console.log(result)
     if (result?.success) {
       yield RootNavigation.navigate(SCREENS.LOGIN, { refresh: true });
     } else {

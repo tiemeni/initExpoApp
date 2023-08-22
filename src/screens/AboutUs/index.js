@@ -49,8 +49,6 @@ const AboutUs = () => {
           Linking.canOpenURL(whatsappUrl).then((supported) => {
             if (supported) {
               return Linking.openURL(whatsappUrl);
-            } else {
-              console.log("WhatsApp n'est pas pris en charge sur cet appareil.");
             }
           }).catch((err) => console.error('Erreur lors de l\'ouverture de WhatsApp:', err))
 

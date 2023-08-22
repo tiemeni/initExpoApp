@@ -180,7 +180,6 @@ const MonProfile2 = ({ userInfos, loading }) => {
       const result = await DocumentPicker.getDocumentAsync({ type: "image/*" });
       if (result.type === "success") {
         setDocument(result?.uri);
-        console.log('rrrrrrrrrrrrrrrrrrrrrrrr', result)
         dispatch(userSetProfile(result, user._id));
       }
     } catch (error) {
