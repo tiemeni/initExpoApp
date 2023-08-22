@@ -4,7 +4,7 @@ import { Text, View } from 'react-native'
 import colors from '../../constants/colours'
 import { styles } from './style'
 
-export default function UserAvatar({ uri, name, email }) {
+export default function UserAvatar({ uri, name, email, age }) {
     return (
         <View style={styles.container}>
             <Avatar bg={colors.primary}

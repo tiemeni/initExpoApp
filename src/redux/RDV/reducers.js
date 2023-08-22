@@ -229,7 +229,6 @@ const RDVReducer = (state = initialState, action) => {
                 }
             })
             actualRDVs[indexToUpdate] = action.payload
-            console.log(actualRDVs)
             return {
                 ...state,
                 myRdv: actualRDVs,

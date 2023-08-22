@@ -10,7 +10,6 @@ import { connect } from 'react-redux'
 
 
 const  MonProfile = ({userInfos}) => {
-    console.log('userInfo', userInfos)
     return (
         <View style={styles.container}>
             <VStack style={styles.child1}>

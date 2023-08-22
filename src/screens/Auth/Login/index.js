@@ -30,8 +30,8 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
   const [show, setShow] = React.useState(false);
   const { isFieldInError } = useValidation({ state: formData });
   const [formData, setformData] = React.useState({
-    email: "dongmo@gmail.com",
-    password: "thepunisherr",
+    email: "oyongo@gmail.com",
+    password: "thepunisher",
     saveCredentials: true
   });
 
@@ -89,7 +89,7 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
       })
     }
   }, [error, success])
-
+  
   return (
     <ScrollView style={styles.container}>
       <View flex={1}>

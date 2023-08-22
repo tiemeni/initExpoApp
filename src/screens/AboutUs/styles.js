@@ -7,7 +7,12 @@ const styles = {
     },
 
     headerItemGroup: {
-        padding: 15,
+        padding:15
+    },
+
+    textStyle:{
+        textAlign:'justify',
+        fontSize:15
     },
 
     headerText: {
@@ -19,11 +24,21 @@ const styles = {
         marginBottom: '5%',
     },
 
+    hstackItem: {
+        marginTop:40,
+        justifyContent:'center'
+    },
+
+    titreContact:{
+      fontSize: 20,
+      fontWeight:'500',
+      letterSpacing:2, 
+    },
+
     iconBox: {
-        height: 40,
-        width: 40,
-        marginRight: '3%',
-        borderRadius: 5,
+        height: 50,
+        width: 50,
+        borderRadius: 50,
         alignItems: 'center',
         justifyContent: 'center'
     }
