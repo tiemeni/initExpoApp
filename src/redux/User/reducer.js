@@ -113,6 +113,41 @@ const UserReducer = (state = initialState, action) => {
                 localAuth: true,
                 userInfos: action.payload
             }
+        case types.PROCESS_VERIF_CODE_REQUEST:
+            return {
+                ...state,
+                codeVerifLoading: true
+            }
+        case types.PROCESS_VERIF_CODE_SUCCESS:
+            console.log("-----------------", action.payload)
+            return {
+                ...state,
+                codeVerif: action.payload,
+                codeVerifLoading: false
+            }
+        case types.PROCESS_VERIF_CODE_FAILED:
+            return {
+                ...state,
+                errorCodeVerif: action.payload,
+                codeVerifLoading: false
+            }
+        case types.RESET_PASSWORD_REQUEST:
+            return {
+                ...state,
+                settingPWLoading: true
+            }
+        case types.RESET_PASSWORD_REQUEST_SUCCESS:
+            console.log("-----------------", action.payload)
+            return {
+                ...state,
+                settingPWLoading: false
+            }
+        case types.RESET_PASSWORD_REQUEST_FAILED:
+            return {
+                ...state,
+                errorResettingPw: action.payload,
+                settingPWLoading: false
+            }
         default:
             return state;
     }

@@ -1,25 +1,83 @@
 import React from "react";
 import CustomHeader from "../../components/CustomHeader";
 import * as SCREENS from "../../constants/screens";
-import { Box, Button, HStack, Icon, ScrollView, Text, VStack, View } from "native-base";
+import { Box, Button, HStack, Icon, ScrollView, Text, VStack, View, useToast } from "native-base";
 import styles from "./style";
 import colors from "../../constants/colours";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, Foundation, AntDesign } from '@expo/vector-icons';
 import CardInfo from "../../components/CardInfo";
 import { useRoute } from "@react-navigation/native"
-import { connect } from "react-redux";
-
+import { connect, useDispatch, useSelector } from "react-redux";
+import { ModalAnnulationRdv } from "../../components/ModalAnnulationRdv";
+import { useState } from "react";
+import { cancelRDV } from "../../redux/RDV/actions";
+import CustomToast from "../../components/CustomToast";
+import { CLEAR_ERR_SUCC } from "../../redux/RDV/types";
 
 
 const AppointmentDetails = ({ navigation, appointments }) => {
+  const cancellLoading = useSelector(state => state.RdvForm.cancellingLoading)
+  const cancellSuccess = useSelector(state => state.RdvForm.cancellingSuccess)
+  const cancellingError = useSelector(state => state.RdvForm.errorMsg)
+  const userInfo = useSelector(state => state.UserReducer.userInfos)
+  const [dispSuprrMod, setDisplSuppMod] = useState(false)
   const route = useRoute()
+  const toast = useToast();
+  const dispatch = useDispatch()
   const { _id } = route.params
   const [appointment, setAppointment] = React.useState({})
+
 
   React.useEffect(() => {
     const apt = appointments.find(apt => apt._id === _id);
     setAppointment(apt);
+
+    return () => {
+      dispatch({ type: CLEAR_ERR_SUCC })
+    }
   }, [])
+  const handleCancel = () => {
+    dispatch(cancelRDV({
+      id: appointment?._id,
+      idCentre: appointment?.patient?.idCentre,
+      status: "Annulé",
+      idUser: userInfo?.user?._id
+    }))
+  }
+
+  React.useEffect(() => {
+    if (cancellingError) {
+      toast.show({
+        render: () => {
+          return <CustomToast
+            message={putingErrorMsg ?? "Une erreur est survenue !"}
+            color={colors.danger}
+            bgColor={"red.100"}
+            icon={<Foundation name="alert" size={24} />}
+            iconColor={colors.danger}
+          />
+        },
+        placement: "top",
+        duration: 3000
+      })
+    }
+
+    if (cancellSuccess) {
+      toast.show({
+        render: () => {
+          return <CustomToast
+            message={"Rendez-vous annulé !"}
+            color={colors.success}
+            bgColor={"green.100"}
+            icon={<AntDesign name="checkcircle" size={24} />}
+            iconColor={colors.success}
+          />
+        },
+        placement: "top",
+        duration: 3000
+      })
+    }
+  }, [cancellingError, cancellSuccess])
 
 
   return (
@@ -37,14 +95,21 @@ const AppointmentDetails = ({ navigation, appointments }) => {
                 <Text style={styles.label}>4,5/5 (388 avis)</Text>
               </VStack>
             </HStack>
-            <HStack space={4} mt={2}>
-              <Button style={styles.button} backgroundColor={colors.transp_danger}>
-                <Text color={colors.danger} fontWeight={500}>Annuler</Text>
-              </Button>
-              <Button style={styles.button} onPress={() => navigation.navigate(SCREENS.APPOINTMENT_REPORT_SCREEN, { navigation: navigation, appointment: appointment })} backgroundColor={colors.trans_primary}>
-                <Text color={colors.primary} fontWeight={500}>Reporter</Text>
-              </Button>
-            </HStack>
+            {appointment?.status == "Annulé" ?
+              <HStack mt={2} space={2} style={{ ...styles.alert, backgroundColor: colors.transp_danger }}>
+                <Icon as={<Ionicons />} name="ios-warning" size={"md"} color={colors.danger} />
+                <Text color={colors.danger} fontWeight={500}>Ce rendez-vous est annulé !</Text>
+              </HStack>
+              :
+              <HStack space={4} mt={2}>
+                <Button style={styles.button} onPress={() => setDisplSuppMod(true)} backgroundColor={colors.transp_danger}>
+                  <Text color={colors.danger} fontWeight={500}>Annuler</Text>
+                </Button>
+                <Button style={styles.button} onPress={() => navigation.navigate(SCREENS.APPOINTMENT_REPORT_SCREEN, { navigation: navigation, appointment: appointment })} backgroundColor={colors.trans_primary}>
+                  <Text color={colors.primary} fontWeight={500}>Reporter</Text>
+                </Button>
+              </HStack>
+            }
           </VStack>
 
           <CardInfo
@@ -92,6 +157,7 @@ const AppointmentDetails = ({ navigation, appointments }) => {
             </VStack>
           </VStack>
         </VStack>
+        <ModalAnnulationRdv onsubmit={handleCancel} open={dispSuprrMod} loading={cancellLoading} onClose={() => setDisplSuppMod(false)} />
       </ScrollView>
     </View>
   );

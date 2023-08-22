@@ -78,9 +78,9 @@ function* getPraticiens({ data }) {
 function* getDispo({ data }) {
     let url;
     if (data?.slotRange) {
-        url = BASE_URL + "appointments/rechercher_dispo?idCentre=" + data?.idCentre + "&idp=" + data?.idp + "&slotRange=" + data?.creneau + "&startDate=" + data?.date + "&day=" + data?.day
+        url = BASE_URL + "/appointments/rechercher_dispo?idCentre=" + data?.idCentre + "&idp=" + data?.idp + "&slotRange=" + data?.creneau + "&startDate=" + data?.date + "&day=" + data?.day
     } else {
-        url = BASE_URL + "appointments/rechercher_dispo?idCentre=" + data?.idCentre + "&idp=" + data?.idp 
+        url = BASE_URL + "/appointments/rechercher_dispo?idCentre=" + data?.idCentre + "&idp=" + data?.idp
     }
     try {
         const result = yield getUnauthRequest(url);
@@ -179,7 +179,8 @@ function* postRDV({ data }) {
 }
 
 function* getAllRdv({ id }) {
-    let url = BASE_URL + "appointments/?module=externe&iduser=" + id
+    let url = BASE_URL + "/appointments/?module=externe&iduser=" + id
+    console.log(url)
     try {
         const result = yield getUnauthRequest(url);
         if (result.success) {
@@ -195,8 +196,9 @@ function* getAllRdv({ id }) {
 }
 
 function* putRDV({ data }) {
-    let url = BASE_URL + "appointments/update/" + data.id + "?idCentre=" + data.idCentre
-    const payload = { startTime: data?.startTime, endTime: data?.endTime, date: data?.date, centre: data?.idCentre, idUser: data?.idUser }
+    let url = BASE_URL + "/appointments/update/" + data.id + "?idCentre=" + data.idCentre
+    const payload = { startTime: data?.startTime, endTime: data?.endTime, date: data?.date, centre: data?.idCentre, idUser: data?.idUser, date_long: data?.date_long }
+    console.log(payload)
     try {
         const result = yield putUnauthRequest(url, payload);
         if (result.success) {
@@ -223,6 +225,43 @@ function* putRDV({ data }) {
 }
 
 
+function* cancelRDV({ data }) {
+    let url = BASE_URL + "/appointments/update/" + data.id + "?idCentre=" + data.idCentre
+    console.log(url)
+    const payload = { centre: data?.idCentre, status: data?.status, idUser: data?.idUser }
+    console.log(payload)
+    try {
+        const result = yield putUnauthRequest(url, payload);
+        console.log(result)
+        if (result.success) {
+            console.log(result)
+            yield put({ type: types.CANCEL_RDV_REQUEST_SUCCESS, payload: result.success })
+            //yield put({ type: types.GET_ALL_MY_RDV, id: payload?.idUser })
+            yield getAllRdv({ id: payload.idUser })
+            setTimeout(() => {
+                RootNavigation.navigate(SCREENS.RDV, { _id: result.data?._id })
+                put({ type: "CLEAR_ERR_SUCC" })
+            }, 1000)
+        } else {
+            console.log('here instead')
+            yield put({ type: types.CANCEL_RDV_REQUEST_FAILED, payload: result.message })
+            setTimeout(() => {
+                put({ type: "CLEAR_ERR_SUCC" })
+            }, 3000)
+        }
+    } catch (error) {
+        console.error(error);
+        yield put({ type: types.CANCEL_RDV_REQUEST_FAILED, payload: "une erreur de connexion est survenue !" })
+        setTimeout(() => {
+            put({ type: "CLEAR_ERR_SUCC" })
+        }, 3000)
+    }
+}
+
+
+
+
+
 
 export default function* RDVSagga() {
     yield takeLatest(types.GET_MOTIFS_REQUEST, getMotifs);
@@ -233,4 +272,5 @@ export default function* RDVSagga() {
     yield takeLatest(types.POST_RDV_REQUEST, postRDV);
     yield takeLatest(types.GET_ALL_MY_RDV, getAllRdv);
     yield takeLatest(types.PUT_RDV_REQUEST, putRDV);
+    yield takeLatest(types.CANCEL_RDV_REQUEST, cancelRDV);
 }

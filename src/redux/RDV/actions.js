@@ -76,3 +76,10 @@ export const putRDV = (data) => {
         data
     }
 }
+
+export const cancelRDV = (data) => {
+    return {
+        type: types.CANCEL_RDV_REQUEST,
+        data
+    }
+}

@@ -25,7 +25,21 @@ export const userLogout = () => ({
 
 export const reinitialize = () => ({ type: types.REINITIALIZE })
 
-export const userInfoUpdate = (payload, _id) =>({ 
+export const userInfoUpdate = (payload, _id) => ({
   type: types.UPDATE_USER_INFORMATION_RESQUEST,
   payload, _id
 })
+
+export const processVerifCode = (email) => {
+  return {
+    type: types.PROCESS_VERIF_CODE_REQUEST,
+    email
+  }
+}
+
+export const resettingPassword = (data) => {
+  return {
+    type: types.RESET_PASSWORD_REQUEST,
+    data
+  }
+}

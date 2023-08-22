@@ -177,7 +177,10 @@ const RDVReducer = (state = initialState, action) => {
                 successPostRdv: false,
                 putingError: false,
                 putingErrorMsg: null,
-                putingSuccess: false
+                putingSuccess: false,
+                cancellingError: false,
+                cancellingErrorMsg: null,
+                cancellingSuccess: false
             }
         case types.POST_RDV_REQUEST_FAILED:
             return {
@@ -240,6 +243,28 @@ const RDVReducer = (state = initialState, action) => {
                 putingRdv: false,
                 putingSuccess: true,
                 putingError: true,
+            }
+        case types.CANCEL_RDV_REQUEST:
+            return {
+                ...state,
+                cancellingLoading: true,
+                cancellingError: false,
+                cancellingErrorMsg: ""
+            }
+        case types.CANCEL_RDV_REQUEST_SUCCESS:
+            return {
+                ...state,
+                rdvCancelled: action.payload,
+                cancellingLoading: false,
+                cancellingSuccess: true
+            }
+        case types.CANCEL_RDV_REQUEST_FAILED:
+            return {
+                ...state,
+                errorMsg: action.payload,
+                cancellingLoading: false,
+                cancellingSuccess: true,
+                cancellingError: true,
             }
         default:
             return state;

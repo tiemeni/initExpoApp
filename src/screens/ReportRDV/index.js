@@ -27,6 +27,7 @@ export const ReportRDV = ({ route }) => {
     const errorOnPut = useSelector(state => state.RdvForm.putingError)
     const successOnPut = useSelector(state => state.RdvForm.putingSuccess)
     const [selectedDay, setSelectedDay] = useState("")
+    const [longDate, setLongDate] = useState("")
     const [selectedHour, setSelectedHour] = useState("")
     const [selectedHours, setSelectedHours] = useState([])
     const dispoLoading = useSelector(state => state.RdvForm.dispoLoading)
@@ -62,6 +63,7 @@ export const ReportRDV = ({ route }) => {
         setSelectedDay('')
         setSelectedHour('')
         setSelectedHours([])
+        setLongDate('')
         dispatch(getDispo({
             idCentre: appointment?.patient?.idCentre,
             idp: appointment?.resourceId,
@@ -75,15 +77,18 @@ export const ReportRDV = ({ route }) => {
     }, [date, day, creneau])
 
     const handlePutRdv = () => {
+        console.log(appointment)
         dispatch(putRDV({
             id: appointment?._id,
             idCentre: appointment?.patient?.idCentre,
             startTime: selectedHour,
-            endTime: ajouterDuree(selectedHour, calculerEcartEnMinutes(appointment?.startTime, appointment?.endTime)),
+            endTime: ajouterDuree(selectedHour, calculerEcartEnMinutes(appointment?.timeStart, appointment?.timeEnd)),
             date: date,
             idCentre: appointment?.patient?.idCentre,
-            idUser: userInfo?.user?._id
+            idUser: userInfo?.user?._id,
+            date_long: longDate
         }))
+
     }
 
     React.useEffect(() => {
@@ -107,7 +112,7 @@ export const ReportRDV = ({ route }) => {
             toast.show({
                 render: () => {
                     return <CustomToast
-                        message={"Rendez-vous mis à jour !"}
+                        message={"Rendez-vous reporté !"}
                         color={colors.success}
                         bgColor={"green.100"}
                         icon={<AntDesign name="checkcircle" size={24} />}
@@ -269,7 +274,10 @@ export const ReportRDV = ({ route }) => {
                                     <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
                                         <HStack alignItems={"center"}>
                                             {selectedHours?.map((d, index) =>
-                                                <Pressable key={index} onPress={() => setSelectedHour(d?.start)}>
+                                                <Pressable key={index} onPress={() => setSelectedHour(() => {
+                                                    setLongDate(d?.date_long)
+                                                    return d?.start
+                                                })}>
                                                     <Box
                                                         ml={index !== 0 ? 2 : 0}
                                                         style={{
