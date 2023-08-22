@@ -67,7 +67,7 @@ const UserReducer = (state = initialState, action) => {
                 error: true,
                 success: false
             }
-            case types.SET_USER_PROFIL_RESQUEST:
+        case types.SET_USER_PROFIL_RESQUEST:
             return {
                 ...state,
                 userInfos: action.payload,
@@ -147,6 +147,39 @@ const UserReducer = (state = initialState, action) => {
             return {
                 ...state,
                 canBeNotified: false
+            }
+        case types.PROCESS_VERIF_CODE_REQUEST:
+            return {
+                ...state,
+                codeVerifLoading: true
+            }
+        case types.PROCESS_VERIF_CODE_SUCCESS:
+            return {
+                ...state,
+                codeVerif: action.payload,
+                codeVerifLoading: false
+            }
+        case types.PROCESS_VERIF_CODE_FAILED:
+            return {
+                ...state,
+                errorCodeVerif: action.payload,
+                codeVerifLoading: false
+            }
+        case types.RESET_PASSWORD_REQUEST:
+            return {
+                ...state,
+                settingPWLoading: true
+            }
+        case types.RESET_PASSWORD_REQUEST_SUCCESS:
+            return {
+                ...state,
+                settingPWLoading: false
+            }
+        case types.RESET_PASSWORD_REQUEST_FAILED:
+            return {
+                ...state,
+                errorResettingPw: action.payload,
+                settingPWLoading: false
             }
         default:
             return state;

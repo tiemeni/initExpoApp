@@ -111,8 +111,8 @@ const styles = {
         alignItems: 'center'
     },
     btnSubmitPut: {
-        height: 50,
-        width: '100%',
+        height: 40,
+        width: '45%',
         borderRadius: 10,
         borderColor: colors.primary,
     },

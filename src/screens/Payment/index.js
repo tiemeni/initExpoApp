@@ -65,7 +65,6 @@ const Payment = ({ navigation }) => {
   const error = useSelector(state => state.RdvForm.errorMsgPostRDV)
   const loadingPostRdv = useSelector(state => state.RdvForm.loadingPostRdv)
   const formRDV = useSelector(state => state.RdvForm.rdvForm)
-  console.log(formRDV, userInfo)
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("visa");
   const [showLoaderInModal, setShowLoaderInModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -82,10 +81,10 @@ const Payment = ({ navigation }) => {
     amount: "",
   });
 
+  console.log(formRDV)
+
   const handlePaymentMethodPress = (method) => {
-    console.log("vous avez cliqué");
     setSelectedPaymentMethod(method);
-    console.log("methode selectionnée", selectedPaymentMethod);
   };
 
   const handleInputChange = (field, value) => {
@@ -150,7 +149,6 @@ const Payment = ({ navigation }) => {
 
   const handleCloseModal = () => {
     setIsModalVisible(false);
-    console.log('------------------end')
     navigation.navigate(RDV);
   };
 
@@ -260,7 +258,6 @@ const Payment = ({ navigation }) => {
         });
         break;
       case "cardNumber":
-        console.log(value, "card");
         setFormData({
           ...formData,
           cardNumber: value,

@@ -19,7 +19,7 @@ import logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
 import * as SCREENS from "../../../constants/screens";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
 import { useDispatch, connect } from "react-redux";
-import { userLogin, reinitialize } from "../../../redux/User/action"
+import { userLogin, reinitialize, processVerifCode } from "../../../redux/User/action"
 import CustomToast from "../../../components/CustomToast";
 import { useTranslation } from "react-i18next";
 
@@ -182,7 +182,7 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
           </HStack>
         </VStack>
 
-        <Pressable onPress={() => navigation.navigate(SCREENS.PHONE_CONFIRMATION_SCREEN)}>
+        <Pressable onPress={() => formData?.email && dispatch(processVerifCode(formData?.email)) && navigation.navigate(SCREENS.PHONE_CONFIRMATION_SCREEN, { email: formData?.email })}>
           <Text style={styles.forgetPassword} mt={5}>Mot de passe oublié ?</Text>
         </Pressable>
 

@@ -78,9 +78,9 @@ function* getPraticiens({ data }) {
 function* getDispo({ data }) {
     let url;
     if (data?.slotRange) {
-        url = BASE_URL + "appointments/rechercher_dispo?idCentre=" + data?.idCentre + "&idp=" + data?.idp + "&slotRange=" + data?.creneau + "&startDate=" + data?.date + "&day=" + data?.day
+        url = BASE_URL + "/appointments/rechercher_dispo?idCentre=" + data?.idCentre + "&idp=" + data?.idp + "&slotRange=" + data?.creneau + "&startDate=" + data?.date + "&day=" + data?.day
     } else {
-        url = BASE_URL + "appointments/rechercher_dispo?idCentre=" + data?.idCentre + "&idp=" + data?.idp 
+        url = BASE_URL + "/appointments/rechercher_dispo?idCentre=" + data?.idCentre + "&idp=" + data?.idp
     }
     try {
         const result = yield getUnauthRequest(url);
@@ -98,6 +98,7 @@ function* getDispo({ data }) {
 
 
 function* postRDV({ data }) {
+    console.log(data)
     let url1 = BASE_URL + "/patients/register?idCentre=" + data?.idCentre
     let url2 = BASE_URL + "/appointments/enregistrer_rdv/?idCentre=" + data?.idCentre
     const payload = {
@@ -123,7 +124,8 @@ function* postRDV({ data }) {
                 startTime: data?.period?.time,
                 endTime: ajouterDuree(data?.period?.time, data?.duration_rdv),
                 provenance: "mobile",
-                duration: 20,
+                duration: data?.duration_rdv,
+                date_long: data?.date_long,
                 // "dayOfWeek": 1,
                 date: data?.period?.day,
             }
@@ -137,11 +139,12 @@ function* postRDV({ data }) {
                 practitioner: data?.praticien,
                 patient: result.data._id,
                 motif: data?.motif,
-                startTime: "09:30",
+                startTime: data?.period?.time,
                 // data?.period?.time,
-                endTime: "10:00",
+                endTime: ajouterDuree(data?.period?.time, data?.duration_rdv),
                 provenance: "mobile",
-                duration: 20,
+                duration: data?.duration_rdv,
+                date_long: data?.date_long,
                 // "dayOfWeek": 1,
                 date: data?.period?.day,
             }
@@ -179,7 +182,7 @@ function* postRDV({ data }) {
 }
 
 function* getAllRdv({ id }) {
-    let url = BASE_URL + "appointments/?module=externe&iduser=" + id
+    let url = BASE_URL + "/appointments/?module=externe&iduser=" + id
     try {
         const result = yield getUnauthRequest(url);
         if (result.success) {
@@ -195,8 +198,8 @@ function* getAllRdv({ id }) {
 }
 
 function* putRDV({ data }) {
-    let url = BASE_URL + "appointments/update/" + data.id + "?idCentre=" + data.idCentre
-    const payload = { startTime: data?.startTime, endTime: data?.endTime, date: data?.date, centre: data?.idCentre, idUser: data?.idUser }
+    let url = BASE_URL + "/appointments/update/" + data.id + "?idCentre=" + data.idCentre
+    const payload = { startTime: data?.startTime, endTime: data?.endTime, date: data?.date, centre: data?.idCentre, idUser: data?.idUser, date_long: data?.date_long }
     try {
         const result = yield putUnauthRequest(url, payload);
         if (result.success) {
@@ -223,6 +226,38 @@ function* putRDV({ data }) {
 }
 
 
+function* cancelRDV({ data }) {
+    let url = BASE_URL + "/appointments/update/" + data.id + "?idCentre=" + data.idCentre
+    const payload = { centre: data?.idCentre, status: data?.status, idUser: data?.idUser }
+    try {
+        const result = yield putUnauthRequest(url, payload);
+        if (result.success) {
+            yield put({ type: types.CANCEL_RDV_REQUEST_SUCCESS, payload: result.success })
+            //yield put({ type: types.GET_ALL_MY_RDV, id: payload?.idUser })
+            yield getAllRdv({ id: payload.idUser })
+            setTimeout(() => {
+                RootNavigation.navigate(SCREENS.RDV, { _id: result.data?._id })
+                put({ type: "CLEAR_ERR_SUCC" })
+            }, 1000)
+        } else {
+            yield put({ type: types.CANCEL_RDV_REQUEST_FAILED, payload: result.message })
+            setTimeout(() => {
+                put({ type: "CLEAR_ERR_SUCC" })
+            }, 3000)
+        }
+    } catch (error) {
+        console.error(error);
+        yield put({ type: types.CANCEL_RDV_REQUEST_FAILED, payload: "une erreur de connexion est survenue !" })
+        setTimeout(() => {
+            put({ type: "CLEAR_ERR_SUCC" })
+        }, 3000)
+    }
+}
+
+
+
+
+
 
 export default function* RDVSagga() {
     yield takeLatest(types.GET_MOTIFS_REQUEST, getMotifs);
@@ -233,4 +268,5 @@ export default function* RDVSagga() {
     yield takeLatest(types.POST_RDV_REQUEST, postRDV);
     yield takeLatest(types.GET_ALL_MY_RDV, getAllRdv);
     yield takeLatest(types.PUT_RDV_REQUEST, putRDV);
+    yield takeLatest(types.CANCEL_RDV_REQUEST, cancelRDV);
 }

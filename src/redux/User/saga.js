@@ -102,6 +102,7 @@ function* authLogin({ payload }) {
     const result = yield postUnauthRequest(url, payload);
 
     if (result.success) {
+      console.log('success')
       // save user credentials if asked
       yield AsyncStorage.setItem("access_token", result.data.access_token);
       yield AsyncStorage.setItem("userInfos", JSON.stringify(result.data));
@@ -185,11 +186,46 @@ function* sendExpoToken({ payload }) {
   }
 }
 
+function* processVerifCode({ email }) {
+  const url = BASE_URL + "/ext_users/process_verif_code/"
+  try {
+    const result = yield postUnauthRequest(url, { email: email })
+    if (result.success) {
+      console.log(result.data)
+      yield put({ type: types.PROCESS_VERIF_CODE_SUCCESS, payload: result?.data })
+    } else {
+      yield put({ type: types.PROCESS_VERIF_CODE_FAILED, payload: "une erreur est survenue , veillez ressayez!" });
+    }
+  } catch (error) {
+    console.log(error);
+    yield put({ type: types.PROCESS_VERIF_CODE_FAILED, payload: "une erreur est survenue , veillez ressayez!" });
+  }
+}
+
+function* resetPassWord({ data }) {
+  const url = BASE_URL + "/ext_users/" + data?.id
+  try {
+    const result = yield patchUnauthRequest(url, { password: data?.password })
+    console.log(result)
+    if (result?.success) {
+      yield RootNavigation.navigate(SCREENS.LOGIN, { refresh: true });
+    } else {
+      yield put({ type: types.RESET_PASSWORD_REQUEST_FAILED, payload: "une erreur est survenue , veillez ressayez!" });
+    }
+  } catch (error) {
+    yield put({ type: types.RESET_PASSWORD_REQUEST_SUCCESS, payload: "une erreur est survenue , veillez ressayez!" });
+  }
+}
+
+
+
 export default function* UserSaga() {
   yield takeLatest(types.REGISTER_USER_REQUEST, authRegister);
   yield takeLatest(types.LOGIN_REQUEST, authLogin);
   yield takeLatest(types.LOCAL_AUTH_REQUEST, authLocalSignIn);
   yield takeLatest(types.LOGOUT_REQUEST, authLogout);
+  yield takeLatest(types.RESET_PASSWORD_REQUEST, resetPassWord);
+  yield takeLatest(types.PROCESS_VERIF_CODE_REQUEST, processVerifCode);
   yield takeLatest(types.UPDATE_USER_INFORMATION_RESQUEST, authUpdateInfo);
   yield takeLatest(types.SEND_EXPO_TOKEN_REQUEST, sendExpoToken)
   yield takeLatest(types.SET_USER_PROFIL_RESQUEST, setUserProfile);

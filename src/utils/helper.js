@@ -221,7 +221,7 @@ export const ajouterDuree = (date, duree) => {
 
 export const dayOfWeek = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche']
 export const creneauxOfDay = ['08:00-17:00', '08:00-10:00', '10:00-12:00', '12:00-14:00', '14:00-16:00', '16:00-18:00']
-export const generateKeyTab = tab => {
+export const generateKeyTab = (tab = []) => {
     let keyTab = []
     tab.forEach((e) => {
         keyTab.push(e.key)
@@ -229,9 +229,9 @@ export const generateKeyTab = tab => {
     return keyTab
 }
 
-export const generateValuesTab = (key, dispo) => {
+export const generateValuesTab = (key, dispo = []) => {
     let valuesTab = []
-    dispo.forEach((e) => {
+    dispo?.forEach((e) => {
         if (e.key === key) {
             valuesTab = e.values
         }
@@ -278,8 +278,8 @@ export const goFromNumberToDay = (n) => {
 }
 
 export function calculerEcartEnMinutes(heure1, heure2) {
-    const [heure1Heures, heure1Minutes] = heure1.split(':');
-    const [heure2Heures, heure2Minutes] = heure2.split(':');
+    const [heure1Heures, heure1Minutes] = heure1?.split(':');
+    const [heure2Heures, heure2Minutes] = heure2?.split(':');
 
     const totalMinutes1 = parseInt(heure1Heures) * 60 + parseInt(heure1Minutes);
     const totalMinutes2 = parseInt(heure2Heures) * 60 + parseInt(heure2Minutes);
