@@ -9,10 +9,20 @@ import { Provider } from 'react-redux';
 import store from './src/redux/setups/store';
 import { NativeBaseProvider } from 'native-base';
 import { navigationRef } from './src/routes/rootNavigation';
+import { useEffect } from 'react';
+import * as Notifications from 'expo-notifications'
+
 
 enableScreens()
 
 export default function App() {
+  useEffect(() => {
+    const subscription = Notifications.addNotificationReceivedListener(notification => {
+      console.log(notification);
+    });
+    return () => subscription.remove();
+  }, [])
+
   return (
     <NativeBaseProvider>
       <Provider store={store}>

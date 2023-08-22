@@ -51,7 +51,7 @@ const Acceuil = ({ navigation, userInfos }) => {
     };
 
     requestPermissions();
-  }, [userInfos])
+  }, [])
 
   return (
     <View flex={1}>
