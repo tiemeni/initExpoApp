@@ -98,6 +98,7 @@ function* getDispo({ data }) {
 
 
 function* postRDV({ data }) {
+    console.log(data)
     let url1 = BASE_URL + "/patients/register?idCentre=" + data?.idCentre
     let url2 = BASE_URL + "/appointments/enregistrer_rdv/?idCentre=" + data?.idCentre
     const payload = {
@@ -123,7 +124,8 @@ function* postRDV({ data }) {
                 startTime: data?.period?.time,
                 endTime: ajouterDuree(data?.period?.time, data?.duration_rdv),
                 provenance: "mobile",
-                duration: 20,
+                duration: data?.duration_rdv,
+                date_long: data?.date_long,
                 // "dayOfWeek": 1,
                 date: data?.period?.day,
             }
@@ -137,11 +139,12 @@ function* postRDV({ data }) {
                 practitioner: data?.praticien,
                 patient: result.data._id,
                 motif: data?.motif,
-                startTime: "09:30",
+                startTime: data?.period?.time,
                 // data?.period?.time,
-                endTime: "10:00",
+                endTime: ajouterDuree(data?.period?.time, data?.duration_rdv),
                 provenance: "mobile",
-                duration: 20,
+                duration: data?.duration_rdv,
+                date_long: data?.date_long,
                 // "dayOfWeek": 1,
                 date: data?.period?.day,
             }
@@ -180,7 +183,6 @@ function* postRDV({ data }) {
 
 function* getAllRdv({ id }) {
     let url = BASE_URL + "/appointments/?module=externe&iduser=" + id
-    console.log(url)
     try {
         const result = yield getUnauthRequest(url);
         if (result.success) {
@@ -198,7 +200,6 @@ function* getAllRdv({ id }) {
 function* putRDV({ data }) {
     let url = BASE_URL + "/appointments/update/" + data.id + "?idCentre=" + data.idCentre
     const payload = { startTime: data?.startTime, endTime: data?.endTime, date: data?.date, centre: data?.idCentre, idUser: data?.idUser, date_long: data?.date_long }
-    console.log(payload)
     try {
         const result = yield putUnauthRequest(url, payload);
         if (result.success) {
@@ -227,14 +228,10 @@ function* putRDV({ data }) {
 
 function* cancelRDV({ data }) {
     let url = BASE_URL + "/appointments/update/" + data.id + "?idCentre=" + data.idCentre
-    console.log(url)
     const payload = { centre: data?.idCentre, status: data?.status, idUser: data?.idUser }
-    console.log(payload)
     try {
         const result = yield putUnauthRequest(url, payload);
-        console.log(result)
         if (result.success) {
-            console.log(result)
             yield put({ type: types.CANCEL_RDV_REQUEST_SUCCESS, payload: result.success })
             //yield put({ type: types.GET_ALL_MY_RDV, id: payload?.idUser })
             yield getAllRdv({ id: payload.idUser })
@@ -243,7 +240,6 @@ function* cancelRDV({ data }) {
                 put({ type: "CLEAR_ERR_SUCC" })
             }, 1000)
         } else {
-            console.log('here instead')
             yield put({ type: types.CANCEL_RDV_REQUEST_FAILED, payload: result.message })
             setTimeout(() => {
                 put({ type: "CLEAR_ERR_SUCC" })

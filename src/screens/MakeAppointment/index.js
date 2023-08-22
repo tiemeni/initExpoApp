@@ -165,7 +165,7 @@ const MakeAppointment = ({ navigation, route }) => {
                 setFormData({ ...formData, period: { ...formData.period, time: value } });
                 dispatch(setRDVForm({
                     ...RDVForm,
-                    period: { ...formData.period, time: value }
+                    period: { ...formData.period, time: value },
                 }))
                 break;
             default:
@@ -259,7 +259,6 @@ const MakeAppointment = ({ navigation, route }) => {
                                 <Box>
                                     {motifs?.length > 0 && <SelectList
                                         setSelected={(val) => {
-                                            console.log(val)
                                             handleChange('motif', val)
                                         }}
                                         data={motifs?.map((e) => {
@@ -426,7 +425,14 @@ const MakeAppointment = ({ navigation, route }) => {
                                             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
                                                 <HStack alignItems={'center'}>
                                                     {actualDayCreneaux.map((d, index) =>
-                                                        <Pressable onPress={() => handleChange('time', d.start)} key={d.start}>
+                                                        <Pressable onPress={() => {
+                                                            handleChange('time', d?.start)
+                                                            dispatch(setRDVForm({
+                                                                ...RDVForm,
+                                                                date_long: d?.date_long,
+                                                                period: { ...formData.period, time: d?.start },
+                                                            }))
+                                                        }} key={d.start}>
                                                             <Box
                                                                 ml={index !== 0 ? 2 : 0}
                                                                 style={{
