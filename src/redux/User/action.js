@@ -34,3 +34,8 @@ export const sendExpoToken = payload => ({
   type: types.SEND_EXPO_TOKEN_REQUEST,
   payload
 })
+
+export const userSetProfile = (payload, _id) => ({
+  type: types.SET_USER_PROFIL_RESQUEST,
+  payload, _id
+})

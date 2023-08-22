@@ -67,6 +67,30 @@ const UserReducer = (state = initialState, action) => {
                 error: true,
                 success: false
             }
+            case types.SET_USER_PROFIL_RESQUEST:
+            return {
+                ...state,
+                userInfos: action.payload,
+                loading: true,
+                error: false,
+                errorMsg: null,
+                success: null
+            }
+        case types.SET_USER_PROFIL_SUCCESS:
+            return {
+                ...state,
+                userInfos: action.payload,
+                loading: false,
+                success: true
+            }
+        case types.SET_USER_PROFIL_SUCCESS_FAILED:
+            return {
+                ...state,
+                errorMsg: action.payload,
+                loading: false,
+                error: true,
+                success: false
+            }
 
         case types.LOGIN_REQUEST:
             return {

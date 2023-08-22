@@ -6,58 +6,34 @@ import {
   Icon,
   Button,
   Spinner,
+  useToast,
+  HStack,
+  Box,
 } from "native-base";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import {
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-} from "react-native";
+import { Image, Platform, Pressable, Text, TextInput, KeyboardAvoidingView } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { RadioButton } from "react-native-paper";
 import Header from "../../components/Header";
 import colors from "../../constants/colours";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import plus from "../../assets/img/edit.png";
 import tick from "../../assets/img/tick.png";
-import { AntDesign } from "@expo/vector-icons";
 import { LOGIN } from "../../constants/screens";
 import { connect, useDispatch } from "react-redux";
 import { isValidEmail } from "../../utils/helper";
 import moment from "moment";
-import { userInfoUpdate } from "../../redux/User/action";
-
-const IS_ANDROID = Platform.OS === "android";
-
-const style = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 30,
-    position: "absolute",
-    bottom: 30,
-    right: 30,
-    backgroundColor: colors.primary,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    width: 60,
-    height: 60,
-  },
-  title: {
-    width: 20,
-    height: 20,
-  },
-});
+import { userInfoUpdate, userSetProfile } from "../../redux/User/action";
+import { styles } from "./styles";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
+import * as DocumentPicker from "expo-document-picker";
 
 const FAB = (props) => {
   return (
     <Pressable
       style={{
-        ...style.container,
+        ...styles.container,
         width: props.onBoarding ? "95%" : 60,
         right: props.onBoarding ? "2.5%" : 30,
         bottom: props.onBoarding ? 15 : 30,
@@ -70,10 +46,10 @@ const FAB = (props) => {
         {!props.onBoarding ? (
           <>
             {props.editeMode && props.loading ? (
-              <Spinner accessibilityLabel="loading" size="sm" color={'white'} />
+              <Spinner accessibilityLabel="loading" size="sm" color={"white"} />
             ) : (
               <Image
-                style={{ ...style.title }}
+                style={{ ...styles.title }}
                 source={props.editeMode ? plus : tick}
               />
             )}
@@ -118,12 +94,17 @@ export const CustomeFab = (props) => {
 };
 
 const MonProfile2 = ({ userInfos, loading }) => {
+  const [document, setDocument] = useState(null);
+
   const [user, setUser] = useState(null);
-  const [gender, setGender] = useState("male");
+  const [gender, setGender] = useState(1);
   const [editeMode, setEditeMode] = useState(true);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
   const [formData, setFormData] = useState({
     name: user?.name,
     email: user?.email,
+    surname: user?.surname,
     telephone: user?.telephone,
     birthdate: moment(user?.birthdate).format("YYYY-MM-DD"),
   });
@@ -150,10 +131,34 @@ const MonProfile2 = ({ userInfos, loading }) => {
   };
   const dispatch = useDispatch();
 
+  const hasFormDataChanged = () => {
+    return (
+      formData.name !== user?.name ||
+      formData.email !== user?.email ||
+      formData.surname !== user?.surname ||
+      formData.telephone !== user?.telephone ||
+      formData.birthdate !== moment(user?.birthdate).format("YYYY-MM-DD")
+    );
+  };
+
   const UpdateInfo = () => {
-    if (!editeMode) {
-      //Vérifier si des informations ont changés sur le formData
+    if (!editeMode && hasFormDataChanged()) {
       dispatch(userInfoUpdate(formData, user._id));
+    }
+  };
+
+  const showDatePickerModal = () => {
+    setShowDatePicker(true);
+  };
+
+  const hideDatePickerModal = () => {
+    setShowDatePicker(false);
+  };
+
+  const handleDateChange = (event, selectedDate) => {
+    hideDatePickerModal();
+    if (selectedDate) {
+      handleInputChange("birthdate", moment(selectedDate).format("YYYY-MM-DD"));
     }
   };
 
@@ -162,12 +167,26 @@ const MonProfile2 = ({ userInfos, loading }) => {
       setUser(userInfos.user);
       setFormData({
         name: userInfos.user.name,
+        surname: userInfos.user.surname,
         email: userInfos.user.email,
         telephone: userInfos.user.telephone,
         birthdate: moment(userInfos.user.birthdate).format("YYYY-MM-DD"),
       });
     }
   }, [userInfos]);
+
+  const pickDocument = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({ type: "image/*" });
+      if (result.type === "success") {
+        setDocument(result?.uri);
+        console.log('rrrrrrrrrrrrrrrrrrrrrrrr', result)
+        dispatch(userSetProfile(result, user._id));
+      }
+    } catch (error) {
+      console.log("Erreur lors de la mise à jour du profil:", error);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -180,34 +199,25 @@ const MonProfile2 = ({ userInfos, loading }) => {
         </View>
         <ScrollView>
           <VStack>
-            <View
-              height={120}
-              borderColor={"blue"}
-              justifyContent={"center"}
-              alignItems={"center"}
-            >
+            <HStack style={styles.viewStyle}>
               <Avatar
-                bg={colors.bg_grey}
+                bg={colors.text_grey_hint}
                 width={92}
                 height={92}
                 source={{
-                  uri: null,
+                  uri: user?.photo,
                 }}
               ></Avatar>
-            </View>
+              <Pressable onPress={pickDocument} style={styles.iconCam}>
+                <Icon
+                  size={3}
+                  color={colors.primary}
+                  as={<Ionicons name="ios-camera" />}
+                />
+              </Pressable>
+            </HStack>
             <View height={25} alignItems={"center"} mb={5}>
-              <View
-                style={{
-                  backgroundColor: "rgba(240, 240, 240, 0.69)",
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  height: "100%",
-                  width: "90%",
-                  borderRadius: 10,
-                  paddingLeft: 10,
-                }}
-              >
+              <View style={styles.viewStyle2}>
                 <Text
                   style={{
                     lineHeight: 19.36,
@@ -219,35 +229,43 @@ const MonProfile2 = ({ userInfos, loading }) => {
                 </Text>
               </View>
             </View>
-            <View
-              width={"100%"}
-              marginBottom={5}
-              justifyContent={"center"}
-              alignItems={"center"}
-            >
+            <View style={styles.box1}>
               <View width={"85%"} mb={5}>
-                <Text style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}>
-                  Nom(s) et prenom(s)
-                </Text>
+                <Text style={styles.textLabel}>Nom</Text>
                 <TextInput
                   isInvalid={true}
-                  placeholderTextColor={"#343434"}
+                  placeholderTextColor={colors.text_grey_hint}
                   style={{
-                    borderRadius: 5,
-                    backgroundColor: "white",
-                    borderWidth: 1,
-                    borderColor: "#F0F0F0",
-                    padding: 10,
-                    height: 45,
-                    fontSize: 15,
+                    ...styles.textInput,
+                    color: !editeMode ? colors.text_grey_hint : colors.black,
                   }}
-                  placeholder="Tiemani hapi christian"
+                  placeholder="Modifier votre nom"
+                  underlineColor="transparent"
+                  keyboardType="default"
+                  selectionColor={colors.primary}
+                  selectTextOnFocus={true}
+                  activeUnderlineColor="transparent"
+                  onChangeText={(value) => handleInputChange("name", value)}
+                  value={formData.name}
+                  editable={!editeMode}
+                />
+              </View>
+              <View width={"85%"} mb={5}>
+                <Text style={styles.textLabel}>Prénom</Text>
+                <TextInput
+                  isInvalid={true}
+                  placeholderTextColor={colors.text_grey_hint}
+                  style={{
+                    ...styles.textInput,
+                    color: !editeMode ? colors.text_grey_hint : colors.black,
+                  }}
+                  placeholder="Modifier votre prénom"
                   underlineColor="transparent"
                   keyboardType="default"
                   selectionColor={colors.primary}
                   activeUnderlineColor="transparent"
-                  onChangeText={(value) => handleInputChange("name", value)}
-                  value={formData.name}
+                  onChangeText={(value) => handleInputChange("surname", value)}
+                  value={formData.surname}
                   editable={!editeMode}
                 />
               </View>
@@ -255,28 +273,48 @@ const MonProfile2 = ({ userInfos, loading }) => {
                 <Text style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}>
                   Date de naissance
                 </Text>
-                <TextInput
-                  isInvalid={true}
-                  placeholderTextColor={"#343434"}
-                  style={{
-                    borderRadius: 5,
-                    backgroundColor: "white",
-                    borderWidth: 1,
-                    borderColor: "#F0F0F0",
-                    padding: 10,
-                    height: 45,
-                    fontSize: 15,
-                  }}
-                  placeholder="17 Decembre 2004"
-                  underlineColor="transparent"
-                  keyboardType="default"
-                  selectionColor={colors.primary}
-                  activeUnderlineColor="transparent"
-                  onChangeText={(value) => handleInputChange("birthdate", value)}
-                  value={formData.birthdate}
-                  editable={!editeMode}
-                />
+                {editeMode ? (
+                  <TextInput
+                    isInvalid={true}
+                    placeholderTextColor={colors.text_grey_hint}
+                    style={{
+                      ...styles.textInput,
+                      color: !editeMode ? colors.text_grey_hint : colors.black,
+                    }}
+                    placeholder="17 Decembre 2004"
+                    underlineColor="transparent"
+                    keyboardType="default"
+                    selectionColor={colors.primary}
+                    activeUnderlineColor="transparent"
+                    onChangeText={(value) =>
+                      handleInputChange("birthdate", value)
+                    }
+                    value={formData.birthdate}
+                    editable={!editeMode}
+                  />
+                ) : (
+                  <TouchableOpacity onPress={showDatePickerModal}>
+                    <Text
+                      style={{
+                        ...styles.textInput,
+                        color: !editeMode ? colors.text_grey_hint : colors.black,
+                      }}
+                    >
+                      {moment(formData.birthdate).format("YYYY-MM-DD")}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+
+                {showDatePicker && (
+                  <DateTimePicker
+                    value={moment(formData.birthdate).toDate()} // Convertir en objet Date
+                    mode="date"
+                    display="default"
+                    onChange={handleDateChange}
+                  />
+                )}
               </View>
+
               <View
                 width={"95%"}
                 mt={2}
@@ -292,52 +330,28 @@ const MonProfile2 = ({ userInfos, loading }) => {
                       flexDirection: "row",
                     }}
                   >
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        borderWidth: 1,
-                        width: "40%",
-                        height: 45,
-                        padding: 5,
-                        borderRadius: 10,
-                        borderColor: "#F0F0F0",
-                      }}
-                    >
+                    <View style={styles.boxRadio}>
                       <RadioButton.Android
                         style={{ height: 100 }}
                         uncheckedColor={"#F0F0F0"}
                         color={colors.primary}
                         value="first"
-                        status={gender === "male" ? "checked" : "unchecked"}
-                        onPress={() => handleGenderChange("male")}
+                        status={gender === 1 ? "checked" : "unchecked"}
+                        onPress={() => handleGenderChange(1)}
                         disabled={editeMode}
                       />
                       <Text style={{ fontSize: 15, color: "#343434" }}>
                         Homme
                       </Text>
                     </View>
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        borderWidth: 1,
-                        width: "40%",
-                        height: 45,
-                        padding: 5,
-                        borderRadius: 10,
-                        borderColor: "#F0F0F0",
-                      }}
-                    >
+                    <View style={styles.boxRadio}>
                       <RadioButton.Android
                         style={{ height: 100 }}
                         uncheckedColor={"#F0F0F0"}
                         color={colors.primary}
                         value="first"
-                        status={gender === "female" ? "checked" : "unchecked"}
-                        onPress={() => handleGenderChange("female")}
+                        status={gender === 0 ? "checked" : "unchecked"}
+                        onPress={() => handleGenderChange(0)}
                         disabled={editeMode}
                       />
                       <Text style={{ fontSize: 15, color: "#343434" }}>
@@ -349,36 +363,12 @@ const MonProfile2 = ({ userInfos, loading }) => {
               </View>
             </View>
             <View height={25} alignItems={"center"} mt={11} mb={5}>
-              <View
-                style={{
-                  backgroundColor: "rgba(240, 240, 240, 0.69)",
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  width: "90%",
-                  height: "100%",
-                  borderRadius: 10,
-                  paddingLeft: 10,
-                }}
-              >
-                <Text
-                  style={{
-                    lineHeight: 19.36,
-                    fontSize: 17,
-                    fontWeight: "bold",
-                  }}
-                >
-                  Coordonnées
-                </Text>
+              <View style={styles.boxCoord}>
+                <Text style={styles.textCoord}>Coordonnées</Text>
               </View>
             </View>
             <View mb={5}>
-              <View
-                width={"100%"}
-                marginBottom={11}
-                justifyContent={"center"}
-                alignItems={"center"}
-              >
+              <View style={styles.viewStyle3}>
                 <View width={"85%"} mb={5}>
                   <Text
                     style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}
@@ -389,13 +379,8 @@ const MonProfile2 = ({ userInfos, loading }) => {
                     isInvalid={true}
                     placeholderTextColor={"#343434"}
                     style={{
-                      borderRadius: 5,
-                      backgroundColor: "white",
-                      borderWidth: 1,
-                      borderColor: "#F0F0F0",
-                      padding: 10,
-                      height: 45,
-                      fontSize: 15,
+                      ...styles.textInput,
+                      color: !editeMode ? colors.text_grey_hint : colors.black,
                     }}
                     placeholder="tiemanirocket@gmail.com"
                     underlineColor="transparent"
@@ -417,13 +402,8 @@ const MonProfile2 = ({ userInfos, loading }) => {
                     isInvalid={true}
                     placeholderTextColor={"#343434"}
                     style={{
-                      borderRadius: 5,
-                      backgroundColor: "white",
-                      borderWidth: 1,
-                      borderColor: "#F0F0F0",
-                      padding: 10,
-                      height: 45,
-                      fontSize: 15,
+                      ...styles.textInput,
+                      color: !editeMode ? colors.text_grey_hint : colors.black,
                     }}
                     placeholder="+237658686162"
                     underlineColor="transparent"

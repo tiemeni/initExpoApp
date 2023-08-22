@@ -15,6 +15,10 @@ export const styles = StyleSheet.create({
     emailText: {
         color: 'gray'
     },
+    age: {
+        color: 'gray',
+        textAlign: "center"
+    },
     info: {
         marginLeft: 10
     },

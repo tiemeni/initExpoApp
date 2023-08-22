@@ -1,12 +1,13 @@
 import { put, takeLatest } from "redux-saga/effects";
 import * as types from "./types";
-import { postUnauthRequest, patchUnauthRequest } from "../../utils/api";
+import { postUnauthRequest, patchUnauthRequest , putRequestFormData} from "../../utils/api";
 import {
   BASE_URL,
   USER_LOCAL_AUTH,
   USER_LOGIN,
   USER_REGISTRATION,
   USER_INFO_UPDATE,
+  SET_PROFILE,
 } from "../../constants/urls";
 import * as RootNavigation from "../../routes/rootNavigation";
 import * as SCREENS from "../../constants/screens";
@@ -61,6 +62,36 @@ function* authUpdateInfo({ payload, _id }) {
   } catch (error) {
     console.error(error);
     yield put({ type: types.UPDATE_USER_INFORMATION_FAILED, payload: error });
+  }
+}
+
+function* setUserProfile({ payload, _id }) {
+  const url = BASE_URL + SET_PROFILE + _id + '?module=externe';
+  const formData = new FormData();
+  formData.append('photo', payload);
+  console.log('ssdsdsdsdsds', formData)
+  console.log('mes données', payload, _id, url)
+  try {
+    const result = yield putRequestFormData(url, formData);
+    console.log('forddfdfdfdfdfdfddfdfd', result)
+    if (result.success) {
+     yield AsyncStorage.setItem(
+        "userInfos",
+        JSON.stringify({ user: result.data })
+      );
+      yield put({
+        type: types.SET_USER_PROFIL_SUCCESS,
+        payload: { user: result.data },
+      });
+    } else {
+      yield put({
+        type: types.SET_USER_PROFIL_SUCCESS_FAILED,
+        payload: result.message,
+      });
+    }
+  } catch (error) {
+    console.error('sdsdsdsdsdsd',error);
+    yield put({ type: types.SET_USER_PROFIL_SUCCESS_FAILED, payload: error });
   }
 }
 
@@ -161,4 +192,5 @@ export default function* UserSaga() {
   yield takeLatest(types.LOGOUT_REQUEST, authLogout);
   yield takeLatest(types.UPDATE_USER_INFORMATION_RESQUEST, authUpdateInfo);
   yield takeLatest(types.SEND_EXPO_TOKEN_REQUEST, sendExpoToken)
+  yield takeLatest(types.SET_USER_PROFIL_RESQUEST, setUserProfile);
 }
