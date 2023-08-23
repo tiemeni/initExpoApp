@@ -12,7 +12,14 @@ import {
 } from "native-base";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Image, Platform, Pressable, Text, TextInput, KeyboardAvoidingView } from "react-native";
+import {
+  Image,
+  Platform,
+  Pressable,
+  Text,
+  TextInput,
+  KeyboardAvoidingView,
+} from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { RadioButton } from "react-native-paper";
 import Header from "../../components/Header";
@@ -28,6 +35,7 @@ import { userInfoUpdate, userSetProfile } from "../../redux/User/action";
 import { styles } from "./styles";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import * as DocumentPicker from "expo-document-picker";
+import * as ImagePicker from "expo-image-picker";
 
 const FAB = (props) => {
   return (
@@ -93,9 +101,8 @@ export const CustomeFab = (props) => {
   );
 };
 
-const MonProfile2 = ({ userInfos, loading }) => {
-  const [document, setDocument] = useState(null);
-
+const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
+  const [image, setImage] = useState(null);
   const [user, setUser] = useState(null);
   const [gender, setGender] = useState(1);
   const [editeMode, setEditeMode] = useState(true);
@@ -175,21 +182,29 @@ const MonProfile2 = ({ userInfos, loading }) => {
     }
   }, [userInfos]);
 
-  const pickDocument = async () => {
-    try {
-      const result = await DocumentPicker.getDocumentAsync({ type: "image/*" });
-      if (result.type === "success") {
-        setDocument(result?.uri);
-        dispatch(userSetProfile(result, user._id));
-      }
-    } catch (error) {
-      console.log("Erreur lors de la mise à jour du profil:", error);
+
+  const selectImage = async () => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissionResult.granted === false) {
+      console.log('Permission to access camera roll is required!');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      dispatch(userSetProfile(result.assets[0], user._id));
     }
   };
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
       <View flex={1} style={{ backgroundColor: "white" }}>
@@ -198,23 +213,30 @@ const MonProfile2 = ({ userInfos, loading }) => {
         </View>
         <ScrollView>
           <VStack>
-            <HStack style={styles.viewStyle}>
-              <Avatar
-                bg={colors.text_grey_hint}
-                width={92}
-                height={92}
-                source={{
-                  uri: user?.photo,
-                }}
-              ></Avatar>
-              <Pressable onPress={pickDocument} style={styles.iconCam}>
-                <Icon
-                  size={3}
-                  color={colors.primary}
-                  as={<Ionicons name="ios-camera" />}
-                />
-              </Pressable>
-            </HStack>
+            <TouchableOpacity onPress={selectImage}>
+              <HStack style={styles.viewStyle}>
+                <Avatar
+                  bg={colors.text_grey_hint}
+                  width={92}
+                  height={92}
+                  source={{
+                    uri: user?.photo,
+                  }}
+                ></Avatar>
+                <Box style={styles.iconCam}>
+                  {ImageLoading ? (
+                    <Spinner accessibilityLabel="loading" size="sm" color={colors.primary} />
+                  ) :
+                    (<Icon
+                      size={3}
+                      color={colors.primary}
+                      as={<Ionicons name="ios-camera" />}
+                    />)
+                  }
+                </Box>
+              </HStack>
+            </TouchableOpacity>
+
             <View height={25} alignItems={"center"} mb={5}>
               <View style={styles.viewStyle2}>
                 <Text
@@ -224,7 +246,7 @@ const MonProfile2 = ({ userInfos, loading }) => {
                     fontWeight: "bold",
                   }}
                 >
-                  Détail de base
+                  Détails de base
                 </Text>
               </View>
             </View>
@@ -269,7 +291,9 @@ const MonProfile2 = ({ userInfos, loading }) => {
                 />
               </View>
               <View width={"85%"} mb={4}>
-                <Text style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}>
+                <Text
+                  style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}
+                >
                   Date de naissance
                 </Text>
                 {editeMode ? (
@@ -296,7 +320,9 @@ const MonProfile2 = ({ userInfos, loading }) => {
                     <Text
                       style={{
                         ...styles.textInput,
-                        color: !editeMode ? colors.text_grey_hint : colors.black,
+                        color: !editeMode
+                          ? colors.text_grey_hint
+                          : colors.black,
                       }}
                     >
                       {moment(formData.birthdate).format("YYYY-MM-DD")}
@@ -321,7 +347,9 @@ const MonProfile2 = ({ userInfos, loading }) => {
                 alignItems={"center"}
               >
                 <View style={{ width: "90%" }}>
-                  <Text style={{ marginBottom: 2, color: "#626262" }}>Sexe</Text>
+                  <Text style={{ marginBottom: 2, color: "#626262" }}>
+                    Sexe
+                  </Text>
                   <View
                     style={{
                       display: "flex",
@@ -436,6 +464,7 @@ const MonProfile2 = ({ userInfos, loading }) => {
 const mapStateToProps = ({ UserReducer }) => ({
   userInfos: UserReducer.userInfos,
   loading: UserReducer.loading,
+  ImageLoading: UserReducer.ImageLoading
 });
 
 export default connect(mapStateToProps)(MonProfile2);

@@ -18,13 +18,13 @@ export const styles = StyleSheet.create({
   },
 
   iconCam:{
-    marginLeft:-14,
-    marginTop:65, 
+    marginLeft:-18,
+    marginTop:70, 
     width:20,
     height:20,
     borderRadius:50,
     borderColor: colors.text_grey_hint,
-    borderWidth:0.5,
+    backgroundColor:colors.desable,
     justifyContent:'center',
     alignItems: 'center'
   },
