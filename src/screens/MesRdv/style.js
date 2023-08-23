@@ -26,6 +26,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary
 
   },
+  noRDV: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });
 
 

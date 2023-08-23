@@ -10,7 +10,7 @@ export const ModalAnnulationRdv = ({ open, onClose, loading, onsubmit }) => {
         <Modal isOpen={open} onClose={() => onClose()} avoidKeyboard justifyContent="flex-end" bottom="4" size="lg">
             <Modal.Content style={{ width: "95%" }}>
                 <Modal.CloseButton />
-                <Modal.Header>Annulation rdv</Modal.Header>
+                <Modal.Header>Annulation du rendez-vous</Modal.Header>
                 <Modal.Body>
                     <Text textAlign={"center"}>
                         Etes-vous sûr de vouloir annuler ce rendez-vous ?

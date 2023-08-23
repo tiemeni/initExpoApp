@@ -1,13 +1,12 @@
 import { put, takeLatest } from "redux-saga/effects";
 import * as types from "./types";
-import { postUnauthRequest, patchUnauthRequest , putRequestFormData} from "../../utils/api";
+import { postUnauthRequest, patchUnauthRequest } from "../../utils/api";
 import {
   BASE_URL,
   USER_LOCAL_AUTH,
   USER_LOGIN,
   USER_REGISTRATION,
   USER_INFO_UPDATE,
-  SET_PROFILE,
 } from "../../constants/urls";
 import * as RootNavigation from "../../routes/rootNavigation";
 import * as SCREENS from "../../constants/screens";
@@ -35,6 +34,7 @@ function* authRegister({ payload }) {
       yield put({ type: types.REGISTER_USER_FAILED, payload: result.message })
     }
   } catch (error) {
+    console.error(error);
     yield put({ type: types.REGISTER_USER_FAILED, payload: error })
   }
 }
@@ -59,33 +59,8 @@ function* authUpdateInfo({ payload, _id }) {
       });
     }
   } catch (error) {
+    console.error(error);
     yield put({ type: types.UPDATE_USER_INFORMATION_FAILED, payload: error });
-  }
-}
-
-function* setUserProfile({ payload, _id }) {
-  const url = BASE_URL + SET_PROFILE + _id + '?module=externe';
-  const formData = new FormData();
-  formData.append('photo', payload);
-  try {
-    const result = yield putRequestFormData(url, formData);
-    if (result.success) {
-     yield AsyncStorage.setItem(
-        "userInfos",
-        JSON.stringify({ user: result.data })
-      );
-      yield put({
-        type: types.SET_USER_PROFIL_SUCCESS,
-        payload: { user: result.data },
-      });
-    } else {
-      yield put({
-        type: types.SET_USER_PROFIL_SUCCESS_FAILED,
-        payload: result.message,
-      });
-    }
-  } catch (error) {
-    yield put({ type: types.SET_USER_PROFIL_SUCCESS_FAILED, payload: error });
   }
 }
 
@@ -96,6 +71,7 @@ function* authLogin({ payload }) {
     const result = yield postUnauthRequest(url, payload);
 
     if (result.success) {
+      console.log('success')
       // save user credentials if asked
       yield AsyncStorage.setItem("access_token", result.data.access_token);
       yield AsyncStorage.setItem("userInfos", JSON.stringify(result.data));
@@ -111,6 +87,7 @@ function* authLogin({ payload }) {
       yield put({ type: types.LOGIN_FAILED, payload: result.message })
     }
   } catch (error) {
+    console.error(error);
     yield put({ type: types.REGISTER_USER_FAILED, payload: error })
   }
 }
@@ -143,6 +120,7 @@ function* authLocalSignIn() {
     }, 1000);
     return;
   } catch (error) {
+    console.error(error);
     yield put({ type: types.LOCAL_AUTH_FAILED });
   }
 }
@@ -153,26 +131,8 @@ function* authLogout() {
     yield AsyncStorage.removeItem("userInfos");
     RootNavigation.navigate(SCREENS.LOGIN, { refresh: true });
   } catch (error) {
+    console.log(error);
     yield put({ type: types.LOGOUT_REQUEST, payload: error });
-  }
-}
-
-/**
- * 
- * @param {*} _id identifiant de l'utilisateur 
- * @param {*} _token identifiant de l'appareil genere par expo 
- */
-function* sendExpoToken({ payload }) {
-  const url = `${BASE_URL}/users/update-push-token/${payload._id}?module=externe`
-
-  try {
-    const result = yield patchUnauthRequest(url, { token: payload.token })
-    if (!result.success) {
-      yield put({ type: types.SEND_EXPO_TOKEN_FAILED, payload: result.message })
-    }
-    yield put({ type: types.SEND_EXPO_TOKEN_SUCCESS, payload: result.data })
-  } catch (error) {
-    console.error("Something went wrong...", error)
   }
 }
 
@@ -181,11 +141,13 @@ function* processVerifCode({ email }) {
   try {
     const result = yield postUnauthRequest(url, { email: email })
     if (result.success) {
+      console.log(result.data)
       yield put({ type: types.PROCESS_VERIF_CODE_SUCCESS, payload: result?.data })
     } else {
       yield put({ type: types.PROCESS_VERIF_CODE_FAILED, payload: "une erreur est survenue , veillez ressayez!" });
     }
   } catch (error) {
+    console.log(error);
     yield put({ type: types.PROCESS_VERIF_CODE_FAILED, payload: "une erreur est survenue , veillez ressayez!" });
   }
 }
@@ -194,13 +156,17 @@ function* resetPassWord({ data }) {
   const url = BASE_URL + "/ext_users/" + data?.id
   try {
     const result = yield patchUnauthRequest(url, { password: data?.password })
+    console.log(result)
     if (result?.success) {
       yield RootNavigation.navigate(SCREENS.LOGIN, { refresh: true });
+      yield put({ type: types.REINITIALIZE })
     } else {
       yield put({ type: types.RESET_PASSWORD_REQUEST_FAILED, payload: "une erreur est survenue , veillez ressayez!" });
+      yield put({ type: types.REINITIALIZE })
     }
   } catch (error) {
     yield put({ type: types.RESET_PASSWORD_REQUEST_SUCCESS, payload: "une erreur est survenue , veillez ressayez!" });
+    yield put({ type: types.REINITIALIZE })
   }
 }
 
@@ -214,6 +180,4 @@ export default function* UserSaga() {
   yield takeLatest(types.RESET_PASSWORD_REQUEST, resetPassWord);
   yield takeLatest(types.PROCESS_VERIF_CODE_REQUEST, processVerifCode);
   yield takeLatest(types.UPDATE_USER_INFORMATION_RESQUEST, authUpdateInfo);
-  yield takeLatest(types.SEND_EXPO_TOKEN_REQUEST, sendExpoToken)
-  yield takeLatest(types.SET_USER_PROFIL_RESQUEST, setUserProfile);
 }
