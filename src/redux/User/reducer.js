@@ -3,6 +3,7 @@ import * as types from "./types"
 const initialState = {
     userInfos: null,
     loading: false,
+    ImageLoading: false,
     error: null,
     errorMsg: null,
     localAuth: null,
@@ -71,7 +72,7 @@ const UserReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userInfos: action.payload,
-                loading: true,
+                ImageLoading: true,
                 error: false,
                 errorMsg: null,
                 success: null
@@ -80,14 +81,14 @@ const UserReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userInfos: action.payload,
-                loading: false,
+                ImageLoading: false,
                 success: true
             }
         case types.SET_USER_PROFIL_SUCCESS_FAILED:
             return {
                 ...state,
                 errorMsg: action.payload,
-                loading: false,
+                ImageLoading: false,
                 error: true,
                 success: false
             }

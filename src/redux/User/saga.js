@@ -66,7 +66,11 @@ function* authUpdateInfo({ payload, _id }) {
 function* setUserProfile({ payload, _id }) {
   const url = BASE_URL + SET_PROFILE + _id + '?module=externe';
   const formData = new FormData();
-  formData.append('photo', payload);
+  formData.append('photo', {
+    uri: payload.uri,
+    name: 'image.jpg',
+    type: 'image/jpeg',
+  });
   try {
     const result = yield putRequestFormData(url, formData);
     if (result.success) {
