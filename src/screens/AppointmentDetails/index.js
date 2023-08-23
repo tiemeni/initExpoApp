@@ -102,8 +102,8 @@ const AppointmentDetails = ({ navigation, appointments }) => {
               </HStack>
               :
               <HStack space={4} mt={2}>
-                <Button style={styles.button} onPress={() => setDisplSuppMod(true)} backgroundColor={colors.transp_danger}>
-                  <Text color={colors.danger} fontWeight={500}>Annuler</Text>
+                <Button style={styles.button} onPress={() => setDisplSuppMod(true)} backgroundColor={colors.danger}>
+                  <Text color={colors.white} fontWeight={500}>Annuler</Text>
                 </Button>
                 <Button style={styles.button} onPress={() => navigation.navigate(SCREENS.APPOINTMENT_REPORT_SCREEN, { navigation: navigation, appointment: appointment })} backgroundColor={colors.trans_primary}>
                   <Text color={colors.primary} fontWeight={500}>Reporter</Text>

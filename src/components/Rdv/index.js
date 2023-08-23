@@ -45,9 +45,9 @@ export default function Rdv({ _id, navigation, date, duration, startTime, pratic
                         <Text style={{ fontSize: 12, marginLeft: 5 }}>{startTime}</Text>
                     </HStack>
                     <HStack alignItems={'center'}>
-                        <Image source={dot} style={{ height: 8, width: 8 }} />
+                        {/*<Image source={dot} style={{ height: 8, width: 8 }} />*/}
                         {/* <Circle color={'green'} width={10} height={10} /> */}
-                        <Text style={{ fontSize: 12, marginLeft: 5 }}>{status}</Text>
+                        <Text style={{ fontSize: 12, marginLeft: 5, color: status == "Planifié" ? "green" : "red" }}>{status}</Text>
                     </HStack>
                 </HStack>
                 <HStack justifyContent={"space-between"}>

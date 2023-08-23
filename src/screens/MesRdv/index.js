@@ -21,13 +21,12 @@ export default function MesRdv({ navigation }) {
   const [actualState, setActualState] = useState(1);
   const dispatch = useDispatch()
   const loadingRDV = useSelector(state => state.RdvForm.rdvLoading)
-
   const rdvs = useSelector(state => state.RdvForm.myRdv)
   const user = useSelector(state => state.UserReducer.userInfos)
   const [loading, setLoading] = useState(false);
   React.useLayoutEffect(() => {
     dispatch(clearCache())
-    if(rdvs.length <= 0){
+    if (rdvs.length <= 0) {
       dispatch(getMyRDV(user?.user?._id))
     }
   }, []);
@@ -64,7 +63,7 @@ export default function MesRdv({ navigation }) {
                 setLoading(true);
                 setTimeout(() => {
                   setLoading(false);
-                }, 2000);
+                }, 1000);
               }}
               display={"flex"}
               flexDirection={"row"}
@@ -99,6 +98,10 @@ export default function MesRdv({ navigation }) {
             <Pressable
               onPress={() => {
                 setActualState(2);
+                setLoading(true);
+                setTimeout(() => {
+                  setLoading(false);
+                }, 1000);
               }}
               display={"flex"}
               flexDirection={"row"}
@@ -130,7 +133,9 @@ export default function MesRdv({ navigation }) {
             justifyContent={"center"}
           >
             <Pressable
-              onPress={() => setActualState(3)}
+              onPress={() => {
+                setActualState(3)
+              }}
               display={"flex"}
               flexDirection={"row"}
               justifyContent={"center"}
@@ -157,7 +162,7 @@ export default function MesRdv({ navigation }) {
       <ScrollView overScrollMode="never">
         {actualState === 1 && (!loadingRDV && !loading) ? (
           <VStack justifyContent={"center"} alignItems={"center"}>
-            {rdvs?.map((_e, i) => (
+            {rdvs?.map((_e, i) => _e?.status == "Planifié" && (
               <View
                 key={_e._id}
                 height={182}
@@ -181,9 +186,7 @@ export default function MesRdv({ navigation }) {
               </View>
             ))}
           </VStack>
-        ) : actualState !== 1 && !loadingRDV ? (
-          <VStack></VStack>
-        ) : (
+        ) : actualState == 1 && loadingRDV ? (
           <VStack padding={4} space={1}>
             <VStack>
               <Skelette />
@@ -195,7 +198,81 @@ export default function MesRdv({ navigation }) {
               <Skelette last={true} />
             </VStack>
           </VStack>
-        )}
+        ) : actualState == 2 && (!loadingRDV && !loading) ? (
+          <VStack justifyContent={"center"} alignItems={"center"}>
+            {rdvs?.map((_e, i) => _e?.status == "Annulé" && (
+              <View
+                key={_e._id}
+                height={182}
+                width={340}
+                borderRadius={10}
+                padding={3}
+                mb={2}
+                backgroundColor={"white"}
+                style={{
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 1,
+                  },
+                  shadowOpacity: 0.1,
+                  shadowRadius: 3.84,
+                  elevation: 1,
+                }}
+              >
+                <Rdv _id={_e._id} navigation={navigation} praticien={_e?.name + " " + _e.surname} date={_e?.date} status={_e?.status} startTime={_e?.displayedDate} duration={_e?.motif} />
+              </View>
+            ))}
+          </VStack>
+        ) : actualState == 2 && loadingRDV ?
+          <VStack padding={4} space={1}>
+            <VStack>
+              <Skelette />
+            </VStack>
+            <VStack>
+              <Skelette />
+            </VStack>
+            <VStack>
+              <Skelette last={true} />
+            </VStack>
+          </VStack> : actualState == 3 && (!loadingRDV && !loading) ?
+            <VStack justifyContent={"center"} alignItems={"center"}>
+              {rdvs?.map((_e, i) => _e?.status != "Planifié" && _e?.status != "Annulé" && (
+                <View
+                  key={_e._id}
+                  height={182}
+                  width={340}
+                  borderRadius={10}
+                  padding={3}
+                  mb={2}
+                  backgroundColor={"white"}
+                  style={{
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 1,
+                    },
+                    shadowOpacity: 0.1,
+                    shadowRadius: 3.84,
+                    elevation: 1,
+                  }}
+                >
+                  <Rdv _id={_e._id} navigation={navigation} praticien={_e?.name + " " + _e.surname} date={_e?.date} status={_e?.status} startTime={_e?.displayedDate} duration={_e?.motif} />
+                </View>
+              ))}
+            </VStack> :
+            <VStack padding={4} space={1}>
+              <VStack>
+                <Skelette />
+              </VStack>
+              <VStack>
+                <Skelette />
+              </VStack>
+              <VStack>
+                <Skelette last={true} />
+              </VStack>
+            </VStack>
+        }
       </ScrollView>
     </View>
   );

@@ -6,8 +6,7 @@ const initialState = {
     error: null,
     errorMsg: null,
     localAuth: null,
-    success: null,
-    canBeNotified: null
+    success: null
 };
 
 const UserReducer = (state = initialState, action) => {
@@ -17,7 +16,8 @@ const UserReducer = (state = initialState, action) => {
                 ...state,
                 error: false,
                 errorMsg: null,
-                success: null
+                success: null,
+                settingPWLoading: true
             }
         case types.REGISTER_USER_REQUEST:
             return {
@@ -60,30 +60,6 @@ const UserReducer = (state = initialState, action) => {
                 success: true
             }
         case types.UPDATE_USER_INFORMATION_FAILED:
-            return {
-                ...state,
-                errorMsg: action.payload,
-                loading: false,
-                error: true,
-                success: false
-            }
-        case types.SET_USER_PROFIL_RESQUEST:
-            return {
-                ...state,
-                userInfos: action.payload,
-                loading: true,
-                error: false,
-                errorMsg: null,
-                success: null
-            }
-        case types.SET_USER_PROFIL_SUCCESS:
-            return {
-                ...state,
-                userInfos: action.payload,
-                loading: false,
-                success: true
-            }
-        case types.SET_USER_PROFIL_SUCCESS_FAILED:
             return {
                 ...state,
                 errorMsg: action.payload,
@@ -138,22 +114,13 @@ const UserReducer = (state = initialState, action) => {
                 localAuth: true,
                 userInfos: action.payload
             }
-        case types.SEND_EXPO_TOKEN_SUCCESS:
-            return {
-                ...state,
-                canBeNotified: true
-            }
-        case types.SEND_EXPO_TOKEN_FAILED:
-            return {
-                ...state,
-                canBeNotified: false
-            }
         case types.PROCESS_VERIF_CODE_REQUEST:
             return {
                 ...state,
                 codeVerifLoading: true
             }
         case types.PROCESS_VERIF_CODE_SUCCESS:
+            console.log("-----------------", action.payload)
             return {
                 ...state,
                 codeVerif: action.payload,
@@ -171,6 +138,7 @@ const UserReducer = (state = initialState, action) => {
                 settingPWLoading: true
             }
         case types.RESET_PASSWORD_REQUEST_SUCCESS:
+            console.log("-----------------", action.payload)
             return {
                 ...state,
                 settingPWLoading: false
