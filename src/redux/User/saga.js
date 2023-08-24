@@ -1,12 +1,13 @@
 import { put, takeLatest } from "redux-saga/effects";
 import * as types from "./types";
-import { postUnauthRequest, patchUnauthRequest } from "../../utils/api";
+import { postUnauthRequest, patchUnauthRequest, putRequestFormData } from "../../utils/api";
 import {
   BASE_URL,
   USER_LOCAL_AUTH,
   USER_LOGIN,
   USER_REGISTRATION,
   USER_INFO_UPDATE,
+  SET_PROFILE,
 } from "../../constants/urls";
 import * as RootNavigation from "../../routes/rootNavigation";
 import * as SCREENS from "../../constants/screens";
@@ -61,6 +62,39 @@ function* authUpdateInfo({ payload, _id }) {
   } catch (error) {
     console.error(error);
     yield put({ type: types.UPDATE_USER_INFORMATION_FAILED, payload: error });
+  }
+}
+
+function* setUserProfile({ payload, _id }) {
+  const url = BASE_URL + SET_PROFILE + _id + '?module=externe';
+  const formData = new FormData();
+  formData.append('photo', {
+    uri: payload.uri,
+    name: 'image.jpg',
+    type: 'image/jpeg',
+  });
+
+  try {
+    const result = yield putRequestFormData(url, formData);
+    if (result.success) {
+      yield AsyncStorage.setItem(
+        "userInfos",
+        JSON.stringify({ user: result.data })
+      );
+      yield put({
+        type: types.SET_USER_PROFIL_SUCCESS,
+        payload: { user: result.data },
+      });
+    } else {
+      console.log("error")
+      yield put({
+        type: types.SET_USER_PROFIL_SUCCESS_FAILED,
+        payload: result.message,
+      });
+    }
+  } catch (error) {
+    console.log(error)
+    yield put({ type: types.SET_USER_PROFIL_SUCCESS_FAILED, payload: error });
   }
 }
 
@@ -177,6 +211,7 @@ export default function* UserSaga() {
   yield takeLatest(types.LOGIN_REQUEST, authLogin);
   yield takeLatest(types.LOCAL_AUTH_REQUEST, authLocalSignIn);
   yield takeLatest(types.LOGOUT_REQUEST, authLogout);
+  yield takeLatest(types.SET_USER_PROFIL_RESQUEST, setUserProfile);
   yield takeLatest(types.RESET_PASSWORD_REQUEST, resetPassWord);
   yield takeLatest(types.PROCESS_VERIF_CODE_REQUEST, processVerifCode);
   yield takeLatest(types.UPDATE_USER_INFORMATION_RESQUEST, authUpdateInfo);

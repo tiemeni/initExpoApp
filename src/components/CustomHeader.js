@@ -22,7 +22,7 @@ const CustomHeader = ({ navigation, mb, userInfos, screen }) => {
     const [user, setUser] = useState(null)
 
     useEffect(() => {
-        if(userInfos?.user) setUser(userInfos.user)
+        if (userInfos?.user) setUser(userInfos.user)
     }, [userInfos]);
 
     return (
@@ -51,7 +51,7 @@ const CustomHeader = ({ navigation, mb, userInfos, screen }) => {
                         width={37}
                         height={37}
                         source={{
-                            uri: null
+                            uri: userInfos?.user?.photo ?? null
                         }}></Avatar>
                 </Pressable>
                 <Text style={{ marginLeft: 15, fontSize: 18 }}>{user?.name + " " + user?.surname}</Text>
