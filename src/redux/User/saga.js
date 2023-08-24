@@ -66,6 +66,7 @@ function* authUpdateInfo({ payload, _id }) {
 }
 
 function* setUserProfile({ payload, _id }) {
+  console.log(payload, _id)
   const url = BASE_URL + SET_PROFILE + _id + '?module=externe';
   const formData = new FormData();
   formData.append('photo', {
@@ -76,6 +77,7 @@ function* setUserProfile({ payload, _id }) {
 
   try {
     const result = yield putRequestFormData(url, formData);
+    console.log(result)
     if (result.success) {
       yield AsyncStorage.setItem(
         "userInfos",

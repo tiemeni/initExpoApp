@@ -246,7 +246,7 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                     fontWeight: "bold",
                   }}
                 >
-                  Détail de base
+                  Détails de base
                 </Text>
               </View>
             </View>
