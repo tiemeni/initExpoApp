@@ -70,7 +70,6 @@ const UserReducer = (state = initialState, action) => {
         case types.SET_USER_PROFIL_RESQUEST:
             return {
                 ...state,
-                userInfos: action.payload,
                 loading: true,
                 error: false,
                 errorMsg: null,
