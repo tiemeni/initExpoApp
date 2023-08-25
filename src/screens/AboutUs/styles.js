@@ -1,47 +1,32 @@
-import colors from '../../constants/colours';
+import { StyleSheet } from "react-native";
 
-const styles = {
-    container: {
+import colors from "../../constants/colours";
+
+const styles = StyleSheet.create({
+
+    contenair: {
+        flex: 1,
+        flexDirection: 'column',
+        borderColor: "red",
         backgroundColor: colors.bg_grey,
-        padding:8
-    },
-
-    headerItemGroup: {
-        padding:15
-    },
-
-    textStyle:{
-        textAlign:'justify',
-        fontSize:15
-    },
-
-    headerText: {
-        color: colors.text_grey_hint
-    },
-
-    headerItem: {
+        height:'100%',
+        },
+    section1: {
+        flex: 2,
+        display: 'flex',
+        flexDirection: "row",
         alignItems: 'center',
-        marginBottom: '5%',
+        marginTop:15
     },
-
-    hstackItem: {
-        marginTop:40,
-        justifyContent:'center'
+    section2: {
+        flex: 1,
+        height: "100%",
     },
-
-    titreContact:{
-      fontSize: 20,
-      fontWeight:'500',
-      letterSpacing:2, 
-    },
-
-    iconBox: {
-        height: 50,
-        width: 50,
-        borderRadius: 50,
-        alignItems: 'center',
-        justifyContent: 'center'
+    item: {
+        height:65,
+        margin: 3,
+        paddingRight:5
     }
-}
+});
 
 export default styles;

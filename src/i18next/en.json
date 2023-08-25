@@ -1,5 +1,9 @@
 {
   "TEXT_APP_NAME": "GatewayDoc Healty",
+  "TEXT_RATING": "Noter l'application",
+  "TEXT_SHARE": "Partager",
+  "TEXT_CREW": "Communauté",
+
   "TEXT.SEACH": "Search",
   "TEXT.OLD_PASS": "Old password",
   "TEXT.NEW_PASS": "New password",
@@ -68,6 +72,7 @@
   "TEXT.CONTACT_N":"contact us",
   "TEXT.GENERAL_TERMS":"Terms and Conditions of Use",
   "TEXT.CONFIDENTIAL_TEXT":"Privacy Policy",
+  "TEXT.LICENSES_REMERCIEMENT":"Licenses and remerciement",
   "TEXT.RDV":"New appointment",
   "TEXT.RDV_MOTIF":"Reason for appointment",
   "TEXT.SELECT_RDV_MOTIF":"Select a reason for your appointment",

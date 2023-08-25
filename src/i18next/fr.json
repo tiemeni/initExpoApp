@@ -1,5 +1,9 @@
 {
   "TEXT_APP_NAME": "GatewayDoc Healty",
+  "TEXT_RATING": "Noter l'application",
+  "TEXT_SHARE": "Partager",
+  "TEXT_CREW": "Communauté",
+
   "TEXT.SEACH": "Recherche",
   "TEXT.OLD_PASS": "Ancien mot de passe",
   "TEXT.NEW_PASS": "Nouveau mot de passe",
@@ -9,7 +13,7 @@
   "TEXT.PASS_DIFFERENT": "Mot de passe est différent",
   "TEXT.loading": "Chargement...",
   "TEXT.number_or_email": "Email ou numéro téléphone",
-  "TEXT.CGU": "Condition d'utilisation",
+  "TEXT.CGU": "Conditions d'utilisation",
   "TEXT.MENTIONS_LEGALES": "Mentions légales",
   "TEXT.FULL_NAME": "Nom & Prénom",
   "TEXT.ENVOYER": "Envoyer",
@@ -65,8 +69,10 @@
  "TEXT.CHANGE_PASSWORD":"Pour changer votre mot de passe, allez dans le menu et selectionnez un profil.Retapez ensuite votre mot de passe actuel et Confirmez.",
  "TEXT.LOG-OUT":"Deconnexion",
  "TEXT.CONTACT_N":"Contactez-nous",
- "TEXT.GENERAL_TERMS":"Conditions generales d'utilisation",
+ "TEXT.GENERAL_TERMS":"Conditions d'utilisation",
  "TEXT.CONFIDENTIAL_TEXT":"Politique de confidentialité",
+ "TEXT.LICENSES_REMERCIEMENT":"Licenses et remerciement",
+
  "TEXT.RDV":"Nouveau rendez-vous",
  "TEXT.RDV_MOTIF":"Motif du rendez-vous",
  "TEXT.SELECT_RDV_MOTIF":"Sélectionnez un motif pour votre rendez-vous",

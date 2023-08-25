@@ -13,6 +13,10 @@ import Parametres from '../screens/Parametres';
 import AboutUs from '../screens/AboutUs';
 import AppointmentDetails from "../screens/AppointmentDetails";
 import { ReportRDV } from '../screens/ReportRDV';
+import Policy from '../screens/ListeCguAndPolice/policy';
+import CGU from '../screens/ListeCguAndPolice/cgu';
+import Licenses from '../screens/ListeCguAndPolice/licenses';
+import Success from '../screens/Success';
 
 const Stack = createStackNavigator();
 
@@ -36,6 +40,10 @@ const ContainerStack = () => {
             <Stack.Screen name={SCREENS.PAYMENT} component={Payment} />
             <Stack.Screen name={SCREENS.SETTINGS} component={Parametres} />
             <Stack.Screen name={SCREENS.ABOUT_US} component={AboutUs} />
+            <Stack.Screen name={SCREENS.CGU} component={CGU} />
+            <Stack.Screen name={SCREENS.POLICY} component={Policy} />
+            <Stack.Screen name={SCREENS.SUCCESS} component={Success} />
+            <Stack.Screen name={SCREENS.LICENSES} component={Licenses} />
             <Stack.Screen name={SCREENS.APPOINTMENT_DETAILS_SCREEN} component={AppointmentDetails} />
             <Stack.Screen name={SCREENS.APPOINTMENT_REPORT_SCREEN} component={ReportRDV} />
         </Stack.Navigator>
