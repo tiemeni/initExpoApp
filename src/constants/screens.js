@@ -16,6 +16,7 @@ export const NOTIFICATIONS = "Notifications";
 export const TrANSACTION = "TRANSACTION";
 export const PAYMENT = "PAYMENT";
 export const SETTINGS = "SETTINGS";
+export const GLOBAL_SEARCH = "GLOBAL_SEARCH";
 export const ABOUT_US = "ABOUT_US";
 export const GOOGLE_MAP = "GOOGLE_MAP";
 export const APPOINTMENT_DETAILS_SCREEN = "APPOINTMENT_DETAILS_SCREEN"

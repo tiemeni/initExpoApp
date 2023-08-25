@@ -12,7 +12,7 @@ import motifIcon from "../../assets/img/stethoscope.png"
 import locationIcon from "../../assets/img/location.png"
 import { FontAwesome5 } from '@expo/vector-icons';
 
-export default function Rdv({ _id, navigation, date, duration, startTime, praticien, status }) {
+export default function Rdv({ _id, navigation, date, duration, startTime, praticien, status, localisation }) {
     const date2 = new Date(date);
     const day = date2.getDate();
     const month = date2.getMonth() + 1; // Les mois commencent à partir de 0, donc on ajoute 1
@@ -54,13 +54,13 @@ export default function Rdv({ _id, navigation, date, duration, startTime, pratic
                     </HStack>
                 </HStack>
                 <HStack justifyContent={"space-between"} mt={3}>
-                    <Pressable onPress={() => navigation.navigate(SCREENS.GOOGLE_MAP)}>
+                    {localisation && <Pressable onPress={() => navigation.navigate(SCREENS.GOOGLE_MAP, { localisation })}>
                         <FontAwesome5 name="map-marked-alt" size={21}
                             color={colors.white}
                             style={{ backgroundColor: colors.primary, padding: 8, borderRadius: 50 }}
                         />
-                    </Pressable>
-                    <Button onPress={() => navigation.navigate(SCREENS.APPOINTMENT_DETAILS_SCREEN, { _id: _id })} style={styles.reportBtn}>
+                    </Pressable>}
+                    <Button onPress={() => navigation.navigate(SCREENS.APPOINTMENT_DETAILS_SCREEN, { _id: _id })} style={{ ...styles.reportBtn, width: localisation ? "80%" : "100%"}}>
                         <Text style={styles.reportText}>Afficher</Text>
                     </Button>
                 </HStack>
