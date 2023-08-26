@@ -27,6 +27,7 @@
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "i18next": "^23.4.4",
+    "iconsax-react-native": "^0.0.8",
     "moment": "^2.29.4",
     "native-base": "^3.4.25",
     "react": "18.2.0",
