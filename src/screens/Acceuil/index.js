@@ -8,7 +8,7 @@ import CarouselAstuce from '../../components/MeAstuce';
 import CarouselPub from '../../components/MePub';
 import { Ionicons } from "@expo/vector-icons";
 import colors from '../../constants/colours';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { getProfession } from '../../redux/professions/actions';
 import { clearCache, getMotifs } from '../../redux/RDV/actions';
 import CustomHeader from '../../components/CustomHeader';
@@ -23,7 +23,7 @@ const Acceuil = ({ navigation, userInfos }) => {
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const dispatch = useDispatch()
-
+  const praticiens = useSelector(state => state.Praticiens.praticiens)
   const handleSearch = () => {
     const filteredSpecialites = specialites.filter(specialite => specialite.value.includes(searchText));
     const filteredPraticiens = practiciens.filter(praticien => praticien.name.includes(searchText));
@@ -104,7 +104,7 @@ const Acceuil = ({ navigation, userInfos }) => {
           </HStack>
           <VStack flex={1} mb={10}>
             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-              {practiciens.map((praticien) => <MedCard key={praticien.id} praticien={praticien} />)}
+              {praticiens.map((praticien) => <MedCard key={praticien?._id} praticien={praticien} />)}
             </ScrollView>
           </VStack>
         </VStack>
