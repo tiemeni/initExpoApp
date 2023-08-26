@@ -5,42 +5,36 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MesRdv from "../screens/MesRdv/";
 import Ionic from "react-native-vector-icons/Ionicons"
 import colors from "../constants/colours";
+import { Home, Notification, FolderOpen } from 'iconsax-react-native';
+import { Button, HStack, Pressable, Text, VStack } from "native-base";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 
 const Bottom = createBottomTabNavigator();
 
-const ContainerBottom = () => {
-    const setScreenOption = ({ route }) => ({
-        headerShown: false,
-        tabBarIcon: ({ focused }) => {
-            let iconName
-            if (route.name === SCREENS.ACCEUIL) {
-                iconName = focused ? 'ios-home' : 'ios-home-outline'
-            } else if (route.name === SCREENS.RDV) {
-                iconName = focused ? "ios-document-text" : "ios-document-text-outline"
-            } else if (route.name === SCREENS.NOTIFICATIONS) {
-                iconName = focused ? 'notifications' : 'notifications-outline'
-            }
-            return <Ionic
-                name={iconName}
-                size={20}
-                style={{
-                    marginBottom: -6,
-                }}
-                color={focused ? colors.primary : "#706e6e"}
-            />
-        },
-        tabBarStyle: {
-            backgroundColor: colors.bg_grey
-        },
-        tabBarLabelStyle: {
-            fontSize: 12,
-        },
-        tabBarShowLabel: true,
-        tabBarInactiveTintColor: "#706e6e",
-        tabBarActiveTintColor: colors.primary,
-    })
+const setScreenOption = ({ route }) => ({
+    headerShown: false,
+    tabBarIcon: ({ focused }) => {
+        if (route.name === SCREENS.ACCEUIL)
+            return <Home color={focused ? colors.primary : "#706e6e"} />
+        if (route.name === SCREENS.RDV)
+            return <FolderOpen color={focused ? colors.primary : "#706e6e"} />
+        if (route.name === SCREENS.NOTIFICATIONS)
+            return <Notification color={focused ? colors.primary : "#706e6e"} />
+    },
+    tabBarStyle: {
+        backgroundColor: colors.bg_grey,
+        marginBottom: 5,
+    },
+    tabBarLabelStyle: {
+        fontSize: 14,
+    },
+    tabBarShowLabel: true,
+    tabBarInactiveTintColor: "#706e6e",
+    tabBarActiveTintColor: colors.primary,
+})
 
+const ContainerBottom = () => {
     return (
         <Bottom.Navigator
             initialRouteName={SCREENS.ACCEUIL}
