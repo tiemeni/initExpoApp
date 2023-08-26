@@ -16,6 +16,7 @@ import * as Notifications from 'expo-notifications'
 import { sendExpoToken } from '../../redux/User/action';
 import * as SCREENS from "../../constants/screens";
 import { SharedElement } from 'react-navigation-shared-element';
+import { getAllPrats } from '../../redux/Praticiens/actions';
 
 
 
@@ -34,6 +35,7 @@ const Acceuil = ({ navigation, userInfos }) => {
   useEffect(() => {
     dispatch(getProfession())
     dispatch(clearCache())
+    dispatch(getAllPrats())
   }, [])
 
   useEffect(() => {
@@ -104,7 +106,7 @@ const Acceuil = ({ navigation, userInfos }) => {
           </HStack>
           <VStack flex={1} mb={10}>
             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-              {praticiens.map((praticien) => <MedCard key={praticien?._id} praticien={praticien} />)}
+              {praticiens?.map((praticien) => <MedCard key={praticien?._id} praticien={praticien} />)}
             </ScrollView>
           </VStack>
         </VStack>

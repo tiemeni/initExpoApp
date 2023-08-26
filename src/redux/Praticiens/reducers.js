@@ -1,6 +1,7 @@
 import * as types from "./types"
 
 const initialState = {
+    praticiens: []
 };
 
 const PraticienReducer = (state = initialState, action) => {
