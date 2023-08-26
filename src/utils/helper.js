@@ -176,6 +176,90 @@ export const specialites = [
     }
 ]
 
+
+export const cguSections = [
+    {
+      title: "1. Description du Service",
+      content: "L'application [Nom de l'application] offre un service de prise de rendez-vous médical en ligne avec paiement intégré...",
+    },
+    {
+      title: "2. Utilisation du Service",
+      content: "En utilisant l'application [Nom de l'application], vous garantissez que vous avez l'âge légal requis pour conclure un contrat...",
+    },
+    {
+      title: "3. Rendez-vous Médicaux et Paiement",
+      content: "L'application facilite la réservation de rendez-vous médicaux avec des professionnels de santé. Les détails des rendez-vous...",
+    },
+    {
+      title: "4. Annulation et Remboursement",
+      content: "Les politiques d'annulation et de remboursement peuvent varier en fonction des praticiens et des services...",
+    },
+    {
+      title: "5. Confidentialité",
+      content: "La confidentialité de vos données personnelles est importante pour nous. Consultez notre Politique de Confidentialité...",
+    },
+    {
+      title: "6. Propriété Intellectuelle",
+      content: "Tous les contenus présents sur l'application, y compris le texte, les images, les logos et les marques de commerce...",
+    },
+    {
+      title: "7. Limitation de Responsabilité",
+      content: "L'application [Nom de l'application] ne garantit pas la disponibilité constante des rendez-vous médicaux ni la qualité...",
+    },
+    {
+      title: "8. Modifications des CGU",
+      content: "Nous nous réservons le droit de modifier les présentes CGU à tout moment. Les modifications seront affichées...",
+    },
+    {
+      title: "9. Contact",
+      content: "Si vous avez des questions ou des préoccupations concernant les CGU, veuillez nous contacter à [adresse e-mail de contact].",
+    },
+  ]; 
+
+  export const licenseSections = [
+    {
+      title: "Licences Open Source",
+      content: "Cette application utilise plusieurs bibliothèques open source sous diverses licences...",
+    },
+    {
+      title: "Remerciements",
+      content: "Nous tenons à remercier la communauté open source pour ses contributions, ainsi que nos utilisateurs...",
+    },
+  ];
+
+
+ export const privacySections = [
+    {
+      title: "1. Collecte des Données Personnelles",
+      content: "Lorsque vous utilisez notre application [Nom de l'application], nous pouvons collecter certaines données personnelles...",
+    },
+    {
+      title: "2. Utilisation des Données",
+      content: "Nous utilisons les données personnelles collectées pour fournir, maintenir et améliorer les fonctionnalités de l'application...",
+    },
+    {
+      title: "3. Partage des Données",
+      content: "Nous ne partageons pas vos données personnelles avec des tiers sauf dans les cas spécifiques décrits dans cette Politique de Confidentialité...",
+    },
+    {
+      title: "4. Sécurité",
+      content: "Nous prenons des mesures pour protéger vos données personnelles contre l'accès non autorisé, la divulgation ou la destruction...",
+    },
+    {
+      title: "5. Vos Choix",
+      content: "Vous pouvez accéder, corriger ou supprimer les données personnelles que nous avons collectées vous concernant. Vous pouvez également choisir de désactiver certaines fonctionnalités...",
+    },
+    {
+      title: "6. Modifications de la Politique de Confidentialité",
+      content: "Nous pouvons mettre à jour cette Politique de Confidentialité de temps à autre. Toute modification sera affichée dans l'application...",
+    },
+    {
+      title: "7. Contact",
+      content: "Si vous avez des questions concernant notre Politique de Confidentialité, veuillez nous contacter à [adresse e-mail de contact]...",
+    },
+  ];
+
+
 export const isValidEmail = (email) => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);

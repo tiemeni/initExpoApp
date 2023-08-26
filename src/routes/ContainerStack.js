@@ -16,6 +16,10 @@ import { ReportRDV } from '../screens/ReportRDV';
 import RoadMap from '../screens/GoogleMap';
 import { GlobalSearch } from '../screens/GlobalSearch';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
+import Policy from '../screens/ListeCguAndPolice/policy';
+import CGU from '../screens/ListeCguAndPolice/cgu';
+import Licenses from '../screens/ListeCguAndPolice/licenses';
+import Success from '../screens/Success';
 
 
 
@@ -43,6 +47,10 @@ const ContainerStack = () => {
             <Stack.Screen name={SCREENS.GLOBAL_SEARCH} component={GlobalSearch} />
             <Stack.Screen name={SCREENS.ABOUT_US} component={AboutUs} />
             <Stack.Screen name={SCREENS.GOOGLE_MAP} component={RoadMap} />
+            <Stack.Screen name={SCREENS.CGU} component={CGU} />
+            <Stack.Screen name={SCREENS.POLICY} component={Policy} />
+            <Stack.Screen name={SCREENS.SUCCESS} component={Success} />
+            <Stack.Screen name={SCREENS.LICENSES} component={Licenses} />
             <Stack.Screen name={SCREENS.APPOINTMENT_DETAILS_SCREEN} component={AppointmentDetails} />
             <Stack.Screen name={SCREENS.APPOINTMENT_REPORT_SCREEN} component={ReportRDV} />
         </Stack.Navigator>

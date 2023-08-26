@@ -15,6 +15,6 @@ export const styles = StyleSheet.create({
         marginRight: 20
     },
     title: {
-        fontSize: 20
+        fontSize: 20,
     }
 })
