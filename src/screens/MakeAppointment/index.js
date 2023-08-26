@@ -41,6 +41,7 @@ const HeaderBox = ({ number, title, hintText, error }) => {
 }
 
 const MakeAppointment = ({ navigation, route }) => {
+    const extIdp = route.params?.idp
     const scrollViewRef = React.useRef();
     const isProfession = useSelector(state => state.Common.isProfession)
     const idCentre = useSelector(state => state.Common.idc)
@@ -473,7 +474,7 @@ const MakeAppointment = ({ navigation, route }) => {
                     <Text color={colors.white} style={styles.btnLabel}>Valider</Text>
                 </Button>
             </VStack>
-            {<ModaleChoixProfession navigation={navigation} />}
+            {!extIdp && <ModaleChoixProfession navigation={navigation} />}
         </View >
     )
 }

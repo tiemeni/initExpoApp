@@ -104,7 +104,7 @@ const Acceuil = ({ navigation, userInfos }) => {
           </HStack>
           <VStack flex={1} mb={10}>
             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-              {praticiens.map((praticien) => <MedCard key={praticien?._id} praticien={praticien} />)}
+              {praticiens?.map((praticien) => <MedCard key={praticien?._id} praticien={praticien} />)}
             </ScrollView>
           </VStack>
         </VStack>

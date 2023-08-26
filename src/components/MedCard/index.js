@@ -46,7 +46,7 @@ const MedCard = ({ praticien }) => {
                     <Text style={styles.tarif}>A partir de {praticien.cost ?? "5000"} Fcfa</Text>
                 </HStack>
 
-                <Pressable style={styles.rdvBtn} onPress={() => navigation.navigate(SCREENS.MAKE_APPOINTMENT_SCREEN, { idp: praticien?.id })}>
+                <Pressable style={styles.rdvBtn} onPress={() => navigation.navigate(SCREENS.MAKE_APPOINTMENT_SCREEN, { idp: praticien?._id })}>
                     <Text color={colors.white}>Prendre un RDV</Text>
                 </Pressable>
             </VStack>
