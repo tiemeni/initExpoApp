@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     reportBtn: {
         backgroundColor: colors.trans_primary,
         height: 40,
-        width: '100%',
+        width: '80%',
         display: "flex",
         flexDirection: "row",
         borderRadius: 10,

@@ -13,6 +13,7 @@ import Parametres from '../screens/Parametres';
 import AboutUs from '../screens/AboutUs';
 import AppointmentDetails from "../screens/AppointmentDetails";
 import { ReportRDV } from '../screens/ReportRDV';
+import RoadMap from '../screens/GoogleMap';
 
 const Stack = createStackNavigator();
 
@@ -29,13 +30,14 @@ const ContainerStack = () => {
             <Stack.Screen name={SCREENS.PROFILE} component={Profile} />
             <Stack.Screen name={SCREENS.MON_PROFILE} component={MonProfile2} />
             <Stack.Screen
-                options={{ animationEnabled: true}}
+                options={{ animationEnabled: true }}
                 name={SCREENS.MAKE_APPOINTMENT_SCREEN}
                 component={MakeAppointment} />
             <Stack.Screen name={SCREENS.TrANSACTION} component={Transaction} />
             <Stack.Screen name={SCREENS.PAYMENT} component={Payment} />
             <Stack.Screen name={SCREENS.SETTINGS} component={Parametres} />
             <Stack.Screen name={SCREENS.ABOUT_US} component={AboutUs} />
+            <Stack.Screen name={SCREENS.GOOGLE_MAP} component={RoadMap} />
             <Stack.Screen name={SCREENS.APPOINTMENT_DETAILS_SCREEN} component={AppointmentDetails} />
             <Stack.Screen name={SCREENS.APPOINTMENT_REPORT_SCREEN} component={ReportRDV} />
         </Stack.Navigator>

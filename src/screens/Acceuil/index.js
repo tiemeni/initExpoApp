@@ -42,7 +42,6 @@ const Acceuil = ({ navigation, userInfos }) => {
           console.log('Permission de notification non accordée');
           return;
         }
-
         const expoPushToken = await Notifications.getExpoPushTokenAsync();
         dispatch(sendExpoToken({ _id: user._id, token: expoPushToken.data }));
       } catch (error) {

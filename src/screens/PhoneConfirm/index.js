@@ -11,6 +11,7 @@ import { resettingPassword } from "../../redux/User/action";
 
 const PhoneConfirm = ({ navigation, route }) => {
     const codeVerif = useSelector(state => state.UserReducer.codeVerif)
+    const settingPWLoading = useSelector(state => state.UserReducer.settingPWLoading)
     const dispatch = useDispatch()
     const { email } = route?.params;
     const [newPw, setNewPw] = useState('')
@@ -31,7 +32,11 @@ const PhoneConfirm = ({ navigation, route }) => {
     }
 
     const handleCheck = () => {
-        if (caracters[0] == codeVerif?.codeVerif?.split('')[0] && caracters[1] == codeVerif?.codeVerif?.split('')[1] && caracters[2] == codeVerif?.codeVerif?.split('')[2] && caracters[3] == codeVerif?.codeVerif?.split('')[3] && caracters[4] == codeVerif?.codeVerif?.split('')[4]) {
+        if (caracters[0] == codeVerif?.codeVerif?.split('')[0] &&
+            caracters[1] == codeVerif?.codeVerif?.split('')[1] &&
+            caracters[2] == codeVerif?.codeVerif?.split('')[2] &&
+            caracters[3] == codeVerif?.codeVerif?.split('')[3] &&
+            caracters[4] == codeVerif?.codeVerif?.split('')[4]) {
             setCanResetPw(true)
         }
     }
@@ -70,11 +75,15 @@ const PhoneConfirm = ({ navigation, route }) => {
                 {!canResetPw && <Text style={styles.phoneNumber}>{email ?? ""}</Text>}
                 {canResetPw && <Input mx="3" value={newPw} onChangeText={(t) => setNewPw(t)} fontSize={15} placeholder="Nouveau mot de passe" w="90%" borderRadius={25} paddingLeft={5} paddingRight={5} />}
             </VStack>
-            <Button mb={4} style={styles.btn} onPress={() => {
-                if (canResetPw) {
-                    handleChangeMp()
-                }
-            }}>
+            <Button
+                mb={4}
+                style={styles.btn}
+                isLoading={settingPWLoading}
+                onPress={() => {
+                    if (canResetPw) {
+                        handleChangeMp()
+                    }
+                }}>
                 <Text color={colors.white} style={styles.btnLabel}>{canResetPw ? "Envoyer" : "Renvoyer le code"}</Text>
             </Button>
             {!canResetPw && <Button borderWidth={2} isLoading={loading} style={styles.btn} variant={'outline'} onPress={() => handleCheck()}>

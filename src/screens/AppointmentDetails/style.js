@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     appoinmentsBox: {
         backgroundColor: colors.white,
         padding: 10,
-        borderRadius: 10
+        borderRadius: 10,
     },
     consignes: {
         backgroundColor: colors.trans_primary,
@@ -49,6 +49,10 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         alignItems: "center",
+        marginBottom: 10
+    },
+    paiementContainer: {
+        transition: '5s',
     }
 })
 

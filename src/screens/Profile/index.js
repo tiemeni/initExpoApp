@@ -29,7 +29,7 @@ function Profile() {
         </View> */}
         <View style={{ ...styles.section2of1, }}>
           <UserAvatar
-            uri={null}
+            uri={user?.user?.photo}
             name={user?.user?.name ?? ""}
             email={user?.user?.email ?? ""}
           />

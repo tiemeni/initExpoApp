@@ -2,7 +2,7 @@ import Acceuil from "../screens/Acceuil";
 import * as SCREENS from "../constants/screens";
 import Notifications from "../screens/Notifications";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import MesRdv from "../screens/MesRdv";
+import MesRdv from "../screens/MesRdv/";
 import Ionic from "react-native-vector-icons/Ionicons"
 import colors from "../constants/colours";
 
