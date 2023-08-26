@@ -34,7 +34,7 @@ const MedCard = ({ praticien }) => {
                         size='md'
                         style={styles.icon}
                     />
-                    <Text style={styles.location}>{praticien.center}</Text>
+                    <Text style={styles.location}>{"lskdlskdlk"}</Text>
                 </HStack>
                 <HStack mt={2}>
                     <Icon
@@ -43,7 +43,7 @@ const MedCard = ({ praticien }) => {
                         size='md'
                         style={styles.icon}
                     />
-                    <Text style={styles.tarif}>A partir de {praticien.cost} Fcfa</Text>
+                    <Text style={styles.tarif}>A partir de {praticien.cost ?? "5000"} Fcfa</Text>
                 </HStack>
 
                 <Pressable style={styles.rdvBtn} onPress={() => navigation.navigate(SCREENS.MAKE_APPOINTMENT_SCREEN, { idp: praticien?.id })}>
