@@ -1,134 +1,122 @@
+import { ScrollView, View } from "native-base";
 import React from "react";
-import {
-  Box,
-  Divider,
-  HStack,
-  Icon,
-  Text,
-  View,
-  VStack,
-  Center,
-  ScrollView,
-} from "native-base";
-import {
-  AntDesign,
-  FontAwesome5 ,
-  Entypo,
-  FontAwesome ,
-} from "@expo/vector-icons";
-import { Linking, Pressable } from "react-native";
-import styles from "./styles";
-import colors from "../../constants/colours";
+import { TouchableOpacity, Image, Platform, Linking, Share } from "react-native";
 import Header from "../../components/Header";
-import { useState } from "react";
-import Communications from 'react-native-communications';
-import { sendEmail } from 'react-native-email-link';
+import styles from "./styles";
+import * as SCREENS from "../../constants/screens";
+import { useNavigation } from "@react-navigation/native";
+import {  Entypo, AntDesign, FontAwesome5 } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
+import ItemAboutUs from "../../components/ItemAboutUs";
+import logo from "../../assets/img/hospi-rdv__9_-removebg-preview.png"
 
-const AboutUs = () => {
+function AboutUs() {
+  const translate = useTranslation().t;
+  const navigation = useNavigation();
 
-  const openService = (service) => {
 
-    const whatsappUrl = `whatsapp://send?phone=${'+237658559995'}&text=${('Bonjour chers admin')}`;
-
-    switch (service) {
-      case 'phone':
-        Communications.phonecall('658559995', true);
-        break;
-      case 'facebook':
-        // Ouvrir l'application Facebook
-        Linking.openURL('fb://page/109025655468380').catch(() => {
-          // Si l'ouverture de l'application Facebook échoue, ouvrir dans un navigateur
-          Linking.openURL('https://www.facebook.com/109025655468380');
-        });
-        break;
-      case 'mail':
-        Communications.email(['aicscloud@gmail.com'], null, null, '', '');
-
-        break;
-      case 'whatsapp':
-          Linking.canOpenURL(whatsappUrl).then((supported) => {
-            if (supported) {
-              return Linking.openURL(whatsappUrl);
-            }
-          }).catch((err) => console.error('Erreur lors de l\'ouverture de WhatsApp:', err))
-
-        break;
-      default:
-        break;
-    }
+  const openAppStoreOrPlayStore = () => {
+    const storeURL = Platform.OS === "ios"
+      ? "https://apps.apple.com/us/app/facebook/id284882215"
+      : "https://play.google.com/store/apps/details?id=com.facebook.katana&hl=en&gl=US";
+      
+    Linking.openURL(storeURL);
   };
 
+  const shareApp = () => {
+    Share.share({
+      message: "Découvrez cette superbe application de prise de rendez-vous médical!",
+      url: "https://link-to-your-app",
+      title: "GatewaysDoc Healty",
+    });
+  };
+
+  const openTelegram = () => {
+    Linking.openURL("https://t.me/+N2wclwqKJTZIOGY0");
+  };
   return (
-    <View flex={1}>
-      <Header
-        bg={"white"}
-        title={
-          <VStack>
-            <Center marginLeft={10}>
-              <Text style={{ fontSize: 20 }}>Informations</Text>
-            </Center>
-          </VStack>
-        }
-      />
-      <ScrollView flex={1} style={styles.container}>
-      <VStack marginBottom={5} style={styles.headerItemGroup}>
-        <Text style={{...styles.titreContact}}>Contactez Nous</Text>
-        <HStack style={styles.hstackItem} space={5}>
-          <Pressable onPress={() => openService('phone')} style={{...styles.iconBox, backgroundColor:'#778da9'}}>
-            <FontAwesome size={30} name="phone" color={'white'} />
-          </Pressable>
-          <Pressable onPress={() => openService('facebook')} style={{...styles.iconBox}}>
-          <Entypo name="facebook-with-circle" color={'#457b9d'} size={50}  />
-          </Pressable>
-          <Pressable onPress={() => openService('mail')} style={{...styles.iconBox}}>
-          <Entypo name="mail-with-circle" color={colors.danger} size={50}  />
-          </Pressable>
-          <Pressable onPress={() =>openService('whatsapp')} style={{...styles.iconBox, backgroundColor:colors.success}}>
-          <FontAwesome5  name="whatsapp"  color={colors.white} size={30} />    
-          </Pressable>
-        </HStack>
-        <Text style={{...styles.titreContact, marginTop:40}}>À Propos</Text>
-        <VStack ml={-5} mt={3} space={5}>
-          <HStack>
-          <Entypo style={{marginTop:-12}} name="dot-single" size={50} color={colors.primary} />
-          <Box paddingRight={10}>
-            <Text style={styles.textStyle}> GatewaysDocs est une application de prise de rendez-vous médical conçue pour faciliter la vie des patients
-             et des professionnels de santé. Grâce à cette application, les  patients peuvent prendre des rendez-vous en
-             ligne avec des médecins et des spécialistes, sans avoir à se déplacer ou à passerdes heures à chercher un rendez-vous disponible.
-             </Text>
-          </Box>
-          </HStack>
-
-          <HStack>
-          <Entypo style={{marginTop:-12}} name="dot-single" size={50} color={colors.primary} />
-          <Box paddingRight={10}>
-            <Text style={styles.textStyle}>
-            L'application GatewaysDocs est facile à utiliser et offre une grande flexibilité aux patients
-            pour choisir le moment qui convient le mieux à leur emploi du temps. 
-            Les patients peuvent prendre des rendez-vous pour une consultation, une analyse de laboratoire
-            ou une procédure médicale, en fonction des disponibilités des médecins et des cliniques.
-             </Text>
-          </Box>
-          </HStack>
-
-          <HStack>
-          <Entypo name="dot-single" style={{marginTop:-12}} size={50} color={colors.primary} />
-          <Box paddingRight={10}>
-            <Text style={styles.textStyle}>
-            Les professionnels de santé bénéficient également de l'application GatewaysDocs,
-            car elle leur permet de gérer facilement leur calendrier de rendez-vous et de gagner
-            du temps en évitant les appels téléphoniques ou les courriers électroniques. Les médecins
-            peuvent consulter leur planning à tout moment et vérifier les rendez-vous à venir, ce qui
-            leur permet de mieux organiser leur travail et de consacrer plus de temps à leurs patients.
-             </Text>
-          </Box>
-          </HStack>
-        </VStack>
-        <Text style={{fontSize:9 , textAlign:'center', marginTop:10}}> © 2023 GatewaysDoc Healty</Text>
-      </VStack>
+    <View style={{ ...styles.contenair }}>
+      <Header title={"A Propos"} />
+      <ScrollView height={'100%'}>
+      <View style={{ ...styles.section1 }}>
+        <View alignItems={"center"} justifyItems={'center'} justifyContent={'center'} width={'100%'}>
+         {<Image style={{height:150, width:150}} source={logo}/>} 
+        </View>
+      </View>
+      <View mb={3} style={styles.section2}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate(SCREENS.RDV)}
+          style={styles.item}
+        >
+          <ItemAboutUs
+            icon={<Entypo name="text-document" />}
+            tilte={translate("TEXT_APP_NAME")}
+            description={
+              "Prenez votre rendez-vous, à tout moment et en tout lieu, en toute simplicité"
+            }
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.item}
+          onPress={openAppStoreOrPlayStore}
+        >
+          <ItemAboutUs
+            icon={<AntDesign name="star" />}
+            tilte={translate("TEXT_RATING")}
+            description={"Vous aimez cette application ? dites-nous sur PlayStore ou AppStore comment nous pouvons l'améliorer"}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.item}
+          onPress={shareApp}
+        >
+          <ItemAboutUs
+            icon={<Entypo name="share" />}
+            tilte={translate("TEXT_SHARE")}
+            description={"Partager application avec vos amis et votre famille"}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.item}
+          onPress={openTelegram}
+        >
+          <ItemAboutUs
+            icon={<FontAwesome5 name="users" />}
+            tilte={translate("TEXT_CREW")}
+            description={"Chattez avec notre équipe en rejoignant le canal télégram"}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate(SCREENS.CGU)}
+          style={styles.item}
+        >
+          <ItemAboutUs
+            icon={<Entypo name="text-document" />}
+            tilte={translate("TEXT.CGU")}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate(SCREENS.POLICY)}
+          style={styles.item}
+        >
+          <ItemAboutUs
+            icon={<Entypo name="text-document" />}
+            tilte={translate("TEXT.CONFIDENTIAL_TEXT")}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate(SCREENS.LICENSES)}
+          style={styles.item}
+        >
+          <ItemAboutUs
+            icon={<Entypo name="text-document" />}
+            tilte={translate("Licenses et remerciements")}
+          />
+          </TouchableOpacity>
+      </View>
       </ScrollView>
     </View>
   );
-};
+}
 
 export default AboutUs;

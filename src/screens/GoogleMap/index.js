@@ -6,9 +6,10 @@ import MapViewDirections from "react-native-maps-directions";
 
 const clinic = { name: "Clinic 1", latitude: 3.8119272, longitude: 11.5120402 };
 
-const RoadMap = () => {
+const RoadMap = ({ route }) => {
     const [origin, setOrigin] = useState(null);
     const [waypoints, setWaypoints] = useState([]);
+    const clinic = { name: "your position", latitude: parseFloat(route?.params?.localisation?.latitude), longitude: parseFloat(route?.params?.localisation?.longitude) }
 
     useEffect(() => {
         getLocation();

@@ -103,54 +103,41 @@ const Payment = ({ navigation }) => {
     }, 3000);
   };
 
-  useEffect(() => {
-    if (success) {
-      setShowLoaderInModal(true);
-      const timeoutId = setTimeout(() => {
-        handleCloseModal();
-      }, 4000);
-      return () => clearTimeout(timeoutId);
+
+  React.useEffect(() => {
+    if (error) {
+      toast.show({
+        render: () => {
+          return <CustomToast
+            message={"Une erreur est survenue !"}
+            color={colors.danger}
+            bgColor={"red.100"}
+            icon={<Foundation name="alert" size={24} />}
+            iconColor={colors.danger}
+          />
+        },
+        placement: "top",
+        duration: 2000
+      })
     }
-  }, [isModalVisible, success]);
 
-  // React.useEffect(() => {
-  //   if (error) {
-  //     toast.show({
-  //       render: () => {
-  //         return <CustomToast
-  //           message={"Une erreur est survenue !"}
-  //           color={colors.danger}
-  //           bgColor={"red.100"}
-  //           icon={<Foundation name="alert" size={24} />}
-  //           iconColor={colors.danger}
-  //         />
-  //       },
-  //       placement: "top",
-  //       duration: 5000
-  //     })
-  //   }
+    if (success) {
+      toast.show({
+        render: () => {
+          return <CustomToast
+            message={"Rendez-vous crée avec succès !"}
+            color={colors.success}
+            bgColor={"green.100"}
+            icon={<AntDesign name="checkcircle" size={24} />}
+            iconColor={colors.success}
+          />
+        },
+        placement: "top",
+        duration: 2000
+      })
+    }
+  }, [error, success])
 
-  //   if (success) {
-  //     toast.show({
-  //       render: () => {
-  //         return <CustomToast
-  //           message={"Rendez-vous crée avec succès !"}
-  //           color={colors.success}
-  //           bgColor={"green.100"}
-  //           icon={<AntDesign name="checkcircle" size={24} />}
-  //           iconColor={colors.success}
-  //         />
-  //       },
-  //       placement: "top",
-  //       duration: 3000
-  //     })
-  //   }
-  // }, [error, success])
-
-  const handleCloseModal = () => {
-    setIsModalVisible(false);
-    navigation.navigate(RDV);
-  };
 
   const renderPaymentForm = () => {
     if (
@@ -408,12 +395,6 @@ const Payment = ({ navigation }) => {
             />
           </VStack>
         )}
-        <ModalPaySuccess
-          isVisible={isModalVisible}
-          onClose={handleCloseModal}
-          title="Paiement réussi avec success"
-          isLoader={showLoaderInModal}
-        />
       </ScrollView>
     </>
   );

@@ -30,8 +30,8 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
   const [show, setShow] = React.useState(false);
   const { isFieldInError } = useValidation({ state: formData });
   const [formData, setformData] = React.useState({
-    email: "oyongo@gmail.com",
-    password: "thepunisher",
+    email: "",
+    password: "",
     saveCredentials: true
   });
 
