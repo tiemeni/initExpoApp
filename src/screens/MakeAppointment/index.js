@@ -42,8 +42,10 @@ const HeaderBox = ({ number, title, hintText, error }) => {
 
 const MakeAppointment = ({ navigation, route }) => {
     const extIdp = route.params?.idp
+    const isSpecialist = route.params?.isSpecialist
     const scrollViewRef = React.useRef();
-    const isProfession = useSelector(state => state.Common.isProfession)
+    const isProfession = useSelector(state => state.Common.isProfession) || isSpecialist
+    console.log(isProfession)
     const idCentre = useSelector(state => state.Common.idc)
     const [actualDayCreneaux, setActualDayCreneau] = useState([])
     const RDVForm = useSelector(state => state.RdvForm.rdvForm)

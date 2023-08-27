@@ -20,7 +20,7 @@ import { getAllPrats } from '../../redux/Praticiens/actions';
 
 
 
-const Acceuil = ({ navigation, userInfos }) => {
+const Acceuil = ({ navigation, userInfos = {} }) => {
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const dispatch = useDispatch()
@@ -48,7 +48,7 @@ const Acceuil = ({ navigation, userInfos }) => {
           return;
         }
         const expoPushToken = await Notifications.getExpoPushTokenAsync();
-        dispatch(sendExpoToken({ _id: user._id, token: expoPushToken.data }));
+        dispatch(sendExpoToken({ _id: user?._id, token: expoPushToken.data }));
       } catch (error) {
         console.error('Erreur lors de la demande de permission de notification:', error);
       }
