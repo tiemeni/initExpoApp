@@ -9,23 +9,19 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         width: "100%",
         height: "100%",
-        backgroundColor: "white",
-        borderRadius: 10,
-        padding: 5,
-        paddingLeft: 15,
-        justifyContent: 'space-between'
+        backgroundColor: colors.white,
     },
     subContainer: {
-        alignItems:'center',
-        paddingRight:14
+        alignItems: 'center',
+        padding: 10
     },
     label: {
-        fontSize: 15,
-        color:colors.black
+        fontSize: 14,
+        color: colors.black
     },
 
-    
-        description: {
-            fontSize: 12
-        }
+    description: {
+        fontSize: 12,
+        color: colors.text_grey_hint
+    }
 })

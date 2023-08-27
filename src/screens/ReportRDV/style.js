@@ -118,6 +118,13 @@ const styles = {
     },
     btnSubmitText: {
         fontSize: 15
+    },
+    btnContainer: {
+        width: '100%',
+        padding: 10,
+        display: "flex",
+        justifyContent: "space-between",
+        top: 0
     }
 }
 

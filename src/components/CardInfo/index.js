@@ -1,6 +1,7 @@
 import { Center, HStack, Icon, Text, VStack } from "native-base"
-import { MaterialIcons } from '@expo/vector-icons';
+import { InfoCircle } from "iconsax-react-native";
 import styles from "./style";
+import colors from "../../constants/colours";
 
 
 const CardInfo = (props) => {
@@ -25,7 +26,7 @@ const CardInfo = (props) => {
 
                 <VStack space={2} style={styles.consignes}>
                     <HStack space={2} alignItems={"center"}>
-                        <Icon as={<MaterialIcons />} name="info" size={"md"} color={"primary.500"} />
+                        <InfoCircle color={colors.primary} size={20}/>
                         <Text color={"primary.500"} fontWeight={500}>Consignes</Text>
                     </HStack>
                     <VStack space={1}>

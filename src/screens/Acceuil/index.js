@@ -17,6 +17,7 @@ import { sendExpoToken } from '../../redux/User/action';
 import * as SCREENS from "../../constants/screens";
 import { SharedElement } from 'react-navigation-shared-element';
 import { getAllPrats } from '../../redux/Praticiens/actions';
+import { SearchNormal1 } from 'iconsax-react-native';
 
 
 
@@ -59,7 +60,6 @@ const Acceuil = ({ navigation, userInfos }) => {
 
   return (
     <View flex={1}>
-      <CustomHeader navigation={navigation} screen={PROFILE} />
       <ScrollView showsVerticalScrollIndicator={false} padding={3} keyboardShouldPersistTaps="never">
         <Box>
           <SharedElement>
@@ -71,13 +71,7 @@ const Acceuil = ({ navigation, userInfos }) => {
               fontSize={14}
               bg={colors.white}
               placeholder='Rechercher un praticien ou une spécialité'
-              InputLeftElement={
-                <Icon
-                  as={<Ionicons name="search" />}
-                  size={5}
-                  ml="4"
-                  color={colors.primary}
-                />}
+              InputLeftElement={<SearchNormal1 style={{ marginLeft: 6 }} size={20} color={colors.text_grey_hint} />}
               onPressIn={() => navigation.navigate(SCREENS.GLOBAL_SEARCH)}
               onChangeText={text => setSearchText(text)}
               onSubmitEditing={handleSearch}

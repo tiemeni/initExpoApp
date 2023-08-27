@@ -30,9 +30,6 @@ function* authRegister({ payload }) {
 
       yield put({ type: types.REGISTER_USER_SUCCESS, payload: result.data })
       yield put({ type: GET_ALL_PRATICIENS })
-      setTimeout(() => {
-        RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
-      }, 1000);
     } else {
       yield put({ type: types.REGISTER_USER_FAILED, payload: result.message })
     }
@@ -118,9 +115,7 @@ function* authLogin({ payload }) {
 
       yield put({ type: types.LOGIN_SUCCESS, payload: result.data })
       yield put({ type: GET_ALL_PRATICIENS })
-      setTimeout(() => {
-        RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
-      }, 1000);
+      RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
     } else {
       yield put({ type: types.LOGIN_FAILED, payload: result.message })
     }

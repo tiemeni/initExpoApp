@@ -3,28 +3,31 @@ import * as SCREENS from "../constants/screens";
 import Notifications from "../screens/Notifications";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MesRdv from "../screens/MesRdv/";
-import Ionic from "react-native-vector-icons/Ionicons"
 import colors from "../constants/colours";
-import { Home, Notification, FolderOpen } from 'iconsax-react-native';
-import { Button, HStack, Pressable, Text, VStack } from "native-base";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Home3, Notification, FolderOpen } from 'iconsax-react-native';
+import CustomHeader from "../components/CustomHeader";
+import AppointmentStack from "./AppointmentStack";
 
 
 const Bottom = createBottomTabNavigator();
 
 const setScreenOption = ({ route }) => ({
-    headerShown: false,
+    headerShown: true,
+    header: ({ navigation, route, options }) => {
+        return <CustomHeader navigation={navigation} screen={SCREENS.PROFILE} />;
+    },
     tabBarIcon: ({ focused }) => {
         if (route.name === SCREENS.ACCEUIL)
-            return <Home color={focused ? colors.primary : "#706e6e"} />
-        if (route.name === SCREENS.RDV)
-            return <FolderOpen color={focused ? colors.primary : "#706e6e"} />
+            return <Home3 color={focused ? colors.primary : "#706e6e"} variant={focused ? "Bold" : "Linear"} />
+        if (route.name === SCREENS.RDV_CONTAINER)
+            return <FolderOpen color={focused ? colors.primary : "#706e6e"} variant={focused ? "Bold" : "Linear"} />
         if (route.name === SCREENS.NOTIFICATIONS)
-            return <Notification color={focused ? colors.primary : "#706e6e"} />
+            return <Notification color={focused ? colors.primary : "#706e6e"} variant={focused ? "Bold" : "Linear"} />
     },
     tabBarStyle: {
         backgroundColor: colors.bg_grey,
         marginBottom: 5,
+        paddingTop: 5
     },
     tabBarLabelStyle: {
         fontSize: 14,
@@ -41,7 +44,7 @@ const ContainerBottom = () => {
             screenOptions={setScreenOption}
         >
             <Bottom.Screen name={SCREENS.ACCEUIL} component={Acceuil} />
-            <Bottom.Screen name={SCREENS.RDV} component={MesRdv} />
+            <Bottom.Screen options={{tabBarLabel: "Rendez-vous"}} name={SCREENS.RDV_CONTAINER} component={AppointmentStack} />
             <Bottom.Screen name={SCREENS.NOTIFICATIONS} component={Notifications} />
         </Bottom.Navigator>
     )
