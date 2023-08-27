@@ -13,6 +13,7 @@ const PrimaryButton = ({
     color,
     fill = true,
     disabled = false,
+    minWidth = '1/3',
     ...rest
 }) => {
     const handleOnPress = () => {
@@ -28,7 +29,7 @@ const PrimaryButton = ({
             isLoadingText={isLoadingText}
             onPress={onPress ?? handleOnPress}
             backgroundColor={color}
-            minWidth={'1/3'}
+            minWidth={minWidth}
             style={[style ? style : {}]}
             disabled={disabled}
             {...rest}>

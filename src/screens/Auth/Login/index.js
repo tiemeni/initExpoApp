@@ -72,24 +72,8 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
         duration: 5000
       })
     }
-
-    if (success) {
-      toast.show({
-        render: () => {
-          return <CustomToast
-            message={"Authentification réussi"}
-            color={colors.success}
-            bgColor={"green.100"}
-            icon={<AntDesign name="checkcircle" size={24} />}
-            iconColor={colors.success}
-          />
-        },
-        placement: "top",
-        duration: 1000
-      })
-    }
   }, [error, success])
-  
+
   return (
     <ScrollView style={styles.container}>
       <View flex={1}>

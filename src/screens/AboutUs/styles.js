@@ -24,8 +24,6 @@ const styles = StyleSheet.create({
     },
     item: {
         height:65,
-        margin: 3,
-        paddingRight:5
     }
 });
 

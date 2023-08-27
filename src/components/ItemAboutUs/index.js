@@ -7,11 +7,11 @@ import colors from "../../constants/colours";
 export default function ItemAboutUs({ tilte, description, icon }) {
   return (
     <View style={styles.container}>
-      <HStack style={styles.subContainer}>
-        <Icon as={icon} color={colors.primary} size={6} />
-        <VStack padding={3}>
+      <HStack style={styles.subContainer} space={2}>
+        <Icon as={icon} color={colors.black} size={6} />
+        <VStack w={"92%"}>
           <Text style={styles.label}>{tilte}</Text>
-          {tilte ==="Conditions d'utilisation" || tilte ==="Politique de confidentialité" || tilte==="Licenses et remerciements"? "":  <Text style={{fontSize:12}}>{description}</Text>}
+          {description && <Text style={styles.description}>{description}</Text>}
         </VStack>
       </HStack>
     </View>

@@ -8,19 +8,15 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     borderColor: "red",
     height: "100%",
-    paddingHorizontal:30,
-    backgroundColor: colors.primary,
+    paddingHorizontal:20,
   },
 
   box1: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "15%",
   },
   box2: {
-    alignItems: "center",
-    marginTop: "15%",
-    marginBottom:40
+    width: "100%",
   },
   texte1: {
     fontSize: 22,
@@ -40,11 +36,10 @@ const styles = StyleSheet.create({
   },
 
   box3: {
-    width:'100%',
-    alignItems: "center",
-    justifyContent:'space-between',
-    alignContent:'space-between'
+    width:"100%",
+    justifyContent:'space-between'
   },
+  btn: { backgroundColor: colors.white, borderRadius: 10, marginBottom: 10, width: "100%" }
 });
 
 export default styles;

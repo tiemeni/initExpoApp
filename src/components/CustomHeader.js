@@ -51,7 +51,7 @@ const CustomHeader = ({ navigation, mb, userInfos, screen }) => {
                         width={37}
                         height={37}
                         source={{
-                            uri: userInfos?.user?.photo ?? null
+                            uri: user?.photo ?? null
                         }}></Avatar>
                 </Pressable>
                 <Text style={{ marginLeft: 15, fontSize: 18 }}>{user?.name + " " + user?.surname}</Text>

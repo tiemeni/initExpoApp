@@ -9,18 +9,33 @@ import { Provider } from 'react-redux';
 import store from './src/redux/setups/store';
 import { NativeBaseProvider } from 'native-base';
 import { navigationRef } from './src/routes/rootNavigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import * as Notifications from 'expo-notifications'
+import NetInfo from '@react-native-community/netinfo';
+import NoInternet from './src/screens/NotInternet/NoInternet';
+import { Alert } from 'react-native';
 
 
 enableScreens()
 
 export default function App() {
+
   useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      if (!state.isConnected) {
+        Alert.alert(
+          "Pas de connexion internet",
+          "Vérifiez que vous êtes connecté à Internet.",
+        )
+      }
+    })
     const subscription = Notifications.addNotificationReceivedListener(notification => {
       console.log(notification);
     });
-    return () => subscription.remove();
+    return () => {
+      unsubscribe();
+      subscription.remove();
+    }
   }, [])
 
   return (

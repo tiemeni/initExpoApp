@@ -31,6 +31,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  empty: {
+    color: colors.text_grey_hint,
+    fontSize: 16,
+    marginTop: 10
   }
 });
 

@@ -12,6 +12,7 @@ export const MON_PROFILE = "MON_PROFILE";
 export const ACCEUIL = "Acceuil";
 export const ACCEUIL_CONTAINER = "ACCEUIL_CONTAINER";
 export const RDV = "Rendez-vous";
+export const RDV_CONTAINER = "RDV_CONTAINER";
 export const NOTIFICATIONS = "Notifications";
 export const TrANSACTION = "TRANSACTION";
 export const PAYMENT = "PAYMENT";

@@ -14,19 +14,13 @@ const Notifications = ({ navigation }) => {
     useEffect(() => {
         setTimeout(() => {
             setLoading(false)
-        }, 8000)
+        }, 1000)
     })
 
-    {/* if (loading) {
-         return <VStack mt={5}>
-             <IsLoadingComponent />
-        </VStack>
-    }*/}
     return (
-        <Box flex={1} mb={10}>
-            <CustomHeader navigation={navigation} screen={PROFILE} />
+        <Box flex={1} mb={3}>
             <Box style={styles.container}>
-                <Text mb={5} style={styles.headerTitle}>Notifications</Text>
+                <Text mb={3} style={styles.headerTitle}>Notifications</Text>
                 <ScrollView
                     overScrollMode='never'
                     showsVerticalScrollIndicator={false}>

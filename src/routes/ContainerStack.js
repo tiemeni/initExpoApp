@@ -51,8 +51,6 @@ const ContainerStack = () => {
             <Stack.Screen name={SCREENS.POLICY} component={Policy} />
             <Stack.Screen name={SCREENS.SUCCESS} component={Success} />
             <Stack.Screen name={SCREENS.LICENSES} component={Licenses} />
-            <Stack.Screen name={SCREENS.APPOINTMENT_DETAILS_SCREEN} component={AppointmentDetails} />
-            <Stack.Screen name={SCREENS.APPOINTMENT_REPORT_SCREEN} component={ReportRDV} />
         </Stack.Navigator>
     )
 }
