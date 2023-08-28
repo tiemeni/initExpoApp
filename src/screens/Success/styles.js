@@ -6,10 +6,10 @@ const styles = StyleSheet.create({
   contenair: {
     flex: 1,
     flexDirection: "column",
-    borderColor: "red",
     height: "100%",
     paddingHorizontal:30,
     backgroundColor: colors.primary,
+    // backgroundColor: "linear-gradient(135deg, #04C96A 0%, #00C78E 100%)",
   },
 
   box1: {
