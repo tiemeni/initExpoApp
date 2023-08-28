@@ -43,9 +43,9 @@ const HeaderBox = ({ number, title, hintText, error }) => {
 const MakeAppointment = ({ navigation, route }) => {
     const extIdp = route.params?.idp
     const isSpecialist = route.params?.isSpecialist
+    const idSpeciality = route.params?.idSpeciality
     const scrollViewRef = React.useRef();
     const isProfession = useSelector(state => state.Common.isProfession) || isSpecialist
-    console.log(isProfession)
     const idCentre = useSelector(state => state.Common.idc)
     const [actualDayCreneaux, setActualDayCreneau] = useState([])
     const RDVForm = useSelector(state => state.RdvForm.rdvForm)
@@ -63,9 +63,11 @@ const MakeAppointment = ({ navigation, route }) => {
     const shouldSeeBehind = useSelector(state => state.Common.shouldSeeBehind)
     const screenWidth = Dimensions.get('screen').width;
     const dispatch = useDispatch()
+    const [extSpeciality, setExtSpeciality] = useState({})
     const [formData, setFormData] = React.useState({
         motif: null,
         praticien: null,
+        speciality: null || idSpeciality,
         profession: true,
         period: {
             day: null,
@@ -228,6 +230,7 @@ const MakeAppointment = ({ navigation, route }) => {
                                             setSelected={(val) => {
                                                 handleChange('speciality', val)
                                             }}
+                                            defaultOption={{key: idSpeciality, value: "id motif spec"}}
                                             data={specialities?.map((e) => {
                                                 return { key: e._id, value: e.label }
                                             })}

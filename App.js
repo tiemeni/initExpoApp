@@ -12,7 +12,6 @@ import { navigationRef } from './src/routes/rootNavigation';
 import { useEffect, useState } from 'react';
 import * as Notifications from 'expo-notifications'
 import NetInfo from '@react-native-community/netinfo';
-import NoInternet from './src/screens/NotInternet/NoInternet';
 import { Alert } from 'react-native';
 
 

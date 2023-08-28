@@ -61,6 +61,7 @@ function* getCliniques({ id }) {
 
 function* getPraticiens({ data }) {
     let url = BASE_URL + "/ext_users/lieu/?isPraticien=true&idLieu=" + data?.id + "&idSpeciality=" + data?.ids
+    console.log(url)
     try {
         const result = yield getUnauthRequest(url);
         if (result.success) {

@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     mapBtn: {
         height: 40,
         width: 40,
-        borderRadius: '50%',
+        borderRadius: 50,
         backgroundColor: colors.white,
         borderColor: colors.primary,
         borderWidth: 1.5

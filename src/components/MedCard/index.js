@@ -69,9 +69,9 @@ const MedCard = ({ praticien }) => {
                             }
                         ))
                         praticien?.job && dispatch(getSpecialities(searchByName(professions, "Specialiste")))
-                        !praticien?.job && dispatch(getMotifs({ id: searchByName(professions, "Generaliste") }))
+                        praticien?.job && dispatch(getMotifs({ id: searchByName(professions, "Generaliste") }))
                         navigation.navigate(SCREENS.MAKE_APPOINTMENT_SCREEN,
-                            { idp: praticien?._id, isSpecialist: !!praticien?.job })
+                            { idp: praticien?._id, isSpecialist: !!praticien?.job, idSpeciality: praticien?.job })
                     }
                     }>
                     <Text color={colors.white}>Prendre un RDV</Text>
