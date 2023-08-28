@@ -1,15 +1,9 @@
-import { View, Text, Image } from 'react-native'
+import { View } from 'react-native'
 import React from 'react'
-import { Avatar, Button, Circle, HStack, Pressable, VStack } from 'native-base'
+import { Avatar, Button, HStack, VStack, Text } from 'native-base'
 import colors from '../../constants/colours'
-import icon from "../../assets/img/account.png"
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import calendar from "../../assets/img/calendar.png"
-
 import styles from './style'
 import * as SCREENS from '../../constants/screens'
-import motifIcon from "../../assets/img/stethoscope.png"
-import locationIcon from "../../assets/img/location.png"
 import { Calendar, DocumentText, Location, Map1, Timer1 } from 'iconsax-react-native'
 
 export default function Rdv({ _id, navigation, date, motif, startTime, praticien, status, localisation }) {
@@ -20,7 +14,7 @@ export default function Rdv({ _id, navigation, date, motif, startTime, praticien
         }}>
             <HStack justifyContent={"space-between"} alignItems={'center'}>
                 <VStack>
-                    <Text style={{ fontSize: 16, fontWeight: "bold" }}>{"Dr. " + praticien}</Text>
+                    <Text fontWeight="500" fontSize={16}>{"Dr. " + praticien}</Text>
                     <Text style={{ fontSize: 14, color: colors.text_grey_hint}}>{"Genicologue"}</Text>
                 </VStack>
                 <Avatar

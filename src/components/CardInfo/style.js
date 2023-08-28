@@ -4,7 +4,6 @@ import colors from "../../constants/colours";
 const styles = StyleSheet.create({
     sectionTitle: {
         fontSize: 16,
-        fontWeight: 500,
         color: colors.text_grey_hint
     },
     medName: {

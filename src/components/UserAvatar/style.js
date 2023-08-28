@@ -3,14 +3,8 @@ import colors from "../../constants/colours";
 
 
 export const styles = StyleSheet.create({
-    container: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
     nameText: {
-        fontSize: 17,
-        fontWeight: "bold"
+        fontSize: 18,
     },
     emailText: {
         color: 'gray'

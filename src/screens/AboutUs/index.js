@@ -62,7 +62,7 @@ function AboutUs() {
             <ItemAboutUs
               icon={<Star1 />}
               tilte={translate("TEXT_RATING")}
-              description={"Vous aimez cette application ? dites-nous sur PlayStore ou AppStore comment nous pouvons l'améliorer"}
+              description={"Vous aimez cette application ? dites-nous comment nous pouvons l'améliorer"}
             />
           </TouchableOpacity>
           <TouchableOpacity

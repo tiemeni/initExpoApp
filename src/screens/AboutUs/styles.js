@@ -16,15 +16,10 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: "row",
         alignItems: 'center',
-        marginTop:15
     },
     section2: {
         flex: 1,
-        height: "100%",
     },
-    item: {
-        height:65,
-    }
 });
 
 export default styles;

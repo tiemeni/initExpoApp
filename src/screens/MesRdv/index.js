@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   Box,
   Center,
+  FlatList,
   HStack,
   ScrollView,
   View,
@@ -28,12 +29,15 @@ export default function MesRdv({ navigation }) {
   const [appointments, setAppointment] = useState(rdvs)
   const [showSkeleton, setShowSkeleton] = useState(false)
 
-  React.useLayoutEffect(() => {
+  const getRdvs = () => {
     dispatch(clearCache())
     if (rdvs.length <= 0) {
       dispatch(getMyRDV(user?.user?._id))
       setShowSkeleton(true)
     }
+  }
+  React.useLayoutEffect(() => {
+    getRdvs()
   }, []);
 
   React.useEffect(() => {
@@ -181,48 +185,52 @@ export default function MesRdv({ navigation }) {
           </View>
         </HStack>
       </Box>
-      {(appointments.length !== 0 || showSkeleton) &&
-        <ScrollView overScrollMode="never" showsVerticalScrollIndicator={false}>
-          {!loadingRDV && !loading && !showSkeleton && (
-            <VStack justifyContent={"center"} alignItems={"center"} paddingX={4}>
-              {appointments?.map((_e, i) => (
-                <View
-                  key={_e._id}
-                  height={195}
-                  width={"100%"}
-                  borderRadius={10}
-                  padding={3}
-                  mb={4}
-                  backgroundColor={"white"}
-                  style={{
-                    shadowColor: "#000",
-                    shadowOffset: {
-                      width: 0,
-                      height: 1,
-                    },
-                    shadowOpacity: 0.1,
-                    shadowRadius: 3.84,
-                    elevation: 1,
-                  }}
-                >
-                  <Rdv _id={_e._id} localisation={_e?.lieu?.location} navigation={navigation} praticien={_e?.name + " " + _e.surname} date={_e?.date} status={_e?.status} startTime={_e?.displayedDate} motif={_e?.motif} />
-                </View>
-              ))}
-            </VStack>
-          )}
+      {appointments.length !== 0 && !loadingRDV && !loading && !showSkeleton && (
+        <FlatList
+          onRefresh={getRdvs}
+          refreshing={showSkeleton || loadingRDV}
+          style={styles.flatList}
+          data={appointments}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) =>
+            <View
+              key={item._id}
+              height={195}
+              width={"100%"}
+              borderRadius={10}
+              padding={3}
+              mb={4}
+              backgroundColor={"white"}
+              style={{
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 1,
+                },
+                shadowOpacity: 0.1,
+                shadowRadius: 3.84,
+                elevation: 1,
+              }}
+            >
+              <Rdv _id={item._id} localisation={item?.lieu?.location} navigation={navigation} praticien={item?.name + " " + item.surname} date={item?.date} status={item?.status} startTime={item?.displayedDate} motif={item?.motif} />
+            </View>
+          } />
+      )}
 
-          {loadingRDV || showSkeleton && <VStack padding={4} space={1}>
-            <VStack>
-              <Skelette />
-            </VStack>
-            <VStack>
-              <Skelette />
-            </VStack>
-            <VStack>
-              <Skelette last={true} />
-            </VStack>
-          </VStack>}
-        </ScrollView>}
+      {loadingRDV || showSkeleton &&
+        <VStack padding={4} space={1}>
+          <VStack>
+            <Skelette />
+          </VStack>
+          <VStack>
+            <Skelette />
+          </VStack>
+          <VStack>
+            <Skelette last={true} />
+          </VStack>
+        </VStack>
+      }
 
       {(appointments.length === 0 && !showSkeleton) &&
         <Center flex={1}>

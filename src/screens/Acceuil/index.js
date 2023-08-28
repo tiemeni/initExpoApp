@@ -43,8 +43,13 @@ const Acceuil = ({ navigation, userInfos }) => {
     const { user } = userInfos
     const requestPermissions = async () => {
       try {
-        const { status } = await Notifications.requestPermissionsAsync();
-        if (status !== 'granted') {
+        const { status: existingStatus } = await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+        if (existingStatus !== 'granted') {
+          const { status } = await Notifications.requestPermissionsAsync();
+          finalStatus = status
+        }
+        if (finalStatus !== 'granted') {
           console.log('Permission de notification non accordée');
           return;
         }

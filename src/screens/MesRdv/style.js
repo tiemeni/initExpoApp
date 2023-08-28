@@ -1,4 +1,3 @@
-import { Center } from 'native-base';
 import { StyleSheet } from 'react-native';
 import colors from '../../constants/colours';
 const styles = StyleSheet.create({
@@ -36,6 +35,10 @@ const styles = StyleSheet.create({
     color: colors.text_grey_hint,
     fontSize: 16,
     marginTop: 10
+  },
+
+  flatList: {
+    marginHorizontal: 15
   }
 });
 

@@ -1,15 +1,7 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
 import {
-  Avatar,
-  Circle,
-  HStack,
-  VStack,
-  Skeleton,
-  Divider,
-  Center,
+  Skeleton
 } from "native-base";
-import colors from "../../constants/colours";
 
 export const Skelette = ({ last }) => {
   return (

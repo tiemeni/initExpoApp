@@ -53,6 +53,9 @@ const styles = StyleSheet.create({
     },
     paiementContainer: {
         transition: '5s',
+    },
+    payment: {
+        backgroundColor: "white",
     }
 })
 

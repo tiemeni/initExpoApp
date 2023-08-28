@@ -30,7 +30,7 @@ const setScreenOption = ({ route }) => ({
         paddingTop: 5
     },
     tabBarLabelStyle: {
-        fontSize: 14,
+        fontSize: 12,
     },
     tabBarShowLabel: true,
     tabBarInactiveTintColor: "#706e6e",

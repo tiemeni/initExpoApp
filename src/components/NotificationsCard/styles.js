@@ -1,6 +1,7 @@
+import { StyleSheet } from "react-native";
 import colors from "../../constants/colours";
 
-const styles = {
+const styles = StyleSheet.create({
     card: {
         backgroundColor: colors.white,
         borderRadius: 10,
@@ -59,8 +60,10 @@ const styles = {
         height: 50,
         width: 50,
         borderRadius: 50,
-        backgroundColor: colors.yellow
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: "center"
     }
-}
+})
 
 export default styles;
