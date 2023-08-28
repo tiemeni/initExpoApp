@@ -77,11 +77,12 @@ function* getPraticiens({ data }) {
 
 function* getDispo({ data }) {
     let url;
-    if (data?.slotRange) {
+    if (data?.creneau) {
         url = BASE_URL + "/appointments/rechercher_dispo?idCentre=" + data?.idCentre + "&idp=" + data?.idp + "&slotRange=" + data?.creneau + "&startDate=" + data?.date + "&day=" + data?.day
     } else {
         url = BASE_URL + "/appointments/rechercher_dispo?idCentre=" + data?.idCentre + "&idp=" + data?.idp
     }
+    console.log(url)
     try {
         const result = yield getUnauthRequest(url);
         if (result.success) {
@@ -117,6 +118,7 @@ function* postRDV({ data }) {
         if (result.message) {
             const rdvData = {
                 centre: data?.idCentre,
+                lieu: data?.lieu,
                 practitioner: data?.praticien,
                 patient: result.message,
                 motif: data?.motif,
@@ -135,6 +137,7 @@ function* postRDV({ data }) {
         } else if (result.data._id) {
             const rdvData = {
                 centre: data?.idCentre,
+                lieu: data?.lieu,
                 practitioner: data?.praticien,
                 patient: result.data._id,
                 motif: data?.motif,
@@ -157,12 +160,13 @@ function* postRDV({ data }) {
             }, 3000)
         }
         if (rdv?.success) {
-            yield put({ type: types.POST_RDV_REQUEST_SUCCESS, payload: rdv?.data })
+            yield put({ type: types.POST_RDV_REQUEST_SUCCESS, payload: rdv?.data?._id })
             yield put({ type: types.GET_ALL_MY_RDV, id: payload.user })
             yield put({ type: MY_FICHES, payload: idFiche })
             yield setTimeout(() => {
                 put({ type: "CLEAR_ERR_SUCC" })
-            }, 3000)
+                RootNavigation.navigate(SCREENS.SUCCESS, { id: rdv?.data?._id })
+            }, 2000)
         } else {
             yield put({ type: types.POST_RDV_REQUEST_FAILED, payload: "Erreur lors de la creation du rendez-vous!" })
             yield setTimeout(() => {

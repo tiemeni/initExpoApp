@@ -8,19 +8,23 @@ import CarouselAstuce from '../../components/MeAstuce';
 import CarouselPub from '../../components/MePub';
 import { Ionicons } from "@expo/vector-icons";
 import colors from '../../constants/colours';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { getProfession } from '../../redux/professions/actions';
 import { clearCache, getMotifs } from '../../redux/RDV/actions';
 import CustomHeader from '../../components/CustomHeader';
 import * as Notifications from 'expo-notifications'
 import { sendExpoToken } from '../../redux/User/action';
+import * as SCREENS from "../../constants/screens";
+import { SharedElement } from 'react-navigation-shared-element';
+import { getAllPrats } from '../../redux/Praticiens/actions';
+
 
 
 const Acceuil = ({ navigation, userInfos }) => {
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const dispatch = useDispatch()
-
+  const praticiens = useSelector(state => state.Praticiens.praticiens)
   const handleSearch = () => {
     const filteredSpecialites = specialites.filter(specialite => specialite.value.includes(searchText));
     const filteredPraticiens = practiciens.filter(praticien => praticien.name.includes(searchText));
@@ -31,6 +35,7 @@ const Acceuil = ({ navigation, userInfos }) => {
   useEffect(() => {
     dispatch(getProfession())
     dispatch(clearCache())
+    dispatch(getAllPrats())
   }, [])
 
   useEffect(() => {
@@ -55,25 +60,29 @@ const Acceuil = ({ navigation, userInfos }) => {
   return (
     <View flex={1}>
       <CustomHeader navigation={navigation} screen={PROFILE} />
-      <ScrollView showsVerticalScrollIndicator={false} padding={3}>
+      <ScrollView showsVerticalScrollIndicator={false} padding={3} keyboardShouldPersistTaps="never">
         <Box>
-          <Input
-            h={38}
-            rounded={12}
-            borderWidth={0}
-            fontSize={14}
-            bg={colors.white}
-            placeholder='Rechercher un praticien ou une spécialité'
-            InputLeftElement={
-              <Icon
-                as={<Ionicons name="search" />}
-                size={5}
-                ml="4"
-                color={colors.primary}
-              />}
-            onChangeText={text => setSearchText(text)}
-            onSubmitEditing={handleSearch}
-          />
+          <SharedElement>
+            <Input
+              showSoftInputOnFocus={false}
+              h={38}
+              rounded={12}
+              borderWidth={0}
+              fontSize={14}
+              bg={colors.white}
+              placeholder='Rechercher un praticien ou une spécialité'
+              InputLeftElement={
+                <Icon
+                  as={<Ionicons name="search" />}
+                  size={5}
+                  ml="4"
+                  color={colors.primary}
+                />}
+              onPressIn={() => navigation.navigate(SCREENS.GLOBAL_SEARCH)}
+              onChangeText={text => setSearchText(text)}
+              onSubmitEditing={handleSearch}
+            />
+          </SharedElement>
         </Box>
         <CarouselPub />
         <VStack mb={7}>
@@ -97,7 +106,7 @@ const Acceuil = ({ navigation, userInfos }) => {
           </HStack>
           <VStack flex={1} mb={10}>
             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-              {practiciens.map((praticien) => <MedCard key={praticien.id} praticien={praticien} />)}
+              {praticiens?.map((praticien) => <MedCard key={praticien?._id} praticien={praticien} />)}
             </ScrollView>
           </VStack>
         </VStack>

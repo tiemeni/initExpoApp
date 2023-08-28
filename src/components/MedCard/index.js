@@ -4,12 +4,16 @@ import { Entypo, Fontisto } from '@expo/vector-icons';
 import colors from "../../constants/colours";
 import styles from "./style";
 import { Image } from 'react-native';
+import * as SCREENS from "../../constants/screens";
+import { useNavigation } from '@react-navigation/native';
 
 
 
-const MedCard = ({praticien}) => {
+
+const MedCard = ({ praticien }) => {
+    const navigation = useNavigation()
     return (
-        <VStack space={3} flex={1}  style={styles.medBox}>
+        <VStack space={3} flex={1} style={styles.medBox}>
             <Box style={styles.medPic}>
             </Box>
 
@@ -30,7 +34,7 @@ const MedCard = ({praticien}) => {
                         size='md'
                         style={styles.icon}
                     />
-                    <Text style={styles.location}>{praticien.center}</Text>
+                    <Text style={styles.location}>{"lskdlskdlk"}</Text>
                 </HStack>
                 <HStack mt={2}>
                     <Icon
@@ -39,10 +43,10 @@ const MedCard = ({praticien}) => {
                         size='md'
                         style={styles.icon}
                     />
-                    <Text style={styles.tarif}>A partir de {praticien.cost} Fcfa</Text>
+                    <Text style={styles.tarif}>A partir de {praticien.cost ?? "5000"} Fcfa</Text>
                 </HStack>
 
-                <Pressable style={styles.rdvBtn} onPress={() => console.log('Pressed')}>
+                <Pressable style={styles.rdvBtn} onPress={() => navigation.navigate(SCREENS.MAKE_APPOINTMENT_SCREEN, { idp: praticien?._id })}>
                     <Text color={colors.white}>Prendre un RDV</Text>
                 </Pressable>
             </VStack>

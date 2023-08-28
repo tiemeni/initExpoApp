@@ -13,12 +13,17 @@ import Parametres from '../screens/Parametres';
 import AboutUs from '../screens/AboutUs';
 import AppointmentDetails from "../screens/AppointmentDetails";
 import { ReportRDV } from '../screens/ReportRDV';
+import RoadMap from '../screens/GoogleMap';
+import { GlobalSearch } from '../screens/GlobalSearch';
+import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import Policy from '../screens/ListeCguAndPolice/policy';
 import CGU from '../screens/ListeCguAndPolice/cgu';
 import Licenses from '../screens/ListeCguAndPolice/licenses';
 import Success from '../screens/Success';
 
-const Stack = createStackNavigator();
+
+
+const Stack = createSharedElementStackNavigator();
 
 const ContainerStack = () => {
     return (
@@ -33,13 +38,15 @@ const ContainerStack = () => {
             <Stack.Screen name={SCREENS.PROFILE} component={Profile} />
             <Stack.Screen name={SCREENS.MON_PROFILE} component={MonProfile2} />
             <Stack.Screen
-                options={{ animationEnabled: true}}
+                options={{ animationEnabled: true }}
                 name={SCREENS.MAKE_APPOINTMENT_SCREEN}
                 component={MakeAppointment} />
             <Stack.Screen name={SCREENS.TrANSACTION} component={Transaction} />
             <Stack.Screen name={SCREENS.PAYMENT} component={Payment} />
             <Stack.Screen name={SCREENS.SETTINGS} component={Parametres} />
+            <Stack.Screen name={SCREENS.GLOBAL_SEARCH} component={GlobalSearch} />
             <Stack.Screen name={SCREENS.ABOUT_US} component={AboutUs} />
+            <Stack.Screen name={SCREENS.GOOGLE_MAP} component={RoadMap} />
             <Stack.Screen name={SCREENS.CGU} component={CGU} />
             <Stack.Screen name={SCREENS.POLICY} component={Policy} />
             <Stack.Screen name={SCREENS.SUCCESS} component={Success} />

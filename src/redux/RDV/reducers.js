@@ -166,6 +166,7 @@ const RDVReducer = (state = initialState, action) => {
         case types.POST_RDV_REQUEST_SUCCESS:
             return {
                 ...state,
+                recapRDVId: action.payload,
                 loading: false,
                 loadingPostRdv: false,
                 successPostRdv: true

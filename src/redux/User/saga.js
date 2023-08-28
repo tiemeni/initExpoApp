@@ -12,6 +12,7 @@ import {
 import * as RootNavigation from "../../routes/rootNavigation";
 import * as SCREENS from "../../constants/screens";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { GET_ALL_PRATICIENS } from "../Praticiens/types";
 
 /**
  * @description user sign up.
@@ -28,6 +29,7 @@ function* authRegister({ payload }) {
       if (payload.saveCredentials) yield AsyncStorage.setItem('userCredentials', JSON.stringify(payload));
 
       yield put({ type: types.REGISTER_USER_SUCCESS, payload: result.data })
+      yield put({ type: GET_ALL_PRATICIENS })
       setTimeout(() => {
         RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
       }, 1000);
@@ -107,7 +109,6 @@ function* authLogin({ payload }) {
     const result = yield postUnauthRequest(url, payload);
 
     if (result.success) {
-      console.log('success')
       // save user credentials if asked
       yield AsyncStorage.setItem("access_token", result.data.access_token);
       yield AsyncStorage.setItem("userInfos", JSON.stringify(result.data));
@@ -116,6 +117,7 @@ function* authLogin({ payload }) {
       }
 
       yield put({ type: types.LOGIN_SUCCESS, payload: result.data })
+      yield put({ type: GET_ALL_PRATICIENS })
       setTimeout(() => {
         RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
       }, 1000);

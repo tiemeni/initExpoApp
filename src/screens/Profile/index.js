@@ -53,9 +53,6 @@ function Profile() {
         <TouchableOpacity onPress={() => navigation.navigate(SCREENS.ABOUT_US)} style={styles.item}>
           <ParameterList icon={<Ionicons name='information-circle' />} label={"A propos"} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate(SCREENS.SUCCESS)} style={styles.item}>
-          <ParameterList icon={<Ionicons name='information-circle' />} label={"Success"} />
-        </TouchableOpacity>
       </View>
       <View style={styles.section3}>
         <TouchableOpacity onPress={() => dispatch(userLogout())} style={{ ...styles.item, height: "50%" }}>

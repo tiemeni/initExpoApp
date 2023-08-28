@@ -33,11 +33,11 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
   const [show, setShow] = useState(false);
 
   const [formData, setFormData] = useState({
-    name: "DONGMO",
-    surname: "Donald",
-    email: "dongmo@gmail.com",
-    password: "thepunisher",
-    telephone: "698789098",
+    name: "",
+    surname: "",
+    email: "",
+    password: "",
+    telephone: "",
     birthdate: "",
   });
   const [errors, setErrors] = useState({

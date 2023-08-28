@@ -18,7 +18,7 @@ const UserReducer = (state = initialState, action) => {
                 error: false,
                 errorMsg: null,
                 success: null,
-                settingPWLoading: true
+                settingPWLoading: false
             }
         case types.REGISTER_USER_REQUEST:
             return {
