@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Text, Box, View, VStack, ScrollView, Stack, HStack, Image, Select, Pressable, Divider, Icon, Button, useToast, } from "native-base";
-import * as SCREENS from "../../constants/screens";
-import CustomHeader from "../../components/CustomHeader";
 import colors from "../../constants/colours";
 import CardInfo from "../../components/CardInfo";
-import filter from "../../assets/img/filter.png"
 import moment from "moment"
 import arrowDown from "../../assets/img/down-arrow.png"
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -16,9 +13,7 @@ import { getDispo, putRDV } from "../../redux/RDV/actions";
 import DispoLoader from "./dispoLoader";
 import CustomToast from "../../components/CustomToast";
 import { CLEAR_ERR_SUCC } from "../../redux/RDV/types";
-
-
-
+import { Filter } from "iconsax-react-native";
 
 
 export const ReportRDV = ({ route }) => {
@@ -43,8 +38,6 @@ export const ReportRDV = ({ route }) => {
     const [creneau, setCreneau] = useState('08:00-17:00')
     const { params } = route
     const { appointment } = params
-    const { navigation } = params
-    const { patient } = appointment
 
     const handleSelectDay = (day) => {
         setSelectedDay(day)
@@ -84,7 +77,6 @@ export const ReportRDV = ({ route }) => {
             startTime: selectedHour,
             endTime: ajouterDuree(selectedHour, calculerEcartEnMinutes(appointment?.timeStart, appointment?.timeEnd)),
             date: date,
-            idCentre: appointment?.patient?.idCentre,
             idUser: userInfo?.user?._id,
             date_long: longDate
         }))
@@ -128,18 +120,17 @@ export const ReportRDV = ({ route }) => {
 
     return (
         <View flex={1}>
-            <CustomHeader navigation={navigation} mb={5} screen={SCREENS.PROFILE} />
             <ScrollView
                 ref={scrollViewRef}
                 nestedScrollEnabled={true}
                 onContentSizeChange={(contentWidth, contentHeight) => {
                     shouldScroll && scrollViewRef.current?.scrollTo({ y: contentHeight, animated: true, });
                 }}
-                px={3} >
+                p={3} >
                 <VStack space={4}>
                     <Stack>
                         <CardInfo
-                            lieu={'Clinique FOUDA'}
+                            lieu={appointment?.lieu?.label}
                             patient={appointment?.patient?.name + " " + appointment?.patient?.surname}
                             motif={appointment?.motif}
                             infos={"23 ans, 85Kg, Homme"}
@@ -151,7 +142,7 @@ export const ReportRDV = ({ route }) => {
                         <HStack style={{ ...styles.secondCardSection1 }}>
                             <VStack style={{ ...styles.masquerBox }}>
                                 <Box style={{ ...styles.boxFilter }}>
-                                    <Image source={filter} alt="" style={{ ...styles.imgMask }} />
+                                    <Filter color={colors.white} size={18} />
                                 </Box>
                                 <Text>Masquer</Text>
                             </VStack>
@@ -311,37 +302,32 @@ export const ReportRDV = ({ route }) => {
                         </Box> : <DispoLoader />}
                     </VStack>
                 </VStack>
+
+                <HStack width={"100%"} mb={3} style={styles.btnContainer}>
+                    <Button
+                        onPress={() => navigation.goBack()}
+                        style={{
+                            ...styles.btnSubmitPut,
+                            backgroundColor: colors.black_gray
+                        }} >
+                        <Text color={colors.white} style={{
+                            ...styles.btnSubmitText,
+                        }}>{"Retour"}</Text>
+                    </Button>
+                    <Button
+                        onPress={handlePutRdv}
+                        isLoading={putingRdv}
+                        disabled={putingRdv || !selectedDay || !selectedHour}
+                        style={{
+                            ...styles.btnSubmitPut,
+                            backgroundColor: colors.primary
+                        }} >
+                        <Text color={colors.white} style={{
+                            ...styles.btnSubmitText
+                        }}>{putingRdv ? "chargement..." : "Reporter"}</Text>
+                    </Button>
+                </HStack>
             </ScrollView >
-            <HStack width={"100%"} style={{
-                width: '100%',
-                padding: 10,
-                display: "flex",
-                justifyContent: "space-between",
-                top: 0
-            }}>
-                <Button
-                    onPress={() => navigation.goBack()}
-                    style={{
-                        ...styles.btnSubmitPut,
-                        backgroundColor: colors.black_gray
-                    }} >
-                    <Text color={colors.white} style={{
-                        ...styles.btnSubmitText,
-                    }}>{"Retour"}</Text>
-                </Button>
-                <Button
-                    onPress={handlePutRdv}
-                    isLoading={putingRdv}
-                    disabled={putingRdv || !selectedDay || !selectedHour}
-                    style={{
-                        ...styles.btnSubmitPut,
-                        backgroundColor: colors.primary
-                    }} >
-                    <Text color={colors.white} style={{
-                        ...styles.btnSubmitText
-                    }}>{putingRdv ? "chargement..." : "Reporter"}</Text>
-                </Button>
-            </HStack>
         </View >
     )
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { View, Text, Pressable, Platform } from "react-native";
+import { View, Text, Pressable, Platform, Alert } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import {
   HStack,
@@ -112,7 +112,7 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
               message={errorMsg}
               color={colors.danger}
               bgColor={"red.100"}
-              icon={<Foundation name="alert" size={24}/>}
+              icon={<Foundation name="alert" size={24} />}
               iconColor={colors.danger}
             />
           );
@@ -123,19 +123,11 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
     }
 
     if (success) {
-      toast.show({
-        render: () => {
-          return <CustomToast
-            message={"Compte crée avec succès"}
-            color={colors.success}
-            bgColor={"green.100"}
-            icon={<AntDesign name="checkcircle" size={24} />}
-            iconColor={colors.success}
-          />
-        },
-        placement: "top",
-        duration: 1000
-      })
+      Alert.alert(
+        "INSCRIPTION",
+        "Votre compte été crée avec succès.",
+        [{ text: "Continuer", onPress: () => navigation.navigate(SCREENS.HOME_CONTAINER_ROUTE) }]
+      )
     }
   }, [error, success])
 
@@ -150,7 +142,7 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
               message={'Veuillez remplir tous les champs'}
               color={colors.danger}
               bgColor={"red.100"}
-              icon={<Foundation name="alert" size={24}/>}
+              icon={<Foundation name="alert" size={24} />}
               iconColor={colors.danger}
             />
           );

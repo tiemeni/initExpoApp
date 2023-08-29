@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         alignItems: "center",
-        marginBottom: 10
+        marginBottom: 10,
     },
     paiementContainer: {
         transition: '5s',

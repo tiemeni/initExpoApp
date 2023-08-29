@@ -5,6 +5,8 @@ import styles from "./style";
 import colors from '../../constants/colours';
 import Accordion from "../../components/Accordion";
 import Header from "../../components/Header";
+import {Global, MessageText1, TableDocument} from 'iconsax-react-native'
+
 
 const IconItem = (props) => {
     return (
@@ -12,7 +14,6 @@ const IconItem = (props) => {
             <Box style={styles.iconBox}>
                 <Icon
                     as={props.iconType}
-                    name={props.iconName}
                     color={colors.primary}
                     size='md'
                 />
@@ -39,15 +40,15 @@ const FAQ = () => {
                 <Box mb={2}>
                     <IconItem
                         iconName='web'
-                        iconType={MaterialCommunityIcons}
+                        iconType={<Global />}
                         text='Aller sur notre site web' />
                     <IconItem
                         iconName='message1'
-                        iconType={AntDesign}
+                        iconType={<MessageText1 />}
                         text='Envoyez-nous un e-mail' />
                     <IconItem
                         iconName='filetext1'
-                        iconType={AntDesign}
+                        iconType={<TableDocument />}
                         text="Conditions d'utilisation" />
                 </Box>
 

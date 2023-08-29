@@ -7,20 +7,15 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     height: "100%",
-    paddingHorizontal:30,
-    backgroundColor: colors.primary,
-    // backgroundColor: "linear-gradient(135deg, #04C96A 0%, #00C78E 100%)",
+    paddingHorizontal:20,
   },
 
   box1: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "15%",
   },
   box2: {
-    alignItems: "center",
-    marginTop: "15%",
-    marginBottom:40
+    width: "100%",
   },
   texte1: {
     fontSize: 22,
@@ -40,11 +35,10 @@ const styles = StyleSheet.create({
   },
 
   box3: {
-    width:'100%',
-    alignItems: "center",
-    justifyContent:'space-between',
-    alignContent:'space-between'
+    width:"100%",
+    justifyContent:'space-between'
   },
+  btn: { backgroundColor: colors.white, borderRadius: 10, marginBottom: 10, width: "100%" }
 });
 
 export default styles;

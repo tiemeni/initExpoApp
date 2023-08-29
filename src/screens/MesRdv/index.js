@@ -1,6 +1,7 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
+  Center,
   HStack,
   ScrollView,
   View,
@@ -10,12 +11,11 @@ import { Text } from "react-native";
 import Rdv from "../../components/Rdv";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import * as SCREENS from "../../constants/screens";
 import { Skelette } from "./squelette";
-import CustomHeader from '../../components/CustomHeader';
 import { useDispatch, useSelector } from "react-redux";
 import { clearCache, getMyRDV } from "../../redux/RDV/actions";
-import { Ionicons } from '@expo/vector-icons';
+import { FolderOpen } from "iconsax-react-native";
+import styles from "./style";
 
 export default function MesRdv({ navigation }) {
   const [actualState, setActualState] = useState(1);
@@ -24,27 +24,39 @@ export default function MesRdv({ navigation }) {
   const rdvs = useSelector(state => state.RdvForm.myRdv)
   const user = useSelector(state => state.UserReducer.userInfos)
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState('Planifié')
+  const [appointments, setAppointment] = useState(rdvs)
+  const [showSkeleton, setShowSkeleton] = useState(false)
+
   React.useLayoutEffect(() => {
     dispatch(clearCache())
     if (rdvs.length <= 0) {
       dispatch(getMyRDV(user?.user?._id))
+      setShowSkeleton(true)
     }
   }, []);
 
+  React.useEffect(() => {
+    const filteredRdvs = rdvs.filter((rdv) => rdv.status == status)
+    setAppointment(filteredRdvs);
+    setTimeout(() => {
+      setShowSkeleton(false)
+    }, 1000);
+  }, [actualState, rdvs])
+
   return (
-    <View flex={1}>
-      <CustomHeader navigation={navigation} mb={5} screen={SCREENS.PROFILE} />
+    <View flex={1} paddingTop={3}>
       <Box
         width={"100%"}
         justifyContent={"center"}
         alignItems={"center"}
         height={45}
-        mb={5}
+        mb={3}
       >
         <HStack
           width={"95%"}
           alignItems={"center"}
-          height={"95%"}
+          height={"100%"}
           backgroundColor={"#EEEFF3"}
           borderRadius={10}
         >
@@ -60,6 +72,8 @@ export default function MesRdv({ navigation }) {
             <Pressable
               onPress={() => {
                 setActualState(1);
+                setStatus("Planifié")
+                setShowSkeleton(true)
                 setLoading(true);
                 setTimeout(() => {
                   setLoading(false);
@@ -98,6 +112,8 @@ export default function MesRdv({ navigation }) {
             <Pressable
               onPress={() => {
                 setActualState(2);
+                setStatus("Terminé")
+                setShowSkeleton(true)
                 setLoading(true);
                 setTimeout(() => {
                   setLoading(false);
@@ -135,6 +151,12 @@ export default function MesRdv({ navigation }) {
             <Pressable
               onPress={() => {
                 setActualState(3)
+                setStatus("Annulé")
+                setShowSkeleton(true)
+                setLoading(true);
+                setTimeout(() => {
+                  setLoading(false);
+                }, 1000);
               }}
               display={"flex"}
               flexDirection={"row"}
@@ -159,92 +181,18 @@ export default function MesRdv({ navigation }) {
           </View>
         </HStack>
       </Box>
-      <ScrollView overScrollMode="never">
-        {actualState === 1 && (!loadingRDV && !loading) ? (
-          <VStack justifyContent={"center"} alignItems={"center"}>
-            {rdvs?.map((_e, i) => _e?.status == "Planifié" && (
-              <View
-                key={_e._id}
-                height={182}
-                width={340}
-                borderRadius={10}
-                padding={3}
-                mb={2}
-                backgroundColor={"white"}
-                style={{
-                  shadowColor: "#000",
-                  shadowOffset: {
-                    width: 0,
-                    height: 1,
-                  },
-                  shadowOpacity: 0.1,
-                  shadowRadius: 3.84,
-                  elevation: 1,
-                }}
-              >
-                <Rdv _id={_e._id} localisation={_e?.lieu?.location} navigation={navigation} praticien={_e?.name + " " + _e.surname} date={_e?.date} status={_e?.status} startTime={_e?.displayedDate} duration={_e?.motif} />
-              </View>
-            ))}
-          </VStack>
-        ) : actualState == 1 && loadingRDV ? (
-          <VStack padding={4} space={1}>
-            <VStack>
-              <Skelette />
-            </VStack>
-            <VStack>
-              <Skelette />
-            </VStack>
-            <VStack>
-              <Skelette last={true} />
-            </VStack>
-          </VStack>
-        ) : actualState == 2 && (!loadingRDV && !loading) ? (
-          <VStack justifyContent={"center"} alignItems={"center"}>
-            {rdvs?.map((_e, i) => _e?.status == "Annulé" && (
-              <View
-                key={_e._id}
-                height={182}
-                width={340}
-                borderRadius={10}
-                padding={3}
-                mb={2}
-                backgroundColor={"white"}
-                style={{
-                  shadowColor: "#000",
-                  shadowOffset: {
-                    width: 0,
-                    height: 1,
-                  },
-                  shadowOpacity: 0.1,
-                  shadowRadius: 3.84,
-                  elevation: 1,
-                }}
-              >
-                <Rdv _id={_e._id} navigation={navigation} praticien={_e?.name + " " + _e.surname} date={_e?.date} status={_e?.status} startTime={_e?.displayedDate} duration={_e?.motif} />
-              </View>
-            ))}
-          </VStack>
-        ) : actualState == 2 && loadingRDV ?
-          <VStack padding={4} space={1}>
-            <VStack>
-              <Skelette />
-            </VStack>
-            <VStack>
-              <Skelette />
-            </VStack>
-            <VStack>
-              <Skelette last={true} />
-            </VStack>
-          </VStack> : actualState == 3 && (!loadingRDV && !loading) ?
-            <VStack justifyContent={"center"} alignItems={"center"}>
-              {rdvs?.map((_e, i) => _e?.status != "Planifié" && _e?.status != "Annulé" && (
+      {(appointments.length !== 0 || showSkeleton) &&
+        <ScrollView overScrollMode="never" showsVerticalScrollIndicator={false}>
+          {!loadingRDV && !loading && !showSkeleton && (
+            <VStack justifyContent={"center"} alignItems={"center"} paddingX={4}>
+              {appointments?.map((_e, i) => (
                 <View
                   key={_e._id}
-                  height={182}
-                  width={340}
+                  height={195}
+                  width={"100%"}
                   borderRadius={10}
                   padding={3}
-                  mb={2}
+                  mb={4}
                   backgroundColor={"white"}
                   style={{
                     shadowColor: "#000",
@@ -257,23 +205,31 @@ export default function MesRdv({ navigation }) {
                     elevation: 1,
                   }}
                 >
-                  <Rdv _id={_e._id} navigation={navigation} praticien={_e?.name + " " + _e.surname} date={_e?.date} status={_e?.status} startTime={_e?.displayedDate} duration={_e?.motif} />
+                  <Rdv _id={_e._id} localisation={_e?.lieu?.location} navigation={navigation} praticien={_e?.name + " " + _e.surname} date={_e?.date} status={_e?.status} startTime={_e?.displayedDate} motif={_e?.motif} />
                 </View>
               ))}
-            </VStack> :
-            <VStack padding={4} space={1}>
-              <VStack>
-                <Skelette />
-              </VStack>
-              <VStack>
-                <Skelette />
-              </VStack>
-              <VStack>
-                <Skelette last={true} />
-              </VStack>
             </VStack>
-        }
-      </ScrollView>
+          )}
+
+          {loadingRDV || showSkeleton && <VStack padding={4} space={1}>
+            <VStack>
+              <Skelette />
+            </VStack>
+            <VStack>
+              <Skelette />
+            </VStack>
+            <VStack>
+              <Skelette last={true} />
+            </VStack>
+          </VStack>}
+        </ScrollView>}
+
+      {(appointments.length === 0 && !showSkeleton) &&
+        <Center flex={1}>
+          <FolderOpen variant="Outline" size={80} color="#a7a7a7" />
+          <Text style={styles.empty}>Vous n'avez aucun rendez-vous {status.toLowerCase()}</Text>
+        </Center>
+      }
     </View>
   );
 }
