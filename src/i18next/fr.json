@@ -111,5 +111,10 @@
   "TEXT_ABORT_RDV_TITLE": "ANNULER",
   "TEXT_ABORT_RDV_TITLE_SUCCESS": "CONFIRMATION",
   "TEXT_ABORT_RDV": "Etes-vous sûr de vouloir annuler ce rendez-vous sans aucun retour possible?",
-  "TEXT_ABORT_RDV_SUCCESS": "Ce rendez-vous a été annulé. N'hésitez pas à en prendre de nouveau."
+  "TEXT_ABORT_RDV_SUCCESS": "Ce rendez-vous a été annulé. N'hésitez pas à en prendre de nouveau.",
+  "TEXT_EMPLACEMENT": "Emplacement actuelle",
+  "TEXT_SEARCH_PLACEHOLDER": "Rechercher un praticien ou une spécialité ou un lieu",
+  "TEXT_NEXT_APPOINTMENT": "Prochain rendez-vous",
+  "TEXT_FIND_CLINIQUE": "Trouver une clinique",
+  "TEXT_FIND_DOCTOR": "Trouver un praticien"
 }

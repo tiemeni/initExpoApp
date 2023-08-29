@@ -5,6 +5,9 @@ const theme = extendTheme({
     danger: {
       300: "rgba(201, 22, 4, 0.2)",
       500: "#C91604"
+    },
+    hint: {
+      500: "#5C5C5C"
     }
   },
   fontConfig: {

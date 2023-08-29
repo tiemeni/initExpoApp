@@ -8,7 +8,8 @@ import {
   Spinner,
   HStack,
   Box,
-  Text
+  Text,
+  Input
 } from "native-base";
 import React, { useEffect } from "react";
 import { useState } from "react";
@@ -250,13 +251,12 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
             <View style={styles.box1} mt={3}>
               <View width={"100%"} mb={5}>
                 <Text style={styles.textLabel}>Nom</Text>
-                <TextInput
+                <Input
                   isInvalid={true}
                   placeholderTextColor={colors.text_grey_hint}
                   style={{
                     ...styles.textInput,
                     color: !editeMode ? colors.text_grey_hint : colors.black,
-                    fontFamily: theme.fonts.body
                   }}
                   placeholder="Modifier votre nom"
                   underlineColor="transparent"
@@ -266,18 +266,19 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                   activeUnderlineColor="transparent"
                   onChangeText={(value) => handleInputChange("name", value)}
                   value={formData.name}
-                  editable={!editeMode}
+                  isReadOnly={editeMode}
+                  variant={'rounded'}
                 />
               </View>
               <View width={"100%"} mb={5}>
                 <Text style={styles.textLabel}>Prénom</Text>
-                <TextInput
+                <Input
+                  variant="rounded"
                   isInvalid={true}
                   placeholderTextColor={colors.text_grey_hint}
                   style={{
                     ...styles.textInput,
                     color: !editeMode ? colors.text_grey_hint : colors.black,
-                    fontFamily: theme.fonts.body
                   }}
                   placeholder="Modifier votre prénom"
                   underlineColor="transparent"
@@ -286,7 +287,7 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                   activeUnderlineColor="transparent"
                   onChangeText={(value) => handleInputChange("surname", value)}
                   value={formData.surname}
-                  editable={!editeMode}
+                  isReadOnly={editeMode}
                 />
               </View>
               <View width={"100%"} mb={4}>
@@ -302,7 +303,8 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                     style={{
                       ...styles.textInput,
                       color: !editeMode ? colors.text_grey_hint : colors.black,
-                      fontFamily: theme.fonts.body
+                      borderWidth: 1,
+                      borderRadius: 22.5
                     }}
                     placeholder="17 Decembre 2004"
                     underlineColor="transparent"
@@ -367,7 +369,7 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                         onPress={() => handleGenderChange(1)}
                         disabled={editeMode}
                       />
-                      <Text style={{ fontSize: 15, color: "#343434" }}>
+                      <Text style={{ fontSize: 14, color: "#343434" }}>
                         Homme
                       </Text>
                     </View>
@@ -381,7 +383,7 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                         onPress={() => handleGenderChange(0)}
                         disabled={editeMode}
                       />
-                      <Text style={{ fontSize: 15, color: "#343434" }}>
+                      <Text style={{ fontSize: 14, color: "#343434" }}>
                         Femme
                       </Text>
                     </View>
@@ -402,13 +404,13 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                   >
                     Adresse mail
                   </Text>
-                  <TextInput
+                  <Input
+                    variant="rounded"
                     isInvalid={true}
                     placeholderTextColor={"#343434"}
                     style={{
                       ...styles.textInput,
                       color: !editeMode ? colors.text_grey_hint : colors.black,
-                      fontFamily: theme.fonts.body
                     }}
                     placeholder="tiemanirocket@gmail.com"
                     underlineColor="transparent"
@@ -417,7 +419,7 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                     activeUnderlineColor="transparent"
                     onChangeText={(value) => handleInputChange("email", value)}
                     value={formData.email}
-                    editable={!editeMode}
+                    isReadOnly={editeMode}
                   />
                 </View>
                 <View width={"100%"}>
@@ -426,13 +428,13 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                   >
                     Numero de telephone
                   </Text>
-                  <TextInput
+                  <Input
+                    variant="rounded"
                     isInvalid={true}
                     placeholderTextColor={"#343434"}
                     style={{
                       ...styles.textInput,
                       color: !editeMode ? colors.text_grey_hint : colors.black,
-                      fontFamily: theme.fonts.body
                     }}
                     placeholder="+237658686162"
                     underlineColor="transparent"
@@ -443,7 +445,7 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                       handleInputChange("telephone", value)
                     }
                     value={formData.telephone}
-                    editable={!editeMode}
+                    isReadOnly={editeMode}
                   />
                 </View>
               </View>

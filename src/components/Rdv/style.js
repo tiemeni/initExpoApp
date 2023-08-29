@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     mapBtn: {
         height: 40,
         width: 40,
-        borderRadius: 100,
+        borderRadius: 50,
         backgroundColor: colors.white,
         borderColor: colors.primary,
         borderWidth: 1.5
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         width: '80%',
         display: "flex",
         flexDirection: "row",
-        borderRadius: 10,
+        borderRadius: 20,
         justifyContent: "center",
         marginRight: 10,
         alignItems: "center"

@@ -2,7 +2,6 @@ import Acceuil from "../screens/Acceuil";
 import * as SCREENS from "../constants/screens";
 import Notifications from "../screens/Notifications";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import MesRdv from "../screens/MesRdv/";
 import colors from "../constants/colours";
 import { Home3, Notification, FolderOpen } from 'iconsax-react-native';
 import CustomHeader from "../components/CustomHeader";
@@ -26,7 +25,7 @@ const setScreenOption = ({ route }) => ({
     },
     tabBarStyle: {
         backgroundColor: colors.bg_grey,
-        marginBottom: 5,
+        paddingBottom: 2,
         paddingTop: 5
     },
     tabBarLabelStyle: {

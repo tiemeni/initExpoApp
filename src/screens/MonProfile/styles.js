@@ -50,9 +50,7 @@ export const styles = StyleSheet.create({
   textLabel: { marginBottom: 5, fontSize: 14, color: "#626262" },
 
   textInput: {
-    borderRadius: 10,
     backgroundColor: "white",
-    borderWidth: 1,
     borderColor: "#F0F0F0",
     padding: 10,
     height: 45,
@@ -80,7 +78,7 @@ export const styles = StyleSheet.create({
     width: "40%",
     height: 45,
     padding: 5,
-    borderRadius: 10,
+    borderRadius: 22.5,
     borderColor: "#F0F0F0",
   },
   viewStyle3: {

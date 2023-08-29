@@ -61,6 +61,7 @@ function* getCliniques({ id }) {
 
 function* getPraticiens({ data }) {
     let url = BASE_URL + "/ext_users/lieu/?isPraticien=true&idLieu=" + data?.id + "&idSpeciality=" + data?.ids
+    console.log(url)
     try {
         const result = yield getUnauthRequest(url);
         if (result.success) {
@@ -210,7 +211,6 @@ function* putRDV({ data }) {
             //yield put({ type: types.GET_ALL_MY_RDV, id: payload?.idUser })
             yield getAllRdv({ id: payload.idUser })
             setTimeout(() => {
-                RootNavigation.navigate(SCREENS.RDV, { _id: result.data?._id })
                 put({ type: "CLEAR_ERR_SUCC" })
             }, 1000)
         } else {

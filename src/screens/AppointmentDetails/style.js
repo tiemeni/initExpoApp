@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     },
     button: {
         flexGrow: 1,
-        borderRadius: 10,
+        borderRadius: 20,
     },
     appoinmentsBox: {
         backgroundColor: colors.white,

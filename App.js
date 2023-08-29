@@ -56,8 +56,13 @@ export default function App() {
 
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
       console.log("notification", notification);
+      Alert.alert(
+        "Notification recu",
+        notification,
+        [{ text: "Fermer" }]
+      )
     });
-    
+
     return () => {
       unsubscribe();
       Notifications.removeNotificationSubscription(notificationListener.current)

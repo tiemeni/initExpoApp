@@ -11,7 +11,7 @@ const styles = {
     },
 
     title: {
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: '700',
         padding: 2
     },
@@ -28,15 +28,15 @@ const styles = {
     },
 
     btn: {
-        height: 50,
+        height: 45,
         width: '90%',
-        fontSize: 18,
+        fontSize: 14,
         borderRadius: 25,
         borderColor: colors.primary,
     },
 
     btnLabel: {
-        fontSize: 18
+        fontSize: 16
     }
 }
 
