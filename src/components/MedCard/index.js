@@ -8,7 +8,7 @@ import * as SCREENS from "../../constants/screens";
 import { useNavigation } from '@react-navigation/native';
 import { isSpecialist, searchByName } from '../../utils/helper';
 import { useDispatch, useSelector } from 'react-redux';
-import { setShouldSeeBehind } from '../../redux/commons/action';
+import { setIdCentre, setShouldSeeBehind } from '../../redux/commons/action';
 import { getMotifs, getSpecialities, setRDVForm } from '../../redux/RDV/actions';
 
 
@@ -70,8 +70,15 @@ const MedCard = ({ praticien }) => {
                         ))
                         praticien?.job && dispatch(getSpecialities(searchByName(professions, "Specialiste")))
                         praticien?.job && dispatch(getMotifs({ id: searchByName(professions, "Generaliste") }))
-                        navigation.navigate(SCREENS.MAKE_APPOINTMENT_SCREEN,
-                            { idp: praticien?._id, isSpecialist: !!praticien?.job, idSpeciality: praticien?.job })
+                        praticien?.job && dispatch(setIdCentre(praticien?.idCentre))
+                        praticien?.job && navigation.navigate(SCREENS.MAKE_APPOINTMENT_SCREEN,
+                            {
+                                idp: praticien?._id,
+                                isSpecialist: !!praticien?.job,
+                                idSpeciality: praticien?.job,
+                                affectation: praticien?.affectation,
+                            }
+                        )
                     }
                     }>
                     <Text color={colors.white}>Prendre un RDV</Text>

@@ -22,6 +22,13 @@ export const getClinique = (id) => {
     }
 }
 
+export const getCliniqueOfSelectedPrat = data => {
+    return {
+        type: types.GET_CLINIC_OF_SPEC_PRAT_SUCCESS,
+        payload: data
+    }
+}
+
 export const getSpecialities = (id) => {
     return {
         type: types.GET_SPECIALITIES_REQUEST,

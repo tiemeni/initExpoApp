@@ -16,7 +16,7 @@ import { Dialog, RadioButton } from 'react-native-paper';
 import ModaleChoixProfession from '../../components/ModaleChoixSpecialite';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProfessionForRdv, setShouldSeeBehind } from '../../redux/commons/action';
-import { getClinique, getDispo, getMotifs, getPraticiens, setMotifDuration, setRDVForm } from '../../redux/RDV/actions';
+import { getClinique, getCliniqueOfSelectedPrat, getDispo, getMotifs, getPraticiens, setMotifDuration, setRDVForm } from '../../redux/RDV/actions';
 import LoadingSelectComponent from './LoadingComponentForSelect';
 import LoadingItemsComponents from './LoadingItemsComponent';
 import LoadingDispoComponent from './LoadingDispoComponent';
@@ -44,6 +44,7 @@ const MakeAppointment = ({ navigation, route }) => {
     const extIdp = route.params?.idp
     const isSpecialist = route.params?.isSpecialist
     const idSpeciality = route.params?.idSpeciality
+    const affectation = route.params?.affectation
     const scrollViewRef = React.useRef();
     const isProfession = useSelector(state => state.Common.isProfession) || isSpecialist
     const idCentre = useSelector(state => state.Common.idc)
@@ -101,7 +102,8 @@ const MakeAppointment = ({ navigation, route }) => {
                     motif: value,
                 }))
                 dispatch(setMotifDuration(value))
-                dispatch(getClinique(value))
+                !extIdp && dispatch(getClinique(value))
+                extIdp && dispatch(getCliniqueOfSelectedPrat(affectation))
                 break;
             case 'praticien':
                 setFormData({
@@ -230,7 +232,7 @@ const MakeAppointment = ({ navigation, route }) => {
                                             setSelected={(val) => {
                                                 handleChange('speciality', val)
                                             }}
-                                            defaultOption={{key: idSpeciality, value: "id motif spec"}}
+                                            defaultOption={{ key: idSpeciality, value: "id motif spec" }}
                                             data={specialities?.map((e) => {
                                                 return { key: e._id, value: e.label }
                                             })}
