@@ -1,22 +1,21 @@
-import { Avatar } from 'native-base'
+import { Avatar, HStack, Text, VStack } from 'native-base'
 import React from 'react'
-import { Text, View } from 'react-native'
 import colors from '../../constants/colours'
 import { styles } from './style'
 
 export default function UserAvatar({ uri, name, email, age }) {
     return (
-        <View style={styles.container}>
+        <HStack space={2} alignItems={"center"}>
             <Avatar bg={colors.primary}
                 width={60}
                 height={60}
                 source={{
                     uri: uri
                 }}></Avatar>
-            <View style={styles.info}>
-                <Text style={styles.nameText}>{name}</Text>
+            <VStack>
+                <Text style={styles.nameText} fontWeight="500">{name}</Text>
                 <Text style={styles.emailText}>{email}</Text>
-            </View>
-        </View>
+            </VStack>
+        </HStack>
     )
 }

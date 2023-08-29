@@ -10,17 +10,8 @@ import { setProfessionForRdv, setShouldSeeBehind } from '../../redux/commons/act
 import { getMotifs, getSpecialities, setRDVForm } from '../../redux/RDV/actions'
 import LoadingChoiceComponent from './choiceItemsComponentLabel'
 import LoadingCircle from './choiceItemsComponentCircle'
+import { searchByName } from '../../utils/helper'
 
-
-const searchByName = (tab, val) => {
-    let id = ""
-    tab.forEach(element => {
-        if (element.name === val) {
-            id = element._id
-        }
-    });
-    return id
-}
 
 
 export default function ModaleChoixProfession({ navigation }) {

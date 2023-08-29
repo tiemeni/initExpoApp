@@ -69,7 +69,7 @@ function Success({ route }) {
         <Button mt={10}
           _text={{ color: colors.primary, fontSize: 16, fontWeight: 500 }}
           style={styles.btn}
-          onPress={() => navigation.navigate(SCREENS.RDV)}
+          onPress={() => navigation.navigate(SCREENS.RDV_CONTAINER)}
         >
           Voir mes rendez-vous
         </Button>

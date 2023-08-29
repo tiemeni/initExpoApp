@@ -30,14 +30,14 @@ export const styles = StyleSheet.create({
   },
 
   viewStyle2: {
-    backgroundColor: "rgba(240, 240, 240, 0.69)",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    height: "100%",
-    width: "90%",
-    borderRadius: 10,
-    paddingLeft: 10,
+    backgroundColor: "rgba(240, 240, 240, 0.69)",
+    width: "100%",
+    borderRadius: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
   },
 
   box1: {
@@ -50,18 +50,14 @@ export const styles = StyleSheet.create({
   textLabel: { marginBottom: 5, fontSize: 14, color: "#626262" },
 
   textInput: {
-    borderRadius: 5,
     backgroundColor: "white",
-    borderWidth: 1,
     borderColor: "#F0F0F0",
     padding: 10,
-    height: 40,
-    fontSize: 15,
+    height: 45,
+    fontSize: 14,
   },
   textCoord: {
-    lineHeight: 19.36,
-    fontSize: 17,
-    fontWeight: "bold",
+    fontSize: 16,
   },
 
   boxCoord: {
@@ -82,7 +78,7 @@ export const styles = StyleSheet.create({
     width: "40%",
     height: 45,
     padding: 5,
-    borderRadius: 10,
+    borderRadius: 22.5,
     borderColor: "#F0F0F0",
   },
   viewStyle3: {
@@ -91,7 +87,6 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
   container: {
     justifyContent: "center",
     alignItems: "center",

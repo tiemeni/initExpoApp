@@ -118,6 +118,14 @@ const styles = StyleSheet.create({
 
   registerText: {
     textDecorationLine: 'underline'
+  },
+
+  leftElement: {
+    backgroundColor: "white",
+    borderRadius: 50,
+    height: 35,
+    width: 35,
+    marginLeft: 8
   }
 });
 

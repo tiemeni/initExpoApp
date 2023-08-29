@@ -6,12 +6,19 @@ import styles from "./style";
 import { Image } from 'react-native';
 import * as SCREENS from "../../constants/screens";
 import { useNavigation } from '@react-navigation/native';
+import { isSpecialist, searchByName } from '../../utils/helper';
+import { useDispatch, useSelector } from 'react-redux';
+import { setShouldSeeBehind } from '../../redux/commons/action';
+import { getMotifs, getSpecialities, setRDVForm } from '../../redux/RDV/actions';
 
 
 
 
 const MedCard = ({ praticien }) => {
+    const dispatch = useDispatch()
     const navigation = useNavigation()
+    const professions = useSelector(state => state.Profession.professions)
+
     return (
         <VStack space={3} flex={1} style={styles.medBox}>
             <Box style={styles.medPic}>
@@ -34,7 +41,7 @@ const MedCard = ({ praticien }) => {
                         size='md'
                         style={styles.icon}
                     />
-                    <Text style={styles.location}>{"lskdlskdlk"}</Text>
+                    <Text style={styles.location}>{praticien?.affectation[0]?.label ?? "Abscence de Clinque"}</Text>
                 </HStack>
                 <HStack mt={2}>
                     <Icon
@@ -46,7 +53,27 @@ const MedCard = ({ praticien }) => {
                     <Text style={styles.tarif}>A partir de {praticien.cost ?? "5000"} Fcfa</Text>
                 </HStack>
 
-                <Pressable style={styles.rdvBtn} onPress={() => navigation.navigate(SCREENS.MAKE_APPOINTMENT_SCREEN, { idp: praticien?._id })}>
+                <Pressable
+                    style={styles.rdvBtn}
+                    onPress={() => {
+                        dispatch(setShouldSeeBehind(true))
+                        dispatch(setRDVForm(
+                            {
+                                motif: null,
+                                praticien: null,
+                                profession: praticien?.job ? searchByName(professions, "Specialiste") : searchByName(professions, "Generaliste"),
+                                period: {
+                                    day: null,
+                                    time: null
+                                }
+                            }
+                        ))
+                        praticien?.job && dispatch(getSpecialities(searchByName(professions, "Specialiste")))
+                        praticien?.job && dispatch(getMotifs({ id: searchByName(professions, "Generaliste") }))
+                        navigation.navigate(SCREENS.MAKE_APPOINTMENT_SCREEN,
+                            { idp: praticien?._id, isSpecialist: !!praticien?.job, idSpeciality: praticien?.job })
+                    }
+                    }>
                     <Text color={colors.white}>Prendre un RDV</Text>
                 </Pressable>
             </VStack>

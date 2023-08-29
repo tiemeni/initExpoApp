@@ -52,7 +52,6 @@ const Notifications = ({ navigation }) => {
                             </VStack>)
 
                     }
-
                 </ScrollView>
             </Box>
         </Box>

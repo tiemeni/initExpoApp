@@ -30,6 +30,6 @@ export const styles = StyleSheet.create({
         marginRight: 20
     },
     label: {
-        fontSize: 15
+        fontSize: 14
     }
 })

@@ -7,17 +7,42 @@ import colors from './src/constants/colours';
 import { enableScreens } from 'react-native-screens';
 import { Provider } from 'react-redux';
 import store from './src/redux/setups/store';
-import { NativeBaseProvider } from 'native-base';
+import { NativeBaseProvider, Text } from 'native-base';
 import { navigationRef } from './src/routes/rootNavigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as Notifications from 'expo-notifications'
 import NetInfo from '@react-native-community/netinfo';
 import { Alert } from 'react-native';
-
+import theme from './src/theme';
+import { useFonts } from 'expo-font'
 
 enableScreens()
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false
+  }),
+});
+
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    'Poppins-Light': require('./assets/fonts/Poppins-Light.ttf'),
+    'Poppins-Regular': require('./assets/fonts/Poppins-Regular.ttf'),
+    'Poppins-Medium': require('./assets/fonts/Poppins-Medium.ttf'),
+    'Poppins-SemiBold': require('./assets/fonts/Poppins-SemiBold.ttf'),
+    'Poppins-Bold': require('./assets/fonts/Poppins-Bold.ttf'),
+    'Poppins-Thin': require('./assets/fonts/Poppins-Thin.ttf'),
+    'Poppins-LightItalic': require('./assets/fonts/Poppins-LightItalic.ttf'),
+    'Poppins-Italic': require('./assets/fonts/Poppins-Italic.ttf'),
+    'Poppins-MediumItalic': require('./assets/fonts/Poppins-MediumItalic.ttf'),
+    'Poppins-SemiBoldItalic': require('./assets/fonts/Poppins-SemiBoldItalic.ttf'),
+    'Poppins-BoldItalic': require('./assets/fonts/Poppins-BoldItalic.ttf'),
+    'Poppins-ThinItalic': require('./assets/fonts/Poppins-ThinItalic.ttf'),
+  });
+
+  const notificationListener = useRef()
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {
@@ -28,17 +53,26 @@ export default function App() {
         )
       }
     })
-    const subscription = Notifications.addNotificationReceivedListener(notification => {
-      console.log(notification);
+
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      console.log("notification", notification);
+      Alert.alert(
+        "Notification recu",
+        notification,
+        [{ text: "Fermer" }]
+      )
     });
+
     return () => {
       unsubscribe();
-      subscription.remove();
+      Notifications.removeNotificationSubscription(notificationListener.current)
     }
   }, [])
 
+  if (!fontsLoaded) return null
+
   return (
-    <NativeBaseProvider>
+    <NativeBaseProvider theme={theme}>
       <Provider store={store}>
         <NavigationContainer ref={navigationRef}>
           <SafeAreaView>
