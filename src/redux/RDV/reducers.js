@@ -149,6 +149,12 @@ const RDVReducer = (state = initialState, action) => {
                 praticiensLoading: false,
                 praticiensSuccess: true
             }
+        case types.GET_SINGLE_PRAT_SUCCESS:
+            console.log(action.payload)
+            return {
+                ...state,
+                praticiens: action.payload,
+            }
         case types.GET_PRATICIENS_REQUEST_FAILED:
             return {
                 ...state,

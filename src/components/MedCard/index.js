@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { isSpecialist, searchByName } from '../../utils/helper';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIdCentre, setShouldSeeBehind } from '../../redux/commons/action';
-import { getMotifs, getSpecialities, setRDVForm } from '../../redux/RDV/actions';
+import { getMotifs, getSinglePrat, getSpecialities, setRDVForm } from '../../redux/RDV/actions';
 
 
 
@@ -68,6 +68,7 @@ const MedCard = ({ praticien }) => {
                                 }
                             }
                         ))
+                        praticien?.job && dispatch(getSinglePrat(praticien))
                         praticien?.job && dispatch(getSpecialities(searchByName(professions, "Specialiste")))
                         praticien?.job && dispatch(getMotifs({ id: searchByName(professions, "Generaliste") }))
                         praticien?.job && dispatch(setIdCentre(praticien?.idCentre))

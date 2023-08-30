@@ -155,7 +155,7 @@ const MakeAppointment = ({ navigation, route }) => {
                     ...RDVForm,
                     lieu: value,
                 }))
-                dispatch(getPraticiens({ id: value, ids: RDVForm.specialities }))
+                !extIdp && dispatch(getPraticiens({ id: value, ids: RDVForm.specialities }))
                 break;
             case 'day':
                 setFormData({

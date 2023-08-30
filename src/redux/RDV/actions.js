@@ -43,6 +43,12 @@ export const getPraticiens = data => {
     }
 }
 
+export const  getSinglePrat = data => {
+    return {
+        type: types.GET_SINGLE_PRAT_SUCCESS,
+        payload: [data]
+    }
+}
 export const getDispo = data => {
     return {
         type: types.GET_DISPO_REQUEST,
