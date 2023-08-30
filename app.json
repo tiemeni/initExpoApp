@@ -17,9 +17,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["assets/fonts/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.gatewaydoc.org"

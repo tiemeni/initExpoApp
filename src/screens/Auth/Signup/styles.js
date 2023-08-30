@@ -99,6 +99,14 @@ const styles = StyleSheet.create({
     color: colors.yellow,
     textDecorationLine: "underline",
     marginLeft: 5
+  },
+
+  leftElement: {
+    backgroundColor: "white",
+    borderRadius: 50,
+    height: 35,
+    width: 35,
+    marginLeft: 8
   }
 
 });

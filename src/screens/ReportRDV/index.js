@@ -14,9 +14,11 @@ import DispoLoader from "./dispoLoader";
 import CustomToast from "../../components/CustomToast";
 import { CLEAR_ERR_SUCC } from "../../redux/RDV/types";
 import { Filter } from "iconsax-react-native";
+import { Alert } from "react-native";
+import * as SCREENS from "../../constants/screens"
 
 
-export const ReportRDV = ({ route }) => {
+export const ReportRDV = ({ route, navigation }) => {
     const [showDate, setShowDate] = useState(false)
     const dispos = useSelector(state => state.RdvForm.dispo)
     const errorOnPut = useSelector(state => state.RdvForm.putingError)
@@ -70,7 +72,6 @@ export const ReportRDV = ({ route }) => {
     }, [date, day, creneau])
 
     const handlePutRdv = () => {
-        console.log(appointment)
         dispatch(putRDV({
             id: appointment?._id,
             idCentre: appointment?.patient?.idCentre,
@@ -85,35 +86,18 @@ export const ReportRDV = ({ route }) => {
 
     React.useEffect(() => {
         if (errorOnPut) {
-            toast.show({
-                render: () => {
-                    return <CustomToast
-                        message={putingErrorMsg ?? "Une erreur est survenue !"}
-                        color={colors.danger}
-                        bgColor={"red.100"}
-                        icon={<Foundation name="alert" size={24} />}
-                        iconColor={colors.danger}
-                    />
-                },
-                placement: "top",
-                duration: 3000
-            })
+            Alert.alert(
+                "ERREUR",
+                putingErrorMsg || "Une erreur est survenue !",
+            )
         }
 
         if (successOnPut) {
-            toast.show({
-                render: () => {
-                    return <CustomToast
-                        message={"Rendez-vous reporté !"}
-                        color={colors.success}
-                        bgColor={"green.100"}
-                        icon={<AntDesign name="checkcircle" size={24} />}
-                        iconColor={colors.success}
-                    />
-                },
-                placement: "top",
-                duration: 3000
-            })
+            Alert.alert(
+                "RENDEZ-VOUS",
+                "Votre rende-vous a été reporté au Jeudi, 15 Septembre 2023.",
+                [{ text: "OK", onPress: () => navigation.navigate(SCREENS.RDV) }]
+            )
         }
     }, [errorOnPut, successOnPut])
 
@@ -123,6 +107,7 @@ export const ReportRDV = ({ route }) => {
             <ScrollView
                 ref={scrollViewRef}
                 nestedScrollEnabled={true}
+                showsVerticalScrollIndicator={false}
                 onContentSizeChange={(contentWidth, contentHeight) => {
                     shouldScroll && scrollViewRef.current?.scrollTo({ y: contentHeight, animated: true, });
                 }}
@@ -303,17 +288,7 @@ export const ReportRDV = ({ route }) => {
                     </VStack>
                 </VStack>
 
-                <HStack width={"100%"} mb={3} style={styles.btnContainer}>
-                    <Button
-                        onPress={() => navigation.goBack()}
-                        style={{
-                            ...styles.btnSubmitPut,
-                            backgroundColor: colors.black_gray
-                        }} >
-                        <Text color={colors.white} style={{
-                            ...styles.btnSubmitText,
-                        }}>{"Retour"}</Text>
-                    </Button>
+                <HStack width={"100%"} my={3} space={3} style={styles.btnContainer}>
                     <Button
                         onPress={handlePutRdv}
                         isLoading={putingRdv}
@@ -322,9 +297,12 @@ export const ReportRDV = ({ route }) => {
                             ...styles.btnSubmitPut,
                             backgroundColor: colors.primary
                         }} >
-                        <Text color={colors.white} style={{
-                            ...styles.btnSubmitText
-                        }}>{putingRdv ? "chargement..." : "Reporter"}</Text>
+                        <Text
+                            color={colors.white}
+                            style={styles.btnSubmitText}
+                            fontWeight="500">
+                            {putingRdv ? "chargement..." : "Reporter le rendez-vous"}
+                        </Text>
                     </Button>
                 </HStack>
             </ScrollView >

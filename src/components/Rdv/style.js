@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         width: '80%',
         display: "flex",
         flexDirection: "row",
-        borderRadius: 10,
+        borderRadius: 20,
         justifyContent: "center",
         marginRight: 10,
         alignItems: "center"

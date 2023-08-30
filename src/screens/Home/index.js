@@ -17,7 +17,6 @@ const Home = ({ loading, localAuth }) => {
         dispatch(userLocalAuth())
     }, [])
 
-
     return (
         <>
             {!loading && !localAuth ?

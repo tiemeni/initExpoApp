@@ -8,12 +8,12 @@ const styles = StyleSheet.create({
     },
 
     headerTitle: {
-        fontSize: 22,
-        fontWeight: '500',
+        fontSize: 20,
+        paddingVertical: 2
     },
 
     groupTitle: {
-        fontSize: 18,
+        fontSize: 16,
         color: colors.text_grey_hint
     },
 })

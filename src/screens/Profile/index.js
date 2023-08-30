@@ -40,7 +40,7 @@ function Profile() {
 
   return (
     <View style={{ ...styles.contenair }}>
-      <Header title={"A propos de votre compte"} />
+      <Header title={"Mon compte"} />
       <View style={{ ...styles.section1 }}>
         <View style={{ ...styles.section2of1, }}>
           <UserAvatar
@@ -50,7 +50,7 @@ function Profile() {
           />
         </View>
       </View>
-      <VStack style={styles.section2} space={2}>
+      <VStack style={styles.section2} space={3}>
         <TouchableOpacity style={styles.item} onPress={() => navigation.navigate(SCREENS.MON_PROFILE)}>
           <ParameterList icon={<User />} label={translate("TEXT.MY_PROFILE")} />
         </TouchableOpacity>

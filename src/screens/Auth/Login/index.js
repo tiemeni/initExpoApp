@@ -9,9 +9,10 @@ import {
   Text,
   ScrollView,
   useToast,
-  Checkbox
+  Checkbox,
+  Box
 } from "native-base";
-import { MaterialIcons, Ionicons, AntDesign, Foundation } from "@expo/vector-icons";
+import { Foundation } from "@expo/vector-icons";
 import { useValidation } from "react-native-form-validator";
 import colors from "../../../constants/colours";
 import styles from "./styles";
@@ -22,6 +23,7 @@ import { useDispatch, connect } from "react-redux";
 import { userLogin, reinitialize, processVerifCode } from "../../../redux/User/action"
 import CustomToast from "../../../components/CustomToast";
 import { useTranslation } from "react-i18next";
+import { Eye, EyeSlash, Lock, User } from "iconsax-react-native"
 
 const Login = ({ navigation, error, loading, errorMsg, success }) => {
   const toast = useToast();
@@ -32,7 +34,7 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
   const [formData, setformData] = React.useState({
     email: "",
     password: "",
-    saveCredentials: true
+    saveCredentials: false
   });
 
   const handleInputChange = (field, value) => {
@@ -90,12 +92,13 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
             fontSize={14}
             bg={colors.desable}
             InputLeftElement={
-              <Icon
-                as={<MaterialIcons name="person" />}
-                size={5}
-                ml="4"
-                color={colors.primary}
-              />
+              <VStack alignItems={"center"} justifyContent={"center"} style={styles.leftElement}>
+                <Icon
+                  as={<User />}
+                  size={5}
+                  color={"primary.500"}
+                />
+              </VStack>
             }
             placeholder={translate('TEXT.EMAIL_FIELD')}
             keyboardType="default"
@@ -111,21 +114,22 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
             bg={colors.desable}
             w={{ base: "100%", md: "100%" }}
             InputLeftElement={
-              <Icon
-                as={<MaterialIcons name="lock" />}
-                size={5}
-                ml="4"
-                color={colors.primary}
-              />
+              <VStack alignItems={"center"} justifyContent={"center"} style={styles.leftElement}>
+                <Icon
+                  as={<Lock />}
+                  size={5}
+                  color={colors.text_grey_hint}
+                />
+              </VStack>
             }
             InputRightElement={
               <Pressable onPress={() => setShow(!show)}>
                 <Icon
                   as={
                     show ? (
-                      <MaterialIcons name="remove-red-eye" />
+                      <Eye />
                     ) : (
-                      <Ionicons name="ios-eye-off" />
+                      <EyeSlash />
                     )
                   }
                   size={5}

@@ -147,7 +147,9 @@ const AppointmentDetails = ({ navigation, appointments }) => {
           />
 
           <VStack space={2}>
-            <HStack justifyContent={"space-between"}>
+            <HStack
+              justifyContent={"space-between"}
+              mb={!showPaiementInfo ? 5 : undefined}>
               <Text style={styles.sectionTitle}>Informations sur le paiement</Text>
               <Icon
                 as={MaterialIcons}

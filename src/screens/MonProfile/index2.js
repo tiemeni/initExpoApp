@@ -6,9 +6,10 @@ import {
   Icon,
   Button,
   Spinner,
-  useToast,
   HStack,
   Box,
+  Text,
+  Input
 } from "native-base";
 import React, { useEffect } from "react";
 import { useState } from "react";
@@ -16,7 +17,6 @@ import {
   Image,
   Platform,
   Pressable,
-  Text,
   TextInput,
   KeyboardAvoidingView,
 } from "react-native";
@@ -36,6 +36,7 @@ import { styles } from "./styles";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import * as DocumentPicker from "expo-document-picker";
 import * as ImagePicker from "expo-image-picker";
+import { useTheme } from "native-base";
 
 const FAB = (props) => {
   return (
@@ -107,6 +108,7 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
   const [gender, setGender] = useState(1);
   const [editeMode, setEditeMode] = useState(true);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const theme = useTheme()
 
   const [formData, setFormData] = useState({
     name: user?.name,
@@ -211,8 +213,8 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
         <View height={50}>
           <Header title={"Vos informations"} />
         </View>
-        <ScrollView>
-          <VStack>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <VStack px={3}>
             <TouchableOpacity onPress={selectImage}>
               <HStack style={styles.viewStyle}>
                 <Avatar
@@ -237,23 +239,19 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
               </HStack>
             </TouchableOpacity>
 
-            <View height={25} alignItems={"center"} mb={5}>
-              <View style={styles.viewStyle2}>
-                <Text
-                  style={{
-                    lineHeight: 19.36,
-                    fontSize: 17,
-                    fontWeight: "bold",
-                  }}
-                >
-                  Détails de base
-                </Text>
-              </View>
+            <View style={styles.viewStyle2}>
+              <Text
+                style={{
+                  fontSize: 16,
+                }}
+              >
+                Détails de base
+              </Text>
             </View>
-            <View style={styles.box1}>
-              <View width={"85%"} mb={5}>
+            <View style={styles.box1} mt={3}>
+              <View width={"100%"} mb={5}>
                 <Text style={styles.textLabel}>Nom</Text>
-                <TextInput
+                <Input
                   isInvalid={true}
                   placeholderTextColor={colors.text_grey_hint}
                   style={{
@@ -268,12 +266,14 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                   activeUnderlineColor="transparent"
                   onChangeText={(value) => handleInputChange("name", value)}
                   value={formData.name}
-                  editable={!editeMode}
+                  isReadOnly={editeMode}
+                  variant={'rounded'}
                 />
               </View>
-              <View width={"85%"} mb={5}>
+              <View width={"100%"} mb={5}>
                 <Text style={styles.textLabel}>Prénom</Text>
-                <TextInput
+                <Input
+                  variant="rounded"
                   isInvalid={true}
                   placeholderTextColor={colors.text_grey_hint}
                   style={{
@@ -287,10 +287,10 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                   activeUnderlineColor="transparent"
                   onChangeText={(value) => handleInputChange("surname", value)}
                   value={formData.surname}
-                  editable={!editeMode}
+                  isReadOnly={editeMode}
                 />
               </View>
-              <View width={"85%"} mb={4}>
+              <View width={"100%"} mb={4}>
                 <Text
                   style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}
                 >
@@ -303,6 +303,8 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                     style={{
                       ...styles.textInput,
                       color: !editeMode ? colors.text_grey_hint : colors.black,
+                      borderWidth: 1,
+                      borderRadius: 22.5
                     }}
                     placeholder="17 Decembre 2004"
                     underlineColor="transparent"
@@ -341,12 +343,12 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
               </View>
 
               <View
-                width={"95%"}
+                width={"100%"}
                 mt={2}
                 justifyContent={"center"}
                 alignItems={"center"}
               >
-                <View style={{ width: "90%" }}>
+                <View style={{ width: "100%" }}>
                   <Text style={{ marginBottom: 2, color: "#626262" }}>
                     Sexe
                   </Text>
@@ -367,7 +369,7 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                         onPress={() => handleGenderChange(1)}
                         disabled={editeMode}
                       />
-                      <Text style={{ fontSize: 15, color: "#343434" }}>
+                      <Text style={{ fontSize: 14, color: "#343434" }}>
                         Homme
                       </Text>
                     </View>
@@ -381,7 +383,7 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                         onPress={() => handleGenderChange(0)}
                         disabled={editeMode}
                       />
-                      <Text style={{ fontSize: 15, color: "#343434" }}>
+                      <Text style={{ fontSize: 14, color: "#343434" }}>
                         Femme
                       </Text>
                     </View>
@@ -389,20 +391,21 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                 </View>
               </View>
             </View>
-            <View height={25} alignItems={"center"} mt={11} mb={5}>
-              <View style={styles.boxCoord}>
-                <Text style={styles.textCoord}>Coordonnées</Text>
-              </View>
+
+            <View style={styles.viewStyle2} mt={3}>
+              <Text style={styles.textCoord}>Coordonnées</Text>
             </View>
-            <View mb={5}>
+
+            <View mb={5} mt={3}>
               <View style={styles.viewStyle3}>
-                <View width={"85%"} mb={5}>
+                <View width={"100%"} mb={5}>
                   <Text
                     style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}
                   >
                     Adresse mail
                   </Text>
-                  <TextInput
+                  <Input
+                    variant="rounded"
                     isInvalid={true}
                     placeholderTextColor={"#343434"}
                     style={{
@@ -416,16 +419,17 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                     activeUnderlineColor="transparent"
                     onChangeText={(value) => handleInputChange("email", value)}
                     value={formData.email}
-                    editable={!editeMode}
+                    isReadOnly={editeMode}
                   />
                 </View>
-                <View width={"85%"}>
+                <View width={"100%"}>
                   <Text
                     style={{ marginBottom: 5, fontSize: 14, color: "#626262" }}
                   >
                     Numero de telephone
                   </Text>
-                  <TextInput
+                  <Input
+                    variant="rounded"
                     isInvalid={true}
                     placeholderTextColor={"#343434"}
                     style={{
@@ -441,7 +445,7 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                       handleInputChange("telephone", value)
                     }
                     value={formData.telephone}
-                    editable={!editeMode}
+                    isReadOnly={editeMode}
                   />
                 </View>
               </View>

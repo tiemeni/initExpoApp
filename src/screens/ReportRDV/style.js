@@ -1,7 +1,8 @@
+import { StyleSheet } from "react-native"
 import colors from "../../constants/colours"
 
 
-const styles = {
+const styles = StyleSheet.create({
     boxFilter: {
         backgroundColor: colors.black_gray,
         borderRadius: 10,
@@ -111,22 +112,21 @@ const styles = {
         alignItems: 'center'
     },
     btnSubmitPut: {
-        height: 40,
-        width: '45%',
-        borderRadius: 10,
+        height: 45,
+        width: '100%',
+        borderRadius: 22.5,
         borderColor: colors.primary,
+        flexGrow: 1
     },
     btnSubmitText: {
-        fontSize: 15
+        fontSize: 16
     },
     btnContainer: {
         width: '100%',
-        padding: 10,
         display: "flex",
-        justifyContent: "space-between",
-        top: 0
+        marginBottom: 25
     }
-}
+})
 
 export default styles
 

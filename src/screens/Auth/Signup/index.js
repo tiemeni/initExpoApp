@@ -24,6 +24,7 @@ import { useDispatch, connect } from "react-redux";
 import { userRegistration, reinitialize } from "../../../redux/User/action"
 import { isValidEmail } from "../../../utils/helper";
 import CustomToast from "../../../components/CustomToast";
+import { Calendar, Call, Eye, EyeSlash, Lock, MessageText1, User } from "iconsax-react-native";
 
 const Signup = ({ navigation, error, loading, errorMsg, success }) => {
   const toast = useToast()
@@ -159,7 +160,7 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
   };
 
   return (
-    <ScrollView flex={1} backgroundColor={"white"} paddingX={5}>
+    <ScrollView flex={1} backgroundColor={"white"} paddingX={3}>
       <View style={styles.logoBox}>
         <Image style={styles.image} source={logo} alt="logo" />
         <Text style={styles.intitule}>
@@ -175,12 +176,13 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             fontSize={14}
             bg={colors.desable}
             InputLeftElement={
-              <Icon
-                as={<MaterialIcons name="person" />}
-                size={5}
-                ml="3"
-                color={colors.primary}
-              />
+              <VStack alignItems={"center"} justifyContent={"center"} style={styles.leftElement}>
+                <Icon
+                  as={<User name="person" />}
+                  size={5}
+                  color={colors.text_grey_hint}
+                />
+              </VStack>
             }
             placeholder="Nom"
             onChangeText={(value) => handleInputChange("name", value)}
@@ -193,12 +195,13 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             fontSize={14}
             bg={colors.desable}
             InputLeftElement={
-              <Icon
-                as={<MaterialIcons name="person" />}
-                size={5}
-                ml="3"
-                color={colors.primary}
-              />
+              <VStack alignItems={"center"} justifyContent={"center"} style={styles.leftElement}>
+                <Icon
+                  as={<User name="person" />}
+                  size={5}
+                  color={colors.text_grey_hint}
+                />
+              </VStack>
             }
             placeholder="Prénom"
             onChangeText={(value) => handleInputChange("surname", value)}
@@ -211,12 +214,13 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             style={{ fontSize: 14 }}
             bg={colors.desable}
             InputLeftElement={
-              <Icon
-                as={<MaterialIcons name="email" />}
-                size={5}
-                ml="3"
-                color={colors.primary}
-              />
+              <VStack alignItems={"center"} justifyContent={"center"} style={styles.leftElement}>
+                <Icon
+                  as={<MessageText1 name="person" />}
+                  size={5}
+                  color={colors.text_grey_hint}
+                />
+              </VStack>
             }
             placeholder="Adresse mail"
             onChangeText={(value) => handleInputChange("email", value)}
@@ -237,21 +241,22 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             style={{ fontSize: 14 }}
             bg={colors.desable}
             InputLeftElement={
-              <Icon
-                as={<MaterialIcons name="lock" />}
-                size={5}
-                ml="3"
-                color={colors.primary}
-              />
+              <VStack alignItems={"center"} justifyContent={"center"} style={styles.leftElement}>
+                <Icon
+                  as={<Lock name="person" />}
+                  size={5}
+                  color={colors.text_grey_hint}
+                />
+              </VStack>
             }
             InputRightElement={
               <Pressable onPress={() => setShow(!show)}>
                 <Icon
                   as={
                     show ? (
-                      <MaterialIcons name="remove-red-eye" />
+                      <Eye />
                     ) : (
-                      <Ionicons name="ios-eye-off" />
+                      <EyeSlash />
                     )
                   }
                   size={5}
@@ -279,12 +284,13 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             style={{ fontSize: 14 }}
             maxLength={9}
             InputLeftElement={
-              <Icon
-                as={<MaterialIcons name="phone" />}
-                size={5}
-                ml="3"
-                color={colors.primary}
-              />
+              <VStack alignItems={"center"} justifyContent={"center"} style={styles.leftElement}>
+                <Icon
+                  as={<Call name="person" />}
+                  size={5}
+                  color={colors.text_grey_hint}
+                />
+              </VStack>
             }
             placeholder="Téléphone"
             onChangeText={(value) => handleInputChange("telephone", value)}
@@ -294,14 +300,12 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
           <VStack>
             <Pressable onPress={showDatepicker}>
               <HStack style={styles.datePick} rounded={50} space={3}>
-                <Box style={styles.boxDatePick}>
+                <VStack alignItems={"center"} justifyContent={"center"} style={styles.leftElement}>
                   <Icon
-                    as={<MaterialCommunityIcons name="calendar-edit" />}
-                    size={5}
-                    ml="3"
-                    color={colors.primary}
+                    as={<Calendar />}
+                    color={colors.text_grey_hint}
                   />
-                </Box>
+                </VStack>
                 <Text style={{ color: textDate ? "gray" : colors.black }}>
                   {textDate ? "Date de naissance" : formattedDate}
                 </Text>

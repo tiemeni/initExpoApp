@@ -61,8 +61,8 @@ const PhoneConfirm = ({ navigation, route }) => {
                         />
                     </Box>
                 </Box>
-                <Text mb={1} style={styles.title}>Code de vérification</Text>
-                <Text style={styles.message}>nous avons envoyé la vérification du code à votre adresse mailI</Text>
+                <Text mb={1} style={styles.title}>Mot de passe oublié</Text>
+                <Text style={styles.message}>nous avons envoyé le code de vérification à votre adresse mailI</Text>
             </VStack>
             <VStack alignItems={'center'} mb={7}>
                 {!canResetPw && <HStack mb={5}>
