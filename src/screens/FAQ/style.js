@@ -23,7 +23,7 @@ const styles = {
         height: 40,
         width: 40,
         backgroundColor: 'rgba(4, 183, 201, 0.15)',
-        marginRight: '4%',
+        marginRight: 10,
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center'

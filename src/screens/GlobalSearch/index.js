@@ -10,6 +10,7 @@ import { searchPratByKey } from "../../redux/Praticiens/actions";
 import { PratSearchSkeleton } from "./skeleton";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as SCREENS from "../../constants/screens";
+import DoctorCard from "../../components/DoctorCard/DoctorCard";
 
 
 export const GlobalSearch = ({ navigation }) => {
@@ -50,11 +51,14 @@ export const GlobalSearch = ({ navigation }) => {
                 {
                     !loadingSearch ? searchedPrats?.map((p, i) => {
                         return (
-                            <TouchableOpacity onPress={() => navigation.navigate(SCREENS.DETAILS_PRATICIEN, { praticien: p })}>
-                                <PraticiensForSearch key={i} data={p} />
+                            <TouchableOpacity key={i} onPress={() => navigation.navigate(SCREENS.DETAILS_PRATICIEN, { praticien: p })}>
+                                <DoctorCard nom_complet={p?.name + " " + p?.surname} clinique={p?.affectation.length !== 0 ? p?.affectation[0].label : ""} />
                             </TouchableOpacity>
                         )
-                    }) : <PratSearchSkeleton />
+                    }) : <VStack>
+                        <DoctorCard isEmpty={true} />
+                        <DoctorCard isEmpty={true} />
+                    </VStack>
                 }
             </VStack>
         </Box>
