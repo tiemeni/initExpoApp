@@ -1,7 +1,8 @@
 import * as types from "./types"
 
 const initialState = {
-    praticiens: []
+    praticiens: [],
+    searchedPrats: []
 };
 
 const PraticienReducer = (state = initialState, action) => {
@@ -27,6 +28,28 @@ const PraticienReducer = (state = initialState, action) => {
                 loadingPraticiens: false,
                 successPraticiens: false,
                 errorPraticien: true,
+            }
+        case types.SEARCH_PRAT_BY_KEY:
+            return {
+                ...state,
+                loadingSearchPrats: true,
+                errorSearchPraticien: false,
+                errorMsgSearchPraticiens: ""
+            }
+        case types.SEARCH_PRAT_BY_KEY_SUCCESS:
+            return {
+                ...state,
+                searchedPrats: action.payload,
+                loadingSearchPrats: false,
+                successSearchPraticiens: true
+            }
+        case types.SEARCH_PRAT_BY_KEY_FAILED:
+            return {
+                ...state,
+                errorMsgSearchPraticiens: action.payload,
+                loadingSearchPrats: false,
+                successSearchPraticiens: false,
+                errorSearchPraticien: true,
             }
         default:
             return state;
