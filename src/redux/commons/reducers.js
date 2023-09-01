@@ -26,7 +26,7 @@ const common = (state = initialState, action) => {
         case SETIDCENTRE:
             return {
                 ...state,
-                idc: action.payload
+                idc: action.idc
             }
         case SHOULD_SEE_BEHIND:
             return {

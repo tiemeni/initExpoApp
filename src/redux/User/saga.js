@@ -120,10 +120,12 @@ function* authLogin({ payload }) {
       RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
     } else {
       yield put({ type: types.LOGIN_FAILED, payload: result.message })
+      yield put({ type: types.REINITIALIZE })
     }
   } catch (error) {
     console.error(error);
     yield put({ type: types.REGISTER_USER_FAILED, payload: error })
+    yield put({ type: types.REINITIALIZE })
   }
 }
 
@@ -175,15 +177,18 @@ function* processVerifCode({ email }) {
   const url = BASE_URL + "/ext_users/process_verif_code/"
   try {
     const result = yield postUnauthRequest(url, { email: email })
+    console.log(result.message)
     if (result.success) {
-      console.log(result.data)
       yield put({ type: types.PROCESS_VERIF_CODE_SUCCESS, payload: result?.data })
+      RootNavigation.navigate(SCREENS.PHONE_CONFIRMATION_SCREEN, { email: email });
     } else {
-      yield put({ type: types.PROCESS_VERIF_CODE_FAILED, payload: "une erreur est survenue , veillez ressayez!" });
+      yield put({ type: types.PROCESS_VERIF_CODE_FAILED, payload: result.message });
+      yield put({ type: types.REINITIALIZE })
     }
   } catch (error) {
     console.log(error);
     yield put({ type: types.PROCESS_VERIF_CODE_FAILED, payload: "une erreur est survenue , veillez ressayez!" });
+    yield put({ type: types.REINITIALIZE })
   }
 }
 

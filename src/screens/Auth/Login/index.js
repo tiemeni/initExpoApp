@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Image, Pressable, View } from "react-native";
 import {
   Center,
@@ -19,14 +19,18 @@ import styles from "./styles";
 import logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
 import * as SCREENS from "../../../constants/screens";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
-import { useDispatch, connect } from "react-redux";
+import { useDispatch, connect, useSelector } from "react-redux";
 import { userLogin, reinitialize, processVerifCode } from "../../../redux/User/action"
 import CustomToast from "../../../components/CustomToast";
 import { useTranslation } from "react-i18next";
 import { Eye, EyeSlash, Lock, User } from "iconsax-react-native"
+import { isEmailValid } from "../../../utils/helper";
 
 const Login = ({ navigation, error, loading, errorMsg, success }) => {
   const toast = useToast();
+  const [errEmail, setErrMail] = useState(null)
+  const errorCodeVerif = useSelector(state => state.UserReducer.errorCodeVerif)
+  const codeVerifLoading = useSelector(state => state.UserReducer.codeVerifLoading)
   const translate = useTranslation().t;
   const dispatch = useDispatch();
   const [show, setShow] = React.useState(false);
@@ -59,11 +63,11 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
   };
 
   React.useEffect(() => {
-    if (error && errorMsg !== '') {
+    if ((error && errorMsg !== '') || errorCodeVerif || errEmail) {
       toast.show({
         render: () => {
           return <CustomToast
-            message={errorMsg}
+            message={errorMsg || errorCodeVerif || errEmail}
             color={colors.danger}
             bgColor={"red.100"}
             icon={<Foundation name="alert" size={24} />}
@@ -71,10 +75,11 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
           />
         },
         placement: "top",
-        duration: 5000
+        duration: 3000
       })
     }
-  }, [error, success])
+    setErrMail(null)
+  }, [error, success, errorCodeVerif, errEmail])
 
   return (
     <ScrollView style={styles.container}>
@@ -170,8 +175,9 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
           </HStack>
         </VStack>
 
-        <Pressable onPress={() => formData?.email && dispatch(processVerifCode(formData?.email)) && navigation.navigate(SCREENS.PHONE_CONFIRMATION_SCREEN, { email: formData?.email })}>
-          <Text style={styles.forgetPassword} mt={5}>Mot de passe oublié ?</Text>
+        <Pressable onPress={() => isEmailValid(formData?.email) ? dispatch(processVerifCode(formData?.email)) : setErrMail("mail incorrect!")}>
+          {/* */}
+          <Text style={styles.forgetPassword} mt={5}>{codeVerifLoading ? "envoi du code de verification..." : "Mot de passe oublié ?"}</Text>
         </Pressable>
 
         <Center mt={2}>
