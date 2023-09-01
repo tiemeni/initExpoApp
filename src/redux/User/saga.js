@@ -181,11 +181,19 @@ function* processVerifCode({ email }) {
     if (result.success) {
       yield put({ type: types.PROCESS_VERIF_CODE_SUCCESS, payload: result?.data })
       RootNavigation.navigate(SCREENS.PHONE_CONFIRMATION_SCREEN, { email: email });
+      setTimeout(() => {
+        put({ type: types.REINITIALIZE })
+       }, 2000)
     } else {
       yield put({ type: types.PROCESS_VERIF_CODE_FAILED, payload: result.message });
-      yield put({ type: types.REINITIALIZE })
+      setTimeout(() => {
+       put({ type: types.REINITIALIZE })
+      }, 2000)
     }
   } catch (error) {
+    setTimeout(() => {
+      put({ type: types.REINITIALIZE })
+     }, 2000)
     console.log(error);
     yield put({ type: types.PROCESS_VERIF_CODE_FAILED, payload: "une erreur est survenue , veillez ressayez!" });
     yield put({ type: types.REINITIALIZE })

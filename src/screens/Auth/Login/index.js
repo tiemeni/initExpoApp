@@ -10,7 +10,7 @@ import {
   ScrollView,
   useToast,
   Checkbox,
-  Box
+  Box,
 } from "native-base";
 import { Foundation } from "@expo/vector-icons";
 import { useValidation } from "react-native-form-validator";
@@ -20,25 +20,35 @@ import logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
 import * as SCREENS from "../../../constants/screens";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
 import { useDispatch, connect, useSelector } from "react-redux";
-import { userLogin, reinitialize, processVerifCode } from "../../../redux/User/action"
+import {
+  userLogin,
+  reinitialize,
+  processVerifCode,
+} from "../../../redux/User/action";
 import CustomToast from "../../../components/CustomToast";
 import { useTranslation } from "react-i18next";
-import { Eye, EyeSlash, Lock, User } from "iconsax-react-native"
+import { Eye, EyeSlash, Lock, User , Warning2} from "iconsax-react-native";
 import { isEmailValid } from "../../../utils/helper";
 
 const Login = ({ navigation, error, loading, errorMsg, success }) => {
   const toast = useToast();
-  const [errEmail, setErrMail] = useState(null)
-  const errorCodeVerif = useSelector(state => state.UserReducer.errorCodeVerif)
-  const codeVerifLoading = useSelector(state => state.UserReducer.codeVerifLoading)
+  const [errEmail, setErrMail] = useState(null);
+  const [isEmpty, setIsEmpty] = useState(false);
+  const errorCodeVerif = useSelector(
+    (state) => state.UserReducer.errorCodeVerif
+  );
+  const codeVerifLoading = useSelector(
+    (state) => state.UserReducer.codeVerifLoading
+  );
   const translate = useTranslation().t;
   const dispatch = useDispatch();
   const [show, setShow] = React.useState(false);
   const { isFieldInError } = useValidation({ state: formData });
+
   const [formData, setformData] = React.useState({
     email: "",
     password: "",
-    saveCredentials: false
+    saveCredentials: false,
   });
 
   const handleInputChange = (field, value) => {
@@ -49,68 +59,99 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
   };
 
   const formValidator = () => {
-    return formData.email.trim() === "" ||
+    return (
+      formData.email.trim() === "" ||
       formData.password === "" ||
       formData.password.length < 6 ||
-      formData.email.length < 4;
-  }
-  const isFieldsEmpty = formValidator()
-
+      formData.email.length < 4
+    );
+  };
+  const isFieldsEmpty = formValidator();
 
   const handleSubmit = () => {
-    dispatch(reinitialize())
-    dispatch(userLogin(formData))
+    dispatch(reinitialize());
+    dispatch(userLogin(formData));
+  };
+
+  const resetPassword = () => {
+    console.log("--------------------------")
+    setIsEmpty(true);
+    dispatch(processVerifCode(formData.email));
   };
 
   React.useEffect(() => {
-    if ((error && errorMsg !== '') || errorCodeVerif || errEmail) {
+    if ((error && errorMsg !== "") || errorCodeVerif || errEmail) {
       toast.show({
         render: () => {
-          return <CustomToast
-            message={errorMsg || errorCodeVerif || errEmail}
-            color={colors.danger}
-            bgColor={"red.100"}
-            icon={<Foundation name="alert" size={24} />}
-            iconColor={colors.danger}
-          />
+          return (
+            <CustomToast
+              message={errorMsg || errorCodeVerif || errEmail}
+              color={colors.danger}
+              bgColor={"red.100"}
+              icon={<Foundation name="alert" size={24} />}
+              iconColor={colors.danger}
+            />
+          );
         },
         placement: "top",
-        duration: 3000
-      })
+        duration: 3000,
+      });
     }
-    setErrMail(null)
-  }, [error, success, errorCodeVerif, errEmail])
+    setErrMail(null);
+  }, [error, success, errorCodeVerif, errEmail]);
 
   return (
     <ScrollView style={styles.container}>
       <View flex={1}>
         <View style={styles.logoBox}>
           <Image style={styles.image} source={logo} alt="logo" />
-          <Text style={styles.text1}>
-            {translate('TEXT.LOGIN_TITRE')}</Text>
+          <Text style={styles.text1}>{translate("TEXT.LOGIN_TITRE")}</Text>
         </View>
         <VStack space={4} style={styles.formContent}>
           <Input
             h={50}
             rounded={50}
-            borderWidth={0}
+            borderWidth={(isEmpty && formData.email === "")?1:0}
+            borderColor={isEmpty?colors.danger:''}
             fontSize={14}
             bg={colors.desable}
             InputLeftElement={
-              <VStack alignItems={"center"} justifyContent={"center"} style={styles.leftElement}>
-                <Icon
-                  as={<User />}
-                  size={5}
-                  color={"primary.500"}
-                />
+              <VStack
+                alignItems={"center"}
+                justifyContent={"center"}
+                style={styles.leftElement}
+              >
+                <Icon as={<User />} size={5} color={"primary.500"} />
               </VStack>
             }
-            placeholder={translate('TEXT.EMAIL_FIELD')}
+            placeholder={translate("TEXT.EMAIL_FIELD")}
             keyboardType="default"
             isInvalid={isFieldInError("email")}
             onChangeText={(value) => handleInputChange("email", value)}
             value={formData.email}
           />
+          {isEmpty && formData.email ==="" ? 
+          <HStack rounded={5} p={1} backgroundColor={colors.transp_warning} space={1}>
+                <Warning2 color={colors.warning} size={15} />
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: colors.warning,
+                  }}
+                >
+                  Veillez saisir votre email a fin de recevoir le code de vérification
+                </Text>
+              </HStack> : formData.email !== "" && !isEmailValid(formData.email) && <HStack rounded={5} p={1} backgroundColor={colors.transp_danger} space={1}>
+                <Warning2 color={colors.danger} size={15} />
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: colors.danger,
+                  }}
+                >
+                  Veillez entrez une addresse mail valide sous un bon format
+                </Text>
+              </HStack>}
           <Input
             rounded={50}
             h={50}
@@ -119,24 +160,18 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
             bg={colors.desable}
             w={{ base: "100%", md: "100%" }}
             InputLeftElement={
-              <VStack alignItems={"center"} justifyContent={"center"} style={styles.leftElement}>
-                <Icon
-                  as={<Lock />}
-                  size={5}
-                  color={colors.text_grey_hint}
-                />
+              <VStack
+                alignItems={"center"}
+                justifyContent={"center"}
+                style={styles.leftElement}
+              >
+                <Icon as={<Lock />} size={5} color={colors.text_grey_hint} />
               </VStack>
             }
             InputRightElement={
               <Pressable onPress={() => setShow(!show)}>
                 <Icon
-                  as={
-                    show ? (
-                      <Eye />
-                    ) : (
-                      <EyeSlash />
-                    )
-                  }
+                  as={show ? <Eye /> : <EyeSlash />}
                   size={5}
                   mr="4"
                   color={colors.primary}
@@ -150,16 +185,16 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
           />
 
           {(isFieldInError("email") || isFieldInError("password")) && (
-            <Text style={styles.errorMsg}>
-              Remplissez bien les champs !
-            </Text>
+            <Text style={styles.errorMsg}>Remplissez bien les champs !</Text>
           )}
 
           <HStack space={2} mt={1}>
             <Checkbox
               aria-label="cgu"
               isChecked={formData.saveCredentials}
-              onPress={() => handleInputChange("saveCredentials", !formData.saveCredentials)}
+              onPress={() =>
+                handleInputChange("saveCredentials", !formData.saveCredentials)
+              }
               color={colors.primary}
             />
             <Text
@@ -175,9 +210,19 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
           </HStack>
         </VStack>
 
-        <Pressable onPress={() => isEmailValid(formData?.email) ? dispatch(processVerifCode(formData?.email)) : setErrMail("mail incorrect!")}>
+        <Pressable
+          onPress={() =>
+            isEmailValid(formData?.email)
+              ? resetPassword()
+              : setIsEmpty(true)
+          }
+        >
           {/* */}
-          <Text style={styles.forgetPassword} mt={5}>{codeVerifLoading ? "envoi du code de verification..." : "Mot de passe oublié ?"}</Text>
+          <Text style={styles.forgetPassword} mt={5}>
+            {codeVerifLoading
+              ? "envoi du code de verification..."
+              : "Mot de passe oublié ?"}
+          </Text>
         </Pressable>
 
         <Center mt={2}>
@@ -193,14 +238,12 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
         </Center>
         <Center>
           <HStack mt={5}>
-            <Text style={styles.labelText}>
-              Pas encore de compte?
-            </Text>
+            <Text style={styles.labelText}>Pas encore de compte?</Text>
             <Text
               style={[styles.forgetPassword, styles.registerText]}
               onPress={() => {
-                dispatch(reinitialize())
-                navigation.navigate(SCREENS.SIGNUP)
+                dispatch(reinitialize());
+                navigation.navigate(SCREENS.SIGNUP);
               }}
               ml={1}
             >
@@ -218,7 +261,7 @@ const mapStateToProps = ({ UserReducer }) => ({
   loading: UserReducer.loading,
   error: UserReducer.error,
   errorMsg: UserReducer.errorMsg,
-  success: UserReducer.success
-})
+  success: UserReducer.success,
+});
 
 export default connect(mapStateToProps)(Login);

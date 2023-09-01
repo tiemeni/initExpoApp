@@ -33,6 +33,7 @@ import {
   EyeSlash,
   Lock,
   MessageText1,
+  Photoshop,
   User,
   Warning2,
 } from "iconsax-react-native";
@@ -330,7 +331,7 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             value={formData.password}
             type={show ? "text" : "password"}
           />
-          {formData.password !== "" && (
+          {formData.password !== "" && messages.length > 0 &&  (
             <VStack
               style={{
                 backgroundColor: colors.transp_warning,
@@ -356,16 +357,29 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
               ))}
             </VStack>
           )}
-
-          <MaskInput
-            style={{backgroundColor:colors.desable, height:50, borderRadius:50}}
-            value={formData.telephone}
-            onChangeText={(value) => handleInputChange("telephone", value)}
-            mask={["6",' ', /\d/, /\d/, /\d/,/\d/,/\d/,/\d/,/\d/,/\d/]}
-            placeholder="Téléphone"
-            keyboardType="numeric"
-            inlineImageLeft={logo}
-          />
+          <HStack space={2} rounded={50} paddingLeft={2} alignItems={'center'} width={"100%"} bg={colors.desable}>
+            <VStack rounded={50} justifyItems={'center'} justifyContent={'center'} w={9} alignItems={'center'} h={9}  backgroundColor={colors.white}>
+            <Icon
+              as={<Call/>}
+              size={5}
+              mr={2}
+              ml={2}
+              color={colors.text_grey_hint}
+            />
+            </VStack>
+            <MaskInput
+              style={{
+                width: "90%",
+                height: 50,
+                borderRadius: 50,
+              }}
+              value={formData.telephone}
+              onChangeText={(value) => handleInputChange("telephone", value)}
+              mask={["6", " ", /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}
+              placeholder="Téléphone"
+              keyboardType="numeric"
+            />
+          </HStack>
 
           <VStack>
             <Pressable onPress={showDatepicker}>
