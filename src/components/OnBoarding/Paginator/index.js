@@ -30,9 +30,9 @@ export default function Paginator({ data, scrollX }) {
 
 const styles = StyleSheet.create({
     dot: {
-        height: 4,
+        height: 6,
         borderRadius: 5,
-        backgroundColor: "rgba(12, 11, 11, 0.2)",
+        backgroundColor: colors.white,
         marginHorizontal: 8,
     }
 })

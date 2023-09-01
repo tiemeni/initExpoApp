@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
     },
+
     image: {
         width: 25,
         height: 25,

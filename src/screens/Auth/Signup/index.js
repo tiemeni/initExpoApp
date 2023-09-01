@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { View, Text, Pressable, Platform, Alert } from "react-native";
+import { View, Pressable, Platform, Alert } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import {
   HStack,
@@ -10,10 +10,12 @@ import {
   Image,
   ScrollView,
   Checkbox,
+  Text,
   Box,
-  useToast
+  useToast,
+  InfoIcon,
 } from "native-base";
-import { MaterialIcons, MaterialCommunityIcons, Ionicons, Foundation, AntDesign } from "@expo/vector-icons";
+import { Foundation } from "@expo/vector-icons";
 import logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
 import colors from "../../../constants/colours";
@@ -21,17 +23,31 @@ import styles from "./styles";
 import moment from "moment";
 import * as SCREENS from "../../../constants/screens";
 import { useDispatch, connect } from "react-redux";
-import { userRegistration, reinitialize } from "../../../redux/User/action"
+import { userRegistration, reinitialize } from "../../../redux/User/action";
 import { isValidEmail } from "../../../utils/helper";
 import CustomToast from "../../../components/CustomToast";
-import { Calendar, Call, Eye, EyeSlash, Lock, MessageText1, User } from "iconsax-react-native";
-
+import {
+  Calendar,
+  Call,
+  Eye,
+  EyeSlash,
+  Lock,
+  MessageText1,
+  Photoshop,
+  User,
+  Warning2,
+} from "iconsax-react-native";
+import { useNavigation } from "@react-navigation/native";
+import MaskInput from "react-native-mask-input";
 const Signup = ({ navigation, error, loading, errorMsg, success }) => {
-  const toast = useToast()
+  const navigateCgu = useNavigation();
+  const toast = useToast();
   const dispatch = useDispatch();
   const [date, setDate] = useState(moment().format("DD/MM/YYYY"));
   const [isCkeck, setIsCheck] = useState(false);
   const [show, setShow] = useState(false);
+
+  let messages = [];
 
   const [formData, setFormData] = useState({
     name: "",
@@ -41,11 +57,13 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
     telephone: "",
     birthdate: "",
   });
+
+  console.log("mes données", formData);
   const [errors, setErrors] = useState({
     email: isValidEmail(formData.email),
     password: null,
-    birth: moment().format("DD/MM/YYYY")
-  })
+    birth: moment().format("DD/MM/YYYY"),
+  });
 
   const [textDate, setTextDate] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -69,12 +87,37 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
     setShowDatePicker(true);
   }, []);
 
-  const handleInputChange = (field, value) => {
+  const isPasswordWeak = (password) => {
+    const uppercaseRegex = /[A-Z]/;
+    const digitRegex = /[0-9]/;
+    const specialCharRegex = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\\-="']/;
 
+    if (!uppercaseRegex.test(password) && !password.match(/[a-z]/)) {
+      messages.push("Une lettre majuscule ou minuscule est requise.");
+    }
+
+    if (password.length < 8) {
+      messages.push("Longueur minimale de 8 caractères.");
+    }
+
+    if (!specialCharRegex.test(password)) {
+      messages.push("Au moins un caractère spécial parmi @$!%*#?&.");
+    }
+
+    if (!digitRegex.test(password)) {
+      messages.push("Le mot de passe doit contenir au moins un chiffre.");
+    }
+
+    return messages;
+  };
+
+  const isTrong = isPasswordWeak(formData.password);
+
+  const handleInputChange = (field, value) => {
     let newErrors = { ...errors };
-    if (field === 'email') {
+    if (field === "email") {
       newErrors.email = isValidEmail(value);
-    } else if (field === 'password') {
+    } else if (field === "password") {
       newErrors.password = value.length < 8;
     }
 
@@ -93,19 +136,21 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
   const formattedDate = moment(date, "DD/MM/YYYY").format("DD/MM/YYYY");
 
   const checkEmptyField = () => {
-    return formData.name === "" ||
+    return (
+      formData.name === "" ||
       formData.surname === "" ||
       formData.email === "" ||
       formData.password === "" ||
       formData.telephone === "" ||
       formData.birthdate === "" ||
-      isCkeck === false;
-  }
+      isCkeck === false
+    );
+  };
 
-  const isFieldsEmpty = checkEmptyField()
+  const isFieldsEmpty = checkEmptyField();
 
   useEffect(() => {
-    if (error && errorMsg !== '') {
+    if (error && errorMsg !== "") {
       toast.show({
         render: () => {
           return (
@@ -119,28 +164,29 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
           );
         },
         placement: "top",
-        duration: 5000
-      })
+        duration: 5000,
+      });
     }
 
     if (success) {
-      Alert.alert(
-        "INSCRIPTION",
-        "Votre compte été crée avec succès.",
-        [{ text: "Continuer", onPress: () => navigation.navigate(SCREENS.HOME_CONTAINER_ROUTE) }]
-      )
+      Alert.alert("INSCRIPTION", "Votre compte été crée avec succès.", [
+        {
+          text: "Continuer",
+          onPress: () => navigation.navigate(SCREENS.HOME_CONTAINER_ROUTE),
+        },
+      ]);
     }
-  }, [error, success])
+  }, [error, success]);
 
   const onSubmit = () => {
     if (!isFieldsEmpty) {
-      dispatch(userRegistration({ ...formData, active: true }))
+      dispatch(userRegistration({ ...formData, active: true }));
     } else {
       toast.show({
         render: () => {
           return (
             <CustomToast
-              message={'Veuillez remplir tous les champs'}
+              message={"Veuillez remplir tous les champs"}
               color={colors.danger}
               bgColor={"red.100"}
               icon={<Foundation name="alert" size={24} />}
@@ -149,9 +195,8 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
           );
         },
         placement: "top",
-        duration: 5000
-      }
-      )
+        duration: 5000,
+      });
     }
   };
 
@@ -176,7 +221,11 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             fontSize={14}
             bg={colors.desable}
             InputLeftElement={
-              <VStack alignItems={"center"} justifyContent={"center"} style={styles.leftElement}>
+              <VStack
+                alignItems={"center"}
+                justifyContent={"center"}
+                style={styles.leftElement}
+              >
                 <Icon
                   as={<User name="person" />}
                   size={5}
@@ -195,7 +244,11 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             fontSize={14}
             bg={colors.desable}
             InputLeftElement={
-              <VStack alignItems={"center"} justifyContent={"center"} style={styles.leftElement}>
+              <VStack
+                alignItems={"center"}
+                justifyContent={"center"}
+                style={styles.leftElement}
+              >
                 <Icon
                   as={<User name="person" />}
                   size={5}
@@ -214,7 +267,11 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             style={{ fontSize: 14 }}
             bg={colors.desable}
             InputLeftElement={
-              <VStack alignItems={"center"} justifyContent={"center"} style={styles.leftElement}>
+              <VStack
+                alignItems={"center"}
+                justifyContent={"center"}
+                style={styles.leftElement}
+              >
                 <Icon
                   as={<MessageText1 name="person" />}
                   size={5}
@@ -227,21 +284,31 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             value={formData.email}
           />
 
-          {!errors.email && formData.email !== "" &&
-            <Text style={{
-              fontSize: 12,
-              marginLeft: 10,
-              color: colors.danger,
-            }}>Veillez entrez une adresse mail valide</Text>}
+          {!errors.email && formData.email !== "" && (
+            <Text
+              style={{
+                fontSize: 12,
+                marginLeft: 10,
+                color: colors.danger,
+              }}
+            >
+              Veillez entrez une adresse mail valide
+            </Text>
+          )}
 
           <Input
+            isInvalid={!isCkeck}
             h={50}
             rounded={50}
             borderWidth={0}
             style={{ fontSize: 14 }}
             bg={colors.desable}
             InputLeftElement={
-              <VStack alignItems={"center"} justifyContent={"center"} style={styles.leftElement}>
+              <VStack
+                alignItems={"center"}
+                justifyContent={"center"}
+                style={styles.leftElement}
+              >
                 <Icon
                   as={<Lock name="person" />}
                   size={5}
@@ -252,59 +319,77 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             InputRightElement={
               <Pressable onPress={() => setShow(!show)}>
                 <Icon
-                  as={
-                    show ? (
-                      <Eye />
-                    ) : (
-                      <EyeSlash />
-                    )
-                  }
+                  as={show ? <Eye /> : <EyeSlash />}
                   size={5}
-                  mr="4"
+                  mr={4}
                   color={colors.primary}
                 />
-              </Pressable>}
+              </Pressable>
+            }
             placeholder="Mot de passe"
             onChangeText={(value) => handleInputChange("password", value)}
             value={formData.password}
             type={show ? "text" : "password"}
           />
-          {errors.password && formData.password !== "" &&
-            <Text style={{
-              fontSize: 12,
-              marginLeft: 10,
-              color: colors.danger,
-            }}>Le mot de passe doit avoir au mois 08 carractères</Text>}
-          <Input
-            h={50}
-            rounded={50}
-            borderWidth={0}
-            bg={colors.desable}
-            keyboardType="numeric"
-            style={{ fontSize: 14 }}
-            maxLength={9}
-            InputLeftElement={
-              <VStack alignItems={"center"} justifyContent={"center"} style={styles.leftElement}>
-                <Icon
-                  as={<Call name="person" />}
-                  size={5}
-                  color={colors.text_grey_hint}
-                />
-              </VStack>
-            }
-            placeholder="Téléphone"
-            onChangeText={(value) => handleInputChange("telephone", value)}
-            value={formData.telephone}
-          />
+          {formData.password !== "" && messages.length > 0 &&  (
+            <VStack
+              style={{
+                backgroundColor: colors.transp_warning,
+                borderRadius: 5,
+                padding: 8,
+              }}
+            >
+              <HStack space={1}>
+                <Warning2 color={colors.danger} size={15} />
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: colors.danger,
+                  }}
+                >
+                  Le mot de passe ne rempli pas le(s) critère(s)
+                </Text>
+              </HStack>
+              {messages?.map((message, index) => (
+                <Text style={{ color: colors.black, fontSize: 12 }} key={index}>
+                  {index + 1}. {message}
+                </Text>
+              ))}
+            </VStack>
+          )}
+          <HStack space={2} rounded={50} paddingLeft={2} alignItems={'center'} width={"100%"} bg={colors.desable}>
+            <VStack rounded={50} justifyItems={'center'} justifyContent={'center'} w={9} alignItems={'center'} h={9}  backgroundColor={colors.white}>
+            <Icon
+              as={<Call/>}
+              size={5}
+              mr={2}
+              ml={2}
+              color={colors.text_grey_hint}
+            />
+            </VStack>
+            <MaskInput
+              style={{
+                width: "90%",
+                height: 50,
+                borderRadius: 50,
+              }}
+              value={formData.telephone}
+              onChangeText={(value) => handleInputChange("telephone", value)}
+              mask={["6", " ", /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}
+              placeholder="Téléphone"
+              keyboardType="numeric"
+            />
+          </HStack>
 
           <VStack>
             <Pressable onPress={showDatepicker}>
               <HStack style={styles.datePick} rounded={50} space={3}>
-                <VStack alignItems={"center"} justifyContent={"center"} style={styles.leftElement}>
-                  <Icon
-                    as={<Calendar />}
-                    color={colors.text_grey_hint}
-                  />
+                <VStack
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                  style={styles.leftElement}
+                >
+                  <Icon as={<Calendar />} color={colors.text_grey_hint} />
                 </VStack>
                 <Text style={{ color: textDate ? "gray" : colors.black }}>
                   {textDate ? "Date de naissance" : formattedDate}
@@ -335,10 +420,12 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
               color={colors.primary}
             />
             <HStack>
-              <Text style={styles.cgu}>
-                J'accepte les
-              </Text>
-              <Pressable onPress={() => console.log("open cgu")}>
+              <Text style={styles.cgu}>J'accepte les</Text>
+              <Pressable
+                onPress={() => {
+                  navigateCgu.navigate(SCREENS.CGU);
+                }}
+              >
                 <Text style={styles.cguText}>
                   Conditions génétales d'utilisations
                 </Text>
@@ -360,14 +447,12 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
         </Center>
         <Center mb={5}>
           <HStack mt={2}>
-            <Text style={styles.labelText}>
-              Vous avez déjà un compte?
-            </Text>
+            <Text style={styles.labelText}>Vous avez déjà un compte?</Text>
             <Text
               style={[styles.forgetPassword, styles.registerText]}
               onPress={() => {
-                dispatch(reinitialize())
-                navigation.navigate(SCREENS.LOGIN)
+                dispatch(reinitialize());
+                navigation.navigate(SCREENS.LOGIN);
               }}
             >
               Connectez-vous !
@@ -383,7 +468,7 @@ const mapStateToProps = ({ UserReducer }) => ({
   success: UserReducer.success,
   error: UserReducer.error,
   loading: UserReducer.loading,
-  errorMsg: UserReducer.errorMsg
-})
+  errorMsg: UserReducer.errorMsg,
+});
 
 export default connect(mapStateToProps)(Signup);

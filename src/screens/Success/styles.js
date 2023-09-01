@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
   contenair: {
     flex: 1,
     flexDirection: "column",
-    borderColor: "red",
     height: "100%",
     paddingHorizontal:20,
   },

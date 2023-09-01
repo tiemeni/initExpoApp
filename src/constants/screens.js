@@ -26,4 +26,5 @@ export const CGU = "CGU";
 export const POLICY = "POLICY";
 export const LICENSES = "LICENSES";
 export const SUCCESS = "SUCCESS";
+export const ASTUCESANTE = "ASTUCESANTE";
 export const DETAILS_PRATICIEN = "DETAILS_PRATICIEN";

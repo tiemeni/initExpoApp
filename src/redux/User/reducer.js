@@ -5,6 +5,7 @@ const initialState = {
     loading: false,
     ImageLoading: false,
     error: null,
+    codeVerifLoading: false,
     errorMsg: null,
     localAuth: null,
     success: null,
@@ -22,7 +23,9 @@ const UserReducer = (state = initialState, action) => {
                 errorMsg: null,
                 success: null,
                 settingPWLoading: false,
-                errorCodeVerif: null
+                errorCodeVerif: null,
+                codeVerifSuccess: false,
+                errorCodeVerif: false
             }
         case types.REGISTER_USER_REQUEST:
             return {
@@ -145,20 +148,23 @@ const UserReducer = (state = initialState, action) => {
         case types.PROCESS_VERIF_CODE_REQUEST:
             return {
                 ...state,
-                codeVerifLoading: true
+                codeVerifLoading: true,
+                codeVerifSuccess: false
             }
         case types.PROCESS_VERIF_CODE_SUCCESS:
             console.log("-----------------", action.payload)
             return {
                 ...state,
                 codeVerif: action.payload,
-                codeVerifLoading: false
+                codeVerifLoading: false,
+                codeVerifSuccess: true
             }
         case types.PROCESS_VERIF_CODE_FAILED:
             return {
                 ...state,
                 errorCodeVerif: action.payload,
-                codeVerifLoading: false
+                codeVerifLoading: false,
+                codeVerifSuccess: false
             }
         case types.RESET_PASSWORD_REQUEST:
             return {

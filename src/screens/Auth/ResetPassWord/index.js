@@ -3,7 +3,7 @@ import React from 'react';
 import Logo from '../../../assets/img/logo.png';
 import PrimaryButton from '../../../components/Buttons/PrimaryButton';
 import colors from '../../../constants/colours';
-import SCREENS from '../../../constants/Screens';
+import SCREENS from '../../../constants/screens';
 import styles from './styles';
 
 const ResetPassWord = ({ navigation }) => {
