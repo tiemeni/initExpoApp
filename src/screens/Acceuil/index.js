@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Input, ScrollView, View, HStack, Text, VStack, Icon, Pressable, FlatList, Skeleton } from 'native-base'
+import { Input, ScrollView, View, HStack, Text, VStack, Icon, Pressable, FlatList, Skeleton } from 'native-base'
 import styles from './style';
 import { specialites, practiciens } from '../../utils/helper';
 import colors from '../../constants/colours';
@@ -15,12 +15,13 @@ import { Location, SearchNormal1 } from 'iconsax-react-native';
 import { useTranslation } from 'react-i18next'
 import * as ExpoLocation from 'expo-location';
 import NextAppointment from '../../components/NextAppointment';
+import { getAppSpecialties } from '../../redux/commons/action';
+import DoctorCard from '../../components/DoctorCard/DoctorCard';
 
 const _spacing = 3
 const datas = [{ key: 1, value: "Tout" }, { key: 2, value: "Meilleurs notes" }, { key: 3, value: "Populaires" }]
 
 const Acceuil = ({ navigation, userInfos = {}, load_address, address, ...props }) => {
-  const [itemSelected, setItemSelect] = React.useState(0)
   const translate = useTranslation().t
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -37,6 +38,7 @@ const Acceuil = ({ navigation, userInfos = {}, load_address, address, ...props }
     dispatch(getProfession())
     dispatch(clearCache())
     dispatch(getAllPrats())
+    dispatch(getAppSpecialties())
   }, [])
 
   useEffect(() => {
@@ -82,7 +84,7 @@ const Acceuil = ({ navigation, userInfos = {}, load_address, address, ...props }
   return (
     <View flex={1}>
       <ScrollView
-        stickyHeaderIndices={[1]}
+        // stickyHeaderIndices={[1]}
         showsVerticalScrollIndicator={false}
         paddingBottom={_spacing}
         keyboardShouldPersistTaps="never">
@@ -139,30 +141,66 @@ const Acceuil = ({ navigation, userInfos = {}, load_address, address, ...props }
 
         <VStack mt={_spacing}>
           <HStack mx={_spacing} justifyContent={'space-between'}>
-            <Text fontWeight={600}>{translate("TEXT_FIND_DOCTOR")}</Text>
+            <Text fontWeight={600}>{translate("TEXT.SPEC")}</Text>
             <Pressable onPress={() => { }}>
               <Text color="primary.500">{translate("TEXT.SEE_ALL")}</Text>
             </Pressable>
           </HStack>
           <FlatList
-            data={datas}
-            keyExtractor={({ value, key }) => key.toString()}
+            data={props.specialties}
+            keyExtractor={({ value, _id }) => _id.toString()}
             horizontal
-            scrollEnabled={false}
+            scrollEnabled
+            showsHorizontalScrollIndicator={false}
             renderItem={({ item, index }) => {
               return (
-                <Pressable py={_spacing} ml={_spacing - 1} onPress={() => { setItemSelect(index) }}>
+                <Pressable
+                  mr={index === props.specialties.length - 1 && _spacing}
+                  py={_spacing} ml={_spacing}
+                  onPress={() => {  }}>
                   <View
-                    bg={itemSelected === index ? "primary.500" : "white"}
+                    bg={"white"}
                     style={[styles.filter, styles.shadow]}>
-                    <Text color={itemSelected === index ? "white" : colors.text_grey_hint}>
-                      {item.value}
+                    <Text color={colors.black}>
+                      {item.nom || item.label}
                     </Text>
                   </View>
                 </Pressable>
               )
             }}
           />
+          {!props.specialties &&
+            <HStack>
+              {datas.map((d) => <View key={d.key} paddingY={_spacing} marginLeft={_spacing - 1}>
+                <Skeleton h={10} width={150} rounded="full" />
+              </View>)}
+            </HStack>
+          }
+        </VStack>
+
+        <VStack my={_spacing}>
+          <HStack mx={_spacing} justifyContent={'space-between'}>
+            <Text fontWeight={600}>{translate("TEXT.POPULAR_DOC")}</Text>
+            <Pressable onPress={() => { }}>
+              <Text color="primary.500">{translate("TEXT.SEE_ALL")}</Text>
+            </Pressable>
+          </HStack>
+          {props.praticiens.length !== 0 ?
+            <>
+              {props.praticiens.slice(0, 5).map((item, index) => {
+                return (
+                  <DoctorCard
+                    key={item._id}
+                    nom_complet={item.name + " " + item.surname}
+                    clinique={item.affectation.length !== 0 ? item?.affectation[0].label : ""}
+                  />
+                )
+              })}
+            </> : <>
+              <DoctorCard key={1} isEmpty={true} />
+              <DoctorCard key={2} isEmpty={true} />
+              <DoctorCard key={3} isEmpty={true} /></>
+          }
         </VStack>
 
       </ScrollView>
@@ -170,11 +208,14 @@ const Acceuil = ({ navigation, userInfos = {}, load_address, address, ...props }
   )
 }
 
-const mapStateToProps = ({ UserReducer, RdvForm }) => ({
+const mapStateToProps = ({ UserReducer, RdvForm, Common, Praticiens }) => ({
   userInfos: UserReducer.userInfos,
   address: UserReducer.address,
   load_address: UserReducer.load_address,
-  myRdv: RdvForm.myRdv
+  myRdv: RdvForm.myRdv,
+  loading: Common.loading,
+  specialties: Common.specialties,
+  praticiens: Praticiens.praticiens
 })
 
 export default connect(mapStateToProps)(Acceuil)

@@ -1,29 +1,33 @@
-import { LAUNCH_APP, SETIDCENTRE, SET_PROFESSION, SHOULD_SEE_BEHIND } from "./types"
+import * as types from "./types"
 
 export const setApp = (step) => {
     return {
-        type: LAUNCH_APP,
+        type: types.LAUNCH_APP,
         step
     }
 }
 
 export const setProfessionForRdv = (p) => {
     return {
-        type: SET_PROFESSION,
+        type: types.SET_PROFESSION,
         p
     }
 }
 
 export const setShouldSeeBehind = s => {
     return {
-        type: SHOULD_SEE_BEHIND,
+        type: types.SHOULD_SEE_BEHIND,
         s
     }
 }
 
 export const setIdCentre = idc => {
     return {
-        type: SETIDCENTRE,
+        type: types.SETIDCENTRE,
         idc
     }
 }
+
+export const getAppSpecialties = () => ({
+    type: types.GET_APP_SPECIALTIES_REQUEST
+})

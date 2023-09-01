@@ -7,16 +7,19 @@ import {
   ScrollView,
   View,
   VStack,
+  Actionsheet,
+  Text,
+  useDisclose,
 } from "native-base";
-import { Text } from "react-native";
 import Rdv from "../../components/Rdv";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Skelette } from "./squelette";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCache, getMyRDV } from "../../redux/RDV/actions";
-import { FolderOpen } from "iconsax-react-native";
+import { FolderOpen, Sort } from "iconsax-react-native";
 import styles from "./style";
+import colors from "../../constants/colours";
 
 export default function MesRdv({ navigation }) {
   const [actualState, setActualState] = useState(1);
@@ -28,6 +31,7 @@ export default function MesRdv({ navigation }) {
   const [status, setStatus] = useState('Planifié')
   const [appointments, setAppointment] = useState(rdvs)
   const [showSkeleton, setShowSkeleton] = useState(false)
+  const { isOpen, onOpen, onClose } = useDisclose();
 
   const getRdvs = () => {
     dispatch(clearCache())
@@ -49,7 +53,19 @@ export default function MesRdv({ navigation }) {
   }, [actualState, rdvs])
 
   return (
-    <View flex={1} paddingTop={3}>
+    <View flex={1} paddingTop={2}>
+      <HStack mx={3} my={2} justifyContent={'space-between'} alignItems={'center'}>
+        <Text fontWeight={600} fontSize={18}>
+          Rendez-vous
+          <Text fontSize={14}> ({appointments.length})</Text>
+        </Text>
+        <Pressable onPress={onOpen}>
+          <HStack alignItems={'center'}>
+            <Sort color={colors.black} />
+            <Text>Trier</Text>
+          </HStack>
+        </Pressable>
+      </HStack>
       <Box
         width={"100%"}
         justifyContent={"center"}
@@ -238,6 +254,15 @@ export default function MesRdv({ navigation }) {
           <Text style={styles.empty}>Vous n'avez aucun rendez-vous {status.toLowerCase()}</Text>
         </Center>
       }
+
+      <Actionsheet isOpen={isOpen} onClose={onClose}>
+        <Actionsheet.Content>
+          <Actionsheet.Item>Option 1</Actionsheet.Item>
+          <Actionsheet.Item>Option 2</Actionsheet.Item>
+          <Actionsheet.Item>Option 3</Actionsheet.Item>
+          <Actionsheet.Item color="red.500">Delete</Actionsheet.Item>
+        </Actionsheet.Content>
+      </Actionsheet>
     </View>
   );
 }
