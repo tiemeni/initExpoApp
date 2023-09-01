@@ -106,22 +106,20 @@ const Acceuil = ({ navigation, userInfos = {}, load_address, address, ...props }
         </VStack>
 
         <VStack bg="white" py={_spacing}>
-          <SharedElement>
-            <Input
-              mx={_spacing}
-              showSoftInputOnFocus={false}
-              h={45}
-              rounded={22}
-              borderWidth={0}
-              fontSize={14}
-              bg={colors.bg_grey}
-              placeholder={translate("TEXT_SEARCH_PLACEHOLDER")}
-              InputLeftElement={<SearchNormal1 style={{ marginLeft: 10 }} size={20} color={colors.text_grey_hint} />}
-              onPressIn={() => navigation.navigate(SCREENS.GLOBAL_SEARCH)}
-              onChangeText={text => setSearchText(text)}
-              onSubmitEditing={handleSearch}
-            />
-          </SharedElement>
+          <Input
+            mx={_spacing}
+            showSoftInputOnFocus={false}
+            h={45}
+            rounded={22}
+            borderWidth={0}
+            fontSize={14}
+            bg={colors.bg_grey}
+            placeholder={translate("TEXT_SEARCH_PLACEHOLDER")}
+            InputLeftElement={<SearchNormal1 style={{ marginLeft: 10 }} size={20} color={colors.text_grey_hint} />}
+            onPressIn={() => navigation.navigate(SCREENS.GLOBAL_SEARCH)}
+            onChangeText={text => setSearchText(text)}
+            onSubmitEditing={handleSearch}
+          />
         </VStack>
         {/* Prochain rendez-vous */}
         <VStack bg="white" borderBottomRadius={_spacing * 6} py={_spacing} flex={1} space={_spacing}>
@@ -157,7 +155,7 @@ const Acceuil = ({ navigation, userInfos = {}, load_address, address, ...props }
                 <Pressable
                   mr={index === props.specialties.length - 1 ? _spacing : 0}
                   py={_spacing} ml={_spacing}
-                  onPress={() => {  }}>
+                  onPress={() => { }}>
                   <View
                     bg={"white"}
                     style={[styles.filter, styles.shadow]}>
