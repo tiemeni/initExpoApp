@@ -81,7 +81,7 @@ export const DetailsPraticien = ({ route }) => {
             setSelectedDay(generateKeyTab(dispo)[0])
             setActualCreaneau(generateValuesTab(generateKeyTab(dispo)[0], dispo))
             setItemSelected(motifs[0])
-        }, 2500)
+        }, 3000)
     }, [])
 
     const allFieldFilled = () => {
@@ -156,43 +156,59 @@ export const DetailsPraticien = ({ route }) => {
                     <VStack space={_spacing}>
                         <VStack px={5}>
                             <Text>Motifs Traitables</Text>
-                            {motifs?.length > 0 && !motifsLoading ? <FlatList
-                                data={motifs}
-                                keyExtractor={(v) => v?._id}
-                                horizontal
-                                showsHorizontalScrollIndicator={false}
-                                scrollEnabled={true}
-                                renderItem={({ item, index }) => {
-                                    return (
-                                        <Pressable py={_spacing} ml={_spacing - 1} key={index} onPress={() => {
-                                            setItemSelected(item)
+                            {motifs?.length > 0 && !motifsLoading ?
+                                <FlatList
+                                    data={motifs}
+                                    keyExtractor={(v) => v?._id}
+                                    horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                    scrollEnabled={true}
+                                    renderItem={({ item, index }) => {
+                                        return (
+                                            <Pressable py={_spacing} ml={_spacing - 1} key={index} onPress={() => {
+                                                setItemSelected(item)
+                                            }}>
+                                                <View
+                                                    bg={itemSelected?.label === item?.label ? "primary.500" : "white"}
+                                                    borderWidth={1}
+                                                    borderColor={itemSelected?.label === item?.label ? "primary.500" : colors.normal_gray}
+                                                    style={[{
+                                                        paddingHorizontal: 20,
+                                                        paddingVertical: 10,
+                                                        borderRadius: 20
+                                                    }, {
+                                                        shadowColor: "#000",
+                                                        shadowOffset: {
+                                                            width: 0,
+                                                            height: 3,
+                                                        },
+                                                        shadowOpacity: 0.01,
+                                                        shadowRadius: 3.84,
+                                                        elevation: 0.1,
+                                                    }]}>
+                                                    <Text color={itemSelected?.label === item?.label ? "white" : colors.text_grey_hint}>
+                                                        {item?.label}
+                                                    </Text>
+                                                </View>
+                                            </Pressable>
+                                        )
+                                    }}
+                                /> : motifs?.length == 0 && motifsLoading ?
+                                    <LoadingMotifs /> :
+                                    <Stack px={5}>
+                                        <HStack mt={2} space={2} style={{
+                                            backgroundColor: colors.transp_warning,
+                                            borderRadius: 10,
+                                            padding: 10,
+                                            alignItems: "center",
+                                            marginBottom: 10,
+                                            backgroundColor: colors.transp_danger
                                         }}>
-                                            <View
-                                                bg={itemSelected?.label === item?.label ? "primary.500" : "white"}
-                                                borderWidth={1}
-                                                borderColor={itemSelected?.label === item?.label ? "primary.500" : colors.normal_gray}
-                                                style={[{
-                                                    paddingHorizontal: 20,
-                                                    paddingVertical: 10,
-                                                    borderRadius: 20
-                                                }, {
-                                                    shadowColor: "#000",
-                                                    shadowOffset: {
-                                                        width: 0,
-                                                        height: 3,
-                                                    },
-                                                    shadowOpacity: 0.01,
-                                                    shadowRadius: 3.84,
-                                                    elevation: 0.1,
-                                                }]}>
-                                                <Text color={itemSelected?.label === item?.label ? "white" : colors.text_grey_hint}>
-                                                    {item?.label}
-                                                </Text>
-                                            </View>
-                                        </Pressable>
-                                    )
-                                }}
-                            /> : <LoadingMotifs />}
+                                            <Danger color={colors.danger} size={22} />
+                                            <Text color={colors.danger} fontWeight={500}>Affecté a aucune motif</Text>
+                                        </HStack>
+                                    </Stack>
+                            }
                         </VStack>
                         {actualPraticien?.affectation?.length > 0 ? <VStack px={5} space={_spacing}>
                             <Text>Clinique affectées</Text>

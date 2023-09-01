@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import { userLogout } from '../../redux/User/action'
 import { useTranslation } from 'react-i18next'
-import { User, Setting2, TableDocument, Messages3,InfoCircle, Logout } from 'iconsax-react-native'
+import { User, Setting2, TableDocument, Messages3, InfoCircle, Logout } from 'iconsax-react-native'
 
 function Profile() {
   const [tryLogout, setTryLogout] = useState()
@@ -25,7 +25,7 @@ function Profile() {
       translate("TEXT_TRYNG_LOGOUT"),
       [
         {
-          text: translate("TEXT_CONTINUE"), 
+          text: translate("TEXT_CONTINUE"),
           style: "destructive",
           onPress: () => {
             dispatch(userLogout())
@@ -68,9 +68,9 @@ function Profile() {
         <TouchableOpacity onPress={() => navigation.navigate(SCREENS.ABOUT_US)} style={styles.item}>
           <ParameterList icon={<InfoCircle />} label={"A propos"} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate(SCREENS.ASTUCESANTE)} style={styles.item}>
+        {/*<TouchableOpacity onPress={() => navigation.navigate(SCREENS.ASTUCESANTE)} style={styles.item}>
           <ParameterList icon={<InfoCircle />} label={"Astuces santé"} />
-        </TouchableOpacity>
+  </TouchableOpacity>*/}
       </VStack>
       <View style={styles.section3}>
         <TouchableOpacity onPress={() => setTryLogout(true)} style={{ ...styles.item, height: "50%" }}>

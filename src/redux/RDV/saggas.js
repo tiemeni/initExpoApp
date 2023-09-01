@@ -168,7 +168,7 @@ function* postRDV({ data }) {
             yield setTimeout(() => {
                 put({ type: "CLEAR_ERR_SUCC" })
                 RootNavigation.navigate(SCREENS.SUCCESS, { id: rdv?.data?._id })
-            }, 2000)
+            }, 3000)
         } else {
             yield put({ type: types.POST_RDV_REQUEST_FAILED, payload: "Erreur lors de la creation du rendez-vous!" })
             yield setTimeout(() => {

@@ -42,7 +42,7 @@ const HeaderBox = ({ number, title, hintText, error }) => {
 
 const MakeAppointment = ({ navigation, route }) => {
     const scrollViewRef = React.useRef();
-    const isProfession = useSelector(state => state.Common.isProfession) || isSpecialist
+    const isProfession = useSelector(state => state.Common.isProfession)
     const idCentre = useSelector(state => state.Common.idc)
     const [actualDayCreneaux, setActualDayCreneau] = useState([])
     const RDVForm = useSelector(state => state.RdvForm.rdvForm)
@@ -60,7 +60,6 @@ const MakeAppointment = ({ navigation, route }) => {
     const shouldSeeBehind = useSelector(state => state.Common.shouldSeeBehind)
     const screenWidth = Dimensions.get('screen').width;
     const dispatch = useDispatch()
-    const [extSpeciality, setExtSpeciality] = useState({})
     const [formData, setFormData] = React.useState({
         motif: null,
         praticien: null,

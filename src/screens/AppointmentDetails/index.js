@@ -45,7 +45,13 @@ const AppointmentDetails = ({ navigation, appointments }) => {
         {
           text: translate("TEXT_ABORT"), onPress: () => setDisplSuppMod(false)
         }
-      ]
+      ],
+      {
+        titleStyle: {
+          fontSize: 18,
+          color: 'red'
+        }
+      }
     )
   }
 

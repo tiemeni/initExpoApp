@@ -187,11 +187,13 @@ const Acceuil = ({ navigation, userInfos = {}, load_address, address, ...props }
             <>
               {props.praticiens.slice(0, 5).map((item, index) => {
                 return (
-                  <DoctorCard
-                    key={item._id}
-                    nom_complet={item.name + " " + item.surname}
-                    clinique={item.affectation.length !== 0 ? item?.affectation[0].label : ""}
-                  />
+                  <Pressable onPress={() => navigation.navigate(SCREENS.DETAILS_PRATICIEN, { praticien: item })}>
+                    <DoctorCard
+                      key={item._id}
+                      nom_complet={item.name + " " + item.surname}
+                      clinique={item.affectation.length !== 0 ? item?.affectation[0].label : ""}
+                    />
+                  </Pressable>
                 )
               })}
             </> : <>
