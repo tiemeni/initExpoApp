@@ -20,7 +20,7 @@ const Notifications = ({ navigation }) => {
     return (
         <Box flex={1} mb={3}>
             <Box style={styles.container}>
-                <Text mb={3} style={styles.headerTitle}>Notifications</Text>
+                <Text mb={3} style={styles.headerTitle} fontWeight={600}>Notifications</Text>
                 <ScrollView
                     overScrollMode='never'
                     showsVerticalScrollIndicator={false}>

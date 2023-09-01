@@ -99,6 +99,30 @@ const RDVReducer = (state = initialState, action) => {
                 clinicSuccess: false,
                 clinicError: true,
             }
+
+        case types.GET_CLINIC_OF_SPEC_PRAT:
+            return {
+                ...state,
+                clinicLoading: true,
+                clinicError: false,
+                clinicErrorMsg: ""
+            }
+        case types.GET_CLINIC_OF_SPEC_PRAT_SUCCESS:
+            return {
+                ...state,
+                cliniques: action.payload,
+                clinicLoading: false,
+                clinicSuccess: true,
+                clinicError: false
+            }
+        case types.GET_CLINIC_OF_SPEC_PRAT_FAILED:
+            return {
+                ...state,
+                errorMsg: action.payload,
+                clinicLoading: false,
+                clinicSuccess: false,
+                clinicError: true,
+            }
         case types.SET_RDV_DURATION:
             let allMotifs = state.motifs
             let specMotifDuration;
@@ -124,6 +148,12 @@ const RDVReducer = (state = initialState, action) => {
                 praticiens: action.payload,
                 praticiensLoading: false,
                 praticiensSuccess: true
+            }
+        case types.GET_SINGLE_PRAT_SUCCESS:
+            console.log(action.payload)
+            return {
+                ...state,
+                praticiens: action.payload,
             }
         case types.GET_PRATICIENS_REQUEST_FAILED:
             return {

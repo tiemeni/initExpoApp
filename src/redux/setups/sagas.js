@@ -3,6 +3,7 @@ import ProfessionSagga from '../professions/saggas';
 import RDVSagga from '../RDV/saggas';
 import UserSaga from '../User/saga';
 import PraticienSaga from '../Praticiens/saga';
+import CommonSagas from '../commons/sagas';
 
 /**
 
@@ -11,5 +12,5 @@ import PraticienSaga from '../Praticiens/saga';
  */
 
 export default function* Sagas() {
-  yield all([UserSaga(), ProfessionSagga(), RDVSagga(), PraticienSaga()]);
+  yield all([UserSaga(), ProfessionSagga(), RDVSagga(), PraticienSaga(), CommonSagas()]);
 }

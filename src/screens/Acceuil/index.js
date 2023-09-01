@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Input, ScrollView, View, HStack, Text, VStack, Icon, Pressable, FlatList, IconButton } from 'native-base'
+import { Input, ScrollView, View, HStack, Text, VStack, Icon, Pressable, FlatList, Skeleton } from 'native-base'
 import styles from './style';
 import { specialites, practiciens } from '../../utils/helper';
 import colors from '../../constants/colours';
@@ -7,78 +7,21 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { getProfession } from '../../redux/professions/actions';
 import { clearCache, getMotifs } from '../../redux/RDV/actions';
 import * as Notifications from 'expo-notifications'
-import { sendExpoToken } from '../../redux/User/action';
+import { sendExpoToken, getAdressesFromCoords } from '../../redux/User/action';
 import * as SCREENS from "../../constants/screens";
 import { SharedElement } from 'react-navigation-shared-element';
 import { getAllPrats } from '../../redux/Praticiens/actions';
-import { Calendar, Clock, DocumentText, Hospital, Location, Map1, SearchNormal1 } from 'iconsax-react-native';
+import { Location, SearchNormal1 } from 'iconsax-react-native';
 import { useTranslation } from 'react-i18next'
+import * as ExpoLocation from 'expo-location';
+import NextAppointment from '../../components/NextAppointment';
+import { getAppSpecialties } from '../../redux/commons/action';
+import DoctorCard from '../../components/DoctorCard/DoctorCard';
 
 const _spacing = 3
 const datas = [{ key: 1, value: "Tout" }, { key: 2, value: "Meilleurs notes" }, { key: 3, value: "Populaires" }]
 
-const NextAppointment = () => {
-  return (
-    <VStack mx={_spacing} bg="primary.500" p={_spacing} borderRadius={10} space={_spacing}>
-      <HStack space={_spacing}>
-        <Box style={styles.medPic}></Box>
-        <HStack flex={1} justifyContent={'space-between'}>
-          <VStack>
-            <Text fontSize={16} color="white" fontWeight="600">Dr Shana Khan</Text>
-            <Text color="white">Cardiologue</Text>
-          </VStack>
-          <IconButton
-            borderRadius={50}
-            h={8}
-            w={8}
-            bg="white"
-            icon={<Map1 color={colors.primary} />}
-            onPress={() => { }}
-            color="primary.500"
-            size="xs"
-          />
-        </HStack>
-      </HStack>
-      <VStack borderRadius={10} bg="#00A3B4" p={_spacing} space={_spacing}>
-        <HStack justifyContent={'space-between'}>
-          <HStack w={"60%"} alignItems={'center'} space={_spacing * .5}>
-            <Icon
-              as={<DocumentText />}
-              color="white"
-            />
-            <Text fontSize={12} color="white">Consultation ophta</Text>
-          </HStack>
-          <HStack w={"40%"} alignItems={'center'} space={_spacing * .5}>
-            <Icon
-              as={<Hospital />}
-              color="white"
-            />
-            <Text fontSize={12} color="white">Centre pasteur</Text>
-          </HStack>
-        </HStack>
-        <HStack justifyContent={'space-between'}>
-          <HStack w={"60%"} alignItems={'center'} space={_spacing * .5}>
-            <Icon
-              as={<Calendar />}
-              color="white"
-            />
-            <Text fontSize={12} color="white">Lun, 28 aout 2023</Text>
-          </HStack>
-          <HStack w={"40%"} alignItems={'center'} space={_spacing * .5}>
-            <Icon
-              as={<Clock />}
-              color="white"
-            />
-            <Text fontSize={12} color="white">14:30</Text>
-          </HStack>
-        </HStack>
-      </VStack>
-    </VStack>
-  )
-}
-
-const Acceuil = ({ navigation, userInfos = {} }) => {
-  const [itemSelected, setItemSelect] = React.useState(0)
+const Acceuil = ({ navigation, userInfos = {}, load_address, address, ...props }) => {
   const translate = useTranslation().t
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -95,6 +38,7 @@ const Acceuil = ({ navigation, userInfos = {} }) => {
     dispatch(getProfession())
     dispatch(clearCache())
     dispatch(getAllPrats())
+    dispatch(getAppSpecialties())
   }, [])
 
   useEffect(() => {
@@ -121,10 +65,26 @@ const Acceuil = ({ navigation, userInfos = {} }) => {
     requestPermissions();
   }, [])
 
+  useEffect(() => {
+    // Get user coords (lat and long)
+    const requestLocationPermission = async () => {
+      let { status } = await ExpoLocation.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        console.log('Permission to access location was denied');
+        return;
+      }
+
+      let location = await ExpoLocation.getCurrentPositionAsync({});
+      const { coords } = location;
+      if (!address) dispatch(getAdressesFromCoords(coords))
+    };
+
+    requestLocationPermission();
+  }, [])
   return (
     <View flex={1}>
       <ScrollView
-        stickyHeaderIndices={[1]}
+        // stickyHeaderIndices={[1]}
         showsVerticalScrollIndicator={false}
         paddingBottom={_spacing}
         keyboardShouldPersistTaps="never">
@@ -135,7 +95,12 @@ const Acceuil = ({ navigation, userInfos = {} }) => {
               color="primary.500" />
             <VStack>
               <Text color={colors.text_grey_hint}>{translate("TEXT_EMPLACEMENT")}</Text>
-              <Text fontWeight="600">Poste Centrale, Yde, CAM</Text>
+              {!load_address && address ?
+                <Text isTruncated maxWidth={80} fontWeight="600">
+                  {address.address.road + " " + address.address.city}
+                </Text> :
+                <Skeleton.Text h={1} py={2.5} />
+              }
             </VStack>
           </HStack>
         </VStack>
@@ -176,30 +141,66 @@ const Acceuil = ({ navigation, userInfos = {} }) => {
 
         <VStack mt={_spacing}>
           <HStack mx={_spacing} justifyContent={'space-between'}>
-            <Text fontWeight={600}>{translate("TEXT_FIND_DOCTOR")}</Text>
+            <Text fontWeight={600}>{translate("TEXT.SPEC")}</Text>
             <Pressable onPress={() => { }}>
               <Text color="primary.500">{translate("TEXT.SEE_ALL")}</Text>
             </Pressable>
           </HStack>
           <FlatList
-            data={datas}
-            keyExtractor={({ value, key }) => key.toString()}
+            data={props.specialties}
+            keyExtractor={({ value, _id }) => _id.toString()}
             horizontal
-            scrollEnabled={false}
+            scrollEnabled
+            showsHorizontalScrollIndicator={false}
             renderItem={({ item, index }) => {
               return (
-                <Pressable py={_spacing} ml={_spacing-1} onPress={() => { setItemSelect(index) }}>
+                <Pressable
+                  mr={index === props.specialties.length - 1 ? _spacing : 0}
+                  py={_spacing} ml={_spacing}
+                  onPress={() => {  }}>
                   <View
-                    bg={itemSelected === index ? "primary.500" : "white"}
+                    bg={"white"}
                     style={[styles.filter, styles.shadow]}>
-                    <Text color={itemSelected === index ? "white" : colors.text_grey_hint}>
-                      {item.value}
+                    <Text color={colors.black}>
+                      {item.nom || item.label}
                     </Text>
                   </View>
                 </Pressable>
               )
             }}
           />
+          {!props.specialties &&
+            <HStack>
+              {datas.map((d) => <View key={d.key} paddingY={_spacing} marginLeft={_spacing - 1}>
+                <Skeleton h={10} width={150} rounded="full" />
+              </View>)}
+            </HStack>
+          }
+        </VStack>
+
+        <VStack my={_spacing}>
+          <HStack mx={_spacing} justifyContent={'space-between'}>
+            <Text fontWeight={600}>{translate("TEXT.POPULAR_DOC")}</Text>
+            <Pressable onPress={() => { }}>
+              <Text color="primary.500">{translate("TEXT.SEE_ALL")}</Text>
+            </Pressable>
+          </HStack>
+          {props.praticiens.length !== 0 ?
+            <>
+              {props.praticiens.slice(0, 5).map((item, index) => {
+                return (
+                  <DoctorCard
+                    key={item._id}
+                    nom_complet={item.name + " " + item.surname}
+                    clinique={item.affectation.length !== 0 ? item?.affectation[0].label : ""}
+                  />
+                )
+              })}
+            </> : <>
+              <DoctorCard key={1} isEmpty={true} />
+              <DoctorCard key={2} isEmpty={true} />
+              <DoctorCard key={3} isEmpty={true} /></>
+          }
         </VStack>
 
       </ScrollView>
@@ -207,8 +208,14 @@ const Acceuil = ({ navigation, userInfos = {} }) => {
   )
 }
 
-const mapStateToProps = ({ UserReducer }) => ({
-  userInfos: UserReducer.userInfos
+const mapStateToProps = ({ UserReducer, RdvForm, Common, Praticiens }) => ({
+  userInfos: UserReducer.userInfos,
+  address: UserReducer.address,
+  load_address: UserReducer.load_address,
+  myRdv: RdvForm.myRdv,
+  loading: Common.loading,
+  specialties: Common.specialties,
+  praticiens: Praticiens.praticiens
 })
 
 export default connect(mapStateToProps)(Acceuil)

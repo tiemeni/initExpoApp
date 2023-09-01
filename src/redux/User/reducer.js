@@ -7,7 +7,10 @@ const initialState = {
     error: null,
     errorMsg: null,
     localAuth: null,
-    success: null
+    success: null,
+    load_adress: false,
+    address: undefined,
+    mapDirections: []
 };
 
 const UserReducer = (state = initialState, action) => {
@@ -18,7 +21,8 @@ const UserReducer = (state = initialState, action) => {
                 error: false,
                 errorMsg: null,
                 success: null,
-                settingPWLoading: false
+                settingPWLoading: false,
+                errorCodeVerif: null
             }
         case types.REGISTER_USER_REQUEST:
             return {
@@ -172,6 +176,27 @@ const UserReducer = (state = initialState, action) => {
                 ...state,
                 errorResettingPw: action.payload,
                 settingPWLoading: false
+            }
+        case types.COORDS_TO_ADDRESS_REQUEST:
+            return {
+                ...state,
+                load_address: true
+            }
+        case types.COORDS_TO_ADDRESS_SUCCESS:
+            return {
+                ...state,
+                load_address: false,
+                address: action.payload
+            }
+        case types.COORDS_TO_ADDRESS_FAILED:
+            return {
+                ...state,
+                load_address: false,
+            }
+        case types.GET_MAP_DIRECTIONS_SUCCESS:
+            return {
+                ...state,
+                mapDirections: action.payload
             }
         default:
             return state;

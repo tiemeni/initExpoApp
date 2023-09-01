@@ -20,6 +20,24 @@ function* getAllPraticiens() {
     }
 }
 
+function* searchPratsByKey({ key }) {
+    let url = BASE_URL + '/ext_users/search/' + key
+    try {
+        const result = yield getUnauthRequest(url);
+        if (result.success) {
+            console.log(result.data)
+            yield put({ type: types.SEARCH_PRAT_BY_KEY_SUCCESS, payload: result.data })
+            // RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
+        } else {
+            yield put({ type: types.SEARCH_PRAT_BY_KEY_FAILED, payload: result.message })
+        }
+    } catch (error) {
+        console.error(error);
+        yield put({ type: types.SEARCH_PRAT_BY_KEY_FAILED, payload: error })
+    }
+}
+
 export default function* PraticienSaga() {
     yield takeLatest(types.GET_ALL_PRATICIENS, getAllPraticiens);
+    yield takeLatest(types.SEARCH_PRAT_BY_KEY, searchPratsByKey);
 }

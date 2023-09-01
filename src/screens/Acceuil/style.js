@@ -7,12 +7,6 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderRadius: 20
     },
-    medPic: {
-        height: 45,
-        width: 45,
-        borderRadius: 5,
-        backgroundColor: colors.bg_grey
-    },
     shadow: {
         shadowColor: "#000",
         shadowOffset: {
@@ -22,6 +16,20 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.01,
         shadowRadius: 3.84,
         elevation: 0.1,
+    },
+    medCard: {
+        borderRadius: 10,
+        padding: 10
+    },
+    medPic: {
+        height: 65,
+        width: 65,
+        backgroundColor: colors.bg_grey,
+        borderRadius: 15
+    },
+    infos: {
+        fontSize: 12,
+        color: colors.text_grey_hint,
     }
 })
 

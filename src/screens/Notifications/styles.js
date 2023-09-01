@@ -8,8 +8,9 @@ const styles = StyleSheet.create({
     },
 
     headerTitle: {
-        fontSize: 20,
-        paddingVertical: 2
+        fontSize: 18,
+        paddingVertical: 2,
+        fontWeight: 600
     },
 
     groupTitle: {

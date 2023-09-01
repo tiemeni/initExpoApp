@@ -1,6 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import * as types from './types';
-import { getUnauthRequest, postUnauthRequest } from '../../utils/api';
+import { getUnauthRequest } from '../../utils/api';
 import { BASE_URL } from '../../constants/urls';
 import * as RootNavigation from '../../routes/rootNavigation';
 import * as SCREENS from '../../constants/screens'

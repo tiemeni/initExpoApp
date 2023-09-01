@@ -13,10 +13,9 @@ import {
   Text,
   Box,
   useToast,
+  InfoIcon,
 } from "native-base";
-import {
-  Foundation,
-} from "@expo/vector-icons";
+import { Foundation } from "@expo/vector-icons";
 import logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
 import colors from "../../../constants/colours";
@@ -35,7 +34,7 @@ import {
   Lock,
   MessageText1,
   User,
-  Warning2
+  Warning2,
 } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
 import MaskInput from "react-native-mask-input";
@@ -49,7 +48,6 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
 
   let messages = [];
 
-
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
@@ -58,6 +56,8 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
     telephone: "",
     birthdate: "",
   });
+
+  console.log("mes données", formData);
   const [errors, setErrors] = useState({
     email: isValidEmail(formData.email),
     password: null,
@@ -91,21 +91,16 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
     const digitRegex = /[0-9]/;
     const specialCharRegex = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\\-="']/;
 
-
     if (!uppercaseRegex.test(password) && !password.match(/[a-z]/)) {
       messages.push("Une lettre majuscule ou minuscule est requise.");
     }
 
     if (password.length < 8) {
-      messages.push(
-        "Longueur minimale de 8 caractères."
-      );
+      messages.push("Longueur minimale de 8 caractères.");
     }
 
     if (!specialCharRegex.test(password)) {
-      messages.push(
-        "Au moins un caractère spécial parmi @$!%*#?&."
-      );
+      messages.push("Au moins un caractère spécial parmi @$!%*#?&.");
     }
 
     if (!digitRegex.test(password)) {
@@ -325,7 +320,7 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
                 <Icon
                   as={show ? <Eye /> : <EyeSlash />}
                   size={5}
-                  mr="4"
+                  mr={4}
                   color={colors.primary}
                 />
               </Pressable>
@@ -335,7 +330,7 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             value={formData.password}
             type={show ? "text" : "password"}
           />
-          { formData.password !== "" && (
+          {formData.password !== "" && (
             <VStack
               style={{
                 backgroundColor: colors.transp_warning,
@@ -344,53 +339,33 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
               }}
             >
               <HStack space={1}>
-              <Warning2 color={colors.danger} size={15} />
-              <Text
-                style={{
-                  fontSize: 12,
-                  color: colors.danger,
-                }}
-              >
-               Le mot de passe ne rempli pas le(s) critère(s)
-              </Text>
+                <Warning2 color={colors.danger} size={15} />
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: colors.danger,
+                  }}
+                >
+                  Le mot de passe ne rempli pas le(s) critère(s)
+                </Text>
               </HStack>
               {messages?.map((message, index) => (
-                <Text style={{color:colors.black, fontSize:12}} key={index}>
+                <Text style={{ color: colors.black, fontSize: 12 }} key={index}>
                   {index + 1}. {message}
                 </Text>
               ))}
             </VStack>
           )}
-         <MaskInput
-        mask="237 6 99 99 99 99"
-        onChangeText={(value) => {
-          handleInputChange("telephone", va);
-        }}
-        keyboardType="numeric"
-        placeholder="Téléphone"
-        value={formData.telephone}
-        customTextInputProps={{
-          h: 50,
-          rounded: 50,
-          borderWidth: 0,
-          bg: colors.desable,
-          style: { fontSize: 14 },
-          maxLength: 9,
-          InputLeftElement: (
-            <VStack
-              alignItems="center"
-              justifyContent="center"
-              style={styles.leftElement}
-            >
-              <Icon
-                as={<Call name="person" />}
-                size={5}
-                color={colors.text_grey_hint}
-              />
-            </VStack>
-          ),
-        }}
-      />
+
+          <MaskInput
+            style={{backgroundColor:colors.desable, height:50, borderRadius:50}}
+            value={formData.telephone}
+            onChangeText={(value) => handleInputChange("telephone", value)}
+            mask={["6",' ', /\d/, /\d/, /\d/,/\d/,/\d/,/\d/,/\d/,/\d/]}
+            placeholder="Téléphone"
+            keyboardType="numeric"
+            inlineImageLeft={logo}
+          />
 
           <VStack>
             <Pressable onPress={showDatepicker}>
