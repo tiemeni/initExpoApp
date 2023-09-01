@@ -39,7 +39,32 @@ const styles = StyleSheet.create({
 
   flatList: {
     marginHorizontal: 15
-  }
+  },
+
+  filterBtn: {
+    paddingVertical: 15,
+    width: '50%',
+    borderColor: "#c2c2c2"
+  },
+
+  btnLeftItem: {
+    borderWidth: 1,
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderRightWidth: 0
+  },
+  
+  btnRightItem: {
+    borderWidth: 1,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+  },
+
+  sortBtn: {
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    borderColor: "#c2c2c2",
+  },
 });
 
 
