@@ -1,77 +1,88 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, Polyline } from "react-native-maps";
 import * as Location from "expo-location";
 import MapViewDirections from "react-native-maps-directions";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { HStack, Icon, IconButton, Text, VStack } from "native-base"
+import { ArrowLeft, Hospital } from 'iconsax-react-native'
+import styles from "./style";
+import { getMapDirections } from "../../redux/User/action";
+import { connect, useDispatch } from 'react-redux'
 
-const clinic = { name: "Clinic 1", latitude: 3.8119272, longitude: 11.5120402 };
-
-const RoadMap = ({ route }) => {
+const RoadMap = ({ route, navigation, mapDirections }) => {
     const [origin, setOrigin] = useState(null);
-    const [waypoints, setWaypoints] = useState([]);
-    const clinic = { name: "your position", latitude: parseFloat(route?.params?.localisation?.latitude), longitude: parseFloat(route?.params?.localisation?.longitude) }
+    const dispatch = useDispatch()
+    const clinic = { latitude: parseFloat(route?.params?.localisation?.latitude), longitude: parseFloat(route?.params?.localisation?.longitude) }
 
     useEffect(() => {
+        const getLocation = async () => {
+            let coords = await AsyncStorage.getItem("coords")
+            if (coords) {
+                const { latitude, longitude } = JSON.parse(coords)
+                setOrigin({ latitude, longitude });
+                return;
+            }
+            const { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== "granted") {
+                console.log("Permission denied");
+                return;
+            }
+            const { latitude, longitude } = await Location.getCurrentPositionAsync({});
+            setOrigin({ latitude, longitude });
+        };
         getLocation();
     }, []);
 
-    const getLocation = async () => {
-        const { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== "granted") {
-            console.log("Permission denied");
-            return;
-        }
+    useEffect(() => {
+        if (!origin) return
+        dispatch(getMapDirections({
+            start: [origin.latitude, origin.longitude],
+            end: [clinic.latitude, clinic.longitude]
+        }))
+    }, [origin])
 
-        const location = await Location.getCurrentPositionAsync({});
-        const { latitude, longitude } = location.coords;
-        setOrigin({ latitude, longitude });
-
-        const customWaypoints = [
-            { latitude: latitude + 0.01, longitude: longitude + 0.01 },
-            { latitude: latitude + 0.005, longitude: longitude - 0.005 },
-            clinic,
-        ];
-        setWaypoints(customWaypoints);
-    };
+    if (!origin) {
+        return (
+            <View></View>
+        )
+    }
 
     return (
-        <View style={styles.container}>
+        <View flex={1}>
             <MapView
-                style={styles.map}
+                style={styles.mapView}
                 initialRegion={{
-                    latitude: origin ? origin.latitude : clinic.latitude,
-                    longitude: origin ? origin.longitude : clinic.longitude,
+                    latitude: origin.latitude,
+                    longitude: origin.longitude,
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                 }}
+                minZoomLevel={10}
             >
-                {origin && <Marker coordinate={origin} title="Origin" />}
+                <Marker
+                    coordinate={{ latitude: origin.latitude, longitude: origin.longitude }}
+                    title={"Votre position"}
+                />
                 <Marker
                     coordinate={{ latitude: clinic.latitude, longitude: clinic.longitude }}
-                    title={clinic.name}
+                    title={"Clinique"}
+                    icon={<Icon as={<Hospital />} color="primary.500" />}
                 />
-                {waypoints.length > 0 && (
-                    <MapViewDirections
-                        origin={origin}
-                        waypoints={waypoints}
-                        destination={clinic}
-                        apikey="AIzaSyBBSorwkq8kqK0sqwHdGTes3jNBMRcGlTU"
-                        strokeWidth={2}
-                        strokeColor="blue"
-                    />
-                )}
             </MapView>
+            <View bg="red.100" style={styles.mapHeader}>
+                <IconButton
+                    style={styles.back}
+                    onPress={() => { navigation.goBack() }}
+                    icon={<Icon as={<ArrowLeft color={"#000"} size="32" />} />}
+                />
+            </View>
         </View>
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    map: {
-        flex: 1,
-    },
-});
+const mapStateToProps = ({ UserReducer }) => ({
+    mapDirections: UserReducer.mapDirections
+})
 
-export default RoadMap;
+export default connect(mapStateToProps)(RoadMap);

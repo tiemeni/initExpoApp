@@ -53,3 +53,13 @@ export const resettingPassword = (data) => {
     data
   }
 }
+
+export const getAdressesFromCoords = (payload) => ({
+  type: types.COORDS_TO_ADDRESS_REQUEST,
+  payload
+})
+
+export const getMapDirections = (payload) => ({
+  type: types.GET_MAP_DIRECTIONS_REQUEST,
+  payload
+})
