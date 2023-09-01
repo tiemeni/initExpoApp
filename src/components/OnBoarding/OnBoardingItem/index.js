@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet, useWindowDimensions, Image } from 'react-native'
+import { View, StyleSheet, useWindowDimensions, Image } from 'react-native'
+import { Text } from 'native-base';
 import React from 'react'
 import colors from '../../../constants/colours';
 import Doctor from '../../../assets/img/Doctor_Two_Color__2__1.png'

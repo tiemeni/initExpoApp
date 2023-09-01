@@ -4,7 +4,6 @@ import {
   View,
   VStack,
   Icon,
-  Button,
   Spinner,
   HStack,
   Box,
@@ -34,9 +33,7 @@ import moment from "moment";
 import { userInfoUpdate, userSetProfile } from "../../redux/User/action";
 import { styles } from "./styles";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
-import * as DocumentPicker from "expo-document-picker";
 import * as ImagePicker from "expo-image-picker";
-import { useTheme } from "native-base";
 
 const FAB = (props) => {
   return (
@@ -48,7 +45,9 @@ const FAB = (props) => {
         bottom: props.onBoarding ? 15 : 30,
         borderRadius: props.onBoarding ? 10 : 50,
         backgroundColor: props.onBoarding ? "white" : colors.primary,
-        height: 60,
+        height: 50,
+        justifyContent:"center",
+        alignContent:"center"
       }}
     >
       <TouchableOpacity onPress={props.onPress}>
@@ -103,12 +102,11 @@ export const CustomeFab = (props) => {
 };
 
 const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
-  const [image, setImage] = useState(null);
   const [user, setUser] = useState(null);
   const [gender, setGender] = useState(1);
   const [editeMode, setEditeMode] = useState(true);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const theme = useTheme()
+  const [image, setImage] = useState(null);
 
   const [formData, setFormData] = useState({
     name: user?.name,
@@ -200,13 +198,15 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
     });
 
     if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      console.log('iiiiiiimmmg', image)
       dispatch(userSetProfile(result.assets[0], user._id));
     }
   };
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      //behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
       <View flex={1} style={{ backgroundColor: "white" }}>
@@ -218,11 +218,11 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
             <TouchableOpacity onPress={selectImage}>
               <HStack style={styles.viewStyle}>
                 <Avatar
-                  bg={colors.primary}
+                  bg={colors.text_grey_hint}
                   width={92}
                   height={92}
                   source={{
-                    uri: user?.photo ?? null
+                    uri: ImageLoading? image : user?.photo ?? image
                   }}
                 ></Avatar>
                 <Box style={styles.iconCam}>
@@ -252,8 +252,6 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
               <View width={"100%"} mb={5}>
                 <Text style={styles.textLabel}>Nom</Text>
                 <Input
-                  isInvalid={true}
-                  placeholderTextColor={colors.text_grey_hint}
                   style={{
                     ...styles.textInput,
                     color: !editeMode ? colors.text_grey_hint : colors.black,
@@ -269,12 +267,12 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                   isReadOnly={editeMode}
                   variant={'rounded'}
                 />
+                {formData.name==="" && <Text style={styles.fieldError}>ce champs est obligatoire</Text>}
               </View>
               <View width={"100%"} mb={5}>
                 <Text style={styles.textLabel}>Prénom</Text>
                 <Input
                   variant="rounded"
-                  isInvalid={true}
                   placeholderTextColor={colors.text_grey_hint}
                   style={{
                     ...styles.textInput,
@@ -406,7 +404,6 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                   </Text>
                   <Input
                     variant="rounded"
-                    isInvalid={true}
                     placeholderTextColor={"#343434"}
                     style={{
                       ...styles.textInput,
@@ -430,7 +427,6 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                   </Text>
                   <Input
                     variant="rounded"
-                    isInvalid={true}
                     placeholderTextColor={"#343434"}
                     style={{
                       ...styles.textInput,

@@ -60,6 +60,12 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
 
+  fieldError:{
+    fontSize: 12,
+    color: colors.danger,
+    marginLeft:10
+  },
+
   boxCoord: {
     backgroundColor: "rgba(240, 240, 240, 0.69)",
     display: "flex",

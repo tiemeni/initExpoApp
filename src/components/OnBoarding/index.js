@@ -1,12 +1,14 @@
-import { Animated, StyleSheet, Text, useWindowDimensions } from 'react-native'
+import { Animated, StyleSheet, useWindowDimensions } from 'react-native'
 import React, { useRef, useState } from 'react'
-import { Center, FlatList, View, VStack } from 'native-base'
+import { Center, Text, FlatList, HStack, Pressable, View, VStack } from 'native-base'
 import OnBoardingItem from './OnBoardingItem'
 import { useNavigation } from '@react-navigation/native'
 import colors from '../../constants/colours'
 import Paginator from './Paginator'
 import imageFake from "../../assets/img/eneo.png"
 import { CustomeFab } from '../../screens/MonProfile/index2'
+import * as SCREENS from '../../constants/screens'
+
 
 
 const data = [
@@ -32,7 +34,7 @@ const data = [
 
 export default function OnBoarding2() {
     const navigation = useNavigation()
-    const [currentIndex, setCurrentIndex] = useState()
+    const [currentIndex, setCurrentIndex] = useState(0)
     const { width } = useWindowDimensions()
     const scrollX = useRef(new Animated.Value(0)).current
     const slidesRef = useRef(null)
@@ -75,6 +77,16 @@ export default function OnBoarding2() {
                 <View style={{ justifyContent: "center", alignItems: "center" }}>
                     <Paginator data={data} scrollX={scrollX} />
                 </View>
+
+                {currentIndex === 0 ?
+                 (<HStack >
+                    <Pressable w={'100%'} onPress={ () => navigation.navigate(SCREENS.LOGIN)}>
+                        <Text style={{color:colors.white, marginTop:50, textAlign:'center', fontSize:18}}>Ignorer</Text>
+                    </Pressable>
+                    {/*<Pressable onPress={()=> setCurrentIndex(1)}>
+                        <Text style={{color:colors.white}}>Continuer</Text>
+                 </Pressable>*/}
+                </HStack>) : <View></View>}
                 {/* <View style={styles.fourth}>
                     {currentIndex === 2 ?
                         <View style={styles.fourthChild}>
@@ -95,12 +107,12 @@ export default function OnBoarding2() {
 
 const styles = StyleSheet.create({
     greetfr: {
-        fontSize: 32,
+        fontSize: 22,
         fontWeight: 'bold',
         color: colors.yellow,
     },
     greetEn: {
-        fontSize: 32,
+        fontSize: 22,
         fontWeight: 'bold',
         color: "white",
     },
@@ -109,6 +121,24 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginTop: 15
     },
+
+    nextIgnor:{
+        justifyContent:"space-between",
+        marginTop:30,
+        paddingHorizontal:20
+    
+    },
+
+    ignorBtn:{
+        height:40,
+        backgroundColor:colors.white,
+        alignContent:'center',
+        alignItems:'center',
+        justifyContent:'center',
+        width:100,
+        borderRadius:50,
+    },
+
     fourthChild: {
         borderColor: "white",
         height: 60,

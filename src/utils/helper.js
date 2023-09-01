@@ -227,6 +227,434 @@ export const licenseSections = [
     },
 ];
 
+export const allAstuces = [
+    {
+      title: 'Cardiologie',
+      content: [
+        {
+          title: 'Alimentation équilibrée',
+          body: "Choisissez des aliments faibles en gras saturés et en cholestérol pour protéger votre cœur.",
+        },
+        {
+          title: "Évitez le tabac et l'alcool excessif ",
+          body: "Faites de l'exercice aérobie pour renforcer votre système cardiovasculaire.",
+        },
+
+        {
+            title: 'Astuce 1 pour la cardiologie',
+            body: 'Contenu de l\'astuce 1 pour la cardiologie',
+          },
+          {
+            title: 'Astuce 2 pour la cardiologie',
+            body: "Surveillez votre tension artérielle et votre taux de cholestérol.",
+          },
+
+          {
+            title: 'Astuce 2 pour la cardiologie',
+            body: "Limitez la consommation de sel pour maintenir une pression artérielle saine.",
+          },
+
+          {
+            title: 'Astuce 2 pour la cardiologie',
+            body: "Maintenez un poids corporel santé pour réduire la charge sur le cœur.",
+          },
+      ],
+    },
+
+    {
+        title: 'Cancérologie',
+        content: [
+          {
+            title: 'Alimentation équilibrée',
+            body: "Choisissez des aliments faibles en gras saturés et en cholestérol pour protéger votre cœur.",
+          },
+          {
+            title: "Évitez le tabac et l'alcool excessif ",
+            body: "Faites de l'exercice aérobie pour renforcer votre système cardiovasculaire.",
+          },
+  
+          {
+              title: 'Astuce 1 pour la cardiologie',
+              body: 'Contenu de l\'astuce 1 pour la cardiologie',
+            },
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Surveillez votre tension artérielle et votre taux de cholestérol.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Limitez la consommation de sel pour maintenir une pression artérielle saine.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Maintenez un poids corporel santé pour réduire la charge sur le cœur.",
+            },
+        ],
+      },
+
+      {
+        title: 'Urologie',
+        content: [
+          {
+            title: 'Alimentation équilibrée',
+            body: "Choisissez des aliments faibles en gras saturés et en cholestérol pour protéger votre cœur.",
+          },
+          {
+            title: "Évitez le tabac et l'alcool excessif ",
+            body: "Faites de l'exercice aérobie pour renforcer votre système cardiovasculaire.",
+          },
+  
+          {
+              title: 'Astuce 1 pour la cardiologie',
+              body: 'Contenu de l\'astuce 1 pour la cardiologie',
+            },
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Surveillez votre tension artérielle et votre taux de cholestérol.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Limitez la consommation de sel pour maintenir une pression artérielle saine.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Maintenez un poids corporel santé pour réduire la charge sur le cœur.",
+            },
+        ],
+      },
+
+      {
+        title: 'Psychiatrie',
+        content: [
+          {
+            title: 'Alimentation équilibrée',
+            body: "Choisissez des aliments faibles en gras saturés et en cholestérol pour protéger votre cœur.",
+          },
+          {
+            title: "Évitez le tabac et l'alcool excessif ",
+            body: "Faites de l'exercice aérobie pour renforcer votre système cardiovasculaire.",
+          },
+  
+          {
+              title: 'Astuce 1 pour la cardiologie',
+              body: 'Contenu de l\'astuce 1 pour la cardiologie',
+            },
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Surveillez votre tension artérielle et votre taux de cholestérol.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Limitez la consommation de sel pour maintenir une pression artérielle saine.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Maintenez un poids corporel santé pour réduire la charge sur le cœur.",
+            },
+        ],
+      },
+      {
+        title: 'Obstétrique',
+        content: [
+          {
+            title: 'Alimentation équilibrée',
+            body: "Choisissez des aliments faibles en gras saturés et en cholestérol pour protéger votre cœur.",
+          },
+          {
+            title: "Évitez le tabac et l'alcool excessif ",
+            body: "Faites de l'exercice aérobie pour renforcer votre système cardiovasculaire.",
+          },
+  
+          {
+              title: 'Astuce 1 pour la cardiologie',
+              body: 'Contenu de l\'astuce 1 pour la cardiologie',
+            },
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Surveillez votre tension artérielle et votre taux de cholestérol.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Limitez la consommation de sel pour maintenir une pression artérielle saine.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Maintenez un poids corporel santé pour réduire la charge sur le cœur.",
+            },
+        ],
+      },
+
+      {
+        title: 'Neurochirurgie',
+        content: [
+          {
+            title: 'Alimentation équilibrée',
+            body: "Choisissez des aliments faibles en gras saturés et en cholestérol pour protéger votre cœur.",
+          },
+          {
+            title: "Évitez le tabac et l'alcool excessif ",
+            body: "Faites de l'exercice aérobie pour renforcer votre système cardiovasculaire.",
+          },
+  
+          {
+              title: 'Astuce 1 pour la cardiologie',
+              body: 'Contenu de l\'astuce 1 pour la cardiologie',
+            },
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Surveillez votre tension artérielle et votre taux de cholestérol.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Limitez la consommation de sel pour maintenir une pression artérielle saine.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Maintenez un poids corporel santé pour réduire la charge sur le cœur.",
+            },
+        ],
+      },
+
+      {
+        title: 'Neurologie',
+        content: [
+          {
+            title: 'Alimentation équilibrée',
+            body: "Choisissez des aliments faibles en gras saturés et en cholestérol pour protéger votre cœur.",
+          },
+          {
+            title: "Évitez le tabac et l'alcool excessif ",
+            body: "Faites de l'exercice aérobie pour renforcer votre système cardiovasculaire.",
+          },
+  
+          {
+              title: 'Astuce 1 pour la cardiologie',
+              body: 'Contenu de l\'astuce 1 pour la cardiologie',
+            },
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Surveillez votre tension artérielle et votre taux de cholestérol.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Limitez la consommation de sel pour maintenir une pression artérielle saine.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Maintenez un poids corporel santé pour réduire la charge sur le cœur.",
+            },
+        ],
+      },
+
+
+      {
+        title: 'Hématologie',
+        content: [
+          {
+            title: 'Alimentation équilibrée',
+            body: "Choisissez des aliments faibles en gras saturés et en cholestérol pour protéger votre cœur.",
+          },
+          {
+            title: "Évitez le tabac et l'alcool excessif ",
+            body: "Faites de l'exercice aérobie pour renforcer votre système cardiovasculaire.",
+          },
+  
+          {
+              title: 'Astuce 1 pour la cardiologie',
+              body: 'Contenu de l\'astuce 1 pour la cardiologie',
+            },
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Surveillez votre tension artérielle et votre taux de cholestérol.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Limitez la consommation de sel pour maintenir une pression artérielle saine.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Maintenez un poids corporel santé pour réduire la charge sur le cœur.",
+            },
+        ],
+      },
+
+      {
+        title: 'Gastroentérologie',
+        content: [
+          {
+            title: 'Alimentation équilibrée',
+            body: "Choisissez des aliments faibles en gras saturés et en cholestérol pour protéger votre cœur.",
+          },
+          {
+            title: "Évitez le tabac et l'alcool excessif ",
+            body: "Faites de l'exercice aérobie pour renforcer votre système cardiovasculaire.",
+          },
+  
+          {
+              title: 'Astuce 1 pour la cardiologie',
+              body: 'Contenu de l\'astuce 1 pour la cardiologie',
+            },
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Surveillez votre tension artérielle et votre taux de cholestérol.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Limitez la consommation de sel pour maintenir une pression artérielle saine.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Maintenez un poids corporel santé pour réduire la charge sur le cœur.",
+            },
+        ],
+      },
+
+      {
+        title: 'Endocrinologie',
+        content: [
+          {
+            title: 'Alimentation équilibrée',
+            body: "Choisissez des aliments faibles en gras saturés et en cholestérol pour protéger votre cœur.",
+          },
+          {
+            title: "Évitez le tabac et l'alcool excessif ",
+            body: "Faites de l'exercice aérobie pour renforcer votre système cardiovasculaire.",
+          },
+  
+          {
+              title: 'Astuce 1 pour la cardiologie',
+              body: 'Contenu de l\'astuce 1 pour la cardiologie',
+            },
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Surveillez votre tension artérielle et votre taux de cholestérol.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Limitez la consommation de sel pour maintenir une pression artérielle saine.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Maintenez un poids corporel santé pour réduire la charge sur le cœur.",
+            },
+        ],
+      },
+
+      {
+        title: 'Chirurgie générale',
+        content: [
+          {
+            title: 'Alimentation équilibrée',
+            body: "Choisissez des aliments faibles en gras saturés et en cholestérol pour protéger votre cœur.",
+          },
+          {
+            title: "Évitez le tabac et l'alcool excessif ",
+            body: "Faites de l'exercice aérobie pour renforcer votre système cardiovasculaire.",
+          },
+  
+          {
+              title: 'Astuce 1 pour la cardiologie',
+              body: 'Contenu de l\'astuce 1 pour la cardiologie',
+            },
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Surveillez votre tension artérielle et votre taux de cholestérol.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Limitez la consommation de sel pour maintenir une pression artérielle saine.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Maintenez un poids corporel santé pour réduire la charge sur le cœur.",
+            },
+        ],
+      },
+
+      {
+        title: 'Anesthésiologie',
+        content: [
+          {
+            title: 'Alimentation équilibrée',
+            body: "Choisissez des aliments faibles en gras saturés et en cholestérol pour protéger votre cœur.",
+          },
+          {
+            title: "Évitez le tabac et l'alcool excessif ",
+            body: "Faites de l'exercice aérobie pour renforcer votre système cardiovasculaire.",
+          },
+  
+          {
+              title: 'Astuce 1 pour la cardiologie',
+              body: 'Contenu de l\'astuce 1 pour la cardiologie',
+            },
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Surveillez votre tension artérielle et votre taux de cholestérol.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Limitez la consommation de sel pour maintenir une pression artérielle saine.",
+            },
+  
+            {
+              title: 'Astuce 2 pour la cardiologie',
+              body: "Maintenez un poids corporel santé pour réduire la charge sur le cœur.",
+            },
+        ],
+      },
+
+    {
+        title: 'Opthamologie',
+        content: [
+          {
+            title: 'Astuce 1 pour la cardiologie',
+            body: 'Contenu de l\'astuce 1 pour la cardiologie',
+          },
+          {
+            title: 'Astuce 2 pour la cardiologie',
+            body: 'Contenu de l\'astuce 2 pour la cardiologie',
+          },
+          // ...
+        ],
+      },
+
+    {
+      title: 'Dermatologie',
+      content: [
+        {
+          title: 'Astuce 1 pour la dermatologie',
+          body: 'Contenu de l\'astuce 1 pour la dermatologie',
+        },
+        {
+          title: 'Astuce 2 pour la dermatologie',
+          body: 'Contenu de l\'astuce 2 pour la dermatologie',
+        },
+        // ...
+      ],
+    },
+  ];
+
 
 export const privacySections = [
     {
