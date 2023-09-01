@@ -86,6 +86,7 @@ function* getDispo({ data }) {
     console.log(url)
     try {
         const result = yield getUnauthRequest(url);
+        console.log(result)
         if (result.success) {
             yield put({ type: types.GET_DISPO_REQUEST_SUCCESS, payload: result.data })
             // RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)

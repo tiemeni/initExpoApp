@@ -334,6 +334,7 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
 
                 {showDatePicker && (
                   <DateTimePicker
+                    accentColor={colors.primary}
                     value={moment(formData.birthdate).toDate()} // Convertir en objet Date
                     mode="date"
                     display="default"

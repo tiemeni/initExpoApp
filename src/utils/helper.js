@@ -408,3 +408,16 @@ export const isEmailValid = (email) => {
     const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return regex.test(email);
 }
+
+export const transfomeToSlashDate = data => {
+    const dateString = data;
+    const dateObj = new Date(dateString);
+
+    const jour = dateObj.getDate().toString().padStart(2, '0'); // Jour avec 2 chiffres (padded)
+    const mois = (dateObj.getMonth() + 1).toString().padStart(2, '0'); // Mois avec 2 chiffres (les mois sont 0-indexés)
+    const annee = dateObj.getFullYear().toString().slice(-2); // Les deux derniers chiffres de l'année
+
+    const dateFormatee = `${jour}/${mois}/${annee}`;
+
+    return dateFormatee
+}

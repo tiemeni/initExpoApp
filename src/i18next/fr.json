@@ -83,7 +83,7 @@
   "TEXT.CONFIRM": "Confirmé",
   "TEXT.NOTIFICATIONS": "notifications",
   "TEXT.MORE": "Afficher les détails",
-  "TEXT.SEARCH_BAR_INSIDE": "Rechercher un praticien ou une specialité",
+  "TEXT.SEARCH_BAR_INSIDE": "Rechercher un praticien",
   "TEXT.SPEC": "Nos specialités",
   "TEXT.POPULAR_DOC": "Médecins populaires",
   "TEXT.HEALT_ASTUCE": "Astuces de santé",
@@ -113,7 +113,7 @@
   "TEXT_ABORT_RDV": "Etes-vous sûr de vouloir annuler ce rendez-vous sans aucun retour possible?",
   "TEXT_ABORT_RDV_SUCCESS": "Ce rendez-vous a été annulé. N'hésitez pas à en prendre de nouveau.",
   "TEXT_EMPLACEMENT": "Emplacement actuelle",
-  "TEXT_SEARCH_PLACEHOLDER": "Rechercher un praticien ou une spécialité ou un lieu",
+  "TEXT_SEARCH_PLACEHOLDER": "Rechercher un praticien",
   "TEXT_NEXT_APPOINTMENT": "Prochain rendez-vous",
   "TEXT_FIND_CLINIQUE": "Trouver une clinique",
   "TEXT_FIND_DOCTOR": "Trouver un praticien"

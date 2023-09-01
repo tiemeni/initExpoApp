@@ -41,10 +41,6 @@ const HeaderBox = ({ number, title, hintText, error }) => {
 }
 
 const MakeAppointment = ({ navigation, route }) => {
-    const extIdp = route.params?.idp
-    const isSpecialist = route.params?.isSpecialist
-    const idSpeciality = route.params?.idSpeciality
-    const affectation = route.params?.affectation
     const scrollViewRef = React.useRef();
     const isProfession = useSelector(state => state.Common.isProfession) || isSpecialist
     const idCentre = useSelector(state => state.Common.idc)
@@ -68,7 +64,7 @@ const MakeAppointment = ({ navigation, route }) => {
     const [formData, setFormData] = React.useState({
         motif: null,
         praticien: null,
-        speciality: null || idSpeciality,
+        speciality: null,
         profession: true,
         period: {
             day: null,
@@ -102,8 +98,7 @@ const MakeAppointment = ({ navigation, route }) => {
                     motif: value,
                 }))
                 dispatch(setMotifDuration(value))
-                !extIdp && dispatch(getClinique(value))
-                extIdp && dispatch(getCliniqueOfSelectedPrat(affectation))
+                dispatch(getClinique(value))
                 break;
             case 'praticien':
                 setFormData({
@@ -155,7 +150,7 @@ const MakeAppointment = ({ navigation, route }) => {
                     ...RDVForm,
                     lieu: value,
                 }))
-                !extIdp && dispatch(getPraticiens({ id: value, ids: RDVForm.specialities }))
+                dispatch(getPraticiens({ id: value, ids: RDVForm.specialities }))
                 break;
             case 'day':
                 setFormData({
@@ -232,7 +227,6 @@ const MakeAppointment = ({ navigation, route }) => {
                                             setSelected={(val) => {
                                                 handleChange('speciality', val)
                                             }}
-                                            defaultOption={{ key: idSpeciality, value: "id motif spec" }}
                                             data={specialities?.map((e) => {
                                                 return { key: e._id, value: e.label }
                                             })}
@@ -481,7 +475,7 @@ const MakeAppointment = ({ navigation, route }) => {
                     <Text color={colors.white} style={styles.btnLabel}>Valider</Text>
                 </Button>
             </VStack>
-            {!extIdp && <ModaleChoixProfession navigation={navigation} />}
+            {<ModaleChoixProfession navigation={navigation} />}
         </View >
     )
 }

@@ -50,7 +50,7 @@ export const GlobalSearch = ({ navigation }) => {
             <VStack space={3}>
                 {
                     !loadingSearch ? searchedPrats?.map((p, i) => {
-                        return (
+                        return p?.affectation?.length > 0 && p?.job && (
                             <TouchableOpacity key={i} onPress={() => navigation.navigate(SCREENS.DETAILS_PRATICIEN, { praticien: p })}>
                                 <DoctorCard nom_complet={p?.name + " " + p?.surname} clinique={p?.affectation.length !== 0 ? p?.affectation[0].label : ""} />
                             </TouchableOpacity>

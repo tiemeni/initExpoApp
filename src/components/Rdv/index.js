@@ -5,6 +5,7 @@ import colors from '../../constants/colours'
 import styles from './style'
 import * as SCREENS from '../../constants/screens'
 import { Calendar, DocumentText, Location, Map1, Timer1 } from 'iconsax-react-native'
+import { transfomeToSlashDate } from '../../utils/helper'
 
 export default function Rdv({ _id, navigation, date, motif, startTime, praticien, status, localisation }) {
     return (
@@ -15,7 +16,7 @@ export default function Rdv({ _id, navigation, date, motif, startTime, praticien
             <HStack justifyContent={"space-between"} alignItems={'center'}>
                 <VStack>
                     <Text fontWeight="500" fontSize={16}>{"Dr. " + praticien}</Text>
-                    <Text style={{ fontSize: 14, color: colors.text_grey_hint}}>{"Genicologue"}</Text>
+                    <Text style={{ fontSize: 14, color: colors.text_grey_hint }}>{"Genicologue"}</Text>
                 </VStack>
                 <Avatar
                     bg={colors.primary}
@@ -39,7 +40,7 @@ export default function Rdv({ _id, navigation, date, motif, startTime, praticien
                 <HStack mt={2} space={3}>
                     <HStack alignItems={'center'} style={styles.left} space={1}>
                         <Calendar color={colors.text_grey_hint} size={22} />
-                        <Text style={{ fontSize: 12 }}>{startTime.split("à")[0]}</Text>
+                        <Text style={{ fontSize: 12 }}>{transfomeToSlashDate(date)}</Text>
                     </HStack>
                     <HStack alignItems={'center'} space={1}>
                         <Timer1 color={colors.text_grey_hint} size={22} />

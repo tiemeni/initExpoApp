@@ -1,17 +1,115 @@
-import { Box, Button, Divider, FlatList, HStack, Pressable, ScrollView, Stack, Text, VStack, View } from "native-base";
-import React from "react";
+import { Box, Button, Divider, FlatList, HStack, Pressable, ScrollView, Stack, Text, VStack, View, useToast } from "native-base";
+import React, { useEffect } from "react";
 import Header from "../../components/Header";
 import colors from "../../constants/colours";
 import { useState } from "react";
 import MedItem from "../../components/MedItem";
+import { useDispatch, useSelector } from "react-redux";
+import { getDispo, getMotifs, postRDV } from "../../redux/RDV/actions";
+import { generateKeyTab, generateValuesTab } from "../../utils/helper";
+import { Danger } from "iconsax-react-native";
+import CustomToast from "../../components/CustomToast";
+import { MaterialIcons, Ionicons, AntDesign, Foundation } from "@expo/vector-icons";
+import { LoadingMotifs } from "./loadingMotifSkeleton";
+import { LoadingDispo } from "./LoadingClinicSkeleton";
 
 const _spacing = 3
 
-export const DetailsPraticien = () => {
-    const [itemSelected, setItemSelected] = useState("consultation")
+export const DetailsPraticien = ({ route }) => {
+    const actualPraticien = route.params.praticien
+    console.log(actualPraticien)
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.UserReducer.userInfos)
+    const [actualCreaneau, setActualCreaneau] = useState([]);
+    const motifs = useSelector(state => state.RdvForm.motifs)
+    const [itemSelected, setItemSelected] = useState()
+    const dispo = useSelector(state => state.RdvForm.dispo)
+    const successPostRdv = useSelector(state => state.RdvForm.successPostRdv)
+    const errorMsgPostRDV = useSelector(state => state.RdvForm.errorMsgPostRDV)
+    const loadingPostRdv = useSelector(state => state.RdvForm.loadingPostRdv)
+    const dispoLoading = useSelector(state => state.RdvForm.dispoLoading)
+    const motifsLoading = useSelector(state => state.RdvForm.motifsLoading)
     const [selectedDat, setSelectedDay] = useState("")
     const [selectedCreneau, setSelectedCreneau] = useState("")
-    const [selectedClinic, setSelectedClinic] = useState('')
+    const [selectedCreaneauWhole, setSelectedCreneauWhole] = useState({})
+    const [selectedClinic, setSelectedClinic] = useState(actualPraticien?.affectation[0])
+    const toast = useToast();
+
+
+    React.useEffect(() => {
+        if (errorMsgPostRDV) {
+            toast.show({
+                render: () => {
+                    return <CustomToast
+                        message={"Une erreur est survenue !"}
+                        color={colors.danger}
+                        bgColor={"red.100"}
+                        icon={<Foundation name="alert" size={24} />}
+                        iconColor={colors.danger}
+                    />
+                },
+                placement: "top",
+                duration: 2000
+            })
+        }
+
+        if (successPostRdv) {
+            toast.show({
+                render: () => {
+                    return <CustomToast
+                        message={"Rendez-vous crée avec succès !"}
+                        color={colors.success}
+                        bgColor={"green.100"}
+                        icon={<AntDesign name="checkcircle" size={24} />}
+                        iconColor={colors.success}
+                    />
+                },
+                placement: "top",
+                duration: 2000
+            })
+        }
+    }, [errorMsgPostRDV, successPostRdv])
+
+    useEffect(() => {
+        dispatch(getDispo({
+            idCentre: actualPraticien?.idCentre,
+            idp: actualPraticien?._id,
+        }))
+        dispatch(getMotifs({ id: actualPraticien?.job, forSpec: true }))
+        setTimeout(() => {
+            setSelectedClinic(actualPraticien?.affectation[0])
+            setSelectedDay(generateKeyTab(dispo)[0])
+            setActualCreaneau(generateValuesTab(generateKeyTab(dispo)[0], dispo))
+            setItemSelected(motifs[0])
+        }, 2500)
+    }, [])
+
+    const allFieldFilled = () => {
+        return selectedClinic?._id &&
+            actualPraticien?._id &&
+            selectedCreneau &&
+            selectedDat &&
+            itemSelected?.default_time &&
+            selectedCreaneauWhole?.date_long
+    }
+
+    const handlePostRdv = () => {
+        const data1 = {
+            idCentre: actualPraticien?.idCentre,
+            lieu: selectedClinic?._id,
+            praticien: actualPraticien?._id,
+            motif: itemSelected?._id,
+            period: {
+                time: selectedCreneau,
+                day: selectedDat
+            },
+            duration_rdv: itemSelected?.default_time,
+            date_long: selectedCreaneauWhole?.date_long,
+        }
+        const data = { ...data1, ...user }
+        dispatch(postRDV({ ...data }))
+    }
+
     return (
         <Box flex={1} style={{ backgroundColor: colors.white }}>
             <Header title={""} bg={colors.white} />
@@ -32,7 +130,7 @@ export const DetailsPraticien = () => {
                             fontSize: 14,
                             fontWeight: 600,
                             color: colors.black
-                        }}>Dr {"Dongmo Donald"}</Text>
+                        }}>Dr {actualPraticien?.name + " " + actualPraticien?.surname}</Text>
                         <Text style={{ color: colors.text_grey_hint }}>{"Genicologue"}</Text>
                         <Text style={{ color: colors.text_grey_hint }}>4,5/5 (388 avis)</Text>
                     </VStack>
@@ -58,17 +156,21 @@ export const DetailsPraticien = () => {
                     <VStack space={_spacing}>
                         <VStack px={5}>
                             <Text>Motifs Traitables</Text>
-                            <FlatList
-                                data={["consultation", "radiologie", "checkup", "homodialyse"]}
-                                keyExtractor={({ value, key }) => key?.toString()}
+                            {motifs?.length > 0 && !motifsLoading ? <FlatList
+                                data={motifs}
+                                keyExtractor={(v) => v?._id}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
                                 scrollEnabled={true}
                                 renderItem={({ item, index }) => {
                                     return (
-                                        <Pressable py={_spacing} ml={_spacing - 1} key={index} onPress={() => { setItemSelected(item) }}>
+                                        <Pressable py={_spacing} ml={_spacing - 1} key={index} onPress={() => {
+                                            setItemSelected(item)
+                                        }}>
                                             <View
-                                                bg={itemSelected === item ? "primary.500" : "white"}
+                                                bg={itemSelected?.label === item?.label ? "primary.500" : "white"}
+                                                borderWidth={1}
+                                                borderColor={itemSelected?.label === item?.label ? "primary.500" : colors.normal_gray}
                                                 style={[{
                                                     paddingHorizontal: 20,
                                                     paddingVertical: 10,
@@ -83,35 +185,53 @@ export const DetailsPraticien = () => {
                                                     shadowRadius: 3.84,
                                                     elevation: 0.1,
                                                 }]}>
-                                                <Text color={itemSelected === item ? "white" : colors.text_grey_hint}>
-                                                    {item}
+                                                <Text color={itemSelected?.label === item?.label ? "white" : colors.text_grey_hint}>
+                                                    {item?.label}
                                                 </Text>
                                             </View>
                                         </Pressable>
                                     )
                                 }}
-                            />
+                            /> : <LoadingMotifs />}
                         </VStack>
-                        <VStack px={5} space={_spacing}>
+                        {actualPraticien?.affectation?.length > 0 ? <VStack px={5} space={_spacing}>
                             <Text>Clinique affectées</Text>
                             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-                                {[1, 2, 3, 4, 5, 6].map((p, index) => {
+                                {actualPraticien?.affectation?.map((p, index) => {
                                     return <MedItem
                                         key={index}
-                                        value={selectedClinic}
+                                        value={selectedClinic?._id}
                                         handleChange={() => setSelectedClinic(p)}
-                                        infosClinique={{ _id: p }}
+                                        infosClinique={p}
                                         index={index}
                                     />
                                 })}
                             </ScrollView>
-                        </VStack>
+                        </VStack> :
+                            <Stack px={5}>
+                                <HStack mt={2} space={2} style={{
+                                    backgroundColor: colors.transp_warning,
+                                    borderRadius: 10,
+                                    padding: 10,
+                                    alignItems: "center",
+                                    marginBottom: 10,
+                                    backgroundColor: colors.transp_danger
+                                }}>
+                                    <Danger color={colors.danger} size={22} />
+                                    <Text color={colors.danger} fontWeight={500}>Affecté a aucune clinique</Text>
+                                </HStack>
+                            </Stack>}
                         <VStack px={5} space={_spacing}>
                             <Text>Periode de travail</Text>
                             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} mb={4}>
                                 <HStack alignItems={'center'}>
-                                    {["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"].map((d, index) =>
-                                        <Pressable key={index} onPress={() => { setSelectedDay(d) }}>
+                                    {dispo?.length > 0 && !dispoLoading ? generateKeyTab(dispo).map((d, index) => {
+                                        return <Pressable key={index} onPress={() => {
+                                            setSelectedDay(() => {
+                                                setActualCreaneau(generateValuesTab(d, dispo))
+                                                return d
+                                            })
+                                        }}>
                                             <Box
                                                 ml={index !== 0 ? 2 : 0}
                                                 style={{
@@ -129,16 +249,20 @@ export const DetailsPraticien = () => {
                                                 </Text>
                                             </Box>
                                         </Pressable>
-                                    )}
+                                    }
+                                    ) : <LoadingDispo />}
                                 </HStack>
                             </ScrollView>
                         </VStack>
                         <HStack px={5}>
                             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
                                 <HStack alignItems={'center'}>
-                                    {[1, 2, 3, 4, 5, 6].map((d, index) =>
+                                    {actualCreaneau?.map((d, index) =>
                                         <Pressable onPress={() => {
-                                            setSelectedCreneau(d)
+                                            setSelectedCreneau(() => {
+                                                return d?.start
+                                            })
+                                            setSelectedCreneauWhole(d)
                                         }} key={index}>
                                             <Box
                                                 ml={index !== 0 ? 2 : 0}
@@ -147,16 +271,16 @@ export const DetailsPraticien = () => {
                                                     borderRadius: 10,
                                                     borderColor: colors.text_grey_hint,
                                                     borderWidth: 0.5,
-                                                    borderColor: selectedCreneau === d ? colors.trans_primary : colors.text_grey_hint,
-                                                    backgroundColor: selectedCreneau === d ? colors.trans_primary : 'transparent',
+                                                    borderColor: selectedCreneau === d?.start ? colors.trans_primary : colors.text_grey_hint,
+                                                    backgroundColor: selectedCreneau === d?.start ? colors.trans_primary : 'transparent',
                                                 }}
                                             >
                                                 <Text
                                                     style={{
-                                                        color: selectedCreneau === d ? colors.primary : colors.black,
+                                                        color: selectedCreneau === d?.start ? colors.primary : colors.black,
                                                     }}
                                                 >
-                                                    {"10:30"}
+                                                    {d?.start}
                                                 </Text>
                                             </Box>
                                         </Pressable>
@@ -166,19 +290,28 @@ export const DetailsPraticien = () => {
                         </HStack>
                     </VStack>
                 </ScrollView>
-            </VStack>
+            </VStack >
             <HStack
                 justifyContent={"center"}
                 alignItems={"center"}
                 px={5}
                 width={"100%"}
                 height={"10%"}
-               //</Box> marginTop={5}
-               >
-                <Button width={"100%"} height={"60%"} >
+            //</Box> marginTop={5}
+            >
+                <Button
+                    isLoading={loadingPostRdv}
+                    onPress={handlePostRdv}
+                    width={"100%"}
+                    disabled={!allFieldFilled()}
+                    height={"60%"}
+                    style={{
+                        backgroundColor: allFieldFilled() ? colors.primary : colors.trans_primary,
+                    }}
+                    borderRadius={20} >
                     <Text color={colors.white}>PRENDRE UN RDV</Text>
                 </Button>
             </HStack>
-        </Box>
+        </Box >
     )
 }
