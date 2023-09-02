@@ -74,7 +74,6 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
   };
 
   const resetPassword = () => {
-    console.log("--------------------------")
     setIsEmpty(true);
     dispatch(processVerifCode(formData.email));
   };

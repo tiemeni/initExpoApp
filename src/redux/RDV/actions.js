@@ -43,7 +43,7 @@ export const getPraticiens = data => {
     }
 }
 
-export const  getSinglePrat = data => {
+export const getSinglePrat = data => {
     return {
         type: types.GET_SINGLE_PRAT_SUCCESS,
         payload: [data]
@@ -93,6 +93,13 @@ export const putRDV = (data) => {
 export const cancelRDV = (data) => {
     return {
         type: types.CANCEL_RDV_REQUEST,
+        data
+    }
+}
+
+export const saveExtPRData = (data) => {
+    return {
+        type: types.SAVE_EXTERNAL_PR_DATA,
         data
     }
 }

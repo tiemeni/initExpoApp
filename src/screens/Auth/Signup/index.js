@@ -58,7 +58,6 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
     birthdate: "",
   });
 
-  console.log("mes données", formData);
   const [errors, setErrors] = useState({
     email: isValidEmail(formData.email),
     password: null,

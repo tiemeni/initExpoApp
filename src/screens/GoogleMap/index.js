@@ -25,7 +25,6 @@ const RoadMap = ({ route, navigation, mapDirections }) => {
             }
             const { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== "granted") {
-                console.log("Permission denied");
                 return;
             }
             const { latitude, longitude } = await Location.getCurrentPositionAsync({});

@@ -39,47 +39,43 @@ const Parametres = () => {
 
   const IconItem = (props) => {
     const SelectLang = () => {
-      console.log("ancien", selectedLang);
       const handleLangChange = (item) => {
-        console.log("item", item);
         i18n
           .changeLanguage(item)
           .then(() => {
-            console.log("nouvelle", item);
             setSelectedLang(item);
           })
-          .catch((err) => console.log(err));
+          .catch((err) => { });
       };
 
       return (
         <HStack rounded={25} padding={0} backgroundColor={'white'}>
-          <Image h={5} width={5} source={selectedLang=== countries[0].label?Fr:En} alt="flag" />
-        <SelectDropdown
-          defaultValue={selectedLang}
-          data={countries}
-          onSelect={(selectedItem, index) => {
-            handleLangChange(selectedItem.value);
-            console.log(selectedItem.value, index);
-          }}
-          buttonTextAfterSelection={(item, index) => {
-            return item.value;
-          }}
-          rowTextForSelection={(item, index) => {
-            return item.label;
-          }}
-          defaultButtonText={selectedLang}
-          buttonTextStyle={{
-            color: colors.primary,
-            fontSize: 16,
-            fontWeight: "600",
-            textAlign:'left'
-          }}
-          buttonStyle={{
-            width: 50,
-            height: 20,
-            backgroundColor: "white",
-          }}
-        />
+          <Image h={5} width={5} source={selectedLang === countries[0].label ? Fr : En} alt="flag" />
+          <SelectDropdown
+            defaultValue={selectedLang}
+            data={countries}
+            onSelect={(selectedItem, index) => {
+              handleLangChange(selectedItem.value);
+            }}
+            buttonTextAfterSelection={(item, index) => {
+              return item.value;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item.label;
+            }}
+            defaultButtonText={selectedLang}
+            buttonTextStyle={{
+              color: colors.primary,
+              fontSize: 16,
+              fontWeight: "600",
+              textAlign: 'left'
+            }}
+            buttonStyle={{
+              width: 50,
+              height: 20,
+              backgroundColor: "white",
+            }}
+          />
         </HStack>
       );
     };
@@ -99,7 +95,7 @@ const Parametres = () => {
           {props.text === translate("TEXT_CHOISE_LANGUAGE") ? (
             <SelectLang />
           ) : (
-            <Switch  size="sm" />
+            <Switch size="sm" />
           )}
         </HStack>
       </HStack>

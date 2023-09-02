@@ -186,7 +186,6 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
   const selectImage = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
-      console.log('Permission to access camera roll is required!');
       return;
     }
 
@@ -199,7 +198,6 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
-      console.log('iiiiiiimmmg', image)
       dispatch(userSetProfile(result.assets[0], user._id));
     }
   };

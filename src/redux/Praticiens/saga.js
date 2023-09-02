@@ -25,7 +25,6 @@ function* searchPratsByKey({ key }) {
     try {
         const result = yield getUnauthRequest(url);
         if (result.success) {
-            console.log(result.data)
             yield put({ type: types.SEARCH_PRAT_BY_KEY_SUCCESS, payload: result.data })
             // RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
         } else {

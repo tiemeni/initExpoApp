@@ -67,7 +67,6 @@ function* authUpdateInfo({ payload, _id }) {
 }
 
 function* setUserProfile({ payload, _id }) {
-  console.log(payload, _id)
   const url = BASE_URL + SET_PROFILE + _id + '?module=externe';
   const formData = new FormData();
   formData.append('photo', {
@@ -78,7 +77,6 @@ function* setUserProfile({ payload, _id }) {
 
   try {
     const result = yield putRequestFormData(url, formData);
-    console.log(result)
     if (result.success) {
       yield AsyncStorage.setItem(
         "userInfos",
@@ -89,14 +87,12 @@ function* setUserProfile({ payload, _id }) {
         payload: { user: result.data },
       });
     } else {
-      console.log("error")
       yield put({
         type: types.SET_USER_PROFIL_SUCCESS_FAILED,
         payload: result.message,
       });
     }
   } catch (error) {
-    console.log(error)
     yield put({ type: types.SET_USER_PROFIL_SUCCESS_FAILED, payload: error });
   }
 }
@@ -168,7 +164,6 @@ function* authLogout() {
     yield AsyncStorage.removeItem("userInfos");
     RootNavigation.navigate(SCREENS.LOGIN, { refresh: true });
   } catch (error) {
-    console.log(error);
     yield put({ type: types.LOGOUT_REQUEST, payload: error });
   }
 }
@@ -177,7 +172,6 @@ function* processVerifCode({ email }) {
   const url = BASE_URL + "/ext_users/process_verif_code/"
   try {
     const result = yield postUnauthRequest(url, { email: email })
-    console.log(result.message)
     if (result.success) {
       yield put({ type: types.PROCESS_VERIF_CODE_SUCCESS, payload: result?.data })
       RootNavigation.navigate(SCREENS.PHONE_CONFIRMATION_SCREEN, { email: email });
@@ -194,7 +188,6 @@ function* processVerifCode({ email }) {
     setTimeout(() => {
       put({ type: types.REINITIALIZE })
      }, 2000)
-    console.log(error);
     yield put({ type: types.PROCESS_VERIF_CODE_FAILED, payload: "une erreur est survenue , veillez ressayez!" });
     yield put({ type: types.REINITIALIZE })
   }
@@ -204,7 +197,6 @@ function* resetPassWord({ data }) {
   const url = BASE_URL + "/ext_users/" + data?.id
   try {
     const result = yield patchUnauthRequest(url, { password: data?.password })
-    console.log(result)
     if (result?.success) {
       yield RootNavigation.navigate(SCREENS.LOGIN, { refresh: true });
       yield put({ type: types.REINITIALIZE })

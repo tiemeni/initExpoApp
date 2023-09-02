@@ -11,11 +11,13 @@ import { PratSearchSkeleton } from "./skeleton";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import * as SCREENS from "../../constants/screens";
 import DoctorCard from "../../components/DoctorCard/DoctorCard";
+import { getDispo, getMotifs } from "../../redux/RDV/actions";
 
 
 export const GlobalSearch = ({ navigation }) => {
     const dispatch = useDispatch()
     const searchedPrats = useSelector(state => state.Praticiens.searchedPrats)
+    const motifsLoading = useSelector(state => state.RdvForm.motifsLoading)
     const loadingSearch = useSelector(state => state.Praticiens.loadingSearchPrats)
     const InputRef = useRef()
     const handleSearch = (key) => {
@@ -51,7 +53,16 @@ export const GlobalSearch = ({ navigation }) => {
                 {
                     !loadingSearch ? searchedPrats?.map((p, i) => {
                         return p?.affectation?.length > 0 && p?.job && (
-                            <TouchableOpacity key={i} onPress={() => navigation.navigate(SCREENS.DETAILS_PRATICIEN, { praticien: p })}>
+                            <TouchableOpacity key={i} onPress={() => {
+                                dispatch(getDispo({
+                                    idCentre: p?.idCentre,
+                                    idp: p?._id,
+                                }))
+                                dispatch(getMotifs({ id: p?.job, forSpec: true }))
+                                setTimeout(() => {
+                                    navigation.navigate(SCREENS.DETAILS_PRATICIEN, { praticien: p })
+                                }, 1000)
+                            }}>
                                 <DoctorCard nom_complet={p?.name + " " + p?.surname} clinique={p?.affectation.length !== 0 ? p?.affectation[0].label : ""} />
                             </TouchableOpacity>
                         )

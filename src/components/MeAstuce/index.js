@@ -54,7 +54,7 @@ function CarouselAstuce() {
         autoPlay={false}
         data={healthTips}
         scrollAnimationDuration={1000}
-        onSnapToItem={(index) => console.log("current index:", index)}
+        onSnapToItem={(index) => {}}
         renderItem={({ item }) => (
           <VStack
             style={{

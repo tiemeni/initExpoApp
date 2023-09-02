@@ -152,7 +152,6 @@ const UserReducer = (state = initialState, action) => {
                 codeVerifSuccess: false
             }
         case types.PROCESS_VERIF_CODE_SUCCESS:
-            console.log("-----------------", action.payload)
             return {
                 ...state,
                 codeVerif: action.payload,
@@ -172,7 +171,6 @@ const UserReducer = (state = initialState, action) => {
                 settingPWLoading: true
             }
         case types.RESET_PASSWORD_REQUEST_SUCCESS:
-            console.log("-----------------", action.payload)
             return {
                 ...state,
                 settingPWLoading: false

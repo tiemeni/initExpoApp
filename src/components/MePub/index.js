@@ -30,7 +30,7 @@ function CarouselPub() {
         autoPlay={false}
         data={[]}
         scrollAnimationDuration={4000}
-        onSnapToItem={(index) => console.log("current index:", index)}
+        onSnapToItem={(index) => {}}
         renderItem={({ item }) => (
           <VStack
             style={{

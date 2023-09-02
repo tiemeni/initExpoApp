@@ -25,7 +25,6 @@ const unAuthRequest = async (contentType, method, url, data) => {
 };
 
 export const unFormDataRequest = async (contentType, method, url, data) => {
-    console.log(data)
     const response = await fetch(url, {
         method: method,
         headers: {

@@ -52,7 +52,6 @@ const Acceuil = ({ navigation, userInfos = {}, load_address, address, ...props }
           finalStatus = status
         }
         if (finalStatus !== 'granted') {
-          console.log('Permission de notification non accordée');
           return;
         }
         const expoPushToken = await Notifications.getExpoPushTokenAsync();
@@ -70,7 +69,6 @@ const Acceuil = ({ navigation, userInfos = {}, load_address, address, ...props }
     const requestLocationPermission = async () => {
       let { status } = await ExpoLocation.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        console.log('Permission to access location was denied');
         return;
       }
 
@@ -179,7 +177,7 @@ const Acceuil = ({ navigation, userInfos = {}, load_address, address, ...props }
         <VStack my={_spacing}>
           <HStack mx={_spacing} justifyContent={'space-between'}>
             <Text fontWeight={600}>{translate("TEXT.POPULAR_DOC")}</Text>
-            <Pressable onPress={() => { }}>
+            <Pressable onPress={() => { navigation.navigate(SCREENS.GLOBAL_SEARCH) }}>
               <Text color="primary.500">{translate("TEXT.SEE_ALL")}</Text>
             </Pressable>
           </HStack>
@@ -187,9 +185,8 @@ const Acceuil = ({ navigation, userInfos = {}, load_address, address, ...props }
             <>
               {props.praticiens.slice(0, 5).map((item, index) => {
                 return (
-                  <Pressable onPress={() => navigation.navigate(SCREENS.DETAILS_PRATICIEN, { praticien: item })}>
+                  <Pressable key={item._id}>
                     <DoctorCard
-                      key={item._id}
                       nom_complet={item.name + " " + item.surname}
                       clinique={item.affectation.length !== 0 ? item?.affectation[0].label : ""}
                     />

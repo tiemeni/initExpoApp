@@ -16,7 +16,7 @@ const MedItem = ({ value, infosPraticien, handleChange, index, trigger, infosCli
     const handlePress = () => {
         if (infosPraticien) {
             dispatch(setIdCentre(infosPraticien.idCentre))
-            handleChange(trigger, infosPraticien._id)
+            handleChange(trigger, { id: infosPraticien._id, idc: infosPraticien.idCentre })
         } else {
             handleChange(trigger, infosClinique._id)
             dispatch(setRDVForm({

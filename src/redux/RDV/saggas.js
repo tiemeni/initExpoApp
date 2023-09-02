@@ -61,7 +61,6 @@ function* getCliniques({ id }) {
 
 function* getPraticiens({ data }) {
     let url = BASE_URL + "/ext_users/lieu/?isPraticien=true&idLieu=" + data?.id + "&idSpeciality=" + data?.ids
-    console.log(url)
     try {
         const result = yield getUnauthRequest(url);
         if (result.success) {
@@ -83,10 +82,8 @@ function* getDispo({ data }) {
     } else {
         url = BASE_URL + "/appointments/rechercher_dispo?idCentre=" + data?.idCentre + "&idp=" + data?.idp
     }
-    console.log(url)
     try {
         const result = yield getUnauthRequest(url);
-        console.log(result)
         if (result.success) {
             yield put({ type: types.GET_DISPO_REQUEST_SUCCESS, payload: result.data })
             // RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)

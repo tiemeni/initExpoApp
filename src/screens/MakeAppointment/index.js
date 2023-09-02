@@ -102,7 +102,7 @@ const MakeAppointment = ({ navigation, route }) => {
             case 'praticien':
                 setFormData({
                     ...formData,
-                    praticien: value,
+                    praticien: value?.id,
                     period: {
                         day: null,
                         time: null
@@ -110,10 +110,10 @@ const MakeAppointment = ({ navigation, route }) => {
                 });
                 dispatch(setRDVForm({
                     ...RDVForm,
-                    praticien: value,
-                    idCentre: idCentre
+                    praticien: value?.id,
+                    idCentre: idCentre || value?.idc
                 }))
-                dispatch(getDispo({ idCentre: idCentre, idp: value }))
+                dispatch(getDispo({ idCentre: idCentre || value?.idc, idp: value?.id }))
                 break;
             case 'profession':
                 setFormData({
@@ -347,6 +347,7 @@ const MakeAppointment = ({ navigation, route }) => {
                                         {praticiens.map((p, index) => {
                                             return <MedItem
                                                 key={p._id}
+                                                idCentre={p?.idCentre}
                                                 value={formData.praticien}
                                                 trigger={'praticien'}
                                                 handleChange={handleChange}

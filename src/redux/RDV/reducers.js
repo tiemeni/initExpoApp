@@ -150,7 +150,6 @@ const RDVReducer = (state = initialState, action) => {
                 praticiensSuccess: true
             }
         case types.GET_SINGLE_PRAT_SUCCESS:
-            console.log(action.payload)
             return {
                 ...state,
                 praticiens: action.payload,
@@ -295,6 +294,11 @@ const RDVReducer = (state = initialState, action) => {
                 cancellingLoading: false,
                 cancellingSuccess: true,
                 cancellingError: true,
+            }
+        case types.SAVE_EXTERNAL_PR_DATA:
+            return {
+                ...state,
+                extPRData: action.data
             }
         default:
             return state;

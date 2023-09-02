@@ -5,70 +5,38 @@ import colors from "../../constants/colours";
 import { useState } from "react";
 import MedItem from "../../components/MedItem";
 import { useDispatch, useSelector } from "react-redux";
-import { getDispo, getMotifs, postRDV } from "../../redux/RDV/actions";
+import { getDispo, getMotifs, postRDV, saveExtPRData } from "../../redux/RDV/actions";
 import { generateKeyTab, generateValuesTab } from "../../utils/helper";
-import { Danger } from "iconsax-react-native";
+import { Danger, Data } from "iconsax-react-native";
 import CustomToast from "../../components/CustomToast";
 import { MaterialIcons, Ionicons, AntDesign, Foundation } from "@expo/vector-icons";
 import { LoadingMotifs } from "./loadingMotifSkeleton";
 import { LoadingDispo } from "./LoadingClinicSkeleton";
+import * as SCREENS from '../../constants/screens';
+import { useNavigation } from "@react-navigation/native";
+
 
 const _spacing = 3
 
-export const DetailsPraticien = ({ route }) => {
+export const DetailsPraticien = ({ route, navigation }) => {
     const actualPraticien = route.params.praticien
-    console.log(actualPraticien)
     const dispatch = useDispatch()
     const user = useSelector(state => state.UserReducer.userInfos)
     const [actualCreaneau, setActualCreaneau] = useState([]);
     const motifs = useSelector(state => state.RdvForm.motifs)
-    const [itemSelected, setItemSelected] = useState()
+    const [itemSelected, setItemSelected] = useState(motifs[0])
     const dispo = useSelector(state => state.RdvForm.dispo)
     const successPostRdv = useSelector(state => state.RdvForm.successPostRdv)
     const errorMsgPostRDV = useSelector(state => state.RdvForm.errorMsgPostRDV)
     const loadingPostRdv = useSelector(state => state.RdvForm.loadingPostRdv)
     const dispoLoading = useSelector(state => state.RdvForm.dispoLoading)
     const motifsLoading = useSelector(state => state.RdvForm.motifsLoading)
-    const [selectedDat, setSelectedDay] = useState("")
-    const [selectedCreneau, setSelectedCreneau] = useState("")
+    const [selectedDat, setSelectedDay] = useState(generateKeyTab(dispo)[0])
+    const [selectedCreneau, setSelectedCreneau] = useState(generateValuesTab(generateKeyTab(dispo)[0], dispo))
     const [selectedCreaneauWhole, setSelectedCreneauWhole] = useState({})
     const [selectedClinic, setSelectedClinic] = useState(actualPraticien?.affectation[0])
     const toast = useToast();
 
-
-    React.useEffect(() => {
-        if (errorMsgPostRDV) {
-            toast.show({
-                render: () => {
-                    return <CustomToast
-                        message={"Une erreur est survenue !"}
-                        color={colors.danger}
-                        bgColor={"red.100"}
-                        icon={<Foundation name="alert" size={24} />}
-                        iconColor={colors.danger}
-                    />
-                },
-                placement: "top",
-                duration: 2000
-            })
-        }
-
-        if (successPostRdv) {
-            toast.show({
-                render: () => {
-                    return <CustomToast
-                        message={"Rendez-vous crée avec succès !"}
-                        color={colors.success}
-                        bgColor={"green.100"}
-                        icon={<AntDesign name="checkcircle" size={24} />}
-                        iconColor={colors.success}
-                    />
-                },
-                placement: "top",
-                duration: 2000
-            })
-        }
-    }, [errorMsgPostRDV, successPostRdv])
 
     useEffect(() => {
         dispatch(getDispo({
@@ -107,7 +75,8 @@ export const DetailsPraticien = ({ route }) => {
             date_long: selectedCreaneauWhole?.date_long,
         }
         const data = { ...data1, ...user }
-        dispatch(postRDV({ ...data }))
+        dispatch(saveExtPRData(data))
+        navigation.navigate(SCREENS.PAYMENT, { ext: true })
     }
 
     return (
@@ -156,7 +125,7 @@ export const DetailsPraticien = ({ route }) => {
                     <VStack space={_spacing}>
                         <VStack px={5}>
                             <Text>Motifs Traitables</Text>
-                            {motifs?.length > 0 && !motifsLoading ?
+                            {motifs?.length > 0 && (!motifsLoading && !dispoLoading) ?
                                 <FlatList
                                     data={motifs}
                                     keyExtractor={(v) => v?._id}
@@ -193,22 +162,8 @@ export const DetailsPraticien = ({ route }) => {
                                             </Pressable>
                                         )
                                     }}
-                                /> : motifs?.length == 0 && motifsLoading ?
-                                    <LoadingMotifs /> :
-                                    <Stack px={5}>
-                                        <HStack mt={2} space={2} style={{
-                                            backgroundColor: colors.transp_warning,
-                                            borderRadius: 10,
-                                            padding: 10,
-                                            alignItems: "center",
-                                            marginBottom: 10,
-                                            backgroundColor: colors.transp_danger
-                                        }}>
-                                            <Danger color={colors.danger} size={22} />
-                                            <Text color={colors.danger} fontWeight={500}>Affecté a aucune motif</Text>
-                                        </HStack>
-                                    </Stack>
-                            }
+                                /> : motifs?.length == 0 && (motifsLoading || dispoLoading) ?
+                                    <LoadingMotifs /> : < LoadingMotifs />}
                         </VStack>
                         {actualPraticien?.affectation?.length > 0 ? <VStack px={5} space={_spacing}>
                             <Text>Clinique affectées</Text>

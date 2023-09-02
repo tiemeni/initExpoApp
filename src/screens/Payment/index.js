@@ -55,13 +55,15 @@ const expirationMask = [/\d/, /\d/, "/", /\d/, /\d/];
 
 const telMask = [/\d/, /\d/, /\d/, " ", /\d/, /\d/, /\d/, " ", /\d/, /\d/, /\d/,];
 
-const Payment = ({ navigation }) => {
+const Payment = ({ route, navigation }) => {
+  const ext = route.params.ext
   const [isModalVisible, setIsModalVisible] = useState(false);
   const userInfo = useSelector(state => state.UserReducer.userInfos)
   const idCentre = useSelector(state => state.Common.idc)
   const toast = useToast();
   const dispatch = useDispatch()
   const success = useSelector(state => state.RdvForm.successPostRdv)
+  const extPRData = useSelector(state => state.RdvForm.extPRData)
   const error = useSelector(state => state.RdvForm.errorMsgPostRDV)
   const loadingPostRdv = useSelector(state => state.RdvForm.loadingPostRdv)
   const formRDV = useSelector(state => state.RdvForm.rdvForm)
@@ -81,8 +83,6 @@ const Payment = ({ navigation }) => {
     amount: "",
   });
 
-  console.log(formRDV)
-
   const handlePaymentMethodPress = (method) => {
     setSelectedPaymentMethod(method);
   };
@@ -96,11 +96,8 @@ const Payment = ({ navigation }) => {
 
   const onSubmitPayment = () => {
     setIsLoading(true);
-    dispatch(postRDV({ ...formRDV, ...userInfo, }))
-    setTimeout(() => {
-      setIsModalVisible(true);
-      setIsLoading(false);
-    }, 3000);
+    const payload = !ext ? { ...formRDV, ...userInfo, } : extPRData
+    dispatch(postRDV(payload))
   };
 
 

@@ -57,15 +57,11 @@ const PhoneConfirm = ({ navigation, route, codeVerifLoading, codeVerifSuccess, e
     caracters[3] == codeVerif?.codeVerif?.split("")[3] &&
     caracters[4] == codeVerif?.codeVerif?.split("")[4];
 
-  console.log(cnfPw);
-
   const resetPassword = () => {
-    console.log("--------------------------");
     dispatch(processVerifCode(email));
   };
 
 const toast = useToast();
-console.log(codeVerifSuccess)
   useEffect(() => {
     if (codeVerifSuccess) {
       toast.show({
@@ -113,7 +109,6 @@ console.log(codeVerifSuccess)
   const isTrong = isPasswordWeak(newPw);
 
   const handleCheck = () => {
-    console.log(value, codeVerif.codeVerif);
     if (value == codeVerif?.codeVerif) {
       setBorderCol(colors.success);
       setCanResetPw(true);
@@ -121,7 +116,6 @@ console.log(codeVerifSuccess)
   };
 
   const handleChangeMp = () => {
-    console.log("submit");
     dispatch(resettingPassword({ id: codeVerif?.id, password: newPw }));
   };
 
