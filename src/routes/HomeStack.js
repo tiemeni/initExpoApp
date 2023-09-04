@@ -4,14 +4,10 @@ import Home from "../screens/Home";
 import PhoneConfirm from "../screens/PhoneConfirm";
 import Login from "../screens/Auth/Login";
 import Signup from "../screens/Auth/Signup";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createStackNavigator();
 
 const HomeStack = () => {
-  // const oldUser = AsyncStorage.getItem("new")
-  // if (!oldUser) AsyncStorage.setItem("new", true)
-
   return (
     <Stack.Navigator screenOptions={{
       headerShown: false

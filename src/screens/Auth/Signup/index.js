@@ -10,10 +10,9 @@ import {
   Image,
   ScrollView,
   Checkbox,
-  Box,
   useToast
 } from "native-base";
-import { MaterialIcons, MaterialCommunityIcons, Ionicons, Foundation, AntDesign } from "@expo/vector-icons";
+import { Foundation } from "@expo/vector-icons";
 import logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
 import colors from "../../../constants/colours";

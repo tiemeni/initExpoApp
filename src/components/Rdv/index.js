@@ -1,22 +1,20 @@
 import { View } from 'react-native'
-import React from 'react'
-import { Avatar, Button, HStack, VStack, Text } from 'native-base'
+import React, { memo } from 'react'
+import { Avatar, Button, Text } from 'native-base'
 import colors from '../../constants/colours'
 import styles from './style'
 import * as SCREENS from '../../constants/screens'
 import { Calendar, DocumentText, Location, Map1, Timer1 } from 'iconsax-react-native'
 
-export default function Rdv({ _id, navigation, date, motif, startTime, praticien, status, localisation }) {
+const Rdv = ({ _id, navigation, date, motif, startTime, praticien, status, localisation }) => {
+    console.log("I'm just a child")
     return (
-        <View style={{
-            height: "100%",
-            width: "100%"
-        }}>
-            <HStack justifyContent={"space-between"} alignItems={'center'}>
-                <VStack>
-                    <Text fontWeight="500" fontSize={16}>{"Dr. " + praticien}</Text>
-                    <Text style={{ fontSize: 14, color: colors.text_grey_hint}}>{"Genicologue"}</Text>
-                </VStack>
+        <View style={[styles.container]}>
+            <View style={styles.topContainer}>
+                <View>
+                    <Text fontWeight='600' fontSize={16}>{"Dr. " + praticien}</Text>
+                    <Text color={colors.text_grey_hint }>{"Genicologue"}</Text>
+                </View>
                 <Avatar
                     bg={colors.primary}
                     width={42}
@@ -24,37 +22,39 @@ export default function Rdv({ _id, navigation, date, motif, startTime, praticien
                     source={{
                         uri: null
                     }}></Avatar>
-            </HStack>
-            <VStack borderTopWidth={1} paddingLeft={1} borderTopColor={"#DFDFDF"} mt={2}>
-                <HStack mt={2} space={3}>
-                    <HStack alignItems={'center'} style={styles.left} space={1}>
+            </View>
+            <View style={styles.infoContainer}>
+                <View style={styles.infoView}>
+                    <View style={styles.left} space={1}>
                         <DocumentText color={colors.text_grey_hint} size={22} />
-                        <Text style={{ fontSize: 12 }}>{motif ?? ""}</Text>
-                    </HStack>
-                    <HStack alignItems={'center'} space={1}>
+                        <Text numberOfLines={1} ellipsizeMode={'tail'} style={styles.infoText}>{motif ?? ""}</Text>
+                    </View>
+                    <View style={styles.left}>
                         <Location color={colors.text_grey_hint} size={22} />
-                        <Text style={{ fontSize: 12 }}>{"Clinique FOUDA"}</Text>
-                    </HStack>
-                </HStack>
-                <HStack mt={2} space={3}>
-                    <HStack alignItems={'center'} style={styles.left} space={1}>
+                        <Text numberOfLines={1} ellipsizeMode='tail' style={styles.infoText}>{"Clinique FOUDA"}</Text>
+                    </View>
+                </View>
+                <View style={styles.infoView}>
+                    <View style={styles.left}>
                         <Calendar color={colors.text_grey_hint} size={22} />
-                        <Text style={{ fontSize: 12 }}>{startTime.split("à")[0]}</Text>
-                    </HStack>
-                    <HStack alignItems={'center'} space={1}>
+                        <Text numberOfLines={1} ellipsizeMode={'tail'} style={styles.infoText}>{startTime.split(" à ")[0]}</Text>
+                    </View>
+                    <View style={styles.left}>
                         <Timer1 color={colors.text_grey_hint} size={22} />
-                        <Text style={{ fontSize: 12 }}>{startTime.split(" à ")[1]}</Text>
-                    </HStack>
-                </HStack>
-                <HStack justifyContent={"space-between"} mt={4}>
+                        <Text style={styles.infoText}>{startTime.split(" à ")[1]}</Text>
+                    </View>
+                </View>
+                <View style={[styles.infoView, { justifyContent: 'space-between', gap: 10, marginTop: 15 }]}>
                     {localisation && <Button style={styles.mapBtn} onPress={() => navigation.navigate(SCREENS.GOOGLE_MAP, { localisation })}>
                         <Map1 color={colors.primary} />
                     </Button>}
-                    <Button onPress={() => navigation.navigate(SCREENS.APPOINTMENT_DETAILS_SCREEN, { _id: _id })} style={{ ...styles.reportBtn, width: localisation ? "80%" : "100%" }}>
+                    <Button onPress={() => navigation.navigate(SCREENS.APPOINTMENT_DETAILS_SCREEN, { _id: _id })} style={styles.reportBtn}>
                         <Text style={styles.reportText}>Afficher</Text>
                     </Button>
-                </HStack>
-            </VStack>
+                </View>
+            </View>
         </View >
     )
 }
+
+export default memo(Rdv)
