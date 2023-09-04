@@ -174,7 +174,7 @@ function* processVerifCode({ email }) {
     const result = yield postUnauthRequest(url, { email: email })
     if (result.success) {
       yield put({ type: types.PROCESS_VERIF_CODE_SUCCESS, payload: result?.data })
-      RootNavigation.navigate(SCREENS.PHONE_CONFIRMATION_SCREEN, { email: email });
+      //RootNavigation.navigate(SCREENS.PHONE_CONFIRMATION_SCREEN, { email: email });
       setTimeout(() => {
         put({ type: types.REINITIALIZE })
        }, 2000)
