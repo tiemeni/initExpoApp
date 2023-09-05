@@ -100,7 +100,7 @@ const PhoneConfirm = ({
      dispatch(processVerifCode(email1));
      setTimeout(() => {
       setIsSendCode(false);
-    }, 3000);
+    }, 6000);
     }else{
       setIsEmpty(true);
     } 
@@ -178,7 +178,7 @@ const PhoneConfirm = ({
           alignItems={"center"}
           w={"100%"}
         >
-          <Text mb={10} style={styles.message}>
+          <Text style={styles.message}>
             Veillez entre l'adresse mail lié à votre compte afin de recevoir le
             code de vérification
           </Text>
@@ -190,9 +190,11 @@ const PhoneConfirm = ({
             w="90%"
             borderRadius={25}
             paddingLeft={5}
+            borderColor={isEmpty?colors.yellow:colors.text_grey_hint}
             paddingRight={5}
             onChangeText={(e) => setEmail(e)}
             height={45}
+            mt={5}
             mb={3}
           />
 
@@ -237,7 +239,7 @@ const PhoneConfirm = ({
               ""
             ) : (
               <Text style={styles.message}>
-                nous avons envoyé le code de vérification à votre adresse mail, veillez le saisir ici 
+                Nous avons envoyé le code de vérification à votre adresse mail, veillez le saisir ici 
               </Text>
             )}
 
