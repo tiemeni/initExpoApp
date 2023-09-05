@@ -210,17 +210,11 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
         </VStack>
 
         <Pressable
-          onPress={() =>
-            isEmailValid(formData?.email)
-              ? resetPassword()
-              : setIsEmpty(true)
-          }
+          onPress={() => navigation.navigate(SCREENS.PHONE_CONFIRMATION_SCREEN)}
         >
-          {/* */}
           <Text style={styles.forgetPassword} mt={5}>
-            {codeVerifLoading
-              ? "envoi du code de verification..."
-              : "Mot de passe oublié ?"}
+           
+            Mot de passe oublié ?
           </Text>
         </Pressable>
 

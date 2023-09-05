@@ -11,7 +11,8 @@ const initialState = {
     success: null,
     load_adress: false,
     address: undefined,
-    mapDirections: []
+    mapDirections: [],
+    codeVerifSuccess: false,
 };
 
 const UserReducer = (state = initialState, action) => {

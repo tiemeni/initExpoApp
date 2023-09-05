@@ -20,7 +20,8 @@ const styles = {
 
     message: {
         textAlign: 'center',
-        color: colors.text_grey_hint
+        color: colors.text_grey_hint,
+        marginBottom: 5
     },
 
     phoneNumber: {
