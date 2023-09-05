@@ -150,7 +150,8 @@ function* postRDV({ data }) {
                 date: data?.period?.day,
             }
             idFiche = result.data?._id
-            rdv = yield postUnauthRequest(url2, rdvData);
+            console.log(url2, "---", rdvData),
+                rdv = yield postUnauthRequest(url2, rdvData);
         } else {
             yield put({ type: types.POST_RDV_REQUEST_FAILED, payload: "Erreur lors de la creation du rendez-vous!" })
             yield setTimeout(() => {

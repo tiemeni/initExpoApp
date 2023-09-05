@@ -175,7 +175,7 @@ const MakeAppointment = ({ navigation, route }) => {
     }
 
     const handlePress = () => {
-        navigation.navigate(SCREENS.PAYMENT)
+        navigation.navigate(SCREENS.PAYMENT, { ext: false })
     }
 
     useEffect(() => {
