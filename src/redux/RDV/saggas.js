@@ -100,6 +100,7 @@ function* getDispo({ data }) {
 function* postRDV({ data }) {
     let url1 = BASE_URL + "/patients/register?idCentre=" + data?.idCentre
     let url2 = BASE_URL + "/appointments/enregistrer_rdv/?idCentre=" + data?.idCentre
+    console.log(data.user._id)
     const payload = {
         name: data?.user?.name,
         surname: data?.user.surname,
@@ -130,6 +131,7 @@ function* postRDV({ data }) {
                 date: data?.period?.day,
             }
             idFiche = result.message
+            console.log(url2, "---", rdvData)
             rdv = yield postUnauthRequest(url2, rdvData);
             // yield put({ type: types.GET_DISPO_REQUEST_SUCCESS, payload: result.data })
             // RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)

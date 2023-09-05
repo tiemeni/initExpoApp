@@ -55,6 +55,7 @@ const Acceuil = ({ navigation, userInfos = {}, load_address, address, ...props }
           return;
         }
         const expoPushToken = await Notifications.getExpoPushTokenAsync();
+        console.log(expoPushToken)
         dispatch(sendExpoToken({ _id: user?._id, token: expoPushToken.data }));
       } catch (error) {
         console.error('Erreur lors de la demande de permission de notification:', error);
