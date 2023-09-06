@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "Gatewaydoc",
+    "slug": "rna",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "notification": {
+      "icon": "./assets/icon.png"
+    },
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["assets/fonts/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.gatewaydoc.org"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.gatewaydoc.org"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b4e35248-f4c2-42c5-9263-b160c53aba74"
+      }
+    }
+  }
+}
