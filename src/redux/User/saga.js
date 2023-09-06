@@ -26,12 +26,11 @@ function* authRegister({ payload }) {
     const result = yield postUnauthRequest(url, payload);
 
     if (result.success) {
-      yield AsyncStorage.setItem('access_token', result.data.access_token);
-      yield AsyncStorage.setItem('userInfos', JSON.stringify(result.data));
-      if (payload.saveCredentials) yield AsyncStorage.setItem('userCredentials', JSON.stringify(payload));
-
+      //yield AsyncStorage.setItem('access_token', result.data.access_token);
+      //yield AsyncStorage.setItem('userInfos', JSON.stringify(result.data));
+     // if (payload.saveCredentials) yield AsyncStorage.setItem('userCredentials', JSON.stringify(payload));
       yield put({ type: types.REGISTER_USER_SUCCESS, payload: result.data })
-      yield put({ type: GET_ALL_PRATICIENS })
+     // yield put({ type: GET_ALL_PRATICIENS })
     } else {
       yield put({ type: types.REGISTER_USER_FAILED, payload: result.message })
     }

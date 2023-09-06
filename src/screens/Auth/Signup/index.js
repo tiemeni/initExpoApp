@@ -33,7 +33,6 @@ import {
   EyeSlash,
   Lock,
   MessageText1,
-  Photoshop,
   User,
   Warning2,
 } from "iconsax-react-native";
@@ -46,6 +45,7 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
   const [date, setDate] = useState(moment().format("DD/MM/YYYY"));
   const [isCkeck, setIsCheck] = useState(false);
   const [show, setShow] = useState(false);
+  const [confPassword, setConfirmPassword] = useState("");
 
   let messages = [];
 
@@ -142,7 +142,8 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
       formData.password === "" ||
       formData.telephone === "" ||
       formData.birthdate === "" ||
-      isCkeck === false
+      isCkeck === false ||
+      confPassword === ""
     );
   };
 
@@ -170,8 +171,8 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
     if (success) {
       Alert.alert("INSCRIPTION", "Votre compte été crée avec succès.", [
         {
-          text: "Continuer",
-          onPress: () => navigation.navigate(SCREENS.HOME_CONTAINER_ROUTE),
+          text: "Connectez-vous",
+          onPress: () => navigation.navigate(SCREENS.LOGIN),
         },
       ]);
     }
@@ -354,6 +355,66 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
                   {index + 1}. {message}
                 </Text>
               ))}
+            </VStack>
+          )}
+
+          <Input
+            isInvalid={!isCkeck}
+            h={50}
+            rounded={50}
+            borderWidth={0}
+            style={{ fontSize: 14 }}
+            bg={colors.desable}
+            InputLeftElement={
+              <VStack
+                alignItems={"center"}
+                justifyContent={"center"}
+                style={styles.leftElement}
+              >
+                <Icon
+                  as={<Lock name="person" />}
+                  size={5}
+                  color={colors.text_grey_hint}
+                />
+              </VStack>
+            }
+            InputRightElement={
+              <Pressable onPress={() => setShow(!show)}>
+                <Icon
+                  as={
+                    show ? <Eye /> : <EyeSlash color={colors.text_grey_hint} />
+                  }
+                  size={5}
+                  mr={4}
+                  color={colors.primary}
+                />
+              </Pressable>
+            }
+            placeholder="Confirmez votre mot de passe"
+            onChangeText={(value) => setConfirmPassword(value)}
+            value={confPassword}
+            type={show ? "text" : "password"}
+          />
+
+          {confPassword !=="" && formData.password !== confPassword && (
+            <VStack
+              style={{
+                backgroundColor: colors.transp_warning,
+                borderRadius: 5,
+                padding: 8,
+              }}
+            >
+              <HStack space={1}>
+                <Warning2 color={colors.danger} size={15} />
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: colors.danger,
+                  }}
+                >
+                  Les mots de passe ne correspondent pas !
+                </Text>
+              </HStack>
             </VStack>
           )}
           <HStack
