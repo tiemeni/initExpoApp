@@ -43,9 +43,7 @@ const CustomHeader = ({ navigation, mb, userInfos, screen }) => {
             }}
             mb={mb}>
             <HStack
-                alignItems={"center"}
-                justifyItems={'center'}
-                alignContent={'center'}>
+                alignItems={"center"}>
                 <Pressable
                     onPress={() => navigation.navigate(screen)}>
                     <Avatar

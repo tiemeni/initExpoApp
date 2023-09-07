@@ -295,8 +295,8 @@ const ResetPassWord = ({
           mb={4}
           style={styles.btn}
           isLoading={settingPWLoading}
-          variant={'outline'}
-          borderWidth={2}
+          variant={canResetPw?'solid':'outline'}
+          borderWidth={canResetPw?0:2}
           onPress={() => {
             if (canResetPw && messages.length <= 0 && cnfPw === newPw) {
               handleChangeMp();
