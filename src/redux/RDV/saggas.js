@@ -96,7 +96,6 @@ function* getDispo({ data }) {
     }
 }
 
-
 function* postRDV({ data }) {
     let url1 = BASE_URL + "/patients/register?idCentre=" + data?.idCentre
     let url2 = BASE_URL + "/appointments/enregistrer_rdv/?idCentre=" + data?.idCentre

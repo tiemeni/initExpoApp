@@ -6,7 +6,7 @@ import { useState } from "react";
 import MedItem from "../../components/MedItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getDispo, getMotifs, postRDV, saveExtPRData } from "../../redux/RDV/actions";
-import { generateKeyTab, generateValuesTab } from "../../utils/helper";
+import { generateKeyTab, generateValuesTab, jourDeLaSemaine } from "../../utils/helper";
 import { Danger, Data } from "iconsax-react-native";
 import CustomToast from "../../components/CustomToast";
 import { MaterialIcons, Ionicons, AntDesign, Foundation } from "@expo/vector-icons";
@@ -43,7 +43,7 @@ export const DetailsPraticien = ({ route, navigation }) => {
             idCentre: actualPraticien?.idCentre,
             idp: actualPraticien?._id,
         }))
-        dispatch(getMotifs({ id: actualPraticien?.job, forSpec: true }))
+        dispatch(getMotifs({ id: actualPraticien?.job?._id, forSpec: true }))
         setTimeout(() => {
             setSelectedClinic(actualPraticien?.affectation[0])
             setSelectedDay(generateKeyTab(dispo)[0])
@@ -216,7 +216,7 @@ export const DetailsPraticien = ({ route, navigation }) => {
                                                 }}
                                             >
                                                 <Text style={{ color: colors.black, }}>
-                                                    {d}
+                                                    {jourDeLaSemaine(d)}
                                                 </Text>
                                             </Box>
                                         </Pressable>

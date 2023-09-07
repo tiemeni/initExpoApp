@@ -21,7 +21,7 @@ function* getAllPraticiens() {
 }
 
 function* searchPratsByKey({ key }) {
-    let url = BASE_URL + '/ext_users/search/' + key
+    let url = BASE_URL + '/ext_users/searchBySpeciality/' + key
     try {
         const result = yield getUnauthRequest(url);
         if (result.success) {

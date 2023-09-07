@@ -330,7 +330,7 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             value={formData.password}
             type={show ? "text" : "password"}
           />
-          {formData.password !== "" && messages.length > 0 &&  (
+          {formData.password !== "" && messages.length > 0 && (
             <VStack
               style={{
                 backgroundColor: colors.transp_warning,
@@ -357,14 +357,14 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             </VStack>
           )}
           <HStack space={2} rounded={50} paddingLeft={2} alignItems={'center'} width={"100%"} bg={colors.desable}>
-            <VStack rounded={50} justifyItems={'center'} justifyContent={'center'} w={9} alignItems={'center'} h={9}  backgroundColor={colors.white}>
-            <Icon
-              as={<Call/>}
-              size={5}
-              mr={2}
-              ml={2}
-              color={colors.text_grey_hint}
-            />
+            <VStack rounded={50} justifyItems={'center'} justifyContent={'center'} w={9} alignItems={'center'} h={9} backgroundColor={colors.white}>
+              <Icon
+                as={<Call />}
+                size={5}
+                mr={2}
+                ml={2}
+                color={colors.text_grey_hint}
+              />
             </VStack>
             <MaskInput
               style={{

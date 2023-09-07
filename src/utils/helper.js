@@ -846,3 +846,11 @@ export const transfomeToSlashDate = data => {
 
   return dateFormatee
 }
+
+export function jourDeLaSemaine(date) {
+  const joursSemaine = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+  const [annee, mois, jour] = date.split('-');
+  const dateObj = new Date(`${annee}-${mois}-${jour}`);
+  const jourSemaine = joursSemaine[dateObj.getDay()];
+  return jourSemaine;
+}

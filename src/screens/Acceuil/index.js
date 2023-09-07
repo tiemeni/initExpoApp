@@ -103,7 +103,6 @@ const Acceuil = ({ navigation, userInfos = {}, load_address, address, ...props }
             </VStack>
           </HStack>
         </VStack>
-
         <VStack bg="white" py={_spacing}>
           <Input
             mx={_spacing}
@@ -188,6 +187,7 @@ const Acceuil = ({ navigation, userInfos = {}, load_address, address, ...props }
                 return (
                   <Pressable key={item._id}>
                     <DoctorCard
+                      speciality={item?.job?.label}
                       nom_complet={item.name + " " + item.surname}
                       clinique={item.affectation.length !== 0 ? item?.affectation[0].label : ""}
                     />
