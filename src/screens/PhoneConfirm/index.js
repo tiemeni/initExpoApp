@@ -35,8 +35,6 @@ const PhoneConfirm = ({
     (state) => state.UserReducer.settingPWLoading
   );
 
-  console.log('errrrrr', codeVerifSuccess, errorCodeVerif)
-
   const dispatch = useDispatch();
   const [email1, setEmail] = useState("");
   const [caracters, setCaracters] = useState([]);
@@ -46,6 +44,8 @@ const PhoneConfirm = ({
     caracters[4] == codeVerif?.codeVerif?.split("")[4];
   const [isEmpty, setIsEmpty] = useState(false);
   const emailValide = isEmailValid(email1);
+
+  console.log('eamil valide', emailValide)
 
   const toast = useToast();
 
@@ -59,11 +59,11 @@ const PhoneConfirm = ({
         render: () => {
           return (
             <CustomToast
-              message={"cette adresse mail n'existe pas"}
-              color={colors.success}
+              message={errorCodeVerif?"Compte est introuvable":""}
+              color={colors.danger}
               bgColor={"red.100"}
               icon={<Warning2 />}
-              iconColor={colors.success}
+              iconColor={colors.danger}
             />
           );
         },
@@ -75,7 +75,7 @@ const PhoneConfirm = ({
 
   return (
     <View alignItems={"center"} bg={colors.white} flex={1} p={5}>
-      <VStack alignItems={"center"} mb={15}>
+      <VStack alignItems={"center"} mt={10} mb={15}>
         <Box mb={10}>
           <Box style={styles.circle}>
             <Icon as={EvilIcons} name="lock" color={colors.white} size={90} />
@@ -124,10 +124,11 @@ const PhoneConfirm = ({
         {!emailValide && email1 !== "" && (
           <HStack
             rounded={5}
-            p={1}
+            p={2}
             backgroundColor={colors.transp_warning}
             space={1}
             width={"85%"}
+            alignItems={'center'}
           >
             <Warning2 color={colors.danger} size={15} />
             <Text
@@ -136,14 +137,15 @@ const PhoneConfirm = ({
                 color: colors.danger,
               }}
             >
-              Attention ! Veillez saisir une adresse email valide
+              Attention ! Veillez saisir une adresse email valide 
             </Text>
           </HStack>
         )}
         <Button
-          mt={10}
+          mt={2}
           style={styles.btn}
           isLoading={settingPWLoading}
+          isDisabled={!emailValide}
           onPress={() => {
             resetPassword();
           }}
