@@ -404,7 +404,7 @@ const MakeAppointment = ({ navigation, route }) => {
                                                             color: formData.period.day === d?.id ? colors.primary : colors.black,
                                                         }}
                                                     >
-                                                        {jourDeLaSemaine(d)}
+                                                        {jourDeLaSemaine(d) + ", " + d.split('-')[2]}
                                                     </Text>
                                                 </Box>
                                             </Pressable>

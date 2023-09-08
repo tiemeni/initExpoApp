@@ -56,6 +56,11 @@ const MesRdv = ({ navigation }) => {
     }
   }
 
+  const refreshRdv = () => {
+    dispatch(getMyRDV(user?.user?._id))
+    setGlobalState({ ...globalState, showSkeleton: true })
+  }
+
   React.useEffect(() => {
     getRdvs()
   }, []);
@@ -202,7 +207,7 @@ const MesRdv = ({ navigation }) => {
           <FlashList
             ref={listRef}
             estimatedItemSize={200}
-            onRefresh={getRdvs}
+            onRefresh={refreshRdv}
             refreshing={globalState.showSkeleton || loadingRDV}
             data={appointments}
             showsVerticalScrollIndicator={false}

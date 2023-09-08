@@ -216,10 +216,11 @@ export const DetailsPraticien = ({ route, navigation }) => {
                                                 }}
                                             >
                                                 <Text style={{ color: colors.black, }}>
-                                                    {jourDeLaSemaine(d)}
+                                                    {jourDeLaSemaine(d) + ", " + d.split('-')[2]}
                                                 </Text>
                                             </Box>
                                         </Pressable>
+                                        // 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
                                     }
                                     ) : <LoadingDispo />}
                                 </HStack>
