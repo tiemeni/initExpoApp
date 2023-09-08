@@ -4,6 +4,8 @@ import Home from "../screens/Home";
 import PhoneConfirm from "../screens/PhoneConfirm";
 import Login from "../screens/Auth/Login";
 import Signup from "../screens/Auth/Signup";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import ResetPassWord from "../screens/Auth/ResetPassWord";
 
 const Stack = createStackNavigator();
 
@@ -16,6 +18,7 @@ const HomeStack = () => {
       <Stack.Screen name={SCREENS.LOGIN} component={Login} />
       <Stack.Screen name={SCREENS.SIGNUP} component={Signup} />
       <Stack.Screen name={SCREENS.PHONE_CONFIRMATION_SCREEN} component={PhoneConfirm} />
+      <Stack.Screen name={SCREENS.RESETPASSWORD} component={ResetPassWord} />
     </Stack.Navigator>
   )
 }

@@ -54,7 +54,7 @@ const CustomHeader = ({ navigation, mb, userInfos, screen }) => {
                             uri: user?.photo ?? null
                         }}></Avatar>
                 </Pressable>
-                <Text style={{ marginLeft: 15, fontSize: 18 }}>{user?.name + " " + user?.surname}</Text>
+                <Text style={{ marginLeft: 15, fontSize: 18 }}>{user?.name}</Text>
             </HStack>
             <TouchableOpacity onPress={() => navigation.navigate(SCREENS.MAKE_APPOINTMENT_SCREEN)}>
                 <Box style={styles.boxGoogle} width={50} rounded={50} shadow={2}>

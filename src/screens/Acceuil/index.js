@@ -17,6 +17,8 @@ import * as ExpoLocation from 'expo-location';
 import NextAppointment from '../../components/NextAppointment';
 import { getAppSpecialties } from '../../redux/commons/action';
 import DoctorCard from '../../components/DoctorCard/DoctorCard';
+import { Alert } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
 
 const _spacing = 3
 const datas = [{ key: 1, value: "Tout" }, { key: 2, value: "Meilleurs notes" }, { key: 3, value: "Populaires" }]
@@ -44,25 +46,46 @@ const Acceuil = ({ navigation, userInfos = {}, load_address, address, ...props }
   useEffect(() => {
     const { user } = userInfos
     const requestPermissions = async () => {
-      try {
-        const { status: existingStatus } = await Notifications.getPermissionsAsync();
-        let finalStatus = existingStatus;
-        if (existingStatus !== 'granted') {
-          const { status } = await Notifications.requestPermissionsAsync();
-          finalStatus = status
-        }
-        if (finalStatus !== 'granted') {
-          return;
-        }
-        const expoPushToken = await Notifications.getExpoPushTokenAsync();
-        console.log(expoPushToken)
-        dispatch(sendExpoToken({ _id: user?._id, token: expoPushToken.data }));
-      } catch (error) {
-        console.error('Erreur lors de la demande de permission de notification:', error);
+      const authStatus = await messaging().requestPermission();
+      const enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+      if (enabled) {
+        // console.log('Authorization status:', authStatus);
       }
     };
 
-    requestPermissions();
+    if (requestPermissions()) {
+      messaging().getToken()
+        .then(async token => {
+          //  console.log(token)
+          dispatch(sendExpoToken({ _id: user?._id, token: token }));
+        })
+    } else {
+      console.log('failed token status ', authStatus)
+    }
+
+    messaging().getInitialNotification()
+      .then(async remoteMessage => {
+        if (remoteMessage) {
+          console.log(remoteMessage.notification)
+        }
+      })
+
+    messaging().onNotificationOpenedApp(async remoteMessage => {
+      console.log(remoteMessage.notification)
+    })
+
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+      console.log('Message handled in the background!', remoteMessage);
+    });
+
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+    return unsubscribe;
+
   }, [])
 
   useEffect(() => {
