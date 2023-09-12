@@ -45,7 +45,7 @@ const PhoneConfirm = ({
   const [isEmpty, setIsEmpty] = useState(false);
   const emailValide = isEmailValid(email1);
 
-  console.log('eamil valide', emailValide)
+  console.log('codeVerif', codeVerif)
 
   const toast = useToast();
 

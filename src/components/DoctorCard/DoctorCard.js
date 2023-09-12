@@ -39,7 +39,7 @@ const DoctorCard = ({ isEmpty = false, ...props }) => {
                     <HStack space={1}>
                         <HStack space={1} flex={1}>
                             {!isEmpty && <><Hospital color={colors.text_grey_hint} size={18} />
-                                <Text flex={1} isTruncated style={styles.infos}>Endocrinologie</Text></>}
+                                <Text flex={1} isTruncated style={styles.infos}>{props.speciality ?? "..."}</Text></>}
                             {isEmpty && <Skeleton h={4} rounded="full" />}
                         </HStack>
                         <HStack space={1} flex={1}>

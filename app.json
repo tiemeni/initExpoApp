@@ -25,6 +25,7 @@
       "bundleIdentifier": "com.gatewaydoc.org"
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

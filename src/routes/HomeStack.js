@@ -10,9 +10,6 @@ import ResetPassWord from "../screens/Auth/ResetPassWord";
 const Stack = createStackNavigator();
 
 const HomeStack = () => {
-  // const oldUser = AsyncStorage.getItem("new")
-  // if (!oldUser) AsyncStorage.setItem("new", true)
-
   return (
     <Stack.Navigator screenOptions={{
       headerShown: false

@@ -1,4 +1,4 @@
-import { Box, Icon, Input, Text, VStack, View } from "native-base";
+import { Box, HStack, Icon, Input, Stack, Text, VStack, View } from "native-base";
 import React, { useEffect, useRef, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import colors from "../../constants/colours";
@@ -12,6 +12,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import * as SCREENS from "../../constants/screens";
 import DoctorCard from "../../components/DoctorCard/DoctorCard";
 import { getDispo, getMotifs } from "../../redux/RDV/actions";
+import { ScrollView } from "react-native";
 
 
 export const GlobalSearch = ({ navigation }) => {
@@ -30,48 +31,50 @@ export const GlobalSearch = ({ navigation }) => {
 
     return (
         <Box flex={1} style={{ backgroundColor: colors.white }}>
-            <Input
-                ref={InputRef}
-                h={38}
-                rounded={12}
-                onChangeText={(text) => handleSearch(text)}
-                borderWidth={0}
-                fontSize={14}
-                margin={3}
-                bg={colors.white}
-                placeholder='Rechercher un praticien'
-                InputLeftElement={
-                    <Icon
-                        onPress={() => navigation.goBack()}
-                        as={<Feather name="arrow-left" size={24} />}
-                        size={5}
-                        ml="4"
-                        color={colors.primary}
-                    />}
-            />
-            <VStack space={3}>
-                {
-                    !loadingSearch ? searchedPrats?.map((p, i) => {
-                        return p?.affectation?.length > 0 && p?.job && (
-                            <TouchableOpacity key={i} onPress={() => {
-                                dispatch(getDispo({
-                                    idCentre: p?.idCentre,
-                                    idp: p?._id,
-                                }))
-                                dispatch(getMotifs({ id: p?.job, forSpec: true }))
-                                setTimeout(() => {
+            <HStack marginLeft={1} width={"100%"} alignItems={"center"}>
+                <Stack width={"10%"} justifyContent={"center"} alignItems={"center"}>
+                    <Feather onPress={() => navigation.goBack()} name="arrow-left" size={24} color={colors.primary} />
+                </Stack>
+                <Input
+                    ref={InputRef}
+                    width={"80%"}
+                    borderWidth={0}
+                    rounded={12}
+                    paddingLeft={5}
+                    onChangeText={(text) => handleSearch(text)}
+                    fontSize={14}
+                    margin={3}
+                    bg={colors.white}
+                    placeholder='Rechercher un spécialiste'
+                />
+            </HStack>
+            <ScrollView>
+                <VStack space={3}>
+                    {
+                        !loadingSearch ? searchedPrats?.map((p, i) => {
+                            return p?.affectation?.length > 0 && p?.job?._id && (
+                                <TouchableOpacity key={i} onPress={() => {
+                                    dispatch(getDispo({
+                                        idCentre: p?.idCentre,
+                                        idp: p?._id,
+                                    }))
+                                    dispatch(getMotifs({ id: p?.job?._id, forSpec: true }))
                                     navigation.navigate(SCREENS.DETAILS_PRATICIEN, { praticien: p })
-                                }, 1000)
-                            }}>
-                                <DoctorCard nom_complet={p?.name + " " + p?.surname} clinique={p?.affectation.length !== 0 ? p?.affectation[0].label : ""} />
-                            </TouchableOpacity>
-                        )
-                    }) : <VStack>
-                        <DoctorCard isEmpty={true} />
-                        <DoctorCard isEmpty={true} />
-                    </VStack>
-                }
-            </VStack>
+                                }}>
+                                    <DoctorCard
+                                        nom_complet={p?.name + " " + p?.surname}
+                                        clinique={p?.affectation.length !== 0 ? p?.affectation[0].label : ""}
+                                        speciality={p?.job?.label}
+                                    />
+                                </TouchableOpacity>
+                            )
+                        }) : <VStack>
+                            <DoctorCard isEmpty={true} />
+                            <DoctorCard isEmpty={true} />
+                        </VStack>
+                    }
+                </VStack>
+            </ScrollView>
         </Box>
     )
 }

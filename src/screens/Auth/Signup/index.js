@@ -357,7 +357,6 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
               ))}
             </VStack>
           )}
-
           <Input
             isInvalid={!isCkeck}
             h={50}
@@ -396,7 +395,7 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             type={show ? "text" : "password"}
           />
 
-          {confPassword !=="" && formData.password !== confPassword && (
+          {confPassword !== "" && formData.password !== confPassword && (
             <VStack
               style={{
                 backgroundColor: colors.transp_warning,

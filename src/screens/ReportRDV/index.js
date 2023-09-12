@@ -7,7 +7,7 @@ import arrowDown from "../../assets/img/down-arrow.png"
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { MaterialIcons, AntDesign, Foundation } from '@expo/vector-icons';
 import styles from "./style"
-import { ajouterDuree, calculerEcartEnMinutes, creneauxOfDay, dayOfWeek, generateKeyTab, generateValuesTab, goFromDayToNumber } from "../../utils/helper";
+import { ajouterDuree, calculerEcartEnMinutes, creneauxOfDay, dayOfWeek, generateKeyTab, generateValuesTab, goFromDayToNumber, jourDeLaSemaine } from "../../utils/helper";
 import { useDispatch, useSelector } from "react-redux";
 import { getDispo, putRDV } from "../../redux/RDV/actions";
 import DispoLoader from "./dispoLoader";
@@ -142,7 +142,7 @@ export const ReportRDV = ({ route, navigation }) => {
                                 <Text>A partir du:</Text>
                                 <Pressable onPress={handleOpenDatePicker}>
                                     <Box style={{ ...styles.datePicker }}>
-                                        <Text style={{ fontSize: 14 }}>{date}</Text>
+                                        <Text style={{ fontSize: 15}}>{date}</Text>
                                     </Box>
                                 </Pressable>
                                 {showDate &&
@@ -168,9 +168,10 @@ export const ReportRDV = ({ route, navigation }) => {
                                     shadow={2}
                                     accessibilityLabel=""
                                     placeholder=""
+                                    paddingBottom={-0.5}
                                     borderRadius={10}
                                     style={{ ...styles.select }}
-                                    fontSize={14}
+                                    fontSize={17}
                                     dropdownIcon={<Image source={arrowDown} style={{ ...styles.dropDownIcon }} alt="" />}
                                     _light={{ _hover: { bg: "coolGray.200" }, _focus: { bg: "coolGray.200:alpha.70" } }}
                                     _dark={{
@@ -191,12 +192,13 @@ export const ReportRDV = ({ route, navigation }) => {
                                 <Select
                                     shadow={2}
                                     accessibilityLabel=""
+                                    paddingBottom={-0.5}
                                     placeholder=""
                                     borderRadius={10}
                                     style={{
                                         height: 30,
                                         width: 60,
-                                        fontSize: 14
+                                        fontSize: 16
                                     }}
                                     dropdownIcon={<Image source={arrowDown} style={{ ...styles.dropDownIcon }} alt="" />}
                                     _light={{ _hover: { bg: "coolGray.200" }, _focus: { bg: "coolGray.200:alpha.70" } }}
@@ -230,8 +232,8 @@ export const ReportRDV = ({ route, navigation }) => {
                                                     backgroundColor: selectedDay === d ? colors.trans_primary : 'transparent',
                                                 }}
                                             >
-                                                <Text style={{ color: colors.black, }}>
-                                                    {d}
+                                                <Text style={{ color: colors.black, fontSize: 15 }}>
+                                                    {jourDeLaSemaine(d) + ", " + d.split('-')[2]}
                                                 </Text>
                                             </Box>
                                         </Pressable>

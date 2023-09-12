@@ -6,7 +6,7 @@ import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import colors from '../../constants/colours';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import MedItem from '../../components/MedItem';
-import { practiciens, disponibilites, appointmentDate, motifs, generateKeyTab, generateValuesTab } from '../../utils/helper';
+import { practiciens, disponibilites, appointmentDate, motifs, generateKeyTab, generateValuesTab, jourDeLaSemaine } from '../../utils/helper';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { MAKE_APPOINTMENT_SCREEN } from '../../constants/screens';
 import * as SCREENS from '../../constants/screens';
@@ -175,7 +175,7 @@ const MakeAppointment = ({ navigation, route }) => {
     }
 
     const handlePress = () => {
-        navigation.navigate(SCREENS.PAYMENT)
+        navigation.navigate(SCREENS.PAYMENT, { ext: false })
     }
 
     useEffect(() => {
@@ -224,6 +224,7 @@ const MakeAppointment = ({ navigation, route }) => {
                                     <Box>
                                         <SelectList
                                             setSelected={(val) => {
+                                                console.log("logging specialities .......")
                                                 handleChange('speciality', val)
                                             }}
                                             data={specialities?.map((e) => {
@@ -260,6 +261,7 @@ const MakeAppointment = ({ navigation, route }) => {
                                 <Box>
                                     {motifs?.length > 0 && <SelectList
                                         setSelected={(val) => {
+                                            console.log("logging motifs .......")
                                             handleChange('motif', val)
                                         }}
                                         data={motifs?.map((e) => {
@@ -307,6 +309,7 @@ const MakeAppointment = ({ navigation, route }) => {
                                 <VStack style={styles.inputBox}>
                                     <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
                                         {cliniques.map((p, index) => {
+                                            console.log("logging cliniques .......")
                                             return <MedItem
                                                 key={p._id}
                                                 value={formData.lieu}
@@ -345,6 +348,7 @@ const MakeAppointment = ({ navigation, route }) => {
                                 <VStack style={styles.inputBox}>
                                     <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
                                         {praticiens.map((p, index) => {
+                                            console.log("logging prats .......")
                                             return <MedItem
                                                 key={p._id}
                                                 idCentre={p?.idCentre}
@@ -383,8 +387,9 @@ const MakeAppointment = ({ navigation, route }) => {
                                     hintText={generateKeyTab(dispo)?.length > 0 ? 'Sélectionner une période pour votre rendez-vous' : 'Aucune disponibilité pour vos choix'} />
                                 <VStack style={styles.inputBox}>
                                     <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-                                        {generateKeyTab(dispo).map((d, index) =>
-                                            <Pressable onPress={() => handleChange('day', d)} key={d}>
+                                        {generateKeyTab(dispo).map((d, index) => {
+                                            console.log("logging days ....")
+                                            return <Pressable onPress={() => handleChange('day', d)} key={d}>
                                                 <Box
                                                     ml={index !== 0 ? 2 : 0}
                                                     style={{
@@ -399,11 +404,11 @@ const MakeAppointment = ({ navigation, route }) => {
                                                             color: formData.period.day === d?.id ? colors.primary : colors.black,
                                                         }}
                                                     >
-                                                        {d}
+                                                        {jourDeLaSemaine(d)}
                                                     </Text>
                                                 </Box>
                                             </Pressable>
-                                        )}
+                                        })}
                                     </ScrollView>
 
                                     <PresenceTransition
@@ -426,8 +431,9 @@ const MakeAppointment = ({ navigation, route }) => {
                                             </Box>
                                             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
                                                 <HStack alignItems={'center'}>
-                                                    {actualDayCreneaux.map((d, index) =>
-                                                        <Pressable onPress={() => {
+                                                    {actualDayCreneaux.map((d, index) => {
+                                                        console.log("logging days ....")
+                                                        return <Pressable onPress={() => {
                                                             handleChange('time', d?.start)
                                                             dispatch(setRDVForm({
                                                                 ...RDVForm,
@@ -453,7 +459,7 @@ const MakeAppointment = ({ navigation, route }) => {
                                                                 </Text>
                                                             </Box>
                                                         </Pressable>
-                                                    )}
+                                                    })}
                                                 </HStack>
                                             </ScrollView>
                                             <Box ml={1.5} style={styles.prev}>

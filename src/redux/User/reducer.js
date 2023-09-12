@@ -203,6 +203,16 @@ const UserReducer = (state = initialState, action) => {
                 ...state,
                 mapDirections: action.payload
             }
+        case types.SEND_EXPO_TOKEN_SUCCESS:
+            return {
+                ...state,
+                canBeNotified: true
+            }
+        case types.SEND_EXPO_TOKEN_FAILED:
+            return {
+                ...state,
+                canBeNotified: false
+            }
         default:
             return state;
     }

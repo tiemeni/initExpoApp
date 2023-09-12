@@ -61,22 +61,22 @@ const MedCard = ({ praticien }) => {
                             {
                                 motif: null,
                                 praticien: null,
-                                profession: praticien?.job ? searchByName(professions, "Specialiste") : searchByName(professions, "Generaliste"),
+                                profession: praticien?.job?._id ? searchByName(professions, "Specialiste") : searchByName(professions, "Generaliste"),
                                 period: {
                                     day: null,
                                     time: null
                                 }
                             }
                         ))
-                        praticien?.job && dispatch(getSinglePrat(praticien))
-                        praticien?.job && dispatch(getSpecialities(searchByName(professions, "Specialiste")))
-                        praticien?.job && dispatch(getMotifs({ id: searchByName(professions, "Generaliste") }))
-                        praticien?.job && dispatch(setIdCentre(praticien?.idCentre))
-                        praticien?.job && navigation.navigate(SCREENS.MAKE_APPOINTMENT_SCREEN,
+                        praticien?.job?._id && dispatch(getSinglePrat(praticien))
+                        praticien?.job?._id && dispatch(getSpecialities(searchByName(professions, "Specialiste")))
+                        praticien?.job?._id && dispatch(getMotifs({ id: searchByName(professions, "Generaliste") }))
+                        praticien?.job?._id && dispatch(setIdCentre(praticien?.idCentre))
+                        praticien?.job?._id && navigation.navigate(SCREENS.MAKE_APPOINTMENT_SCREEN,
                             {
                                 idp: praticien?._id,
-                                isSpecialist: !!praticien?.job,
-                                idSpeciality: praticien?.job,
+                                isSpecialist: !!praticien?.job?._id,
+                                idSpeciality: praticien?.job?._id,
                                 affectation: praticien?.affectation,
                             }
                         )

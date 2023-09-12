@@ -28,9 +28,9 @@ function* authRegister({ payload }) {
     if (result.success) {
       //yield AsyncStorage.setItem('access_token', result.data.access_token);
       //yield AsyncStorage.setItem('userInfos', JSON.stringify(result.data));
-     // if (payload.saveCredentials) yield AsyncStorage.setItem('userCredentials', JSON.stringify(payload));
+      // if (payload.saveCredentials) yield AsyncStorage.setItem('userCredentials', JSON.stringify(payload));
       yield put({ type: types.REGISTER_USER_SUCCESS, payload: result.data })
-     // yield put({ type: GET_ALL_PRATICIENS })
+      // yield put({ type: GET_ALL_PRATICIENS })
     } else {
       yield put({ type: types.REGISTER_USER_FAILED, payload: result.message })
     }
@@ -176,17 +176,17 @@ function* processVerifCode({ email }) {
       RootNavigation.navigate(SCREENS.RESETPASSWORD, { email: email });
       setTimeout(() => {
         put({ type: types.REINITIALIZE })
-       }, 2000)
+      }, 2000)
     } else {
       yield put({ type: types.PROCESS_VERIF_CODE_FAILED, payload: result.message });
       setTimeout(() => {
-       put({ type: types.REINITIALIZE })
+        put({ type: types.REINITIALIZE })
       }, 2000)
     }
   } catch (error) {
     setTimeout(() => {
       put({ type: types.REINITIALIZE })
-     }, 2000)
+    }, 2000)
     yield put({ type: types.PROCESS_VERIF_CODE_FAILED, payload: "une erreur est survenue , veillez ressayez!" });
     yield put({ type: types.REINITIALIZE })
   }
@@ -250,6 +250,20 @@ function* getDirections({ payload }) {
   }
 }
 
+function* sendExpoToken({ payload }) {
+  const url = `${BASE_URL}/users/update-push-token/${payload._id}?module=externe`
+
+  try {
+    const result = yield patchUnauthRequest(url, { token: payload.token })
+    if (!result.success) {
+      yield put({ type: types.SEND_EXPO_TOKEN_FAILED, payload: result.message })
+    }
+    yield put({ type: types.SEND_EXPO_TOKEN_SUCCESS, payload: result.data })
+  } catch (error) {
+    console.error("Something went wrong...", error)
+  }
+}
+
 export default function* UserSaga() {
   yield takeLatest(types.REGISTER_USER_REQUEST, authRegister);
   yield takeLatest(types.LOGIN_REQUEST, authLogin);
@@ -261,4 +275,5 @@ export default function* UserSaga() {
   yield takeLatest(types.UPDATE_USER_INFORMATION_RESQUEST, authUpdateInfo);
   yield takeLatest(types.COORDS_TO_ADDRESS_REQUEST, getAddressFromCoords);
   yield takeLatest(types.GET_MAP_DIRECTIONS_REQUEST, getDirections);
+  yield takeLatest(types.SEND_EXPO_TOKEN_REQUEST, sendExpoToken)
 }
