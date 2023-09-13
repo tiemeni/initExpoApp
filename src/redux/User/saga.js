@@ -1,6 +1,11 @@
 import { put, takeLatest } from "redux-saga/effects";
 import * as types from "./types";
-import { postUnauthRequest, patchUnauthRequest, putRequestFormData, getUnauthRequest } from "../../utils/api";
+import {
+  postUnauthRequest,
+  patchUnauthRequest,
+  putRequestFormData,
+  getUnauthRequest,
+} from "../../utils/api";
 import {
   BASE_URL,
   USER_LOCAL_AUTH,
@@ -14,7 +19,7 @@ import * as SCREENS from "../../constants/screens";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { GET_ALL_PRATICIENS } from "../Praticiens/types";
 
-const _openMapKey = "5b3ce3597851110001cf624891231ecc67bc4e35a9f4b4a35b6a1f10"
+const _openMapKey = "5b3ce3597851110001cf624891231ecc67bc4e35a9f4b4a35b6a1f10";
 
 /**
  * @description user sign up.
@@ -29,14 +34,19 @@ function* authRegister({ payload }) {
       //yield AsyncStorage.setItem('access_token', result.data.access_token);
       //yield AsyncStorage.setItem('userInfos', JSON.stringify(result.data));
       // if (payload.saveCredentials) yield AsyncStorage.setItem('userCredentials', JSON.stringify(payload));
-      yield put({ type: types.REGISTER_USER_SUCCESS, payload: result.data })
+      yield put({ type: types.REGISTER_USER_SUCCESS, payload: result.data });
       // yield put({ type: GET_ALL_PRATICIENS })
     } else {
-      yield put({ type: types.REGISTER_USER_FAILED, payload: result.message })
+      yield put({ type: types.REGISTER_USER_FAILED, payload: result.message });
+      if (result?.message == "L'utilisateur existe déjà") {
+         setTimeout(() => {
+          RootNavigation.navigate(SCREENS.LOGIN);
+        }, 2000);
+      }
     }
   } catch (error) {
     console.error(error);
-    yield put({ type: types.REGISTER_USER_FAILED, payload: error })
+    yield put({ type: types.REGISTER_USER_FAILED, payload: error });
   }
 }
 
@@ -66,12 +76,12 @@ function* authUpdateInfo({ payload, _id }) {
 }
 
 function* setUserProfile({ payload, _id }) {
-  const url = BASE_URL + SET_PROFILE + _id + '?module=externe';
+  const url = BASE_URL + SET_PROFILE + _id + "?module=externe";
   const formData = new FormData();
-  formData.append('photo', {
+  formData.append("photo", {
     uri: payload.uri,
-    name: 'image.jpg',
-    type: 'image/jpeg',
+    name: "image.jpg",
+    type: "image/jpeg",
   });
 
   try {
@@ -110,17 +120,17 @@ function* authLogin({ payload }) {
         yield AsyncStorage.setItem("userCredentials", JSON.stringify(payload));
       }
 
-      yield put({ type: types.LOGIN_SUCCESS, payload: result.data })
-      yield put({ type: GET_ALL_PRATICIENS })
-      RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
+      yield put({ type: types.LOGIN_SUCCESS, payload: result.data });
+      yield put({ type: GET_ALL_PRATICIENS });
+      RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE);
     } else {
-      yield put({ type: types.LOGIN_FAILED, payload: result.message })
-      yield put({ type: types.REINITIALIZE })
+      yield put({ type: types.LOGIN_FAILED, payload: result.message });
+      yield put({ type: types.REINITIALIZE });
     }
   } catch (error) {
     console.error(error);
-    yield put({ type: types.REGISTER_USER_FAILED, payload: error })
-    yield put({ type: types.REINITIALIZE })
+    yield put({ type: types.REGISTER_USER_FAILED, payload: error });
+    yield put({ type: types.REINITIALIZE });
   }
 }
 
@@ -167,45 +177,69 @@ function* authLogout() {
   }
 }
 
-function* processVerifCode({ email }) {
-  const url = BASE_URL + "/ext_users/process_verif_code/"
+function* processVerifCode({ data }) {
+  const url = BASE_URL + "/ext_users/process_verif_code/";
+  console.log(data);
+  const payload =
+    data?.register === true
+      ? {
+          email: data?.email,
+          register: data?.register,
+          formData: data?.formData,
+        }
+      : { email: data?.email };
   try {
-    const result = yield postUnauthRequest(url, { email: email })
+    const result = yield postUnauthRequest(url, payload);
     if (result.success) {
-      yield put({ type: types.PROCESS_VERIF_CODE_SUCCESS, payload: result?.data })
-      RootNavigation.navigate(SCREENS.RESETPASSWORD, { email: email });
+      yield put({
+        type: types.PROCESS_VERIF_CODE_SUCCESS,
+        payload: result?.data,
+      });
+      RootNavigation.navigate(SCREENS.RESETPASSWORD, payload);
       setTimeout(() => {
-        put({ type: types.REINITIALIZE })
-      }, 1000)
+        put({ type: types.REINITIALIZE });
+      }, 1000);
     } else {
-      yield put({ type: types.PROCESS_VERIF_CODE_FAILED, payload: result.message });
+      yield put({
+        type: types.PROCESS_VERIF_CODE_FAILED,
+        payload: result.message,
+      });
       setTimeout(() => {
-        put({ type: types.REINITIALIZE })
-      }, 1000)
+        put({ type: types.REINITIALIZE });
+      }, 1000);
     }
   } catch (error) {
     setTimeout(() => {
-      put({ type: types.REINITIALIZE })
-    }, 1000)
-    yield put({ type: types.PROCESS_VERIF_CODE_FAILED, payload: "une erreur est survenue , veillez ressayez!" });
-    yield put({ type: types.REINITIALIZE })
+      put({ type: types.REINITIALIZE });
+    }, 1000);
+    yield put({
+      type: types.PROCESS_VERIF_CODE_FAILED,
+      payload: "une erreur est survenue , veillez ressayez!",
+    });
+    yield put({ type: types.REINITIALIZE });
   }
 }
 
 function* resetPassWord({ data }) {
-  const url = BASE_URL + "/ext_users/" + data?.id
+  const url = BASE_URL + "/ext_users/" + data?.id;
   try {
-    const result = yield patchUnauthRequest(url, { password: data?.password })
+    const result = yield patchUnauthRequest(url, { password: data?.password });
     if (result?.success) {
       yield RootNavigation.navigate(SCREENS.LOGIN, { refresh: true });
-      yield put({ type: types.REINITIALIZE })
+      yield put({ type: types.REINITIALIZE });
     } else {
-      yield put({ type: types.RESET_PASSWORD_REQUEST_FAILED, payload: "une erreur est survenue , veillez ressayez!" });
-      yield put({ type: types.REINITIALIZE })
+      yield put({
+        type: types.RESET_PASSWORD_REQUEST_FAILED,
+        payload: "une erreur est survenue , veillez ressayez!",
+      });
+      yield put({ type: types.REINITIALIZE });
     }
   } catch (error) {
-    yield put({ type: types.RESET_PASSWORD_REQUEST_SUCCESS, payload: "une erreur est survenue , veillez ressayez!" });
-    yield put({ type: types.REINITIALIZE })
+    yield put({
+      type: types.RESET_PASSWORD_REQUEST_SUCCESS,
+      payload: "une erreur est survenue , veillez ressayez!",
+    });
+    yield put({ type: types.REINITIALIZE });
   }
 }
 
@@ -218,49 +252,60 @@ function* getAddressFromCoords({ payload }) {
   const apiUrl = `https://nominatim.openstreetmap.org/reverse?lat=${payload.latitude}&lon=${payload.longitude}&format=json`;
   try {
     // If there haven't changes don't do anything
-    const c = yield AsyncStorage.getItem("coords")
-    const savedCoords = JSON.parse(c)
+    const c = yield AsyncStorage.getItem("coords");
+    const savedCoords = JSON.parse(c);
 
-    if (savedCoords?.latitute === payload.latitute &&
-      savedCoords?.longitute === payload.longitude) {
-      const coords = yield AsyncStorage.getItem("location")
-      yield put({ type: types.COORDS_TO_ADDRESS_SUCCESS, payload: JSON.parse(coords) })
+    if (
+      savedCoords?.latitute === payload.latitute &&
+      savedCoords?.longitute === payload.longitude
+    ) {
+      const coords = yield AsyncStorage.getItem("location");
+      yield put({
+        type: types.COORDS_TO_ADDRESS_SUCCESS,
+        payload: JSON.parse(coords),
+      });
     }
 
     AsyncStorage.setItem("coords", JSON.stringify(payload));
     //Send the request
     const res = yield getUnauthRequest(apiUrl);
-    if (!res?.address) yield put({ type: types.COORDS_TO_ADDRESS_FAILED })
-    yield put({ type: types.COORDS_TO_ADDRESS_SUCCESS, payload: res })
-    AsyncStorage.setItem("location", JSON.stringify(res))
+    if (!res?.address) yield put({ type: types.COORDS_TO_ADDRESS_FAILED });
+    yield put({ type: types.COORDS_TO_ADDRESS_SUCCESS, payload: res });
+    AsyncStorage.setItem("location", JSON.stringify(res));
   } catch (error) {
-    yield put({ type: types.COORDS_TO_ADDRESS_FAILED })
+    yield put({ type: types.COORDS_TO_ADDRESS_FAILED });
   }
 }
 
 function* getDirections({ payload }) {
-  const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${_openMapKey}&start=${'8.681495,49.41461'}&end=${'8.687872,49.420318'}`
+  const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${_openMapKey}&start=${"8.681495,49.41461"}&end=${"8.687872,49.420318"}`;
   try {
-    const res = yield getUnauthRequest(url)
-    const { coordinates } = res.features[0].geometry
-    const coords = coordinates.map(([longitude, latitude]) => ({ latitude, longitude }));
-    yield put({ type: types.GET_MAP_DIRECTIONS_SUCCESS, payload: coords })
+    const res = yield getUnauthRequest(url);
+    const { coordinates } = res.features[0].geometry;
+    const coords = coordinates.map(([longitude, latitude]) => ({
+      latitude,
+      longitude,
+    }));
+    yield put({ type: types.GET_MAP_DIRECTIONS_SUCCESS, payload: coords });
   } catch (error) {
-    yield put({ type: types.GET_MAP_DIRECTIONS_FAILED })
+    yield put({ type: types.GET_MAP_DIRECTIONS_FAILED });
   }
 }
 
 function* sendExpoToken({ payload }) {
-  const url = `${BASE_URL}/users/update-push-token/${payload._id}?module=externe`
+  const url = `${BASE_URL}/users/update-push-token/${payload._id}?module=externe`;
 
   try {
-    const result = yield patchUnauthRequest(url, { token: payload.token })
+    const result = yield patchUnauthRequest(url, { token: payload.token });
     if (!result.success) {
-      yield put({ type: types.SEND_EXPO_TOKEN_FAILED, payload: result.message })
+      yield put({
+        type: types.SEND_EXPO_TOKEN_FAILED,
+        payload: result.message,
+      });
     }
-    yield put({ type: types.SEND_EXPO_TOKEN_SUCCESS, payload: result.data })
+    yield put({ type: types.SEND_EXPO_TOKEN_SUCCESS, payload: result.data });
   } catch (error) {
-    console.error("Something went wrong...", error)
+    console.error("Something went wrong...", error);
   }
 }
 
@@ -275,5 +320,5 @@ export default function* UserSaga() {
   yield takeLatest(types.UPDATE_USER_INFORMATION_RESQUEST, authUpdateInfo);
   yield takeLatest(types.COORDS_TO_ADDRESS_REQUEST, getAddressFromCoords);
   yield takeLatest(types.GET_MAP_DIRECTIONS_REQUEST, getDirections);
-  yield takeLatest(types.SEND_EXPO_TOKEN_REQUEST, sendExpoToken)
+  yield takeLatest(types.SEND_EXPO_TOKEN_REQUEST, sendExpoToken);
 }

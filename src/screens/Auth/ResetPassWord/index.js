@@ -22,12 +22,12 @@ import {
   useClearByFocusCell,
 } from "react-native-confirmation-code-field";
 import { Warning2, ArrowLeft } from "iconsax-react-native";
-import { processVerifCode } from "../../../redux/User/action";
+import { processVerifCode, userRegistration } from "../../../redux/User/action";
 import CustomToast from "../../../components/CustomToast";
 import styles from "./style";
-import {resettingPassword} from "../../../redux/User/action";
+import { resettingPassword } from "../../../redux/User/action";
 import colors from "../../../constants/colours";
-import * as SCREENS from "../../../constants/screens"
+import * as SCREENS from "../../../constants/screens";
 
 const CELL_COUNT = 5;
 
@@ -37,6 +37,7 @@ const ResetPassWord = ({
   codeVerifSuccess,
   errorCodeVerif,
   route,
+  loadingReg,
 }) => {
   const [borderCol, setBorderCol] = useState(colors.danger);
   const [value, setValue] = useState("");
@@ -54,6 +55,7 @@ const ResetPassWord = ({
 
   const dispatch = useDispatch();
   const { email } = route?.params;
+  const { register } = route?.params;
   const [newPw, setNewPw] = useState("");
   const [cnfPw, setCnfPw] = useState("");
   const [loading, setLoading] = useState(false);
@@ -66,7 +68,6 @@ const ResetPassWord = ({
     caracters[4] == codeVerif?.codeVerif?.split("")[4];
 
   const navigateback = useNavigation();
-
 
   const toast = useToast();
   useEffect(() => {
@@ -90,7 +91,7 @@ const ResetPassWord = ({
   }, [codeVerifSuccess, errorCodeVerif]);
 
   const resetPassword = () => {
-    dispatch(processVerifCode(email));
+    dispatch(processVerifCode({ email: email }));
   };
 
   const isPasswordWeak = (password) => {
@@ -122,7 +123,12 @@ const ResetPassWord = ({
   const handleCheck = () => {
     if (value == codeVerif?.codeVerif) {
       setBorderCol(colors.success);
-      setCanResetPw(true);
+      !register && setCanResetPw(true);
+      console.log(route.params)
+      register &&
+        dispatch(
+          userRegistration({ ...route?.params?.formData, active: true })
+        );
     }
   };
 
@@ -137,9 +143,13 @@ const ResetPassWord = ({
   }, [canResetPw, value, codeVerif]);
 
   return (
-    <View  bg={colors.white} flex={1} p={5}>
-        
-        <ArrowLeft onPress={()=> navigateback.goBack()} style={{marginBottom:10}} size={25} color={colors.black} />
+    <View bg={colors.white} flex={1} p={5}>
+      <ArrowLeft
+        onPress={() => navigateback.goBack()}
+        style={{ marginBottom: 10 }}
+        size={25}
+        color={colors.black}
+      />
       <VStack alignItems={"center"} mb={15}>
         <Box mb={10}>
           <Box style={styles.circle}>
@@ -155,7 +165,7 @@ const ResetPassWord = ({
             height: 30,
           }}
         >
-          Mot de passe oublié
+          {register ? "Vérification de mail" : "Mot de passe oublié"}
         </Text>
       </VStack>
       <Box alignItems={"center"} bg={colors.white} width={"100%"}>
@@ -202,11 +212,17 @@ const ResetPassWord = ({
           {!canResetPw && (
             <HStack space={1}>
               <Text style={styles.phoneNumber}>{email ?? ""}</Text>
-              <Pressable onPress={() => navigateback.navigate(SCREENS.PHONE_CONFIRMATION_SCREEN)}>
-                <Text style={{ ...styles.phoneNumber, color: colors.yellow }}>
-                  /changer ?
-                </Text>
-              </Pressable>
+              {!register && (
+                <Pressable
+                  onPress={() => {
+                    navigateback.navigate(SCREENS.PHONE_CONFIRMATION_SCREEN);
+                  }}
+                >
+                  <Text style={{ ...styles.phoneNumber, color: colors.yellow }}>
+                    /changer ?
+                  </Text>
+                </Pressable>
+              )}
             </HStack>
           )}
           {canResetPw && (
@@ -295,8 +311,8 @@ const ResetPassWord = ({
           mb={4}
           style={styles.btn}
           isLoading={settingPWLoading}
-          variant={canResetPw?'solid':'outline'}
-          borderWidth={canResetPw?0:2}
+          variant={canResetPw ? "solid" : "outline"}
+          borderWidth={canResetPw ? 0 : 2}
           onPress={() => {
             if (canResetPw && messages.length <= 0 && cnfPw === newPw) {
               handleChangeMp();
@@ -310,7 +326,11 @@ const ResetPassWord = ({
               Envoyer
             </Text>
           ) : codeVerifLoading ? (
-            <Spinner accessibilityLabel="loading" size="sm" color={colors.primary} />
+            <Spinner
+              accessibilityLabel="loading"
+              size="sm"
+              color={colors.primary}
+            />
           ) : (
             <Text color={colors.primary} style={styles.btnLabel}>
               Renvoyer le code
@@ -320,7 +340,7 @@ const ResetPassWord = ({
         {!canResetPw && (
           <Button
             //borderWidth={2}
-            isLoading={loading}
+            isLoading={loading || loadingReg}
             style={styles.btn}
             //variant={"outline"}
             onPress={() => handleCheck()}
@@ -335,11 +355,11 @@ const ResetPassWord = ({
   );
 };
 
-
 const mapStateToProps = ({ UserReducer }) => ({
-    codeVerifLoading: UserReducer.codeVerifLoading,
-    errorCodeVerif: UserReducer.errorCodeVerif,
-    codeVerifSuccess: UserReducer.codeVerifSuccess,
-  });
+  codeVerifLoading: UserReducer.codeVerifLoading,
+  errorCodeVerif: UserReducer.errorCodeVerif,
+  codeVerifSuccess: UserReducer.codeVerifSuccess,
+  loadingReg: UserReducer.loading,
+});
 
 export default connect(mapStateToProps)(ResetPassWord);

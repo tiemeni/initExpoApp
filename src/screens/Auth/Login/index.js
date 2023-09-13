@@ -27,7 +27,7 @@ import {
 } from "../../../redux/User/action";
 import CustomToast from "../../../components/CustomToast";
 import { useTranslation } from "react-i18next";
-import { Eye, EyeSlash, Lock, User , Warning2} from "iconsax-react-native";
+import { Eye, EyeSlash, Lock, User, Warning2 } from "iconsax-react-native";
 import { isEmailValid } from "../../../utils/helper";
 
 const Login = ({ navigation, error, loading, errorMsg, success }) => {
@@ -75,7 +75,7 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
 
   const resetPassword = () => {
     setIsEmpty(true);
-    dispatch(processVerifCode(formData.email));
+    dispatch(processVerifCode({ email: formData?.email }));
   };
 
   React.useEffect(() => {
@@ -110,8 +110,8 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
           <Input
             h={50}
             rounded={50}
-            borderWidth={(isEmpty && formData.email === "")?1:0}
-            borderColor={isEmpty?colors.danger:''}
+            borderWidth={isEmpty && formData.email === "" ? 1 : 0}
+            borderColor={isEmpty ? colors.danger : ""}
             fontSize={14}
             bg={colors.desable}
             InputLeftElement={
@@ -129,18 +129,35 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
             onChangeText={(value) => handleInputChange("email", value)}
             value={formData.email}
           />
-          {isEmpty && formData.email ==="" ? 
-          <HStack rounded={5} p={1} backgroundColor={colors.transp_warning} space={1}>
-                <Warning2 color={colors.warning} size={15} />
-                <Text
-                  style={{
-                    fontSize: 12,
-                    color: colors.warning,
-                  }}
-                >
-                  Veillez saisir votre email a fin de recevoir le code de vérification
-                </Text>
-              </HStack> : formData.email !== "" && !isEmailValid(formData.email) && <HStack alignItems={"center"} padding={2} rounded={5} p={1} backgroundColor={colors.transp_danger} space={1}>
+          {isEmpty && formData.email === "" ? (
+            <HStack
+              rounded={5}
+              p={1}
+              backgroundColor={colors.transp_warning}
+              space={1}
+            >
+              <Warning2 color={colors.warning} size={15} />
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: colors.warning,
+                }}
+              >
+                Veillez saisir votre email a fin de recevoir le code de
+                vérification
+              </Text>
+            </HStack>
+          ) : (
+            formData.email !== "" &&
+            !isEmailValid(formData.email) && (
+              <HStack
+                alignItems={"center"}
+                padding={2}
+                rounded={5}
+                p={1}
+                backgroundColor={colors.transp_danger}
+                space={1}
+              >
                 <Warning2 color={colors.danger} size={15} />
                 <Text
                   style={{
@@ -150,7 +167,9 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
                 >
                   Mauvais format d'e-mail
                 </Text>
-              </HStack>}
+              </HStack>
+            )
+          )}
           <Input
             rounded={50}
             h={50}
@@ -213,7 +232,6 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
           onPress={() => navigation.navigate(SCREENS.PHONE_CONFIRMATION_SCREEN)}
         >
           <Text style={styles.forgetPassword} mt={5}>
-           
             Mot de passe oublié ?
           </Text>
         </Pressable>

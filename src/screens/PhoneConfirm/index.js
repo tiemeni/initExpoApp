@@ -9,7 +9,7 @@ import {
   VStack,
   Input,
   Spinner,
-  useToast
+  useToast,
 } from "native-base";
 import { EvilIcons } from "@expo/vector-icons";
 import { Pressable, SafeAreaView } from "react-native";
@@ -45,21 +45,21 @@ const PhoneConfirm = ({
   const [isEmpty, setIsEmpty] = useState(false);
   const emailValide = isEmailValid(email1);
 
-  console.log('eamil valide', emailValide)
+  console.log("eamil valide", emailValide);
 
   const toast = useToast();
 
   const resetPassword = () => {
     setIsEmpty(true);
-    if(email1 !== ""){
-    dispatch(processVerifCode(email1))
-    };
+    if (email1 !== "") {
+      dispatch(processVerifCode({ email: email1 }));
+    }
     if (errorCodeVerif) {
       toast.show({
         render: () => {
           return (
             <CustomToast
-              message={errorCodeVerif?"Compte est introuvable":""}
+              message={errorCodeVerif ? "Compte est introuvable" : ""}
               color={colors.danger}
               bgColor={"red.100"}
               icon={<Warning2 />}
@@ -113,7 +113,9 @@ const PhoneConfirm = ({
           w="90%"
           borderRadius={25}
           paddingLeft={5}
-          borderColor={(isEmpty && email1 === "")? colors.danger : colors.text_grey_hint}
+          borderColor={
+            isEmpty && email1 === "" ? colors.danger : colors.text_grey_hint
+          }
           paddingRight={5}
           onChangeText={(e) => setEmail(e)}
           height={45}
@@ -128,7 +130,7 @@ const PhoneConfirm = ({
             backgroundColor={colors.transp_warning}
             space={1}
             width={"85%"}
-            alignItems={'center'}
+            alignItems={"center"}
           >
             <Warning2 color={colors.danger} size={15} />
             <Text

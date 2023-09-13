@@ -23,7 +23,11 @@ import styles from "./styles";
 import moment from "moment";
 import * as SCREENS from "../../../constants/screens";
 import { useDispatch, connect } from "react-redux";
-import { userRegistration, reinitialize } from "../../../redux/User/action";
+import {
+  userRegistration,
+  reinitialize,
+  processVerifCode,
+} from "../../../redux/User/action";
 import { isValidEmail } from "../../../utils/helper";
 import CustomToast from "../../../components/CustomToast";
 import {
@@ -180,7 +184,17 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
 
   const onSubmit = () => {
     if (!isFieldsEmpty) {
-      dispatch(userRegistration({ ...formData, active: true }));
+      //dispatch(userRegistration({ ...formData, active: true }));
+      const emailPayload = { email: formData?.email, register: true };
+      const payload = { ...formData, active: true, ...emailPayload };
+      dispatch(
+        processVerifCode({
+          email: formData?.email,
+          register: true,
+          formData: payload,
+        })
+      );
+      // navigation.navigate(SCREENS.RESETPASSWORD, payload);
     } else {
       toast.show({
         render: () => {
@@ -380,9 +394,7 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             InputRightElement={
               <Pressable onPress={() => setShow(!show)}>
                 <Icon
-                  as={
-                    show ? <Eye /> : <EyeSlash color={colors.primary} />
-                  }
+                  as={show ? <Eye /> : <EyeSlash color={colors.primary} />}
                   size={5}
                   mr={4}
                   color={colors.primary}
@@ -496,9 +508,9 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             <HStack>
               <Text style={styles.cgu}>J'accepte les</Text>
               <Pressable
-                // onPress={() => {
-                //   navigateCgu.navigate(SCREENS.CGU);
-                // }}
+              // onPress={() => {
+              //   navigateCgu.navigate(SCREENS.CGU);
+              // }}
               >
                 <Text style={styles.cguText}>
                   Conditions génétales d'utilisations
