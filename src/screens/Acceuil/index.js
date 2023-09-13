@@ -200,7 +200,7 @@ const Acceuil = ({ navigation, userInfos = {}, load_address, address, ...props }
         <VStack my={_spacing}>
           <HStack mx={_spacing} justifyContent={'space-between'}>
             <Text fontWeight={600}>{translate("TEXT.POPULAR_DOC")}</Text>
-            <Pressable onPress={() => { navigation.navigate(SCREENS.GLOBAL_SEARCH) }}>
+            <Pressable onPress={() => { navigation.navigate(SCREENS.ALLPRATICIENTS) }}>
               <Text color="primary.500">{translate("TEXT.SEE_ALL")}</Text>
             </Pressable>
           </HStack>
