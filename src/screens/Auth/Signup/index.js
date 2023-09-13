@@ -339,7 +339,7 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
                 padding: 8,
               }}
             >
-              <HStack space={1}>
+              <HStack space={1} alignItems={"center"}>
                 <Warning2 color={colors.danger} size={15} />
                 <Text
                   style={{
@@ -381,7 +381,7 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
               <Pressable onPress={() => setShow(!show)}>
                 <Icon
                   as={
-                    show ? <Eye /> : <EyeSlash color={colors.text_grey_hint} />
+                    show ? <Eye /> : <EyeSlash color={colors.primary} />
                   }
                   size={5}
                   mr={4}
@@ -403,7 +403,7 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
                 padding: 8,
               }}
             >
-              <HStack space={1}>
+              <HStack space={1} alignItems={"center"}>
                 <Warning2 color={colors.danger} size={15} />
                 <Text
                   style={{
@@ -450,7 +450,7 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
               value={formData.telephone}
               onChangeText={(value) => handleInputChange("telephone", value)}
               mask={["6", " ", /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}
-              placeholder="Téléphone"
+              placeholder="6xxxxxxxx"
               keyboardType="numeric"
             />
           </HStack>
@@ -496,9 +496,9 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             <HStack>
               <Text style={styles.cgu}>J'accepte les</Text>
               <Pressable
-                onPress={() => {
-                  navigateCgu.navigate(SCREENS.CGU);
-                }}
+                // onPress={() => {
+                //   navigateCgu.navigate(SCREENS.CGU);
+                // }}
               >
                 <Text style={styles.cguText}>
                   Conditions génétales d'utilisations
