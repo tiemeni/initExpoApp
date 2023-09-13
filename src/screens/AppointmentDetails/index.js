@@ -136,7 +136,7 @@ const AppointmentDetails = ({ navigation, appointments }) => {
                   onPress={() => setDisplSuppMod(true)}
                   minWidth="1/4"
                 />
-                <Button style={styles.button} onPress={() => navigation.navigate(SCREENS.APPOINTMENT_REPORT_SCREEN, { navigation: navigation, appointment: appointment })} backgroundColor={colors.primary}>
+                <Button style={styles.button} onPress={() => navigation.navigate(SCREENS.APPOINTMENT_REPORT_SCREEN, { navigation: navigation, appointment: JSON.stringify(appointment) })} backgroundColor={colors.primary}>
                   <Text color={colors.white} fontWeight={500}>Reporter</Text>
                 </Button>
               </HStack>

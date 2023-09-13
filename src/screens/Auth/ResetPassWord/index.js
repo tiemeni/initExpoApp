@@ -232,7 +232,7 @@ const ResetPassWord = ({
                     padding: 8,
                   }}
                 >
-                  <HStack space={1}>
+                  <HStack space={1} alignItems={"center"}>
                     <Warning2 color={colors.danger} size={15} />
                     <Text
                       style={{
@@ -275,7 +275,7 @@ const ResetPassWord = ({
                     padding: 8,
                   }}
                 >
-                  <HStack space={1}>
+                  <HStack space={1} alignItems={"center"}>
                     <Warning2 color={colors.danger} size={15} />
                     <Text
                       style={{

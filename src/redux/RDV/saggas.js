@@ -22,7 +22,6 @@ function* getMotifs({ data }) {
             yield put({ type: types.GET_MOTIFS_REQUEST_FAILED, payload: result.message })
         }
     } catch (error) {
-        console.error(error);
         yield put({ type: types.GET_MOTIFS_REQUEST_FAILED, payload: error })
     }
 }
@@ -38,7 +37,6 @@ function* getSpecialities({ id }) {
             yield put({ type: types.GET_SPECIALITIES_REQUEST_FAILED, payload: result.message })
         }
     } catch (error) {
-        console.error(error);
         yield put({ type: types.GET_SPECIALITIES_REQUEST_FAILED, payload: error })
     }
 }
@@ -70,7 +68,6 @@ function* getPraticiens({ data }) {
             yield put({ type: types.GET_PRATICIENS_REQUEST_FAILED, payload: result.message })
         }
     } catch (error) {
-        console.error(error);
         yield put({ type: types.GET_PRATICIENS_REQUEST_FAILED, payload: error })
     }
 }
@@ -91,7 +88,6 @@ function* getDispo({ data }) {
             yield put({ type: types.GET_DISPO_REQUEST_FAILED, payload: result.message })
         }
     } catch (error) {
-        console.error(error);
         yield put({ type: types.GET_DISPO_REQUEST_FAILED, payload: error })
     }
 }
@@ -99,7 +95,6 @@ function* getDispo({ data }) {
 function* postRDV({ data }) {
     let url1 = BASE_URL + "/patients/register?idCentre=" + data?.idCentre
     let url2 = BASE_URL + "/appointments/enregistrer_rdv/?idCentre=" + data?.idCentre
-    console.log(data.user._id)
     const payload = {
         name: data?.user?.name,
         surname: data?.user.surname,
@@ -130,7 +125,6 @@ function* postRDV({ data }) {
                 date: data?.period?.day,
             }
             idFiche = result.message
-            console.log(url2, "---", rdvData)
             rdv = yield postUnauthRequest(url2, rdvData);
             // yield put({ type: types.GET_DISPO_REQUEST_SUCCESS, payload: result.data })
             // RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
@@ -151,8 +145,7 @@ function* postRDV({ data }) {
                 date: data?.period?.day,
             }
             idFiche = result.data?._id
-            console.log(url2, "---", rdvData),
-                rdv = yield postUnauthRequest(url2, rdvData);
+            rdv = yield postUnauthRequest(url2, rdvData);
         } else {
             yield put({ type: types.POST_RDV_REQUEST_FAILED, payload: "Erreur lors de la creation du rendez-vous!" })
             yield setTimeout(() => {
@@ -161,12 +154,13 @@ function* postRDV({ data }) {
             }, 3000)
         }
         if (rdv?.success) {
+            console.log("rdv-------------", rdv)
             yield put({ type: types.POST_RDV_REQUEST_SUCCESS, payload: rdv?.data?._id })
             yield put({ type: types.GET_ALL_MY_RDV, id: payload.user })
             yield put({ type: MY_FICHES, payload: idFiche })
             yield setTimeout(() => {
                 put({ type: "CLEAR_ERR_SUCC" })
-                RootNavigation.navigate(SCREENS.SUCCESS, { id: rdv?.data?._id })
+                RootNavigation.navigate(SCREENS.SUCCESS, { id: rdv?.data?._id, rdv })
             }, 3000)
         } else {
             yield put({ type: types.POST_RDV_REQUEST_FAILED, payload: "Erreur lors de la creation du rendez-vous!" })

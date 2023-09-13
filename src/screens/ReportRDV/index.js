@@ -33,13 +33,13 @@ export const ReportRDV = ({ route, navigation }) => {
     const putingRdv = useSelector(state => state.RdvForm.putingRdv)
     const scrollViewRef = React.useRef();
     const [shouldScroll, setShouldScroll] = useState(false)
-    const toast = useToast();
     const dispatch = useDispatch()
     const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"))
     const [day, setDay] = useState(goFromDayToNumber("lundi"))
     const [creneau, setCreneau] = useState('08:00-17:00')
     const { params } = route
     const { appointment } = params
+
 
     const handleSelectDay = (day) => {
         setSelectedDay(day)
@@ -91,7 +91,6 @@ export const ReportRDV = ({ route, navigation }) => {
                 putingErrorMsg || "Une erreur est survenue !",
             )
         }
-
         if (successOnPut) {
             Alert.alert(
                 "RENDEZ-VOUS",
@@ -142,7 +141,7 @@ export const ReportRDV = ({ route, navigation }) => {
                                 <Text>A partir du:</Text>
                                 <Pressable onPress={handleOpenDatePicker}>
                                     <Box style={{ ...styles.datePicker }}>
-                                        <Text style={{ fontSize: 15}}>{date}</Text>
+                                        <Text style={{ fontSize: 15 }}>{date}</Text>
                                     </Box>
                                 </Pressable>
                                 {showDate &&

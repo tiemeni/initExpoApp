@@ -140,7 +140,7 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
                 >
                   Veillez saisir votre email a fin de recevoir le code de vérification
                 </Text>
-              </HStack> : formData.email !== "" && !isEmailValid(formData.email) && <HStack rounded={5} p={1} backgroundColor={colors.transp_danger} space={1}>
+              </HStack> : formData.email !== "" && !isEmailValid(formData.email) && <HStack alignItems={"center"} padding={2} rounded={5} p={1} backgroundColor={colors.transp_danger} space={1}>
                 <Warning2 color={colors.danger} size={15} />
                 <Text
                   style={{
@@ -148,7 +148,7 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
                     color: colors.danger,
                   }}
                 >
-                  Veillez entrez une addresse mail valide sous un bon format
+                  Mauvais format d'e-mail
                 </Text>
               </HStack>}
           <Input

@@ -5,7 +5,7 @@ import { Alert } from 'react-native';
 
 
 const PrimaryButton = ({
-    title = 'Valider',
+    title,
     onPress,
     isLoading = false,
     isLoadingText = 'Submitting',

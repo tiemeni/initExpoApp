@@ -42,7 +42,7 @@ const MedItem = ({ value, infosPraticien, handleChange, index, trigger, infosCli
                 </HStack>
                 <HStack mt={1} alignItems={'center'}>
                     <Icon color={colors.primary} as={FontAwesome} name='hospital-o' />
-                    <Text ml={1} style={styles.medCenter}>{infosPraticien ? infosPraticien.email : infosClinique.label}</Text>
+                    <Text ml={1} style={styles.medCenter}>{infosPraticien ? infosPraticien.email : infosClinique.ville + " - " + infosClinique?.region}</Text>
                 </HStack>
                 <HStack mt={1} alignItems={'center'}>
                     <Icon color={colors.secondary} as={Entypo} name='wallet' />

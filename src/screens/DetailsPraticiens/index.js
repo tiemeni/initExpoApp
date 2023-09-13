@@ -89,8 +89,8 @@ export const DetailsPraticien = ({ route, navigation }) => {
                     borderRadius: 10
                 }}>
                     <Box style={{
-                        height: 90,
-                        width: 90,
+                        height: 80,
+                        width: 80,
                         borderRadius: 10,
                         backgroundColor: colors.text_grey_hint
                     }}></Box>
@@ -100,21 +100,21 @@ export const DetailsPraticien = ({ route, navigation }) => {
                             fontWeight: 600,
                             color: colors.black
                         }}>Dr {actualPraticien?.name + " " + actualPraticien?.surname}</Text>
-                        <Text style={{ color: colors.text_grey_hint }}>{"Genicologue"}</Text>
+                        <Text style={{ color: colors.text_grey_hint }}>{actualPraticien?.job?.label}</Text>
                         <Text style={{ color: colors.text_grey_hint }}>4,5/5 (388 avis)</Text>
                     </VStack>
                 </HStack>
                 <HStack justifyContent={"space-around"} px={10}>
                     <VStack justifyContent={'center'} alignItems={"center"}>
-                        <Text>542+</Text>
+                        <Text style={{ color: colors.yellow }}>542+</Text>
                         <Text>Patients</Text>
                     </VStack>
                     <VStack justifyContent={'center'} alignItems={"center"}>
-                        <Text>11 years</Text>
+                        <Text style={{ color: colors.yellow }}>11 years</Text>
                         <Text>Experience+</Text>
                     </VStack>
                     <VStack justifyContent={'center'} alignItems={"center"}>
-                        <Text>4.79</Text>
+                        <Text style={{ color: colors.yellow }}>4.79</Text>
                         <Text>Rating</Text>
                     </VStack>
                 </HStack>

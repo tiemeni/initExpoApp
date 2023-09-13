@@ -35,8 +35,6 @@ const PhoneConfirm = ({
     (state) => state.UserReducer.settingPWLoading
   );
 
-  console.log('errrrrr', codeVerifSuccess, errorCodeVerif)
-
   const dispatch = useDispatch();
   const [email1, setEmail] = useState("");
   const [caracters, setCaracters] = useState([]);
@@ -47,23 +45,25 @@ const PhoneConfirm = ({
   const [isEmpty, setIsEmpty] = useState(false);
   const emailValide = isEmailValid(email1);
 
+  console.log('eamil valide', emailValide)
+
   const toast = useToast();
 
   const resetPassword = () => {
     setIsEmpty(true);
-    if (email1 !== "") {
-      dispatch(processVerifCode(email1))
+    if(email1 !== ""){
+    dispatch(processVerifCode(email1))
     };
     if (errorCodeVerif) {
       toast.show({
         render: () => {
           return (
             <CustomToast
-              message={"cette adresse mail n'existe pas"}
-              color={colors.success}
+              message={errorCodeVerif?"Compte est introuvable":""}
+              color={colors.danger}
               bgColor={"red.100"}
               icon={<Warning2 />}
-              iconColor={colors.success}
+              iconColor={colors.danger}
             />
           );
         },
@@ -72,9 +72,10 @@ const PhoneConfirm = ({
       });
     }
   };
+
   return (
     <View alignItems={"center"} bg={colors.white} flex={1} p={5}>
-      <VStack alignItems={"center"} mb={15}>
+      <VStack alignItems={"center"} mt={10} mb={15}>
         <Box mb={10}>
           <Box style={styles.circle}>
             <Icon as={EvilIcons} name="lock" color={colors.white} size={90} />
@@ -101,7 +102,7 @@ const PhoneConfirm = ({
         w={"100%"}
       >
         <Text style={styles.message}>
-          Veillez entrer l'adresse mail liée à votre compte afin de recevoir le
+          Veillez entre l'adresse mail lié à votre compte afin de recevoir le
           code de vérification
         </Text>
         <Input
@@ -120,50 +121,50 @@ const PhoneConfirm = ({
           mb={3}
         />
 
-  {
-    !emailValide && email1 !== "" && (
-      <HStack
-        rounded={5}
-        p={1}
-        backgroundColor={colors.transp_warning}
-        space={1}
-        width={"85%"}
-      >
-        <Warning2 color={colors.danger} size={15} />
-        <Text
-          style={{
-            fontSize: 12,
-            color: colors.danger,
+        {!emailValide && email1 !== "" && (
+          <HStack
+            rounded={5}
+            p={2}
+            backgroundColor={colors.transp_warning}
+            space={1}
+            width={"85%"}
+            alignItems={'center'}
+          >
+            <Warning2 color={colors.danger} size={15} />
+            <Text
+              style={{
+                fontSize: 12,
+                color: colors.danger,
+              }}
+            >
+              Mauvais format d'e-mail !
+            </Text>
+          </HStack>
+        )}
+        <Button
+          mt={2}
+          style={styles.btn}
+          isLoading={settingPWLoading}
+          isDisabled={!emailValide}
+          onPress={() => {
+            resetPassword();
           }}
         >
-          Attention ! Veillez saisir une adresse email valide
-        </Text>
-      </HStack>
-    )
-  }
-  <Button
-    mt={10}
-    style={styles.btn}
-    isLoading={settingPWLoading}
-    onPress={() => {
-      resetPassword();
-    }}
-  >
-    {codeVerifLoading ? (
-      <Spinner accessibilityLabel="loading" size="sm" color={"white"} />
-    ) : (
-      <Text color={colors.white}>Envoyer</Text>
-    )}
-  </Button>
-      </VStack >
-  <Button textDecorationLine={"underline"} mt={"20%"} variant={"unstyled"}>
-    <TouchableOpacity onPress={() => navigation.goBack()}>
-      <Text color={colors.primary} style={styles.btnLabel}>
-        Fermer
-      </Text>
-    </TouchableOpacity>
-  </Button>
-    </View >
+          {codeVerifLoading ? (
+            <Spinner accessibilityLabel="loading" size="sm" color={"white"} />
+          ) : (
+            <Text color={colors.white}>Envoyer</Text>
+          )}
+        </Button>
+      </VStack>
+      <Button textDecorationLine={"underline"} mt={"20%"} variant={"unstyled"}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text color={colors.primary} style={styles.btnLabel}>
+            Fermer
+          </Text>
+        </TouchableOpacity>
+      </Button>
+    </View>
   );
 };
 

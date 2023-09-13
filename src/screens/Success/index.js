@@ -12,11 +12,13 @@ function Success({ route }) {
   const navigation = useNavigation();
   const [recapRdv, setRecapRDV] = useState({})
   const rdvs = useSelector(state => state.RdvForm.myRdv)
-  const id = route?.params?.id || 1
+  const rdv = route.params.rdv
+  const id = route?.params?.id
 
   useEffect(() => {
     for (let i = 0; i < rdvs?.length; i++) {
       if (rdvs[i]?._id == id) {
+        console.log(rdvs[i])
         setRecapRDV(rdvs[i]);
         break;
       }
@@ -43,22 +45,22 @@ function Success({ route }) {
         <VStack space={3} style={styles.box2} mt={20}>
           <HStack style={styles.box3}>
             <Text style={styles.texte3}>Docteur</Text>
-            <Text style={{ ...styles.texte3, fontWeight: 500 }}>{recapRdv?.name + " " + recapRdv?.surname}</Text>
+            <Text style={{ ...styles.texte3, fontWeight: 500 }}>{(recapRdv?.name || rdv?.practitioner?.name) + " " + (recapRdv?.surname || rdv?.practitioner?.surname)}</Text>
           </HStack>
           <Divider style={{ opacity: 0.4 }} />
           <HStack style={styles.box3}>
             <Text style={styles.texte3}>Spécialité</Text>
-            <Text style={{ ...styles.texte3, fontWeight: 500 }}>{""}</Text>
+            <Text style={{ ...styles.texte3, fontWeight: 500 }}>{recapRdv?.profession}</Text>
           </HStack>
           <Divider style={{ opacity: 0.4 }} />
           <HStack style={styles.box3}>
-            <Text style={styles.texte3}>Motif</Text>
-            <Text style={{ ...styles.texte3, fontWeight: 500 }}>{recapRdv?.motif}</Text>
+            <Text style={styles.texte3} flex={1}>Motif</Text>
+            <Text ellipsizeMode="tail" numberOfLines={1} flex={1} style={{ ...styles.texte3, fontWeight: 500 }}>{recapRdv?.motif}</Text>
           </HStack>
           <Divider style={{ opacity: 0.4 }} />
           <HStack style={styles.box3}>
-            <Text style={styles.texte3}>Date heure</Text>
-            <Text style={{ ...styles.texte3, fontWeight: 500 }}>{recapRdv?.displayedDate}</Text>
+            <Text flex={1} style={styles.texte3}>Date heure</Text>
+            <Text flex={1} numberOfLines={1} ellipsizeMode="tail"  style={{ ...styles.texte3, fontWeight: 500 }}>{recapRdv?.displayedDate || rdv?.date}</Text>
           </HStack>
           <Divider style={{ opacity: 0.4 }} />
           <HStack style={styles.box3}>
