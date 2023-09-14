@@ -16,6 +16,7 @@ import {
   InfoIcon,
 } from "native-base";
 import { Foundation } from "@expo/vector-icons";
+import { Warning2 } from "iconsax-react-native";
 import logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
 import colors from "../../../constants/colours";
@@ -179,7 +180,7 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
   }, [error, success]);
 
   const onSubmit = () => {
-    if (!isFieldsEmpty) {
+    if (!isFieldsEmpty && isValidEmail(formData.email)) {
       dispatch(userRegistration({ ...formData, active: true }));
     } else {
       toast.show({
@@ -283,17 +284,25 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             onChangeText={(value) => handleInputChange("email", value)}
             value={formData.email}
           />
-
           {!errors.email && formData.email !== "" && (
-            <Text
-              style={{
-                fontSize: 12,
-                marginLeft: 10,
-                color: colors.danger,
-              }}
-            >
-              Veillez entrez une adresse mail valide
-            </Text>
+           <HStack
+           rounded={5}
+           p={2}
+           backgroundColor={colors.transp_warning}
+           space={1}
+           width={"85%"}
+           alignItems={'center'}
+         >
+           <Warning2 color={colors.danger} size={15} />
+           <Text
+             style={{
+               fontSize: 12,
+               color: colors.danger,
+             }}
+           >
+             Attention ! Veillez saisir une adresse email valide 
+           </Text>
+         </HStack>
           )}
 
           <Input
