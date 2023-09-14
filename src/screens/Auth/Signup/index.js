@@ -42,7 +42,14 @@ import {
 } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
 import MaskInput from "react-native-mask-input";
-const Signup = ({ navigation, error, loading, errorMsg, success }) => {
+const Signup = ({
+  navigation,
+  error,
+  loading,
+  errorMsg,
+  success,
+  codeVerifLoading,
+}) => {
   const navigateCgu = useNavigation();
   const toast = useToast();
   const dispatch = useDispatch();
@@ -524,7 +531,7 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
           <PrimaryButton
             title="Créez votre compte"
             isLoadingText="Veuillez patienter..."
-            isLoading={loading}
+            isLoading={codeVerifLoading}
             style={styles.submitBtnText}
             color={colors.primary}
             // disabled={isFieldsEmpty}
@@ -555,6 +562,7 @@ const mapStateToProps = ({ UserReducer }) => ({
   error: UserReducer.error,
   loading: UserReducer.loading,
   errorMsg: UserReducer.errorMsg,
+  codeVerifLoading: UserReducer.codeVerifLoading,
 });
 
 export default connect(mapStateToProps)(Signup);

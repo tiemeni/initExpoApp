@@ -59,7 +59,7 @@ const PhoneConfirm = ({
         render: () => {
           return (
             <CustomToast
-              message={errorCodeVerif ? "Compte est introuvable" : ""}
+              message={errorCodeVerif ? errorCodeVerif : "le compte n'existe pas"}
               color={colors.danger}
               bgColor={"red.100"}
               icon={<Warning2 />}

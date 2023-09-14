@@ -39,7 +39,7 @@ function* authRegister({ payload }) {
     } else {
       yield put({ type: types.REGISTER_USER_FAILED, payload: result.message });
       if (result?.message == "L'utilisateur existe déjà") {
-         setTimeout(() => {
+        setTimeout(() => {
           RootNavigation.navigate(SCREENS.LOGIN);
         }, 2000);
       }
@@ -171,6 +171,7 @@ function* authLogout() {
   try {
     yield AsyncStorage.removeItem("access_token");
     yield AsyncStorage.removeItem("userInfos");
+    yield put({ type: "CLEAR_ALL_RDV" });
     RootNavigation.navigate(SCREENS.LOGIN, { refresh: true });
   } catch (error) {
     yield put({ type: types.LOGOUT_REQUEST, payload: error });
@@ -204,9 +205,10 @@ function* processVerifCode({ data }) {
         type: types.PROCESS_VERIF_CODE_FAILED,
         payload: result.message,
       });
+      yield put({ type: types.REINITIALIZE });
       setTimeout(() => {
-        put({ type: types.REINITIALIZE });
-      }, 1000);
+        payload?.register && RootNavigation.navigate(SCREENS.LOGIN);
+      }, 2000);
     }
   } catch (error) {
     setTimeout(() => {

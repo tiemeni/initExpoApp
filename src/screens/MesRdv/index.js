@@ -24,6 +24,8 @@ const MesRdv = ({ navigation }) => {
     showSkeleton: false,
   })
 
+  console.log(rdvs)
+
   const dispatch = useDispatch()
   const loadingRDV = useSelector(state => state.RdvForm.rdvLoading)
   const user = useSelector(state => state.UserReducer.userInfos)
