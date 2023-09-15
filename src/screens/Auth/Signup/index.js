@@ -67,6 +67,7 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
 
   const [textDate, setTextDate] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [isSubmit, setSubmited] = useState(false);
 
   const handleDateChange = useCallback(
     (event, selectedDate) => {
@@ -180,24 +181,9 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
   }, [error, success]);
 
   const onSubmit = () => {
+    setSubmited(true);
     if (!isFieldsEmpty && isValidEmail(formData.email)) {
       dispatch(userRegistration({ ...formData, active: true }));
-    } else {
-      toast.show({
-        render: () => {
-          return (
-            <CustomToast
-              message={"Veuillez remplir tous les champs"}
-              color={colors.danger}
-              bgColor={"red.100"}
-              icon={<Foundation name="alert" size={24} />}
-              iconColor={colors.danger}
-            />
-          );
-        },
-        placement: "top",
-        duration: 5000,
-      });
     }
   };
 
@@ -218,7 +204,8 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
           <Input
             h={50}
             rounded={50}
-            borderWidth={0}
+            borderWidth={isSubmit && formData.name == "" ? 1 : 0}
+            borderColor={isSubmit && formData.name == "" && colors.danger}
             fontSize={14}
             bg={colors.desable}
             InputLeftElement={
@@ -241,7 +228,8 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
           <Input
             h={50}
             rounded={50}
-            borderWidth={0}
+            borderWidth={isSubmit && formData.surname == "" ? 1 : 0}
+            borderColor={isSubmit && formData.surname == "" && colors.danger}
             fontSize={14}
             bg={colors.desable}
             InputLeftElement={
@@ -264,7 +252,8 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
           <Input
             h={50}
             rounded={50}
-            borderWidth={0}
+            borderWidth={isSubmit && formData.email == "" ? 1 : 0}
+            borderColor={isSubmit && formData.email == "" && colors.danger}
             style={{ fontSize: 14 }}
             bg={colors.desable}
             InputLeftElement={
@@ -285,31 +274,32 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             value={formData.email}
           />
           {!errors.email && formData.email !== "" && (
-           <HStack
-           rounded={5}
-           p={2}
-           backgroundColor={colors.transp_warning}
-           space={1}
-           width={"85%"}
-           alignItems={'center'}
-         >
-           <Warning2 color={colors.danger} size={15} />
-           <Text
-             style={{
-               fontSize: 12,
-               color: colors.danger,
-             }}
-           >
-             Attention ! Veillez saisir une adresse email valide 
-           </Text>
-         </HStack>
+            <HStack
+              rounded={5}
+              p={2}
+              backgroundColor={colors.transp_warning}
+              space={1}
+              width={"85%"}
+              alignItems={"center"}
+            >
+              <Warning2 color={colors.danger} size={15} />
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: colors.danger,
+                }}
+              >
+                Attention ! Veillez saisir une adresse email valide
+              </Text>
+            </HStack>
           )}
 
           <Input
             isInvalid={!isCkeck}
             h={50}
             rounded={50}
-            borderWidth={0}
+            borderWidth={isSubmit && formData.password == "" ? 1 : 0}
+            borderColor={isSubmit && formData.password == "" && colors.danger}
             style={{ fontSize: 14 }}
             bg={colors.desable}
             InputLeftElement={
@@ -346,6 +336,7 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
                 backgroundColor: colors.transp_warning,
                 borderRadius: 5,
                 padding: 8,
+                width: "98%",
               }}
             >
               <HStack space={1}>
@@ -370,8 +361,8 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
             isInvalid={!isCkeck}
             h={50}
             rounded={50}
-            borderWidth={0}
-            style={{ fontSize: 14 }}
+            borderWidth={(isSubmit && confPassword =="")? 1 : 0}
+            borderColor={(isSubmit && confPassword =="") && colors.danger}            style={{ fontSize: 14 }}
             bg={colors.desable}
             InputLeftElement={
               <VStack
@@ -437,6 +428,8 @@ const Signup = ({ navigation, error, loading, errorMsg, success }) => {
               rounded={50}
               justifyItems={"center"}
               justifyContent={"center"}
+              borderWidth={(isSubmit && formData.telephone =="")? 1 : 0}
+              borderColor={(isSubmit && formData.telephone =="") && colors.danger}
               w={9}
               alignItems={"center"}
               h={9}
