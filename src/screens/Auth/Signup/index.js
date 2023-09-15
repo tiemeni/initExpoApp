@@ -180,17 +180,26 @@ const Signup = ({
     }
 
     if (success) {
-      Alert.alert("INSCRIPTION", "Votre compte été crée avec succès.", [
-        {
-          text: "Connectez-vous",
-          onPress: () => navigation.navigate(SCREENS.LOGIN),
-        },
-      ]);
+      Alert.alert(
+        Platform.OS === "ios" ? "INSCRIPTION" : "Inscription",
+        "Votre compte été crée avec succès.",
+        [
+          {
+            text: "Connectez-vous",
+            onPress: () => navigation.navigate(SCREENS.LOGIN),
+          },
+        ]
+      );
     }
   }, [error, success]);
 
   const onSubmit = () => {
-    if (!isFieldsEmpty) {
+    console.log(!isPasswordWeak(formData?.password), formData.password)
+    if (
+      !isFieldsEmpty &&
+      isValidEmail(formData.email) &&
+      isPasswordWeak(formData?.password)
+    ) {
       //dispatch(userRegistration({ ...formData, active: true }));
       const emailPayload = { email: formData?.email, register: true };
       const payload = { ...formData, active: true, ...emailPayload };
@@ -203,21 +212,21 @@ const Signup = ({
       );
       // navigation.navigate(SCREENS.RESETPASSWORD, payload);
     } else {
-      toast.show({
-        render: () => {
-          return (
-            <CustomToast
-              message={"Veuillez remplir tous les champs"}
-              color={colors.danger}
-              bgColor={"red.100"}
-              icon={<Foundation name="alert" size={24} />}
-              iconColor={colors.danger}
-            />
-          );
-        },
-        placement: "top",
-        duration: 5000,
-      });
+      // toast.show({
+      //   render: () => {
+      //     return (
+      //       <CustomToast
+      //         message={"Veuillez remplir tous les champs"}
+      //         color={colors.danger}
+      //         bgColor={"red.100"}
+      //         icon={<Foundation name="alert" size={24} />}
+      //         iconColor={colors.danger}
+      //       />
+      //     );
+      //   },
+      //   placement: "top",
+      //   duration: 5000,
+      // });
     }
   };
 
@@ -304,17 +313,25 @@ const Signup = ({
             onChangeText={(value) => handleInputChange("email", value)}
             value={formData.email}
           />
-
           {!errors.email && formData.email !== "" && (
-            <Text
-              style={{
-                fontSize: 12,
-                marginLeft: 10,
-                color: colors.danger,
-              }}
+            <HStack
+              rounded={5}
+              p={2}
+              backgroundColor={colors.transp_warning}
+              space={1}
+              width={"100%"}
+              alignItems={"center"}
             >
-              Veillez entrez une adresse mail valide
-            </Text>
+              <Warning2 color={colors.danger} size={15} />
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: colors.danger,
+                }}
+              >
+                Attention ! Veillez saisir une adresse email valide
+              </Text>
+            </HStack>
           )}
 
           <Input

@@ -30,6 +30,7 @@ import colors from "../../../constants/colours";
 import * as SCREENS from "../../../constants/screens";
 
 const CELL_COUNT = 5;
+const init_count = 60;
 
 const ResetPassWord = ({
   navigation,
@@ -58,6 +59,7 @@ const ResetPassWord = ({
   const { register } = route?.params;
   const [newPw, setNewPw] = useState("");
   const [cnfPw, setCnfPw] = useState("");
+  const [count, setCount] = useState(init_count);
   const [loading, setLoading] = useState(false);
   const [caracters, setCaracters] = useState([]);
   const [canResetPw, setCanResetPw] = useState(false);
@@ -71,6 +73,14 @@ const ResetPassWord = ({
 
   const toast = useToast();
   useEffect(() => {
+    // let interv = setInterval(() => {
+    //   setCount((c) => {
+    //     if (c >= 1) {
+    //       return c - 1;
+    //     }
+    //     return c;
+    //   });
+    // }, 15);
     if (codeVerifSuccess) {
       toast.show({
         render: () => {
@@ -124,7 +134,7 @@ const ResetPassWord = ({
     if (value == codeVerif?.codeVerif) {
       setBorderCol(colors.success);
       !register && setCanResetPw(true);
-      console.log(route.params)
+      console.log(route.params);
       register &&
         dispatch(
           userRegistration({ ...route?.params?.formData, active: true })
@@ -333,7 +343,7 @@ const ResetPassWord = ({
             />
           ) : (
             <Text color={colors.primary} style={styles.btnLabel}>
-              Renvoyer le code
+              Renvoyer le code 
             </Text>
           )}
         </Button>

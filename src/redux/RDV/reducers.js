@@ -25,10 +25,15 @@ const initialState = {
 const RDVReducer = (state = initialState, action) => {
   switch (action.type) {
     case "CLEAR_ALL_RDV":
-        console.log('clear')
+      console.log("clear");
       return {
         ...state,
         myRdv: [],
+      };
+    case "CLEAR_ALL_DISPO":
+      return {
+        ...state,
+        dispo: [],
       };
     case types.SET_FORM_RDV:
       return {
@@ -267,6 +272,7 @@ const RDVReducer = (state = initialState, action) => {
       actualRDVs[indexToUpdate] = action.payload;
       return {
         ...state,
+        updatedRDV: action.payload,
         myRdv: actualRDVs,
         putingRdv: false,
         putingSuccess: true,

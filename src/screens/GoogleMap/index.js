@@ -57,6 +57,7 @@ const RoadMap = ({ route, navigation, mapDirections }) => {
                     latitudeDelta: 0.0922,
                     longitudeDelta: 0.0421,
                 }}
+                
                 minZoomLevel={10}
             >
                 <Marker

@@ -9,7 +9,7 @@ import { BASE_URL } from "../../constants/urls";
 import * as RootNavigation from "../../routes/rootNavigation";
 import * as SCREENS from "../../constants/screens";
 import { MY_FICHES, SETIDCENTRE } from "../commons/types";
-import { ajouterDuree } from "../../utils/helper";
+import { ajouterDuree, generateLink } from "../../utils/helper";
 
 /**
  * @description user sign up.
@@ -107,28 +107,14 @@ function* getPraticiens({ data }) {
 }
 
 function* getDispo({ data }) {
-  let url;
-  if (data?.creneau) {
-    url =
-      BASE_URL +
-      "/appointments/rechercher_dispo?idCentre=" +
-      data?.idCentre +
-      "&idp=" +
-      data?.idp +
-      "&slotRange=" +
-      data?.creneau +
-      "&startDate=" +
-      data?.date +
-      "&day=" +
-      data?.day;
-  } else {
-    url =
-      BASE_URL +
-      "/appointments/rechercher_dispo?idCentre=" +
-      data?.idCentre +
-      "&idp=" +
-      data?.idp;
-  }
+  let url = generateLink(BASE_URL + "/appointments/rechercher_dispo?", {
+    idCentre: data?.idCentre,
+    idp: data?.idp,
+    creneau: data?.creneau,
+    date: data?.date,
+    day: data?.day,
+  });
+  console.log(url)
   try {
     const result = yield getUnauthRequest(url);
     if (result.success) {
@@ -162,7 +148,6 @@ function* postRDV({ data }) {
     active: true,
     idCentre: data?.idCentre,
   };
-  console.log("payload?.user", payload?.user);
   try {
     const result = yield postUnauthRequest(url1, payload);
     let idFiche;
@@ -183,7 +168,6 @@ function* postRDV({ data }) {
         date: data?.period?.day,
       };
       idFiche = result.message;
-      console.log("fiche ----- : ", result.message);
       rdv = yield postUnauthRequest(url2, rdvData);
       // yield put({ type: types.GET_DISPO_REQUEST_SUCCESS, payload: result.data })
       // RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
@@ -204,7 +188,6 @@ function* postRDV({ data }) {
         date: data?.period?.day,
       };
       idFiche = result.data?._id;
-      console.log("fiche ----- : ", result.data);
       rdv = yield postUnauthRequest(url2, rdvData);
     } else {
       yield put({
@@ -217,7 +200,6 @@ function* postRDV({ data }) {
       }, 3000);
     }
     if (rdv?.success) {
-      console.log();
       yield put({
         type: types.POST_RDV_REQUEST_SUCCESS,
         payload: rdv?.data?._id,
@@ -239,7 +221,6 @@ function* postRDV({ data }) {
       }, 3000);
     }
   } catch (error) {
-    console.error(error);
     yield put({ type: types.POST_RDV_REQUEST_FAILED, payload: error });
     yield setTimeout(() => {
       //RootNavigation.navigate(SCREENS.ACCEUIL)
@@ -250,18 +231,16 @@ function* postRDV({ data }) {
 
 function* getAllRdv({ id }) {
   let url = BASE_URL + "/appointments/?module=externe&iduser=" + id;
-  console.log(url);
+
   try {
     const result = yield getUnauthRequest(url);
     if (result.success) {
-      console.log("success get all rdv");
       yield put({ type: types.GET_ALL_MY_RDV_SUCCESS, payload: result.data });
       // RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
     } else {
       yield put({ type: types.GET_ALL_MY_RDV_FAILED, payload: result.message });
     }
   } catch (error) {
-    console.error(error);
     yield put({ type: types.GET_ALL_MY_RDV_FAILED, payload: error });
   }
 }
@@ -269,6 +248,7 @@ function* getAllRdv({ id }) {
 function* putRDV({ data }) {
   let url =
     BASE_URL + "/appointments/update/" + data.id + "?idCentre=" + data.idCentre;
+    
   const payload = {
     startTime: data?.startTime,
     endTime: data?.endTime,
@@ -277,6 +257,7 @@ function* putRDV({ data }) {
     idUser: data?.idUser,
     date_long: data?.date_long,
   };
+  console.log(payload);
   try {
     const result = yield putUnauthRequest(url, payload);
     if (result.success) {
@@ -296,7 +277,6 @@ function* putRDV({ data }) {
       }, 3000);
     }
   } catch (error) {
-    console.error(error);
     yield put({
       type: types.PUT_RDV_REQUEST_FAILED,
       payload: "une erreur de connexion est survenue !",
@@ -337,7 +317,6 @@ function* cancelRDV({ data }) {
       }, 3000);
     }
   } catch (error) {
-    console.error(error);
     yield put({
       type: types.CANCEL_RDV_REQUEST_FAILED,
       payload: "une erreur de connexion est survenue !",

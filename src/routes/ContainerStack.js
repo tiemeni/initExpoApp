@@ -22,6 +22,7 @@ import Licenses from '../screens/ListeCguAndPolice/licenses';
 import Success from '../screens/Success';
 import SanteAstucesComponent from '../screens/AstuceSanté';
 import { DetailsPraticien } from '../screens/DetailsPraticiens';
+import AllPraticiens from '../components/AllPraticiens';
 
 
 
@@ -53,6 +54,7 @@ const ContainerStack = () => {
             <Stack.Screen name={SCREENS.POLICY} component={Policy} />
             <Stack.Screen name={SCREENS.SUCCESS} component={Success} />
             <Stack.Screen name={SCREENS.LICENSES} component={Licenses} />
+            <Stack.Screen name={SCREENS.ALLPRATICIENTS} component={AllPraticiens} />
             <Stack.Screen name={SCREENS.ASTUCESANTE} component={SanteAstucesComponent} />
             <Stack.Screen name={SCREENS.DETAILS_PRATICIEN} component={DetailsPraticien} />
         </Stack.Navigator>
