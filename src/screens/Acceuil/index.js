@@ -26,7 +26,7 @@ import { Location, SearchNormal1 } from "iconsax-react-native";
 import { useTranslation } from "react-i18next";
 import * as ExpoLocation from "expo-location";
 import NextAppointment from "../../components/NextAppointment";
-import { getAppSpecialties } from "../../redux/commons/action";
+import { getAppSpecialties, setShouldSeeBehind } from "../../redux/commons/action";
 import DoctorCard from "../../components/DoctorCard/DoctorCard";
 import { Alert } from "react-native";
 import messaging from "@react-native-firebase/messaging";
@@ -62,6 +62,7 @@ const Acceuil = ({
   };
 
   useEffect(() => {
+    dispatch(setShouldSeeBehind(false))
     dispatch(getProfession());
     dispatch(clearCache());
     dispatch(getAllPrats());

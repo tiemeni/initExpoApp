@@ -46,7 +46,7 @@ function* authRegister({ payload }) {
     }
   } catch (error) {
     console.error(error);
-    yield put({ type: types.REGISTER_USER_FAILED, payload: error });
+    yield put({ type: types.REGISTER_USER_FAILED, payload: error?.message });
   }
 }
 
@@ -102,7 +102,10 @@ function* setUserProfile({ payload, _id }) {
       });
     }
   } catch (error) {
-    yield put({ type: types.SET_USER_PROFIL_SUCCESS_FAILED, payload: error });
+    yield put({
+      type: types.SET_USER_PROFIL_SUCCESS_FAILED,
+      payload: error?.message ?? "une erreur est survenue !",
+    });
   }
 }
 
@@ -128,8 +131,18 @@ function* authLogin({ payload }) {
       yield put({ type: types.REINITIALIZE });
     }
   } catch (error) {
-    console.error(error);
-    yield put({ type: types.REGISTER_USER_FAILED, payload: error });
+    console.error(error.message);
+    if (error?.message == "Network request failed") {
+      yield put({
+        type: types.REGISTER_USER_FAILED,
+        payload: "Vous n'avez pas de connexion",
+      });
+    } else {
+      yield put({
+        type: types.REGISTER_USER_FAILED,
+        payload: error?.message,
+      });
+    }
     yield put({ type: types.REINITIALIZE });
   }
 }

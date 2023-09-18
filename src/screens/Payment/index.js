@@ -25,8 +25,13 @@ import { RDV } from "../../constants/screens";
 import { useDispatch, useSelector } from "react-redux";
 import { postRDV } from "../../redux/RDV/actions";
 import CustomToast from "../../components/CustomToast";
-import { MaterialIcons, Ionicons, AntDesign, Foundation } from "@expo/vector-icons";
-
+import {
+  MaterialIcons,
+  Ionicons,
+  AntDesign,
+  Foundation,
+} from "@expo/vector-icons";
+import { setShouldSeeBehind } from "../../redux/commons/action";
 
 const description =
   "Votre compte sera débité d’un montant de 5000 Fcfa. Le dit montant fait office de frais de rendez-vous et est non-remboursable.";
@@ -53,20 +58,32 @@ const creditCardMask = [
 ];
 const expirationMask = [/\d/, /\d/, "/", /\d/, /\d/];
 
-const telMask = [/\d/, /\d/, /\d/, " ", /\d/, /\d/, /\d/, " ", /\d/, /\d/, /\d/,];
+const telMask = [
+  /\d/,
+  /\d/,
+  /\d/,
+  " ",
+  /\d/,
+  /\d/,
+  /\d/,
+  " ",
+  /\d/,
+  /\d/,
+  /\d/,
+];
 
 const Payment = ({ route, navigation }) => {
-  const ext = route.params.ext
+  const ext = route.params.ext;
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const userInfo = useSelector(state => state.UserReducer.userInfos)
-  const idCentre = useSelector(state => state.Common.idc)
+  const userInfo = useSelector((state) => state.UserReducer.userInfos);
+  const idCentre = useSelector((state) => state.Common.idc);
   const toast = useToast();
-  const dispatch = useDispatch()
-  const success = useSelector(state => state.RdvForm.successPostRdv)
-  const extPRData = useSelector(state => state.RdvForm.extPRData)
-  const error = useSelector(state => state.RdvForm.errorMsgPostRDV)
-  const loadingPostRdv = useSelector(state => state.RdvForm.loadingPostRdv)
-  const formRDV = useSelector(state => state.RdvForm.rdvForm)
+  const dispatch = useDispatch();
+  const success = useSelector((state) => state.RdvForm.successPostRdv);
+  const extPRData = useSelector((state) => state.RdvForm.extPRData);
+  const error = useSelector((state) => state.RdvForm.errorMsgPostRDV);
+  const loadingPostRdv = useSelector((state) => state.RdvForm.loadingPostRdv);
+  const formRDV = useSelector((state) => state.RdvForm.rdvForm);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("visa");
   const [showLoaderInModal, setShowLoaderInModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -96,45 +113,48 @@ const Payment = ({ route, navigation }) => {
 
   const onSubmitPayment = () => {
     setIsLoading(true);
-    const payload = !ext ? { ...formRDV, ...userInfo, } : extPRData
-    dispatch(postRDV(payload))
+    const payload = !ext ? { ...formRDV, ...userInfo } : extPRData;
+    dispatch(postRDV(payload));
   };
 
-
   React.useEffect(() => {
+    dispatch(setShouldSeeBehind(false));
     if (error) {
       toast.show({
         render: () => {
-          return <CustomToast
-            message={"Une erreur est survenue !"}
-            color={colors.danger}
-            bgColor={"red.100"}
-            icon={<Foundation name="alert" size={24} />}
-            iconColor={colors.danger}
-          />
+          return (
+            <CustomToast
+              message={"Une erreur est survenue !"}
+              color={colors.danger}
+              bgColor={"red.100"}
+              icon={<Foundation name="alert" size={24} />}
+              iconColor={colors.danger}
+            />
+          );
         },
         placement: "top",
-        duration: 2000
-      })
+        duration: 2000,
+      });
     }
 
     if (success) {
       toast.show({
         render: () => {
-          return <CustomToast
-            message={"Rendez-vous crée avec succès !"}
-            color={colors.success}
-            bgColor={"green.100"}
-            icon={<AntDesign name="checkcircle" size={24} />}
-            iconColor={colors.success}
-          />
+          return (
+            <CustomToast
+              message={"Rendez-vous crée avec succès !"}
+              color={colors.success}
+              bgColor={"green.100"}
+              icon={<AntDesign name="checkcircle" size={24} />}
+              iconColor={colors.success}
+            />
+          );
         },
         placement: "top",
-        duration: 2000
-      })
+        duration: 2000,
+      });
     }
-  }, [error, success])
-
+  }, [error, success]);
 
   const renderPaymentForm = () => {
     if (
@@ -384,7 +404,11 @@ const Payment = ({ route, navigation }) => {
           <VStack flex={1} style={styles.btnBox}>
             <PrimaryButton
               // disabled={!formData.name || !formData.cardNumber || !formData.expirationDate || !formData.securityCode}
-              title={loadingPostRdv ? "en cours de chargement..." : "Confirmez et Continuez"}
+              title={
+                loadingPostRdv
+                  ? "en cours de chargement..."
+                  : "Confirmez et Continuez"
+              }
               isLoadingText="en cours de chargement..."
               isLoading={loadingPostRdv}
               style={styles.submitBtnText}

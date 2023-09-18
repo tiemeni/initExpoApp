@@ -52,9 +52,11 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
   });
 
   const handleInputChange = (field, value) => {
-    setformData({
-      ...formData,
-      [field]: value,
+    setformData((ancValue) => {
+      return {
+        ...ancValue,
+        [field]: value,
+      };
     });
   };
 
@@ -62,7 +64,7 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
     return (
       formData.email.trim() === "" ||
       formData.password === "" ||
-      formData.password.length < 6 ||
+      formData.password.length < 1 ||
       formData.email.length < 4
     );
   };
@@ -126,7 +128,7 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
             placeholder={translate("TEXT.EMAIL_FIELD")}
             keyboardType="default"
             isInvalid={isFieldInError("email")}
-            onChangeText={(value) => handleInputChange("email", value)}
+            onChangeText={(value) => handleInputChange("email", value.trim())}
             value={formData.email}
           />
           {isEmpty && formData.email === "" ? (
@@ -155,7 +157,7 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
                 padding={2}
                 rounded={5}
                 p={1}
-                backgroundColor={colors.transp_danger}
+                backgroundColor={colors.transp_warning}
                 space={1}
               >
                 <Warning2 color={colors.danger} size={15} />
@@ -202,17 +204,20 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
             value={formData.password}
           />
 
-          {(isFieldInError("email") || isFieldInError("password")) && (
+          {/* {(isFieldInError("email") || isFieldInError("password")) && (
             <Text style={styles.errorMsg}>Remplissez bien les champs !</Text>
-          )}
+          )} */}
 
           <HStack space={2} mt={1}>
             <Checkbox
               aria-label="cgu"
               isChecked={formData.saveCredentials}
-              onPress={() =>
-                handleInputChange("saveCredentials", !formData.saveCredentials)
-              }
+              onChange={(v) => {
+                handleInputChange("saveCredentials", String(v));
+              }}
+              // onPress={() =>
+              //
+              // }
               color={colors.primary}
             />
             <Text

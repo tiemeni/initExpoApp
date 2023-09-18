@@ -176,14 +176,12 @@ export const DetailsPraticien = ({ route, navigation }) => {
         </HStack>
         <HStack
           mt={2}
-          m={5}
+          m={2}
+          marginLeft={5}
           space={2}
           style={{
-            borderRadius: 10,
-            padding: 10,
+            width: "80%",
             alignItems: "center",
-            marginBottom: 10,
-            backgroundColor: colors.trans_primary,
           }}
         >
           {/* <Danger color={colors.danger} size={22} /> */}
