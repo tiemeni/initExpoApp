@@ -10,11 +10,12 @@ import colors from "../../constants/colours";
 import { IS_BYPASS_ONBOARDING } from "../../constants/others";
 import { getLocalStorageOnBoardingState } from "../../utils/helper";
 import Login from "../Auth/Login";
+import { useNavigation } from "@react-navigation/native";
 
 const Home = ({ loading, localAuth }) => {
   const dispatch = useDispatch();
   const [bypassOnboarding, setBypassOnboarding] = useState(false);
-
+  const navigation = useNavigation();
   dispatch(setApp("initial step !"));
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const Home = ({ loading, localAuth }) => {
     <>
       {!loading && !localAuth ? (
         bypassOnboarding ? (
-          <Login />
+          <Login navigation={navigation} />
         ) : (
           <OnBoarding2 />
         )
