@@ -135,8 +135,8 @@ const MakeAppointment = ({ navigation, route }) => {
             motif: value,
           })
         );
-        dispatch(setMotifDuration(value));
-        dispatch(getClinique(value));
+        formData?.motif != value && dispatch(setMotifDuration(value));
+        formData?.motif != value && dispatch(getClinique(value));
         break;
       case "praticien":
         setFormData({
@@ -154,9 +154,10 @@ const MakeAppointment = ({ navigation, route }) => {
             idCentre: idCentre || value?.idc,
           })
         );
-        dispatch(
-          getDispo({ idCentre: idCentre || value?.idc, idp: value?.id })
-        );
+        formData?.praticien != value?.id &&
+          dispatch(
+            getDispo({ idCentre: idCentre || value?.idc, idp: value?.id })
+          );
         break;
       case "profession":
         setFormData({
@@ -184,21 +185,25 @@ const MakeAppointment = ({ navigation, route }) => {
             specialities: value,
           })
         );
-        dispatch(getMotifs({ id: value, forSpec: true }));
+        formData?.speciality != value &&
+          dispatch(getMotifs({ id: value, forSpec: true }));
         break;
       case "lieu":
-        setFormData({
-          ...formData,
-          lieu: value,
-          praticien: null,
-        });
-        dispatch(
-          setRDVForm({
-            ...RDVForm,
+        formData?.lieu != value &&
+          setFormData({
+            ...formData,
             lieu: value,
-          })
-        );
-        dispatch(getPraticiens({ id: value, ids: RDVForm.specialities }));
+            praticien: null,
+          });
+        formData?.lieu != value &&
+          dispatch(
+            setRDVForm({
+              ...RDVForm,
+              lieu: value,
+            })
+          );
+        formData?.lieu != value &&
+          dispatch(getPraticiens({ id: value, ids: RDVForm.specialities }));
         break;
       case "day":
         setFormData({

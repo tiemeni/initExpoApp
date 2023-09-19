@@ -87,6 +87,9 @@ export const DetailsPraticien = ({ route, navigation }) => {
     }, 3000);
   }, []);
 
+  const scrollToBottom = () => {
+    scrollViewRef.current.scrollToEnd({ animated: true });
+  };
 
   const allFieldFilled = () => {
     return (
@@ -307,7 +310,6 @@ export const DetailsPraticien = ({ route, navigation }) => {
                   mt={2}
                   space={2}
                   style={{
-                    backgroundColor: colors.transp_warning,
                     borderRadius: 10,
                     padding: 10,
                     alignItems: "center",
@@ -340,6 +342,7 @@ export const DetailsPraticien = ({ route, navigation }) => {
                               setActualCreaneau(generateValuesTab(d, dispo));
                               return d;
                             });
+                            scrollToBottom();
                             setShouldScroll(true);
                             setTimeout(() => {
                               setShouldScroll(false);

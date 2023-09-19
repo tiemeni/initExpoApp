@@ -28,7 +28,11 @@ import {
 import CustomToast from "../../../components/CustomToast";
 import { useTranslation } from "react-i18next";
 import { Eye, EyeSlash, Lock, User, Warning2 } from "iconsax-react-native";
-import { isEmailValid } from "../../../utils/helper";
+import {
+  getLocalStorageOnBoardingState,
+  isEmailValid,
+} from "../../../utils/helper";
+import { IS_BYPASS_ONBOARDING } from "../../../constants/others";
 
 const Login = ({ navigation, error, loading, errorMsg, success }) => {
   const toast = useToast();

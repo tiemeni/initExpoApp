@@ -1,4 +1,6 @@
 import colors from "../constants/colours";
+import { IS_BYPASS_ONBOARDING } from "../constants/others";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const notifications = [
   {
@@ -915,4 +917,15 @@ export const troncate = (s) => {
   } else {
     return s;
   }
+};
+
+export const setBypassOnboarding = async () => {
+  await AsyncStorage.setItem(
+    IS_BYPASS_ONBOARDING,
+    JSON.stringify({ data: true })
+  );
+};
+
+export const getLocalStorageOnBoardingState = async (key) => {
+  return await AsyncStorage.getItem(key);
 };

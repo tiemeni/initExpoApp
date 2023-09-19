@@ -8,7 +8,7 @@ import {
   HStack,
   Box,
   Text,
-  Input
+  Input,
 } from "native-base";
 import React, { useEffect } from "react";
 import { useState } from "react";
@@ -46,8 +46,8 @@ const FAB = (props) => {
         borderRadius: props.onBoarding ? 10 : 50,
         backgroundColor: props.onBoarding ? "white" : colors.primary,
         height: 50,
-        justifyContent:"center",
-        alignContent:"center"
+        justifyContent: "center",
+        alignContent: "center",
       }}
     >
       <TouchableOpacity onPress={props.onPress}>
@@ -64,7 +64,10 @@ const FAB = (props) => {
           </>
         ) : (
           <TouchableOpacity
-            onPress={() => props.navigation.navigate(LOGIN)}
+            onPress={() => {
+              props.navigation.navigate(LOGIN);
+              props.onBegin();
+            }}
             style={{
               display: "flex",
               flexDirection: "row",
@@ -94,6 +97,7 @@ export const CustomeFab = (props) => {
       title="hey"
       navigation={props.navigation}
       onPress={props.action}
+      onBegin={props.onBegin}
       onBoarding={props.onBoarding}
       editeMode={props.editeMode}
       loading={props.loading}
@@ -182,9 +186,9 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
     }
   }, [userInfos]);
 
-
   const selectImage = async () => {
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
       return;
     }
@@ -220,19 +224,23 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                   width={92}
                   height={92}
                   source={{
-                    uri: ImageLoading? image : user?.photo ?? image
+                    uri: ImageLoading ? image : user?.photo ?? image,
                   }}
                 ></Avatar>
                 <Box style={styles.iconCam}>
                   {ImageLoading ? (
-                    <Spinner accessibilityLabel="loading" size="sm" color={colors.primary} />
-                  ) :
-                    (<Icon
+                    <Spinner
+                      accessibilityLabel="loading"
+                      size="sm"
+                      color={colors.primary}
+                    />
+                  ) : (
+                    <Icon
                       size={3}
                       color={colors.primary}
                       as={<Ionicons name="ios-camera" />}
-                    />)
-                  }
+                    />
+                  )}
                 </Box>
               </HStack>
             </TouchableOpacity>
@@ -263,9 +271,13 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                   onChangeText={(value) => handleInputChange("name", value)}
                   value={formData.name}
                   isReadOnly={editeMode}
-                  variant={'rounded'}
+                  variant={"rounded"}
                 />
-                {formData.name==="" && <Text style={styles.fieldError}>ce champs est obligatoire</Text>}
+                {formData.name === "" && (
+                  <Text style={styles.fieldError}>
+                    ce champs est obligatoire
+                  </Text>
+                )}
               </View>
               <View width={"100%"} mb={5}>
                 <Text style={styles.textLabel}>Prénom</Text>
@@ -300,7 +312,7 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                       ...styles.textInput,
                       color: !editeMode ? colors.text_grey_hint : colors.black,
                       borderWidth: 1,
-                      borderRadius: 22.5
+                      borderRadius: 22.5,
                     }}
                     placeholder="17 Decembre 2004"
                     underlineColor="transparent"
@@ -463,7 +475,7 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
 const mapStateToProps = ({ UserReducer }) => ({
   userInfos: UserReducer.userInfos,
   loading: UserReducer.loading,
-  ImageLoading: UserReducer.ImageLoading
+  ImageLoading: UserReducer.ImageLoading,
 });
 
 export default connect(mapStateToProps)(MonProfile2);
