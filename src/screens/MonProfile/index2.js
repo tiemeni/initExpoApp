@@ -45,7 +45,7 @@ const FAB = (props) => {
         bottom: props.onBoarding ? 10 : 30,
         borderRadius: props.onBoarding ? 10 : 50,
         backgroundColor: props.onBoarding ? "white" : colors.primary,
-        height: 50,
+        height: 60,
         justifyContent: "center",
         alignContent: "center",
       }}
@@ -78,9 +78,8 @@ const FAB = (props) => {
               Commencez
             </Text>
             <Icon
-              mt={0.5}
               marginLeft={5}
-              size={5}
+              size={6}
               color={colors.primary}
               as={<AntDesign name="arrowright" />}
             />
