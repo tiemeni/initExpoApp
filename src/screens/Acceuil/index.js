@@ -173,7 +173,7 @@ const Acceuil = ({
               <SearchNormal1
                 style={{ marginLeft: 10 }}
                 size={20}
-                color={colors.text_grey_hint}
+                color={colors.primary}
               />
             }
             onPressIn={() => navigation.navigate(SCREENS.GLOBAL_SEARCH)}

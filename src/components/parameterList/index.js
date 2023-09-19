@@ -8,11 +8,11 @@ export default function ParameterList({ label, icon }) {
     return (
         <View style={styles.container}>
             <HStack space={3} style={styles.subContainer}>
-                <Icon as={icon} color={colors.black} />
+                <Icon as={icon} color={colors.primary} />
                 <Text style={{ ...styles.label }}>{label}</Text>
             </HStack>
             <View>
-                <Icon as={<ArrowRight2 />} color={colors.black} size={4} />
+                <Icon as={<ArrowRight2 />} color={colors.primary} size={4} />
             </View>
         </View>
     )
