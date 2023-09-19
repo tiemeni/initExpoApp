@@ -185,6 +185,7 @@ function* authLogout() {
   try {
     yield AsyncStorage.removeItem("access_token");
     yield AsyncStorage.removeItem("userInfos");
+    //yield AsyncStorage.clear()
     yield put({ type: "CLEAR_ALL_RDV" });
     RootNavigation.navigate(SCREENS.LOGIN, { refresh: true });
   } catch (error) {
