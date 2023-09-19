@@ -27,14 +27,19 @@ const Home = ({ loading, localAuth }) => {
     dispatch(userLocalAuth());
   }, []);
 
+  const renderLogin = (truth) => {
+    console.log("-------------", truth);
+    if (truth) {
+      return <Login navigation={navigation} />;
+    } else {
+      return <OnBoarding2 />;
+    }
+  };
+
   return (
     <>
       {!loading && !localAuth ? (
-        bypassOnboarding ? (
-          <Login navigation={navigation} />
-        ) : (
-          <OnBoarding2 />
-        )
+        renderLogin(bypassOnboarding)
       ) : (
         <Center flex={1} alignItems={"center"}>
           <VStack space={2}>
