@@ -136,24 +136,6 @@ const Payment = ({ route, navigation }) => {
         duration: 2000,
       });
     }
-
-    if (success) {
-      toast.show({
-        render: () => {
-          return (
-            <CustomToast
-              message={"Rendez-vous crée avec succès !"}
-              color={colors.success}
-              bgColor={"green.100"}
-              icon={<AntDesign name="checkcircle" size={24} />}
-              iconColor={colors.success}
-            />
-          );
-        },
-        placement: "top",
-        duration: 2000,
-      });
-    }
   }, [error, success]);
 
   const renderPaymentForm = () => {
