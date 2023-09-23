@@ -114,7 +114,7 @@ function* getDispo({ data }) {
     date: data?.date,
     day: data?.day,
   });
-  console.log(url)
+  console.log(url);
   try {
     const result = yield getUnauthRequest(url);
     if (result.success) {
@@ -148,6 +148,7 @@ function* postRDV({ data }) {
     active: true,
     idCentre: data?.idCentre,
   };
+
   try {
     const result = yield postUnauthRequest(url1, payload);
     let idFiche;
@@ -202,13 +203,13 @@ function* postRDV({ data }) {
     if (rdv?.success) {
       yield put({
         type: types.POST_RDV_REQUEST_SUCCESS,
-        payload: rdv?.data?._id,
+        payload: rdv?.data[0],
       });
       yield put({ type: types.GET_ALL_MY_RDV, id: payload.user });
       yield put({ type: MY_FICHES, payload: idFiche });
       yield setTimeout(() => {
         put({ type: "CLEAR_ERR_SUCC" });
-        RootNavigation.navigate(SCREENS.SUCCESS, { id: rdv?.data?._id, rdv });
+        RootNavigation.navigate(SCREENS.SUCCESS, { id: rdv?.data?._id });
       }, 3000);
     } else {
       yield put({
@@ -248,7 +249,7 @@ function* getAllRdv({ id }) {
 function* putRDV({ data }) {
   let url =
     BASE_URL + "/appointments/update/" + data.id + "?idCentre=" + data.idCentre;
-    
+
   const payload = {
     startTime: data?.startTime,
     endTime: data?.endTime,

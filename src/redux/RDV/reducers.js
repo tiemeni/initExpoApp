@@ -20,6 +20,7 @@ const initialState = {
   error: null,
   myRdv: [],
   errorMsg: null,
+  recapRDVId: [],
 };
 
 const RDVReducer = (state = initialState, action) => {

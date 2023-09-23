@@ -42,6 +42,7 @@ import {
 } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
 import MaskInput from "react-native-mask-input";
+import { REINITIALIZE } from "../../../redux/User/types";
 const Signup = ({
   navigation,
   error,
@@ -186,7 +187,10 @@ const Signup = ({
         [
           {
             text: "Connectez-vous",
-            onPress: () => navigation.navigate(SCREENS.LOGIN),
+            onPress: () => {
+              navigation.navigate(SCREENS.LOGIN);
+              dispatch({ type: REINITIALIZE });
+            },
           },
         ]
       );
@@ -194,7 +198,7 @@ const Signup = ({
   }, [error, success]);
 
   const onSubmit = () => {
-    console.log(!isPasswordWeak(formData?.password), formData.password)
+    console.log(!isPasswordWeak(formData?.password), formData.password);
     if (
       !isFieldsEmpty &&
       isValidEmail(formData.email) &&

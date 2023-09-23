@@ -16,23 +16,34 @@ import { AntDesign } from "@expo/vector-icons";
 import colors from "../../constants/colours";
 import { useSelector } from "react-redux";
 import { LinearGradient } from "expo-linear-gradient";
+import { BackHandler } from "react-native";
 
 function Success({ route }) {
   const navigation = useNavigation();
-  const [recapRdv, setRecapRDV] = useState({});
-  const rdvs = useSelector((state) => state.RdvForm.myRdv);
-  const rdv = route.params.rdv?.data;
-  const id = route?.params?.id;
-  console.log("je suis le rdv --- ", rdv);
+  //const [recapRdv, setRecapRDV] = useState({});
+  const rdv = useSelector((state) => state.RdvForm.recapRDVId);
+  console.log(rdv);
+  //const id = route?.params?.id;
+
+  // useEffect(() => {
+  //   for (let i = 0; i < rdvs?.length; i++) {
+  //     if (rdvs[i]?._id == id) {
+  //       console.log(rdvs[i]);
+  //       setRecapRDV(rdvs[i]);
+  //       break;
+  //     }
+  //   }
+  // }, []);
 
   useEffect(() => {
-    for (let i = 0; i < rdvs?.length; i++) {
-      if (rdvs[i]?._id == id) {
-        console.log(rdvs[i]);
-        setRecapRDV(rdvs[i]);
-        break;
-      }
-    }
+    const goBackAction = () => {
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      goBackAction
+    );
+    return () => backHandler.remove();
   }, []);
 
   return (
@@ -63,16 +74,14 @@ function Success({ route }) {
           <HStack style={styles.box3}>
             <Text style={styles.texte3}>Docteur</Text>
             <Text style={{ ...styles.texte3, fontWeight: 500 }}>
-              {(recapRdv?.name || rdv?.practitioner?.name) +
-                " " +
-                (recapRdv?.surname || rdv?.practitioner?.surname)}
+              {rdv?.practitioner?.name + " " + rdv?.practitioner?.surname}
             </Text>
           </HStack>
           <Divider style={{ opacity: 0.4 }} />
           <HStack style={styles.box3}>
             <Text style={styles.texte3}>Spécialité</Text>
             <Text style={{ ...styles.texte3, fontWeight: 500 }}>
-              {recapRdv?.profession}
+              {rdv?.practitioner?.job?.title}
             </Text>
           </HStack>
           <Divider style={{ opacity: 0.4 }} />
@@ -86,7 +95,7 @@ function Success({ route }) {
               flex={1}
               style={{ ...styles.texte3, fontWeight: 500 }}
             >
-              {recapRdv?.motif}
+              {rdv?.motif?.label}
             </Text>
           </HStack>
           <Divider style={{ opacity: 0.4 }} />
@@ -100,7 +109,7 @@ function Success({ route }) {
               ellipsizeMode="tail"
               style={{ ...styles.texte3, fontWeight: 500 }}
             >
-              {recapRdv?.displayedDate || rdv?.date}
+              {rdv?.date_long}
             </Text>
           </HStack>
           <Divider style={{ opacity: 0.4 }} />

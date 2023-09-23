@@ -912,9 +912,9 @@ export const generateLink = (link, params) => {
 };
 
 export const troncate = (s) => {
-  if (s.length > 25) {
+  if (s?.length > 25) {
     return s.slice(0, 25) + "...";
-  } else {
+  }else {
     return s;
   }
 };

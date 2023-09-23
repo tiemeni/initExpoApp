@@ -281,7 +281,7 @@ const mapStateToProps = ({ UserReducer }) => ({
   loading: UserReducer.loading,
   error: UserReducer.error,
   errorMsg: UserReducer.errorMsg,
-  success: UserReducer.success,
+  success: UserReducer.successLogin,
 });
 
 export default connect(mapStateToProps)(Login);

@@ -5,6 +5,7 @@ import colors from "../constants/colours"
 import { Entypo } from '@expo/vector-icons';
 import { connect } from "react-redux";
 import { useEffect, useState } from "react";
+import { troncate } from "../utils/helper";
 
 const styles = StyleSheet.create({
     boxGoogle: {
@@ -54,7 +55,7 @@ const CustomHeader = ({ navigation, mb, userInfos, screen }) => {
                             uri: user?.photo ?? null
                         }}></Avatar>
                 </Pressable>
-                <Text style={{ marginLeft: 15, fontSize: 18 }}>{user?.name}</Text>
+                <Text style={{ marginLeft: 15, fontSize: 18 }}>{troncate(user?.name)}</Text>
             </HStack>
             <TouchableOpacity onPress={() => navigation.navigate(SCREENS.MAKE_APPOINTMENT_SCREEN)}>
                 <Box style={styles.boxGoogle} width={50} rounded={50} shadow={2}>
