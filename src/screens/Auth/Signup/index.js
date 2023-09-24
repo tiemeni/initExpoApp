@@ -57,6 +57,7 @@ const Signup = ({
   const [isCkeck, setIsCheck] = useState(false);
   const [show, setShow] = useState(false);
   const [confPassword, setConfirmPassword] = useState("");
+  const [desable, setDesable] = useState(false)
 
   let messages = [];
 
@@ -152,11 +153,15 @@ const Signup = ({
       formData.email === "" ||
       formData.password === "" ||
       formData.telephone === "" ||
+      formData.telephone.length < 9 ||
       formData.birthdate === "" ||
       isCkeck === false ||
       confPassword === ""
     );
   };
+
+
+
 
   const isFieldsEmpty = checkEmptyField();
 
@@ -234,8 +239,26 @@ const Signup = ({
     setIsCheck(!isCkeck);
   };
 
+  const getButtonDesable = (formData, isFieldsEmpty, isTrong) => {
+    const isValid = !isValidEmail(formData.email);
+    if (
+      isFieldsEmpty ||
+      isTrong.length !== 0 ||
+      isValid ||
+      formData.password !== confPassword ||
+      formData.telephone.length !== 9
+    ) {
+      return false;
+    }
+    return true; // Ajoutez un retour explicite pour le cas où aucune désactivation n'est nécessaire
+  };
+  
+  const buttonDesable = getButtonDesable(formData, isFieldsEmpty, isTrong);
+  console.log('desable', buttonDesable)
+
+
   return (
-    <ScrollView flex={1} backgroundColor={"white"} paddingX={3}>
+    <ScrollView showsVerticalScrollIndicator={false} flex={1} backgroundColor={"white"} paddingX={3}>
       <View style={styles.logoBox}>
         <Image style={styles.image} source={logo} alt="logo" />
         <Text style={styles.intitule}>
@@ -485,11 +508,32 @@ const Signup = ({
               }}
               value={formData.telephone}
               onChangeText={(value) => handleInputChange("telephone", value)}
-              mask={["6", " ", /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}
+              mask={["6", /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}
               placeholder="6xxxxxxxx"
               keyboardType="numeric"
             />
           </HStack>
+          {formData.telephone.length < 9 && formData.telephone !== "" &&
+            <VStack
+              style={{
+                backgroundColor: colors.transp_warning,
+                borderRadius: 5,
+                padding: 8,
+              }}
+            >
+              <HStack space={1} alignItems={"center"}>
+                <Warning2 color={colors.danger} size={15} />
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: colors.danger,
+                  }}
+                >
+                  Le numéro ne respecte pas les standards du Cameroun !
+                </Text>
+              </HStack>
+            </VStack>
+          }
 
           <VStack>
             <Pressable onPress={showDatepicker}>
@@ -530,11 +574,11 @@ const Signup = ({
               color={colors.primary}
             />
             <HStack>
-              <Text style={styles.cgu}>J'accepte les</Text>
+              <Text onPress={handleCheck} style={styles.cgu}>J'accepte les</Text>
               <Pressable
-              // onPress={() => {
-              //   navigateCgu.navigate(SCREENS.CGU);
-              // }}
+                onPress={() => {
+                  navigateCgu.navigate(SCREENS.CGU);
+                }}
               >
                 <Text style={styles.cguText}>
                   Conditions génétales d'utilisations
@@ -549,9 +593,9 @@ const Signup = ({
             title="Créez votre compte"
             isLoadingText="Veuillez patienter..."
             isLoading={codeVerifLoading}
-            style={styles.submitBtnText}
+            style={{...styles.submitBtnText, backgroundColor:buttonDesable?colors.primary:colors.trans_primary}}
             color={colors.primary}
-            // disabled={isFieldsEmpty}
+            disabled={!buttonDesable}
             onPress={onSubmit}
           />
         </Center>
