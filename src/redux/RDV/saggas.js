@@ -148,7 +148,7 @@ function* postRDV({ data }) {
     active: true,
     idCentre: data?.idCentre,
   };
-
+  console.log(url2);
   try {
     const result = yield postUnauthRequest(url1, payload);
     let idFiche;
@@ -187,6 +187,7 @@ function* postRDV({ data }) {
         date_long: data?.date_long,
         // "dayOfWeek": 1,
         date: data?.period?.day,
+        clientID: data?.clientID,
       };
       idFiche = result.data?._id;
       rdv = yield postUnauthRequest(url2, rdvData);
@@ -201,6 +202,8 @@ function* postRDV({ data }) {
       }, 3000);
     }
     if (rdv?.success) {
+      console.log("success");
+
       yield put({
         type: types.POST_RDV_REQUEST_SUCCESS,
         payload: rdv?.data[0],
