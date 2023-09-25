@@ -16,6 +16,12 @@ const styles = StyleSheet.create({
         elevation: 1
     },
 
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+
     headLabel: {
         height: 30,
         width: '35%',
@@ -38,12 +44,13 @@ const styles = StyleSheet.create({
     },
 
     footerLink: {
-        justifyContent: 'space-between',
+        padding: 5,
+        width: 120
     },
 
     footerText: {
         color: colors.primary,
-        textDecorationLine: 'underline'
+        textDecorationLine: 'underline',
     },
 
     footerDate: {

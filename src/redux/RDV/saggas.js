@@ -186,6 +186,7 @@ function* postRDV({ data }) {
         date_long: data?.date_long,
         // "dayOfWeek": 1,
         date: data?.period?.day,
+        clientID: data?.clientID
       };
       idFiche = result.data?._id;
       rdv = yield postUnauthRequest(url2, rdvData);

@@ -8,7 +8,6 @@ import { Calendar, DocumentText, Location, Map1, Timer1 } from 'iconsax-react-na
 import { transfomeToSlashDate } from '../../utils/helper'
 
 const Rdv = ({ _id, navigation, date, motif, startTime, praticien, status, localisation }) => {
-    console.log("I'm just a child")
     return (
         <View style={[styles.container]}>
             <View style={styles.topContainer}>

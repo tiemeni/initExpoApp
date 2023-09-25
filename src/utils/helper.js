@@ -929,3 +929,15 @@ export const setBypassOnboarding = async () => {
 export const getLocalStorageOnBoardingState = async (key) => {
   return await AsyncStorage.getItem(key);
 };
+
+export function formatTimeFromDate(dateString) {
+  const date = new Date(dateString);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  // Format hours and minutes with two digits (e.g., 09:05 instead of 9:5)
+  const formattedHours = hours.toString().padStart(2, "0");
+  const formattedMinutes = minutes.toString().padStart(2, "0");
+
+  return `${formattedHours}:${formattedMinutes}`;
+}
