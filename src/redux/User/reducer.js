@@ -14,6 +14,7 @@ const initialState = {
   mapDirections: [],
   successLogin: false,
   codeVerifSuccess: false,
+  clientID: "",
 };
 
 const UserReducer = (state = initialState, action) => {
@@ -212,6 +213,11 @@ const UserReducer = (state = initialState, action) => {
       return {
         ...state,
         canBeNotified: false,
+      };
+    case types.SAVE_CLIENT_ID:
+      return {
+        ...state,
+        clientID: action.payload,
       };
     default:
       return state;

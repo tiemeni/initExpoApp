@@ -65,3 +65,8 @@ export const getMapDirections = (payload) => ({
   type: types.GET_MAP_DIRECTIONS_REQUEST,
   payload,
 });
+
+export const storeClientID = (payload) => ({
+  type: types.SAVE_CLIENT_ID,
+  payload,
+});
