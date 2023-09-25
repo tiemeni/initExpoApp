@@ -1,38 +1,33 @@
-import React, { useState } from "react";
-import { Image, Pressable, View } from "react-native";
+import { Foundation } from "@expo/vector-icons";
+import { Eye, EyeSlash, Lock, User, Warning2 } from "iconsax-react-native";
 import {
   Center,
   HStack,
-  VStack,
   Icon,
   Input,
-  Text,
   ScrollView,
+  Text,
+  VStack,
   useToast,
-  Checkbox,
-  Box,
 } from "native-base";
-import { Foundation } from "@expo/vector-icons";
-import { useValidation } from "react-native-form-validator";
-import colors from "../../../constants/colours";
-import styles from "./styles";
-import logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
-import * as SCREENS from "../../../constants/screens";
-import PrimaryButton from "../../../components/Buttons/PrimaryButton";
-import { useDispatch, connect, useSelector } from "react-redux";
-import {
-  userLogin,
-  reinitialize,
-  processVerifCode,
-} from "../../../redux/User/action";
-import CustomToast from "../../../components/CustomToast";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Eye, EyeSlash, Lock, User, Warning2 } from "iconsax-react-native";
+import { Image, Pressable, View } from "react-native";
+import { useValidation } from "react-native-form-validator";
+import { connect, useDispatch, useSelector } from "react-redux";
+import logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
+import PrimaryButton from "../../../components/Buttons/PrimaryButton";
+import CustomToast from "../../../components/CustomToast";
+import colors from "../../../constants/colours";
+import * as SCREENS from "../../../constants/screens";
 import {
-  getLocalStorageOnBoardingState,
-  isEmailValid,
-} from "../../../utils/helper";
-import { IS_BYPASS_ONBOARDING } from "../../../constants/others";
+  processVerifCode,
+  reinitialize,
+  userLogin,
+} from "../../../redux/User/action";
+import { isEmailValid } from "../../../utils/helper";
+import styles from "./styles";
+import { Checkbox } from "react-native-paper";
 
 const Login = ({ navigation, error, loading, errorMsg, success }) => {
   const toast = useToast();
@@ -189,7 +184,7 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
                 justifyContent={"center"}
                 style={styles.leftElement}
               >
-                <Icon as={<Lock />} size={5} color={colors.text_grey_hint} />
+                <Icon as={<Lock />} size={5} color={"primary.500"} />
               </VStack>
             }
             InputRightElement={
@@ -212,12 +207,13 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
             <Text style={styles.errorMsg}>Remplissez bien les champs !</Text>
           )} */}
 
-          <HStack space={2} mt={1}>
+          <HStack space={2} mt={1} alignItems={"center"}>
             <Checkbox
               aria-label="cgu"
-              isChecked={formData.saveCredentials}
-              onChange={(v) => {
-                handleInputChange("saveCredentials", String(v));
+              // isChecked={formData.saveCredentials}
+              status={formData.saveCredentials ? "checked" : "unchecked"}
+              onPress={(v) => {
+                handleInputChange("saveCredentials", !formData.saveCredentials);
               }}
               // onPress={() =>
               //
@@ -225,6 +221,9 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
               color={colors.primary}
             />
             <Text
+              onPress={(v) => {
+                handleInputChange("saveCredentials", !formData.saveCredentials);
+              }}
               style={{
                 fontWeight: "400",
                 fontSize: 14,
@@ -238,9 +237,18 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
         </VStack>
 
         <Pressable
-          onPress={() => navigation.navigate(SCREENS.PHONE_CONFIRMATION_SCREEN)}
+          display={"flex"}
+          flexDirection={"row"}
+          alignItems={"center"}
+          justifyContent={"center"}
         >
-          <Text style={styles.forgetPassword} mt={5}>
+          <Text
+            onPress={() =>
+              navigation.navigate(SCREENS.PHONE_CONFIRMATION_SCREEN)
+            }
+            style={styles.forgetPassword}
+            mt={5}
+          >
             Mot de passe oublié ?
           </Text>
         </Pressable>
@@ -250,7 +258,12 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
             title={translate("TEXT.BUTTON_LOGIN")}
             isLoadingText={translate("TEXT.BUTTON_LOGIN_LOADER")}
             isLoading={loading}
-            style={styles.submitBtnText}
+            style={{
+              ...styles.submitBtnText,
+              backgroundColor: isFieldsEmpty
+                ? colors.trans_primary
+                : colors.primary,
+            }}
             color={colors.primary}
             onPress={handleSubmit}
             disabled={isFieldsEmpty}

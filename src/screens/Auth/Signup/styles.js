@@ -92,13 +92,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.text_grey_hint,
     fontStyle: "normal",
-    marginLeft: 3,
   },
 
   cguText: {
     color: colors.yellow,
     textDecorationLine: "underline",
-    marginLeft: 5
+    marginLeft: 3
   },
 
   leftElement: {
