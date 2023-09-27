@@ -48,7 +48,7 @@ const Signup = ({
   error,
   loading,
   errorMsg,
-  success,
+  successRegister,
   codeVerifLoading,
 }) => {
   const navigateCgu = useNavigation();
@@ -182,7 +182,7 @@ const Signup = ({
       });
     }
 
-    if (success) {
+    if (successRegister) {
       Alert.alert(
         Platform.OS === "ios" ? "INSCRIPTION" : "Inscription",
         "Votre compte été crée avec succès.",
@@ -197,7 +197,7 @@ const Signup = ({
         ]
       );
     }
-  }, [error, success]);
+  }, [error, successRegister]);
 
   const onSubmit = () => {
     console.log(!isPasswordWeak(formData?.password), formData.password);
@@ -639,7 +639,7 @@ const Signup = ({
 };
 
 const mapStateToProps = ({ UserReducer }) => ({
-  success: UserReducer.success,
+  successRegister: UserReducer.successRegister,
   error: UserReducer.error,
   loading: UserReducer.loading,
   errorMsg: UserReducer.errorMsg,

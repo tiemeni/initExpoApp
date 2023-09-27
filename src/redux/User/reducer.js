@@ -14,6 +14,8 @@ const initialState = {
   mapDirections: [],
   successLogin: false,
   codeVerifSuccess: false,
+  loadingLocalAuth: false,
+  successRegister: false,
   clientID: "",
 };
 
@@ -27,7 +29,9 @@ const UserReducer = (state = initialState, action) => {
         success: null,
         settingPWLoading: false,
         errorCodeVerif: null,
+        loadingLocalAuth: false,
         codeVerifSuccess: false,
+        successRegister: false
       };
     case types.REGISTER_USER_REQUEST:
       return {
@@ -36,14 +40,14 @@ const UserReducer = (state = initialState, action) => {
         loading: true,
         error: false,
         errorMsg: null,
-        success: null,
+        successRegister: null,
       };
     case types.REGISTER_USER_SUCCESS:
       return {
         ...state,
         userInfos: action.payload,
         loading: false,
-        success: true,
+        successRegister: true,
       };
     case types.REGISTER_USER_FAILED:
       return {
@@ -51,7 +55,7 @@ const UserReducer = (state = initialState, action) => {
         errorMsg: action.payload,
         loading: false,
         error: true,
-        success: false,
+        successRegister: false,
       };
     case types.UPDATE_USER_INFORMATION_RESQUEST:
       return {
@@ -129,13 +133,13 @@ const UserReducer = (state = initialState, action) => {
     case types.LOCAL_AUTH_REQUEST:
       return {
         ...state,
-        loading: true,
+        loadingLocalAuth: true,
         error: null,
       };
     case types.LOCAL_AUTH_FAILED:
       return {
         ...state,
-        loading: false,
+        loadingLocalAuth: false,
         error: true,
         errorMsg: "",
         localAuth: false,
@@ -143,7 +147,7 @@ const UserReducer = (state = initialState, action) => {
     case types.LOCAL_AUTH_SUCCESS:
       return {
         ...state,
-        loading: false,
+        loadingLocalAuth: false,
         localAuth: true,
         userInfos: action.payload,
       };

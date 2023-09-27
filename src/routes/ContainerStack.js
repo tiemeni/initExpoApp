@@ -32,7 +32,10 @@ const ContainerStack = () => {
   useEffect(() => {
     socket.on("connected", (data) => {
       console.log("connectatared: ", data);
+      socket.emit("setUserId", "je suis le user conf");
     });
+
+    socket.on("saved", (d) => console.log(d));
 
     socket.on("notification", () => {
       console.log("notification");

@@ -12,7 +12,7 @@ import { getLocalStorageOnBoardingState } from "../../utils/helper";
 import Login from "../Auth/Login";
 import { useNavigation } from "@react-navigation/native";
 
-const Home = ({ loading, localAuth }) => {
+const Home = ({ loadingLocalAuth, localAuth }) => {
   const dispatch = useDispatch();
   const [bypassOnboarding, setBypassOnboarding] = useState(false);
   const navigation = useNavigation();
@@ -38,7 +38,7 @@ const Home = ({ loading, localAuth }) => {
 
   return (
     <>
-      {!loading && !localAuth ? (
+      {!loadingLocalAuth && !localAuth ? (
         renderLogin(bypassOnboarding)
       ) : (
         <Center flex={1} alignItems={"center"}>
@@ -66,7 +66,7 @@ const style = {
 };
 
 const mapStateToProps = ({ UserReducer }) => ({
-  loading: UserReducer.loading,
+  loadingLocalAuth: UserReducer.loadingLocalAuth,
   localAuth: UserReducer.localAuth,
 });
 
