@@ -137,7 +137,7 @@ function* getDispo({ data }) {
 function* postRDV({ data }) {
   let url1 = BASE_URL + "/patients/register?idCentre=" + data?.idCentre;
   let url2 =
-    BASE_URL + "/appointments/enregistrer_rdv/?idCentre=" + data?.idCentre;
+    "http://192.168.1.48:3500" + "/appointments/enregistrer_rdv/?idCentre=" + data?.idCentre;
   const payload = {
     name: data?.user?.name,
     surname: data?.user?.surname ?? "",
@@ -186,7 +186,6 @@ function* postRDV({ data }) {
         date_long: data?.date_long,
         // "dayOfWeek": 1,
         date: data?.period?.day,
-        clientID: data?.clientID
       };
       idFiche = result.data?._id;
       rdv = yield postUnauthRequest(url2, rdvData);

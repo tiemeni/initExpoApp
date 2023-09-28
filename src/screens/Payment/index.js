@@ -84,7 +84,6 @@ const Payment = ({ route, navigation }) => {
   const error = useSelector((state) => state.RdvForm.errorMsgPostRDV);
   const loadingPostRdv = useSelector((state) => state.RdvForm.loadingPostRdv);
   const formRDV = useSelector((state) => state.RdvForm.rdvForm);
-  const clientID = useSelector((state) => state.UserReducer.clientID);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("visa");
   const [showLoaderInModal, setShowLoaderInModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -113,7 +112,6 @@ const Payment = ({ route, navigation }) => {
   };
 
   const onSubmitPayment = () => {
-    let payload = { clientID };
     setIsLoading(true);
     payload = !ext ? { ...formRDV, ...userInfo } : { ...extPRData };
     dispatch(postRDV(payload));

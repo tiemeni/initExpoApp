@@ -4,8 +4,11 @@ import NotificationsCard from "../../components/NotificationsCard";
 import styles from "./styles";
 import { SkeletteNotif } from "./squeletteNotif";
 import { connect, useDispatch } from "react-redux";
-import { getUserNotifications } from "../../redux/notifications/actions";
-import { View } from "react-native";
+import {
+  getUserNotifications,
+  markAsReaded,
+} from "../../redux/notifications/actions";
+import { Alert, View } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import { Notification1 } from "iconsax-react-native";
 import colors from "../../constants/colours";
@@ -40,17 +43,22 @@ const Notifications = ({ ...props }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(markAsReaded());
+    if (notifications.length > 0) return;
     dispatch(getUserNotifications(iduser));
   }, []);
 
   useEffect(() => {
-    console.log(notifications);
     setNotificationsList(notifications);
   }, [notifications]);
 
   useEffect(() => {
     setLoading(isLoading);
   }, [isLoading]);
+
+  useEffect(() => {
+    if (error) Alert.alert("Erreur", message);
+  }, [error]);
 
   return (
     <View style={styles.container}>

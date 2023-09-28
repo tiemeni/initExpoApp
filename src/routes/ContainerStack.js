@@ -24,18 +24,23 @@ import SanteAstucesComponent from "../screens/AstuceSanté";
 import { DetailsPraticien } from "../screens/DetailsPraticiens";
 import AllPraticiens from "../components/AllPraticiens";
 import { useSocket } from "../socket";
+import { useDispatch, useSelector } from "react-redux";
+import { saveSocketNotifications } from "../redux/notifications/actions";
 
 const Stack = createSharedElementStackNavigator();
 
 const ContainerStack = () => {
+  const dispatch = useDispatch();
+  const userInfos = useSelector((state) => state.UserReducer.userInfos);
   const socket = useSocket();
   useEffect(() => {
+    const { user } = userInfos;
     socket.on("connected", (data) => {
-      console.log("connectatared: ", data);
+      socket.emit("setUserId", user._id);
     });
 
-    socket.on("notification", () => {
-      console.log("notification");
+    socket.on("notification", (notification) => {
+      dispatch(saveSocketNotifications(notification));
     });
 
     return () => {

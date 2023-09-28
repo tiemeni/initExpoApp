@@ -5,6 +5,7 @@ const initialState = {
   notifications: [],
   message: null,
   error: false,
+  unreaded: 0,
 };
 
 const NotificationsReducer = (state = initialState, action) => {
@@ -28,7 +29,17 @@ const NotificationsReducer = (state = initialState, action) => {
         error: true,
         message: action.payload.message,
       };
-
+    case types.SAVE_SOCKET_NOTIFICATION:
+      return {
+        ...state,
+        notifications: [...state.notifications, action.payload],
+        unreaded: state.unreaded + 1,
+      };
+    case types.MARK_ALL_AS_READED:
+      return {
+        ...state,
+        unreaded: 0,
+      }
     default:
       return state;
   }
