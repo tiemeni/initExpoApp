@@ -27,10 +27,12 @@ import {
 } from "../../../redux/User/action";
 import { isEmailValid } from "../../../utils/helper";
 import styles from "./styles";
-import { Checkbox } from "react-native-paper";
+import { Button, Checkbox } from "react-native-paper";
+import { Alert } from "react-native";
 
 const Login = ({ navigation, error, loading, errorMsg, success }) => {
   const toast = useToast();
+  const [serverError, setServeurError] = useState("");
   const [errEmail, setErrMail] = useState(null);
   const [isEmpty, setIsEmpty] = useState(false);
   const errorCodeVerif = useSelector(
@@ -74,28 +76,17 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
     dispatch(userLogin(formData));
   };
 
-  const resetPassword = () => {
-    setIsEmpty(true);
-    dispatch(processVerifCode({ email: formData?.email }));
-  };
-
   React.useEffect(() => {
     if ((error && errorMsg !== "") || errorCodeVerif || errEmail) {
-      toast.show({
-        render: () => {
-          return (
-            <CustomToast
-              message={errorMsg || errorCodeVerif || errEmail}
-              color={colors.danger}
-              bgColor={"red.100"}
-              icon={<Foundation name="alert" size={24} />}
-              iconColor={colors.danger}
-            />
-          );
+      Alert.alert(Platform.OS === "ios" ? "ECHEC DE CONNEXION" : "Echec de connexion", errorMsg, [
+        {
+          text: "Reesayer",
+          onPress: () => {
+            // navigation.navigate(SCREENS.LOGIN);
+            // dispatch({ type: REINITIALIZE });
+          },
         },
-        placement: "top",
-        duration: 3000,
-      });
+      ]);
     }
     setErrMail(null);
   }, [error, success, errorCodeVerif, errEmail]);
@@ -254,19 +245,26 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
         </Pressable>
 
         <Center mt={2}>
-          <PrimaryButton
-            title={translate("TEXT.BUTTON_LOGIN")}
-            isLoadingText={translate("TEXT.BUTTON_LOGIN_LOADER")}
-            isLoading={loading}
+          <Button
+            children={
+              loading
+                ? translate("TEXT.BUTTON_LOGIN_LOADER")
+                : translate("TEXT.BUTTON_LOGIN")
+            }
+            labelStyle={{
+              color: "white",
+            }}
+            loading={loading}
+            mode="contained"
             style={{
               ...styles.submitBtnText,
-              backgroundColor: isFieldsEmpty
-                ? colors.trans_primary
-                : colors.primary,
+              backgroundColor:
+                isFieldsEmpty || loading
+                  ? colors.trans_primary
+                  : colors.primary,
             }}
-            color={colors.primary}
-            onPress={handleSubmit}
-            disabled={isFieldsEmpty}
+            onPress={!loading && handleSubmit}
+            disabled={isFieldsEmpty || loading}
           />
         </Center>
         <Center>
