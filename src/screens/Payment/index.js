@@ -7,7 +7,6 @@ import {
   Center,
   HStack,
   Image,
-  Input,
   ScrollView,
   Text,
   useToast,
@@ -180,12 +179,12 @@ const Payment = ({ route, navigation }) => {
               showObfuscatedValue
               obfuscationCharacter="#"
               onChangeText={(value) => handleInputChange("phone", value)}
-              style={{ ...styles.input, paddingLeft: 10 , marginBottom:10}}
+              style={{ ...styles.input, paddingLeft: 10, marginBottom:5}}
               height={50}
               keyboardType="number-pad"
               placeholder="658 559 995"
             />
-            {operateur !== selectedPaymentMethod && operateur !=='inconnu' &&
+            {operateur !== selectedPaymentMethod && operateur !=='inconnu'?
             <HStack
             rounded={5}
             p={2}
@@ -203,20 +202,27 @@ const Payment = ({ route, navigation }) => {
             >
               Le numéro ne correspondent pas à l'opérateur choisi
             </Text>
+          </HStack> : operateur === 'inconnu' && formDataMobile.phone !=="" && <HStack
+            rounded={5}
+            p={2}
+            backgroundColor={colors.transp_warning}
+            space={1}
+            width={"100%"}
+            alignItems={"center"}
+          >
+            <Warning2 color={colors.danger} size={15} />
+            <Text
+              style={{
+                fontSize: 12,
+                color: colors.danger,
+              }}
+            >
+              Entrez un numéro de téléphone valide
+            </Text>
           </HStack>
+
           }
           </Box>
-          <Text ml={1} style={styles.inputLabel}>Montant</Text>
-          <Input
-            value={"5000"}
-            //onChangeText={(value) => handleInputChange("amount", value)}
-            style={{ paddingLeft: 10}}
-            editable={false}
-            keyboardType="numeric"
-            height={50}
-            rounded={10}
-            placeholder="5000"
-          />
         </VStack>
       );
     } else {
@@ -281,6 +287,7 @@ const Payment = ({ route, navigation }) => {
             </Text>
           </Box>
           <Box style={styles.paymentMethodBox}>
+            <Center>
               <HStack
                 style={styles.scrollView}
                 showsHorizontalScrollIndicator={false}
@@ -334,6 +341,7 @@ const Payment = ({ route, navigation }) => {
                   </Center>
                 </Box>
               </HStack>
+              </Center>
           </Box>
           {renderPaymentForm()}
         </VStack>

@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
 
     submitBtnText: {
         marginBottom: 10,
-        marginTop: 10,
         width: '100%',
         borderRadius: 15,
         //color: colors.black,
@@ -105,7 +104,7 @@ const styles = StyleSheet.create({
     },
 
     btnBox: {
-        margin: 20
+        marginHorizontal:20
     },
 
     btn: {
