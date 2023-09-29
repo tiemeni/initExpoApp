@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 15,
         paddingTop: 20,
-        marginBottom: 20
+        paddingBottom: 0,
     },
 
     headerTitle: {
@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
     emptyMsg: {
         fontSize: 16,
         color: colors.text_grey_hint,
-        marginTop: 25
+        marginTop: 25,
+        textAlign: "center"
     },
 
     flashList: {

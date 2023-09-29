@@ -164,12 +164,7 @@ const AppointmentDetails = ({ navigation, appointments }) => {
               </HStack>
             ) : (
               <HStack space={4} mt={2}>
-                <PrimaryButton
-                  title={
-                    <Text color={colors.danger} fontWeight={500}>
-                      Annuler
-                    </Text>
-                  }
+                <Button
                   isLoadingText={""}
                   isLoading={cancellLoading}
                   style={{
@@ -179,7 +174,11 @@ const AppointmentDetails = ({ navigation, appointments }) => {
                   color={colors.primary}
                   onPress={() => setDisplSuppMod(true)}
                   minWidth="1/4"
-                />
+                >
+                  <Text color={colors.danger} fontWeight={500}>
+                    Annuler
+                  </Text>
+                </Button>
                 <Button
                   style={styles.button}
                   onPress={() =>

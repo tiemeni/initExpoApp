@@ -187,6 +187,7 @@ function* authLogout() {
     yield AsyncStorage.removeItem("userInfos");
     //yield AsyncStorage.clear()
     yield put({ type: "CLEAR_ALL_RDV" });
+    yield put({ type: "CLEAR_ALL_NOTIFICATIONS" });
     RootNavigation.navigate(SCREENS.LOGIN, { refresh: true });
   } catch (error) {
     yield put({ type: types.LOGOUT_REQUEST, payload: error });

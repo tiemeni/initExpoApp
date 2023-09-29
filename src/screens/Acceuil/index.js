@@ -26,10 +26,14 @@ import { Location, SearchNormal1 } from "iconsax-react-native";
 import { useTranslation } from "react-i18next";
 import * as ExpoLocation from "expo-location";
 import NextAppointment from "../../components/NextAppointment";
-import { getAppSpecialties, setShouldSeeBehind } from "../../redux/commons/action";
+import {
+  getAppSpecialties,
+  setShouldSeeBehind,
+} from "../../redux/commons/action";
 import DoctorCard from "../../components/DoctorCard/DoctorCard";
 import { Alert } from "react-native";
 import messaging from "@react-native-firebase/messaging";
+import { getUserNotifications } from "../../redux/notifications/actions";
 
 const _spacing = 3;
 const datas = [
@@ -62,11 +66,12 @@ const Acceuil = ({
   };
 
   useEffect(() => {
-    dispatch(setShouldSeeBehind(false))
+    dispatch(setShouldSeeBehind(false));
     dispatch(getProfession());
     dispatch(clearCache());
     dispatch(getAllPrats());
     dispatch(getAppSpecialties());
+    dispatch(getUserNotifications(userInfos?.user?._id));
   }, []);
 
   useEffect(() => {

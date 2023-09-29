@@ -12,8 +12,6 @@ import {
 } from "native-base";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import ProgressiveImage from "rn-progressive-image";
-import {LinearGradient} from 'expo'
 import {
   Image,
   Platform,
@@ -220,7 +218,6 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
           <VStack px={3}>
             <TouchableOpacity onPress={selectImage}>
               <HStack style={styles.viewStyle}>
-                <ProgressiveImage>
                   <Avatar
                     bg={colors.text_grey_hint}
                     width={92}
@@ -229,7 +226,6 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                       uri: ImageLoading ? image : user?.photo ?? image,
                     }}
                   ></Avatar>
-                </ProgressiveImage>
                 <Box style={styles.iconCam}>
                   {ImageLoading ? (
                     <Spinner

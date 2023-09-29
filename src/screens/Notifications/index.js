@@ -1,11 +1,14 @@
 import { Text, VStack } from "native-base";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import NotificationsCard from "../../components/NotificationsCard";
 import styles from "./styles";
 import { SkeletteNotif } from "./squeletteNotif";
 import { connect, useDispatch } from "react-redux";
-import { getUserNotifications } from "../../redux/notifications/actions";
-import { View } from "react-native";
+import {
+  getUserNotifications,
+  markAsReaded,
+} from "../../redux/notifications/actions";
+import { Alert, View } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import { Notification1 } from "iconsax-react-native";
 import colors from "../../constants/colours";
@@ -34,23 +37,28 @@ const AlternativeComponent = ({ isLoading }) => {
 };
 
 const Notifications = ({ ...props }) => {
-  const { iduser, error, message, isLoading, notifications } = props;
+  const { iduser, error, message, isLoading, notifications, renderKey } = props;
   const [notificationsList, setNotificationsList] = useState(notifications);
   const [loading, setLoading] = useState(isLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(markAsReaded());
+    if (notifications.length > 0) return;
     dispatch(getUserNotifications(iduser));
-  }, []);
+  }, [renderKey]);
 
   useEffect(() => {
-    console.log(notifications);
     setNotificationsList(notifications);
   }, [notifications]);
 
   useEffect(() => {
     setLoading(isLoading);
   }, [isLoading]);
+
+  useEffect(() => {
+    if (error) Alert.alert("Erreur", message);
+  }, [error]);
 
   return (
     <View style={styles.container}>
@@ -75,6 +83,7 @@ const mapStateToProps = ({ Notifications, UserReducer }) => ({
   notifications: Notifications.notifications,
   isLoading: Notifications.isLoading,
   error: Notifications.error,
+  renderKey: Notifications.renderKey,
   message: Notifications.message,
   iduser: UserReducer.userInfos.user._id,
 });

@@ -5,6 +5,7 @@ import { getUnauthRequest } from "../../utils/api";
 
 function* getUserNotifications({ payload }) {
   const url = `${BASE_URL}/notifications/?module=externe&iduser=${payload}`;
+  console.log(url);
   try {
     const result = yield getUnauthRequest(url);
 
