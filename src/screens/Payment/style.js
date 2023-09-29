@@ -51,8 +51,6 @@ const styles = StyleSheet.create({
     },
 
     paymentMethod: {
-        height: 45,
-        width: 45,
         backgroundColor: colors.white,
         borderRadius: 50,
         alignItems:'center',
@@ -68,19 +66,13 @@ const styles = StyleSheet.create({
     },
 
     paymentMethodSelect: {
-        width:50,
-        height:50,
+        width:75,
+        height:75,
         borderRadius: 50,
         alignItems:'center',
         justifyContent:'center',
        shadowColor: "red",
-        shadowOffset: {
-            width: 5,
-            height: 2,
-        },
-        shadowOpacity: 1,
-        shadowRadius: 3.84,
-        elevation: 12,
+       
     },
 
     submitBtnText: {
