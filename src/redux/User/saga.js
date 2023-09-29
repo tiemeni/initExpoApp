@@ -21,6 +21,7 @@ import { GET_ALL_PRATICIENS } from "../Praticiens/types";
 
 const _openMapKey = "5b3ce3597851110001cf624891231ecc67bc4e35a9f4b4a35b6a1f10";
 
+
 /**
  * @description user sign up.
  */

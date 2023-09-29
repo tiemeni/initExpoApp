@@ -6,8 +6,10 @@ import colors from "../constants/colours";
 import { Home3, Notification, FolderOpen } from "iconsax-react-native";
 import CustomHeader from "../components/CustomHeader";
 import AppointmentStack from "./AppointmentStack";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { Pressable } from "react-native";
+import { markAsReaded } from "../redux/notifications/actions";
 
 const Bottom = createBottomTabNavigator();
 
@@ -54,7 +56,8 @@ const setScreenOption = ({ route }) => ({
 
 const ContainerBottom = () => {
   const unreaded = useSelector((state) => state.Notifications.unreaded);
-  console.log(unreaded)
+  const dispatch = useDispatch();
+  console.log(unreaded);
   return (
     <Bottom.Navigator
       initialRouteName={SCREENS.ACCEUIL}
@@ -67,8 +70,15 @@ const ContainerBottom = () => {
         component={AppointmentStack}
       />
       <Bottom.Screen
+        listeners={{
+          tabPress: (e) => {
+            // e.preventDefault();
+            dispatch(markAsReaded());
+          },
+        }}
         options={{
           ...setScreenOption,
+          lazy: true,
           tabBarBadge: unreaded === 0 ? null : unreaded,
         }}
         name={SCREENS.NOTIFICATIONS}

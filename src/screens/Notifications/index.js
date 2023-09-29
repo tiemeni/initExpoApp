@@ -37,7 +37,7 @@ const AlternativeComponent = ({ isLoading }) => {
 };
 
 const Notifications = ({ ...props }) => {
-  const { iduser, error, message, isLoading, notifications, renderKey } = props;
+  const { iduser, error, message, isLoading, notifications } = props;
   const [notificationsList, setNotificationsList] = useState(notifications);
   const [loading, setLoading] = useState(isLoading);
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ const Notifications = ({ ...props }) => {
     dispatch(markAsReaded());
     if (notifications.length > 0) return;
     dispatch(getUserNotifications(iduser));
-  }, [renderKey]);
+  }, []);
 
   useEffect(() => {
     setNotificationsList(notifications);

@@ -3,7 +3,7 @@ import io from "socket.io-client";
 import * as uri from "./constants/urls";
 
 // Define your server URL here
-const serverUrl = "http://192.168.43.5:3500";
+const serverUrl = "http://192.168.1.50:3500";
 
 const SocketContext = createContext();
 

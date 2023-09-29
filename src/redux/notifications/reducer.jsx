@@ -48,12 +48,9 @@ const NotificationsReducer = (state = initialState, action) => {
         unreaded: newStateUnread,
       };
     case types.MARK_ALL_AS_READED:
-      console.log("putting to zero");
-      let actualRenderKey = state.renderKey + 1;
       return {
         ...state,
         unreaded: 0,
-        renderKey: actualRenderKey,
       };
     default:
       return state;
