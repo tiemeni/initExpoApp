@@ -182,7 +182,7 @@ const Payment = ({ route, navigation }) => {
               style={{ ...styles.input, paddingLeft: 10, marginBottom:5}}
               height={50}
               keyboardType="number-pad"
-              placeholder="658 559 995"
+              placeholder={selectedPaymentMethod==="orange_money"?"658 559 995":"672 408 106"}
             />
             {operateur !== selectedPaymentMethod && operateur !=='inconnu'?
             <HStack
