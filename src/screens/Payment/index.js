@@ -1,6 +1,9 @@
 import {
+  Foundation
+} from "@expo/vector-icons";
+import { Warning2 } from "iconsax-react-native";
+import {
   Box,
-  Button,
   Center,
   HStack,
   Image,
@@ -8,30 +11,21 @@ import {
   ScrollView,
   Text,
   useToast,
-  VStack,
+  VStack
 } from "native-base";
-import React, { useEffect, useState } from "react";
-import styles from "./style";
-import visaUrl from "../../assets/img/visa.png";
+import React, { useState } from "react";
+import MaskInput from "react-native-mask-input";
+import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import { useDispatch, useSelector } from "react-redux";
 import MtnLogo from "../../assets/img/mobile_money.jpg";
 import OrangeLOgo from "../../assets/img/orange_money.jpg";
-import colors from "../../constants/colours";
-import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
-import Header from "../../components/Header";
-import MaskInput from "react-native-mask-input";
-import ModalPaySuccess from "../../components/ModalPaymentSuccess";
 import PrimaryButton from "../../components/Buttons/PrimaryButton";
-import { RDV } from "../../constants/screens";
-import { useDispatch, useSelector } from "react-redux";
-import { postRDV } from "../../redux/RDV/actions";
 import CustomToast from "../../components/CustomToast";
-import {
-  MaterialIcons,
-  Ionicons,
-  AntDesign,
-  Foundation,
-} from "@expo/vector-icons";
+import Header from "../../components/Header";
+import colors from "../../constants/colours";
 import { setShouldSeeBehind } from "../../redux/commons/action";
+import { postRDV } from "../../redux/RDV/actions";
+import styles from "./style";
 
 const description =
   "Votre compte sera débité d’un montant de 5000 Fcfa. Le dit montant fait office de frais de rendez-vous et est non-remboursable.";
@@ -97,7 +91,7 @@ const Payment = ({ route, navigation }) => {
 
   const [formDataMobile, setFormDataMobile] = useState({
     phone: "",
-    amount: "",
+    amount: '5000',
   });
 
   const handlePaymentMethodPress = (method) => {
@@ -116,6 +110,31 @@ const Payment = ({ route, navigation }) => {
     payload = !ext ? { ...formRDV, ...userInfo } : { ...extPRData };
     dispatch(postRDV(payload));
   };
+
+  const determineOperateur = (numero) => {
+    
+    const numeroNumerique = numero.replace(/\D/g, '');
+  
+    if (numeroNumerique.startsWith('6') && numeroNumerique.length >= 9) {
+      const deuxiemeChiffre = numeroNumerique.charAt(1);
+      if (deuxiemeChiffre === '5' && numeroNumerique.charAt(2) < '5') {
+        return 'mtn_money';
+      }
+      if (deuxiemeChiffre === '8' || deuxiemeChiffre === '7') {
+        return 'mtn_money';
+      }
+    }
+  
+    if (numeroNumerique.startsWith('6') && numeroNumerique.length >= 9) {
+      const deuxiemeChiffre = numeroNumerique.charAt(1);
+      if (((deuxiemeChiffre >= '5' && numeroNumerique.charAt(2) >='5' ) || deuxiemeChiffre === '9') && deuxiemeChiffre !=='6') {
+        return 'orange_money';
+      }
+    }
+  
+    return 'inconnu';
+  }
+  const operateur = determineOperateur(formDataMobile.phone);
 
   React.useEffect(() => {
     dispatch(setShouldSeeBehind(false));
@@ -140,91 +159,59 @@ const Payment = ({ route, navigation }) => {
 
   const renderPaymentForm = () => {
     if (
-      selectedPaymentMethod === "visa" ||
-      selectedPaymentMethod === "mastercard"
-    ) {
-      return (
-        <VStack style={styles.cardInfos}>
-          <Box>
-            <Text style={styles.inputLabel}>Nom sur la carte</Text>
-            <Input
-              variant={"unstyled"}
-              value={formData.name}
-              onChangeText={(v) => handleChange("name", v)}
-              style={styles.input}
-              size={"lg"}
-              placeholder="Luc Skywalker"
-            />
-          </Box>
-          <Box style={styles.inputBox}>
-            <Text style={styles.inputLabel}>Numéro de carte</Text>
-            <MaskInput
-              value={formData.cardNumber}
-              mask={creditCardMask}
-              showObfuscatedValue
-              obfuscationCharacter="#"
-              onChangeText={(v) => handleChange("cardNumber", v)}
-              style={{ ...styles.input, paddingLeft: 10 }}
-              size={"lg"}
-              placeholder="#### #### #### ####"
-            />
-          </Box>
-          <HStack justifyContent={"space-between"}>
-            <Box style={{ ...styles.inputBox, width: "48%" }}>
-              <Text style={styles.inputLabel}>Date d'expiration</Text>
-              <MaskInput
-                value={formData.cardNumber}
-                mask={expirationMask}
-                showObfuscatedValue
-                obfuscationCharacter="#"
-                onChangeText={(v) => handleChange("expiration", v)}
-                style={{ ...styles.input, paddingLeft: 10 }}
-                size={"lg"}
-                placeholder="MM/YY"
-              />
-            </Box>
-            <Box style={{ ...styles.inputBox, width: "48%" }}>
-              <Text style={styles.inputLabel}>Code de sécurité</Text>
-              <Input
-                variant={"unstyled"}
-                onChangeText={(v) => handleChange("securityCode", v)}
-                style={styles.input}
-                size={"lg"}
-                placeholder="CVC"
-              />
-            </Box>
-          </HStack>
-        </VStack>
-      );
-    } else if (
       selectedPaymentMethod === "orange_money" ||
       selectedPaymentMethod === "mtn_money"
     ) {
       return (
         <VStack style={styles.cardInfos}>
           <Box>
+            <HStack paddingX={1} justifyContent={'space-between'}>
             <Text style={styles.inputLabel}>Numéro de téléphone</Text>
+            {selectedPaymentMethod ==="orange_money"?
+            <Text style={{...styles.inputLabel, color:colors.primary}}>ORANGE MONEY</Text>:
+            <Text style={{...styles.inputLabel, color:colors.primary}}> MTN MONEY</Text>
+            }
+            </HStack>
             <MaskInput
               value={formDataMobile.phone}
               mask={telMask}
               showObfuscatedValue
               obfuscationCharacter="#"
               onChangeText={(value) => handleInputChange("phone", value)}
-              style={{ ...styles.input, paddingLeft: 10 }}
-              size={"lg"}
+              style={{ ...styles.input, paddingLeft: 10 , marginBottom:10}}
+              height={50}
+              keyboardType="number-pad"
               placeholder="658 559 995"
             />
+            {operateur !== selectedPaymentMethod && operateur !=='inconnu' &&
+            <HStack
+            rounded={5}
+            p={2}
+            backgroundColor={colors.transp_warning}
+            space={1}
+            width={"100%"}
+            alignItems={"center"}
+          >
+            <Warning2 color={colors.danger} size={15} />
+            <Text
+              style={{
+                fontSize: 12,
+                color: colors.danger,
+              }}
+            >
+              Le numéro ne correspondent pas à l'opérateur choisi
+            </Text>
+          </HStack>
+          }
           </Box>
-          <Text style={styles.inputLabel}>Montant</Text>
+          <Text ml={1} style={styles.inputLabel}>Montant</Text>
           <Input
-            value={formDataMobile.amount}
-            mask={creditCardMask}
-            showObfuscatedValue
-            obfuscationCharacter="#"
-            onChangeText={(value) => handleInputChange("amount", value)}
-            style={{ paddingLeft: 10 }}
-            size={"lg"}
-            height={42}
+            value={"5000"}
+            //onChangeText={(value) => handleInputChange("amount", value)}
+            style={{ paddingLeft: 10}}
+            editable={false}
+            keyboardType="numeric"
+            height={50}
             rounded={10}
             placeholder="5000"
           />
@@ -292,29 +279,12 @@ const Payment = ({ route, navigation }) => {
             </Text>
           </Box>
           <Box style={styles.paymentMethodBox}>
-            <Center>
               <HStack
                 style={styles.scrollView}
                 showsHorizontalScrollIndicator={false}
                 horizontal={true}
                 space={3}
               >
-                <Box
-                  style={{
-                    ...styles.paymentMethodSelect,
-                    backgroundColor:
-                      selectedPaymentMethod === "visa"
-                        ? colors.trans_primary
-                        : colors.white,
-                  }}
-                >
-                  <Pressable
-                    style={styles.paymentMethod}
-                    onPress={() => handlePaymentMethodPress("visa")}
-                  >
-                    <Image source={visaUrl} alt="visa" size={"xs"} />
-                  </Pressable>
-                </Box>
                 <Box
                   style={{
                     ...styles.paymentMethodSelect,
@@ -332,8 +302,8 @@ const Payment = ({ route, navigation }) => {
                       source={OrangeLOgo}
                       alt="orange"
                       rounded={50}
-                      width={45}
-                      height={45}
+                      width={50}
+                      height={50}
                     />
                   </Pressable>
                 </Box>
@@ -354,38 +324,21 @@ const Payment = ({ route, navigation }) => {
                       <Image
                         rounded={50}
                         source={MtnLogo}
-                        alt="visa"
-                        width={45}
-                        height={45}
+                        alt="mtn"
+                        width={50}
+                        height={50}
                       />
                     </Pressable>
                   </Center>
                 </Box>
-                <Box
-                  style={{
-                    ...styles.paymentMethodSelect,
-                    backgroundColor:
-                      selectedPaymentMethod === "mastercard"
-                        ? colors.trans_primary
-                        : colors.white,
-                  }}
-                >
-                  <Pressable
-                    style={styles.paymentMethod}
-                    onPress={() => handlePaymentMethodPress("mastercard")}
-                  >
-                    <Image source={visaUrl} alt="mastercard" size={"xs"} />
-                  </Pressable>
-                </Box>
               </HStack>
-            </Center>
           </Box>
           {renderPaymentForm()}
         </VStack>
         {renderPaymentForm() && (
           <VStack flex={1} style={styles.btnBox}>
             <PrimaryButton
-              // disabled={!formData.name || !formData.cardNumber || !formData.expirationDate || !formData.securityCode}
+              disabled={operateur === 'inconnu' || operateur !== selectedPaymentMethod}
               title={
                 loadingPostRdv
                   ? "en cours de chargement..."
@@ -393,7 +346,7 @@ const Payment = ({ route, navigation }) => {
               }
               isLoadingText="en cours de chargement..."
               isLoading={loadingPostRdv}
-              style={styles.submitBtnText}
+              style={{...styles.submitBtnText, backgroundColor:(operateur === 'inconnu' || operateur !== selectedPaymentMethod)?colors.trans_primary : colors.primary}}
               onPress={onSubmitPayment}
             />
           </VStack>

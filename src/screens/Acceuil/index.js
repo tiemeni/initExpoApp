@@ -33,7 +33,10 @@ import {
 import DoctorCard from "../../components/DoctorCard/DoctorCard";
 import { Alert } from "react-native";
 import messaging from "@react-native-firebase/messaging";
-import { getUserNotifications } from "../../redux/notifications/actions";
+import {
+  getUserNotifications,
+  setNotificationCardinal,
+} from "../../redux/notifications/actions";
 
 const _spacing = 3;
 const datas = [
@@ -71,7 +74,8 @@ const Acceuil = ({
     dispatch(clearCache());
     dispatch(getAllPrats());
     dispatch(getAppSpecialties());
-    dispatch(getUserNotifications(userInfos?.user?._id));
+    userInfos?.user?._id &&
+      dispatch(setNotificationCardinal(userInfos?.user?._id));
   }, []);
 
   useEffect(() => {

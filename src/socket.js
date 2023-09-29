@@ -3,7 +3,8 @@ import io from "socket.io-client";
 import * as uri from "./constants/urls";
 
 // Define your server URL here
-const serverUrl = "http://192.168.1.50:3500";
+const serverUrl = uri.BASE_URL;
+console.log(serverUrl);
 
 const SocketContext = createContext();
 
@@ -12,7 +13,11 @@ export function useSocket() {
 }
 
 export function SocketProvider({ children }) {
-  const socket = io(serverUrl);
+  const socket = io(serverUrl, {
+    secure: true,
+    reconnect: true,
+    rejectUnauthorized: false,
+  });
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
   );

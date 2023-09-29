@@ -36,10 +36,8 @@ const ContainerStack = () => {
   useEffect(() => {
     const { user } = userInfos;
     socket.on("connected", (data) => {
+      console.log("connected")
       socket.emit("setUserId", user._id);
-    });
-    socket.on("reportRDV", (data) => {
-      console.log(data);
     });
     socket.on("notification", (notification) => {
       console.log("new notification ", notification);

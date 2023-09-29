@@ -10,6 +10,14 @@ export const saveSocketNotifications = (payload) => ({
   payload,
 });
 
-export const markAsReaded = () => ({
+export const markAsReaded = (id) => ({
   type: types.MARK_ALL_AS_READED,
+  payload: id
 });
+
+export const setNotificationCardinal = (id) => {
+  return {
+    type: types.SET_NOTIFICATION_CARDINAL,
+    payload: id,
+  };
+};

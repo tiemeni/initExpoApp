@@ -43,8 +43,7 @@ const Notifications = ({ ...props }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(markAsReaded());
-    if (notifications.length > 0) return;
+    dispatch(markAsReaded(iduser));
     dispatch(getUserNotifications(iduser));
   }, []);
 

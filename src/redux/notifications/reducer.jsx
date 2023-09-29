@@ -40,17 +40,28 @@ const NotificationsReducer = (state = initialState, action) => {
       let actualStateUnread = state.unreaded;
       let newStateUnread = actualStateUnread + 1;
       let actualStateNotifications = state.notifications;
-      let newStateNotifications = [...actualStateNotifications, action.payload];
-      console.log(newStateUnread);
+      actualStateNotifications.unshift(action.payload);
       return {
         ...state,
-        notifications: newStateNotifications,
+        notifications: actualStateNotifications,
         unreaded: newStateUnread,
       };
     case types.MARK_ALL_AS_READED:
+      console.log("set to zero")
       return {
         ...state,
         unreaded: 0,
+      };
+    case types.SET_NOTIFICATION_CARDINAL:
+      console.log(action.payload);
+      return {
+        ...state,
+      };
+    case types.SET_NOTIFICATION_CARDINAL_SUCCESS:
+      console.log(action.payload);
+      return {
+        ...state,
+        unreaded: action.payload,
       };
     default:
       return state;
