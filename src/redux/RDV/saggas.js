@@ -114,7 +114,6 @@ function* getDispo({ data }) {
     date: data?.date,
     day: data?.day,
   });
-  console.log(url);
   try {
     const result = yield getUnauthRequest(url);
     if (result.success) {
@@ -149,12 +148,10 @@ function* postRDV({ data }) {
     idCentre: data?.idCentre,
   };
   try {
-    console.log(url1);
     const result = yield postUnauthRequest(url1, payload);
     let idFiche;
     let rdv;
     if (result.message) {
-      console.log("succes recup pat");
       const rdvData = {
         centre: data?.idCentre,
         lieu: data?.lieu,
@@ -171,11 +168,9 @@ function* postRDV({ data }) {
       };
       idFiche = result.message;
       rdv = yield postUnauthRequest(url2, rdvData);
-      console.log(url2);
       // yield put({ type: types.GET_DISPO_REQUEST_SUCCESS, payload: result.data })
       // RootNavigation.navigate(SCREENS.HOME_CONTAINER_ROUTE)
     } else if (result.data._id) {
-      console.log("succes create pat");
       const rdvData = {
         centre: data?.idCentre,
         lieu: data?.lieu,
@@ -193,9 +188,7 @@ function* postRDV({ data }) {
       };
       idFiche = result.data?._id;
       rdv = yield postUnauthRequest(url2, rdvData);
-      console.log(url2);
     } else {
-      console.log("fail on both");
 
       yield put({
         type: types.POST_RDV_REQUEST_FAILED,
@@ -207,8 +200,6 @@ function* postRDV({ data }) {
       }, 3000);
     }
     if (rdv?.success) {
-      console.log("success");
-
       yield put({
         type: types.POST_RDV_REQUEST_SUCCESS,
         payload: rdv?.data[0],
@@ -230,7 +221,6 @@ function* postRDV({ data }) {
       }, 3000);
     }
   } catch (error) {
-    console.log(error);
     yield put({ type: types.POST_RDV_REQUEST_FAILED, payload: error.message });
     yield setTimeout(() => {
       //RootNavigation.navigate(SCREENS.ACCEUIL)
@@ -267,7 +257,6 @@ function* putRDV({ data }) {
     idUser: data?.idUser,
     date_long: data?.date_long,
   };
-  console.log(payload);
   try {
     const result = yield putUnauthRequest(url, payload);
     if (result.success) {

@@ -57,7 +57,6 @@ const setScreenOption = ({ route }) => ({
 const ContainerBottom = () => {
   const unreaded = useSelector((state) => state.Notifications.unreaded);
   const dispatch = useDispatch();
-  console.log(unreaded);
   return (
     <Bottom.Navigator
       initialRouteName={SCREENS.ACCEUIL}
@@ -72,7 +71,6 @@ const ContainerBottom = () => {
       <Bottom.Screen
         listeners={{
           tabPress: (e) => {
-            // e.preventDefault();
             dispatch(markAsReaded());
           },
         }}

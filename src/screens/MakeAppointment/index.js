@@ -246,7 +246,6 @@ const MakeAppointment = ({ navigation, route }) => {
         dispatch(setShouldSeeBehind(false));
       }
     );
-    console.log(shouldSeeBehind, isProfession);
     return setShouldSeeBehindToFalse;
   }, [navigation]);
 
@@ -602,7 +601,6 @@ const MakeAppointment = ({ navigation, route }) => {
                         >
                           <HStack alignItems={"center"}>
                             {actualDayCreneaux.map((d, index) => {
-                              console.log("logging days ....");
                               return (
                                 <Pressable
                                   onPress={() => {

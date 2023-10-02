@@ -153,21 +153,18 @@ function* authLocalSignIn() {
 
   try {
     const access_token = yield AsyncStorage.getItem("access_token");
-    console.log(access_token);
     if (!access_token) {
       yield put({ type: types.LOCAL_AUTH_FAILED, payload: "" });
       return;
     }
 
     const result = yield postUnauthRequest(url, { token: access_token });
-    console.log(result);
     if (!result.success) {
       yield put({ type: types.LOCAL_AUTH_FAILED, payload: result.message });
       return;
     }
 
     const userInfos = yield AsyncStorage.getItem("userInfos");
-
     yield put({
       type: types.LOCAL_AUTH_SUCCESS,
       payload: JSON.parse(userInfos),
@@ -197,7 +194,6 @@ function* authLogout() {
 
 function* processVerifCode({ data }) {
   const url = BASE_URL + "/ext_users/process_verif_code/";
-  console.log(data);
   const payload =
     data?.register === true
       ? {

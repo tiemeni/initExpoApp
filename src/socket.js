@@ -4,7 +4,6 @@ import * as uri from "./constants/urls";
 
 // Define your server URL here
 const serverUrl = uri.BASE_URL;
-console.log(serverUrl);
 
 const SocketContext = createContext();
 

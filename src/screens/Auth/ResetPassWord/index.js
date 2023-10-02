@@ -134,7 +134,6 @@ const ResetPassWord = ({
     if (value == codeVerif?.codeVerif) {
       setBorderCol(colors.success);
       !register && setCanResetPw(true);
-      console.log(route.params);
       register &&
         dispatch(
           userRegistration({ ...route?.params?.formData, active: true })

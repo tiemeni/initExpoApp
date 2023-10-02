@@ -88,7 +88,7 @@ export const ReportRDV = ({ route, navigation }) => {
     setLongDate("");
     dispatch(
       getDispo({
-        idCentre: appointment?.lieu?.idCentre,
+        idCentre: appointment?.lieu?.idCentre || appointment?.patient?.idCentre,
         idp: appointment?.resourceId,
         creneau: creneau,
         date: date,
@@ -101,7 +101,6 @@ export const ReportRDV = ({ route, navigation }) => {
   }, [date, day, creneau]);
 
   const handlePutRdv = () => {
-    console.log(userInfo?.user?._id);
     dispatch(
       putRDV({
         id: appointment?._id,
@@ -120,7 +119,10 @@ export const ReportRDV = ({ route, navigation }) => {
 
   React.useEffect(() => {
     if (errorOnPut) {
-      Alert.alert(Platform.OS === "ios" ? "ERREUR" : "Oops!", putingErrorMsg || "Une erreur est survenue !");
+      Alert.alert(
+        Platform.OS === "ios" ? "ERREUR" : "Oops!",
+        putingErrorMsg || "Une erreur est survenue !"
+      );
     }
     if (successOnPut) {
       Alert.alert(
