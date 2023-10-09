@@ -20,21 +20,8 @@ import { BackHandler } from "react-native";
 
 function Success({ route }) {
   const navigation = useNavigation();
-  //const [recapRdv, setRecapRDV] = useState({});
   const rdv = useSelector((state) => state.RdvForm.recapRDVId);
-  console.log(rdv);
-  //const id = route?.params?.id;
-
-  // useEffect(() => {
-  //   for (let i = 0; i < rdvs?.length; i++) {
-  //     if (rdvs[i]?._id == id) {
-  //       console.log(rdvs[i]);
-  //       setRecapRDV(rdvs[i]);
-  //       break;
-  //     }
-  //   }
-  // }, []);
-
+ 
   useEffect(() => {
     const goBackAction = () => {
       return true;

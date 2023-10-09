@@ -44,8 +44,6 @@ const PhoneConfirm = ({
   const [isEmpty, setIsEmpty] = useState(false);
   const emailValide = isEmailValid(email1.trim());
 
-  console.log("eamil valide", emailValide);
-
   const toast = useToast();
 
   const resetPassword = () => {

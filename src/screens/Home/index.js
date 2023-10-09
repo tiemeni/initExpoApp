@@ -28,7 +28,6 @@ const Home = ({ loadingLocalAuth, localAuth }) => {
   }, []);
 
   const renderLogin = (truth) => {
-    console.log("-------------", truth);
     if (truth) {
       return <Login navigation={navigation} />;
     } else {

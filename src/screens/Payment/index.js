@@ -77,7 +77,7 @@ const Payment = ({ route, navigation }) => {
   const error = useSelector((state) => state.RdvForm.errorMsgPostRDV);
   const loadingPostRdv = useSelector((state) => state.RdvForm.loadingPostRdv);
   const formRDV = useSelector((state) => state.RdvForm.rdvForm);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("visa");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("orange_money");
   const [showLoaderInModal, setShowLoaderInModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 

@@ -87,7 +87,6 @@ const Acceuil = ({
         authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
       if (enabled) {
-        // console.log('Authorization status:', authStatus);
       }
     };
 
@@ -95,7 +94,6 @@ const Acceuil = ({
       messaging()
         .getToken()
         .then(async (token) => {
-          //  console.log(token)
           dispatch(sendExpoToken({ _id: user?._id, token: token }));
         });
     } else {

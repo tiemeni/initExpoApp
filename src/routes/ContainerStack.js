@@ -11,8 +11,6 @@ import Transaction from "../screens/Transactions";
 import Payment from "../screens/Payment";
 import Parametres from "../screens/Parametres";
 import AboutUs from "../screens/AboutUs";
-import AppointmentDetails from "../screens/AppointmentDetails";
-import { ReportRDV } from "../screens/ReportRDV";
 import RoadMap from "../screens/GoogleMap";
 import { GlobalSearch } from "../screens/GlobalSearch";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
@@ -36,11 +34,9 @@ const ContainerStack = () => {
   useEffect(() => {
     const { user } = userInfos;
     socket.on("connected", (data) => {
-      console.log("connected")
       socket.emit("setUserId", user._id);
     });
     socket.on("notification", (notification) => {
-      console.log("new notification ", notification);
       dispatch(saveSocketNotifications(notification));
     });
 

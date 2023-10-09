@@ -200,13 +200,11 @@ const Signup = ({
   }, [error, successRegister]);
 
   const onSubmit = () => {
-    console.log(!isPasswordWeak(formData?.password), formData.password);
     if (
       !isFieldsEmpty &&
       isValidEmail(formData.email) &&
       isPasswordWeak(formData?.password)
     ) {
-      //dispatch(userRegistration({ ...formData, active: true }));
       const emailPayload = { email: formData?.email, register: true };
       const payload = { ...formData, active: true, ...emailPayload };
       dispatch(
@@ -255,7 +253,6 @@ const Signup = ({
   };
 
   const buttonDesable = getButtonDesable(formData, isFieldsEmpty, isTrong);
-  console.log("desable", buttonDesable);
 
   return (
     <ScrollView

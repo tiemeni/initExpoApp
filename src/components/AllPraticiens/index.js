@@ -37,7 +37,6 @@ const AllPraticiens = ({
         item?.name?.toLowerCase()?.includes(searchText?.toLowerCase())
       );
       setSearchResults(results);
-      console.log(searchResults, "mmmmmmmmmm")
     }
   };
   
@@ -79,7 +78,6 @@ const AllPraticiens = ({
                         }))
                     dispatch(getMotifs({ id: item?.job?._id, forSpec: true }))
                         navigation.navigate(SCREENS.DETAILS_PRATICIEN, { praticien: item })
-                        console.log('iiiiiiiiiiiiiidddddddd',item?.idCentere)
 
                     }}>
                         <DoctorCard
