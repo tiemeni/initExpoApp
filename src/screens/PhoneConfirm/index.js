@@ -1,26 +1,25 @@
-import React, { useEffect, useState } from "react";
+import { EvilIcons } from "@expo/vector-icons";
+import { Warning2 } from "iconsax-react-native";
 import {
   Box,
-  Icon,
-  View,
-  Text,
-  HStack,
   Button,
-  VStack,
+  HStack,
+  Icon,
   Input,
   Spinner,
+  Text,
+  VStack,
+  View,
   useToast,
 } from "native-base";
-import { EvilIcons } from "@expo/vector-icons";
-import { Pressable, SafeAreaView } from "react-native";
-import styles from "./style";
-import colors from "../../constants/colours";
+import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { Warning2 } from "iconsax-react-native";
-import { processVerifCode } from "../../redux/User/action";
 import CustomToast from "../../components/CustomToast";
+import colors from "../../constants/colours";
+import { processVerifCode } from "../../redux/User/action";
 import { isEmailValid } from "../../utils/helper";
+import styles from "./style";
 
 const CELL_COUNT = 5;
 
@@ -43,7 +42,7 @@ const PhoneConfirm = ({
     caracters[3] == codeVerif?.codeVerif?.split("")[3] &&
     caracters[4] == codeVerif?.codeVerif?.split("")[4];
   const [isEmpty, setIsEmpty] = useState(false);
-  const emailValide = isEmailValid(email1);
+  const emailValide = isEmailValid(email1.trim());
 
   console.log("eamil valide", emailValide);
 
@@ -102,8 +101,7 @@ const PhoneConfirm = ({
         w={"100%"}
       >
         <Text style={styles.message}>
-          Veillez entre l'adresse mail lié à votre compte afin de recevoir le
-          code de vérification
+        Veuillez entrer l'adresse e-mail liée à votre compte afin de recevoir le code de vérification.
         </Text>
         <Input
           mx="3"
