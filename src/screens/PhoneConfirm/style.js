@@ -1,8 +1,13 @@
 import colors from "../../constants/colours";
-import { StyleSheet } from 'react-native';
 
 
 const styles = {
+    container:{
+        padding:15,
+        backgroundColor:colors.white,
+        height:'100%'
+    },
+
     circle: {
         borderRadius: 50,
         height: 100,
@@ -13,10 +18,22 @@ const styles = {
     },
 
     title: {
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: '700',
         padding: 2
     },
+
+    input: {
+        fontSize: 16,
+        width: "92%",
+        height: 50,
+        marginVertical: 5,
+        marginTop:15,
+        marginBottom:10,
+        backgroundColor: colors.desable,
+        borderRadius: 80,
+        paddingLeft:20
+      },
 
     message: {
         textAlign: 'center',
@@ -35,6 +52,8 @@ const styles = {
         width: '90%',
         fontSize: 14,
         borderRadius: 25,
+        marginBottom:20,
+        marginTop:10,
         borderColor: colors.primary,
     },
 

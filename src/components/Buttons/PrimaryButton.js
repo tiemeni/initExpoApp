@@ -1,6 +1,6 @@
-import { Button } from 'native-base';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Button } from 'react-native-paper';
 import { Alert } from 'react-native';
 
 

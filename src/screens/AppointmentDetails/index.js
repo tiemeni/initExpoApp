@@ -23,7 +23,6 @@ import { CLEAR_ERR_SUCC } from "../../redux/RDV/types";
 import { Danger } from "iconsax-react-native";
 import { Alert } from "react-native";
 import { useTranslation } from "react-i18next";
-import PrimaryButton from "../../components/Buttons/PrimaryButton";
 import { Platform } from "react-native";
 
 const AppointmentDetails = ({ navigation, appointments }) => {

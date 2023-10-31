@@ -1,18 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { View, Pressable, Platform, Alert, ScrollView } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import {
-  HStack,
-  Icon,
-  VStack,
-  Center,
+  View,
+  Platform,
+  Alert,
+  ScrollView,
+  TouchableOpacity,
   Text,
-  Box,
-  useToast,
-  InfoIcon,
-  Input,
-} from "native-base";
-import { Foundation } from "@expo/vector-icons";
+  Pressable
+} from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
 import colors from "../../../constants/colours";
@@ -21,12 +17,10 @@ import moment from "moment";
 import * as SCREENS from "../../../constants/screens";
 import { useDispatch, connect } from "react-redux";
 import {
-  userRegistration,
   reinitialize,
   processVerifCode,
 } from "../../../redux/User/action";
 import { isValidEmail } from "../../../utils/helper";
-import CustomToast from "../../../components/CustomToast";
 import {
   Calendar,
   Call,
@@ -40,18 +34,10 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import MaskInput from "react-native-mask-input";
 import { REINITIALIZE } from "../../../redux/User/types";
-import { Checkbox, TextInput } from "react-native-paper";
+import { Checkbox, TextInput, Icon, } from "react-native-paper";
 import { Image } from "react-native";
-const Signup = ({
-  navigation,
-  error,
-  loading,
-  errorMsg,
-  successRegister,
-  codeVerifLoading,
-}) => {
+const Signup = ({ navigation, error, successRegister, codeVerifLoading }) => {
   const navigateCgu = useNavigation();
-  const toast = useToast();
   const dispatch = useDispatch();
   const [focusFiels, setFocusFields] = useState(false);
   const [date, setDate] = useState(moment().format("DD/MM/YYYY"));
@@ -164,24 +150,6 @@ const Signup = ({
   const isFieldsEmpty = checkEmptyField();
 
   useEffect(() => {
-    if (error && errorMsg !== "") {
-      toast.show({
-        render: () => {
-          return (
-            <CustomToast
-              message={errorMsg}
-              color={colors.danger}
-              bgColor={"red.100"}
-              icon={<Foundation name="alert" size={24} />}
-              iconColor={colors.danger}
-            />
-          );
-        },
-        placement: "top",
-        duration: 5000,
-      });
-    }
-
     if (successRegister) {
       Alert.alert(
         Platform.OS === "ios" ? "INSCRIPTION" : "Inscription",
@@ -214,23 +182,7 @@ const Signup = ({
           formData: payload,
         })
       );
-      // navigation.navigate(SCREENS.RESETPASSWORD, payload);
     } else {
-      // toast.show({
-      //   render: () => {
-      //     return (
-      //       <CustomToast
-      //         message={"Veuillez remplir tous les champs"}
-      //         color={colors.danger}
-      //         bgColor={"red.100"}
-      //         icon={<Foundation name="alert" size={24} />}
-      //         iconColor={colors.danger}
-      //       />
-      //     );
-      //   },
-      //   placement: "top",
-      //   duration: 5000,
-      // });
     }
   };
 
@@ -249,7 +201,7 @@ const Signup = ({
     ) {
       return false;
     }
-    return true; // Ajoutez un retour explicite pour le cas où aucune désactivation n'est nécessaire
+    return true;
   };
 
   const buttonDesable = getButtonDesable(formData, isFieldsEmpty, isTrong);
@@ -269,111 +221,57 @@ const Signup = ({
           Veuillez entrer votre mail et votre mot de passe pour l'inscription
         </Text>
       </View>
-      <VStack space={5} mt={5} style={styles.contentForm}>
-        {(
-          <VStack space={4}>
-            <Input
-              h={50}
-              rounded={50}
-              borderWidth={0}
-              fontSize={14}
-              bg={colors.desable}
-              InputLeftElement={
-                <VStack
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                  style={styles.leftElement}
-                >
-                  <Icon
-                    as={<User name="person" />}
-                    size={5}
-                    color={colors.text_grey_hint}
-                  />
-                </VStack>
-              }
-              placeholder="Nom"
-              onChangeText={(value) => handleInputChange("name", value)}
-              value={formData.name}
-            />
-            {/* <TextInput
-            style={{
-              height: 50,
-              borderRadius: 100,
-              borderWidth: 0,
-              fontSize: 14,
-              backgroundColor: colors.desable,
-            }}
-            mode="outlined"
-            activeOutlineColor={colors.primary}
-            outlineStyle={{
-              borderWidth: focusFiels.nom ? 1 : 0,
-              borderRadius: 50,
-            }}
-            onFocus={() =>
-              setFocusFields((v) => {
-                return { ...v, nom: true };
-              })
-            }
-            onBlur={() =>
-              setFocusFields((v) => {
-                return { ...v, nom: false };
-              })
-            }
-            left={
-              <TextInput.Icon name="person" color={colors.text_grey_hint} />
-            }
-            placeholder="Nom"
-            onChangeText={(value) => handleInputChange("name", value)}
-            value={formData.name}
-          /> */}
-            <Input
-              h={50}
-              rounded={50}
-              borderWidth={0}
-              fontSize={14}
-              bg={colors.desable}
-              InputLeftElement={
-                <VStack
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                  style={styles.leftElement}
-                >
-                  <Icon
-                    as={<User name="person" />}
-                    size={5}
-                    color={colors.text_grey_hint}
-                  />
-                </VStack>
-              }
-              placeholder="Prénom"
-              onChangeText={(value) => handleInputChange("surname", value)}
-              value={formData.surname}
-            />
-            <Input
-              h={50}
-              rounded={50}
-              borderWidth={0}
-              style={{ fontSize: 14 }}
-              bg={colors.desable}
-              InputLeftElement={
-                <VStack
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                  style={styles.leftElement}
-                >
-                  <Icon
-                    as={<MessageText1 name="person" />}
-                    size={5}
-                    color={colors.text_grey_hint}
-                  />
-                </VStack>
-              }
-              placeholder="Adresse mail"
-              onChangeText={(value) => handleInputChange("email", value)}
-              value={formData.email}
-            />
+      <View style={styles.contentForm}>
+        {
+          <View style={{ display: "flex" }}>
+            <View style={styles.viewInput}>
+              <View style={styles.viewBoxIcon}>
+                <User color={colors.primary} size={24} name="person" />
+              </View>
+              <TextInput
+                outlineStyle={{ borderRadius: 50, borderColor: colors.desable }}
+                mode="outlined"
+                keyboardType="default"
+                placeholder="Nom"
+                style={styles.input}
+                outlineColor="white"
+                onChangeText={(value) => handleInputChange("name", value)}
+                value={formData.name}
+              />
+            </View>
+            <View style={styles.viewInput}>
+              <View style={styles.viewBoxIcon}>
+                <User color={colors.primary} size={24} name="person" />
+              </View>
+              <TextInput
+                outlineStyle={{ borderRadius: 50, borderColor: colors.desable }}
+                mode="outlined"
+                keyboardType="default"
+                placeholder="Prénom"
+                style={styles.input}
+                outlineColor="white"
+                onChangeText={(value) => handleInputChange("surname", value)}
+                value={formData.surname}
+              />
+            </View>
+            <View style={styles.viewInput}>
+              <View style={styles.viewBoxIcon}>
+                <MessageText1 color={colors.primary} size={24} name="person" />
+              </View>
+              <TextInput
+                outlineStyle={{ borderRadius: 50, borderColor: colors.desable }}
+                mode="outlined"
+                keyboardType="default"
+                style={styles.input}
+                outlineColor="white"
+                selectionColor="blue"
+                placeholder="Adresse mail"
+                onChangeText={(value) => handleInputChange("email", value)}
+                value={formData.email}
+              />
+            </View>
             {!errors.email && formData.email !== "" && (
-              <HStack
+              <View
                 rounded={5}
                 p={2}
                 backgroundColor={colors.transp_warning}
@@ -390,63 +288,46 @@ const Signup = ({
                 >
                   Attention ! Veillez saisir une adresse email valide
                 </Text>
-              </HStack>
+              </View>
             )}
 
-            <Input
-              isInvalid={!isCkeck}
-              h={50}
-              rounded={50}
-              borderWidth={0}
-              style={{ fontSize: 14 }}
-              bg={colors.desable}
-              InputLeftElement={
-                <VStack
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                  style={styles.leftElement}
-                >
-                  <Icon
-                    as={<Lock name="person" />}
-                    size={5}
-                    color={colors.text_grey_hint}
-                  />
-                </VStack>
-              }
-              InputRightElement={
-                <Pressable onPress={() => setShow(!show)}>
-                  <Icon
-                    as={show ? <Eye /> : <EyeSlash />}
-                    size={5}
-                    mr={4}
-                    color={colors.primary}
-                  />
-                </Pressable>
-              }
-              placeholder="Mot de passe"
-              onChangeText={(value) => handleInputChange("password", value)}
-              value={formData.password}
-              type={show ? "text" : "password"}
-            />
+            <View style={styles.viewInput}>
+              <View style={styles.viewBoxIcon}>
+                <Lock color={colors.primary} size={24} name="person" />
+              </View>
+              <TextInput
+                outlineStyle={{ borderRadius: 50, borderColor: colors.desable }}
+                mode="outlined"
+                keyboardType="default"
+                style={styles.input}
+                outlineColor="white"
+                placeholder="Mot de passe"
+                onChangeText={(value) => handleInputChange("password", value)}
+                value={formData.password}
+                secureTextEntry={show ? false : true}
+              />
+              <Pressable onPress={() => setShow(!show)}>
+              {show ? (
+                <Eye color={colors.primary} size={24} name="person" />
+              ) : (
+                <EyeSlash color={colors.primary} size={24} />
+              )}
+            </Pressable>
+            </View>
             {formData.password !== "" && messages.length > 0 && (
-              <VStack
+              <View
                 style={{
                   backgroundColor: colors.transp_warning,
                   borderRadius: 5,
                   padding: 8,
                 }}
               >
-                <HStack space={1} alignItems={"center"}>
+                <View style={styles.warninBox}>
                   <Warning2 color={colors.danger} size={15} />
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: colors.danger,
-                    }}
-                  >
+                  <Text style={styles.warningText}>
                     Le mot de passe ne rempli pas le(s) critère(s)
                   </Text>
-                </HStack>
+                </View>
                 {messages?.map((message, index) => (
                   <Text
                     style={{ color: colors.black, fontSize: 12 }}
@@ -455,140 +336,91 @@ const Signup = ({
                     {index + 1}. {message}
                   </Text>
                 ))}
-              </VStack>
+              </View>
             )}
-            <Input
-              isInvalid={!isCkeck}
-              h={50}
-              rounded={50}
-              borderWidth={0}
-              style={{ fontSize: 14 }}
-              bg={colors.desable}
-              InputLeftElement={
-                <VStack
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                  style={styles.leftElement}
-                >
-                  <Icon
-                    as={<Lock name="person" />}
-                    size={5}
-                    color={colors.text_grey_hint}
-                  />
-                </VStack>
-              }
-              InputRightElement={
-                <Pressable onPress={() => setShow(!show)}>
-                  <Icon
-                    as={show ? <Eye /> : <EyeSlash color={colors.primary} />}
-                    size={5}
-                    mr={4}
-                    color={colors.primary}
-                  />
-                </Pressable>
-              }
-              placeholder="Confirmez votre mot de passe"
-              onChangeText={(value) => setConfirmPassword(value)}
-              value={confPassword}
-              type={show ? "text" : "password"}
-            />
-
+            <View style={styles.viewInput}>
+              <View style={styles.viewBoxIcon}>
+                <Lock color={colors.primary} name="person" />
+              </View>
+              <TextInput
+                outlineStyle={{ borderRadius: 50, borderColor: colors.desable }}
+                mode="outlined"
+                keyboardType="default"
+                style={styles.input}
+                outlineColor="white"
+                placeholder="Confirmer votre mot de passe"
+                onChangeText={(value) => setConfirmPassword(value)}
+                value={confPassword}
+                secureTextEntry={show ? false : true}
+              />
+              <Pressable onPress={() => setShow(!show)}>
+              {show ? (
+                <Eye color={colors.primary} size={24} name="person" />
+              ) : (
+                <EyeSlash color={colors.primary} size={24} />
+              )}
+            </Pressable>
+            </View>
             {confPassword !== "" && formData.password !== confPassword && (
-              <VStack
-                style={{
-                  backgroundColor: colors.transp_warning,
-                  borderRadius: 5,
-                  padding: 8,
-                }}
-              >
-                <HStack space={1} alignItems={"center"}>
-                  <Warning2 color={colors.danger} size={15} />
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: colors.danger,
-                    }}
-                  >
-                    Les mots de passe ne correspondent pas !
-                  </Text>
-                </HStack>
-              </VStack>
+              <View style={styles.warninBox}>
+                <Warning2 color={colors.danger} size={15} />
+                <Text style={styles.warningText}>
+                  Les mots de passe ne correspondent pas !
+                </Text>
+              </View>
             )}
-            <HStack
-              space={2}
-              rounded={50}
-              paddingLeft={2}
-              alignItems={"center"}
-              width={"100%"}
-              bg={colors.desable}
-            >
-              <VStack
-                rounded={50}
-                justifyItems={"center"}
-                justifyContent={"center"}
-                w={9}
-                alignItems={"center"}
-                h={9}
-                backgroundColor={colors.white}
-              >
-                <Icon
-                  as={<Call />}
-                  size={5}
-                  mr={2}
-                  ml={2}
-                  color={colors.text_grey_hint}
-                />
-              </VStack>
+            <View style={styles.viewInput}>
+              <View style={styles.viewBoxIcon}>
+                <Call color={colors.primary}/>
+              </View>
               <MaskInput
                 style={{
-                  width: "90%",
+                  width: "85%",
                   height: 50,
                   borderRadius: 50,
+                  marginLeft: 15,
+                  color: colors.black,
+                  fontSize:16,
                 }}
                 value={formData.telephone}
                 onChangeText={(value) => handleInputChange("telephone", value)}
                 mask={["6", /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}
-                placeholder="6xxxxxxxx"
+                placeholder="Téléphone , ex: 658559995"
                 keyboardType="numeric"
               />
-            </HStack>
+            </View>
             {formData.telephone.length < 9 && formData.telephone !== "" && (
-              <VStack
-                style={{
-                  backgroundColor: colors.transp_warning,
-                  borderRadius: 5,
-                  padding: 8,
-                }}
-              >
-                <HStack space={1} alignItems={"center"}>
-                  <Warning2 color={colors.danger} size={15} />
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: colors.danger,
-                    }}
-                  >
-                    Le numéro ne respecte pas les standards du Cameroun !
-                  </Text>
-                </HStack>
-              </VStack>
+              <View style={styles.warninBox}>
+                <Warning2 color={colors.danger} size={15} />
+                <Text style={styles.warningText}>
+                  Ce numéro est invalide selon la nome Camerounaise
+                </Text>
+              </View>
             )}
 
-            <VStack>
-              <Pressable onPress={showDatepicker}>
-                <HStack style={styles.datePick} rounded={50} space={3}>
-                  <VStack
+            <View>
+              <TouchableOpacity onPress={showDatepicker}>
+                <View
+                  style={{
+                    ...styles.datePick,
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <View
                     alignItems={"center"}
                     justifyContent={"center"}
                     style={styles.leftElement}
                   >
-                    <Icon as={<Calendar />} color={colors.text_grey_hint} />
-                  </VStack>
-                  <Text style={{ color: textDate ? "gray" : colors.black }}>
+                    <Calendar color={colors.primary} />
+                  </View>
+                  <Text
+                    style={{ left: 16, fontSize:16, color: textDate ? "gray" : colors.black }}
+                  >
                     {textDate ? "Date de naissance" : formattedDate}
                   </Text>
-                </HStack>
-              </Pressable>
+                </View>
+              </TouchableOpacity>
               {showDatePicker && (
                 <DateTimePicker
                   testID="dateTimePicker"
@@ -602,29 +434,17 @@ const Signup = ({
                   style={{ backgroundColor: colors.primary }}
                 />
               )}
-            </VStack>
-            <HStack alignItems={"center"} paddingLeft={2} mt={2} height={50}>
-              {/* <Checkbox
-              isChecked={isCkeck}
-              borderColor={"gray.300"}
-              borderWidth={2}
-              aria-label="cgu"
-              onPress={handleCheck}
-              color={colors.primary}
-            /> */}
+            </View>
+            <View style={styles.cguBox}>
               <Checkbox
                 aria-label="cgu"
-                // isChecked={formData.saveCredentials}
                 status={isCkeck ? "checked" : "unchecked"}
                 onPress={handleCheck}
-                // onPress={() =>
-                //
-                // }
                 color={colors.primary}
               />
-              <HStack width={"85%"}>
+              <View style={styles.cguBox}>
                 <Text onPress={handleCheck}>J'accepte les</Text>
-                <Pressable
+                <TouchableOpacity
                   onPress={() => {
                     navigateCgu.navigate(SCREENS.CGU);
                   }}
@@ -632,12 +452,12 @@ const Signup = ({
                   <Text style={styles.cguText}>
                     Conditions génétales d'utilisations
                   </Text>
-                </Pressable>
-              </HStack>
-            </HStack>
-          </VStack>
-        )}
-        <Center w={"100%"} mt={5}>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        }
+        <View style={styles.btnPrim}>
           <PrimaryButton
             title="Créez votre compte"
             isLoadingText="Veuillez patienter..."
@@ -652,22 +472,28 @@ const Signup = ({
             disabled={!buttonDesable}
             onPress={onSubmit}
           />
-        </Center>
-        <Center mb={5}>
-          <HStack mt={2}>
-            <Text style={styles.labelText}>Vous avez déjà un compte?</Text>
-            <Text
-              style={[styles.forgetPassword, styles.registerText]}
-              onPress={() => {
-                dispatch(reinitialize());
-                navigation.navigate(SCREENS.LOGIN);
-              }}
-            >
-              Connectez-vous !
-            </Text>
-          </HStack>
-        </Center>
-      </VStack>
+        </View>
+        <View
+          style={{
+            ...styles.cguBox,
+            marginBottom: 35,
+            justifyContent: "center",
+            alignContent: "center",
+            width: "100%",
+          }}
+        >
+          <Text style={styles.labelText}>Vous avez déjà un compte?</Text>
+          <Text
+            style={[styles.forgetPassword, styles.registerText]}
+            onPress={() => {
+              dispatch(reinitialize());
+              navigation.navigate(SCREENS.LOGIN);
+            }}
+          >
+            Connectez-vous !
+          </Text>
+        </View>
+      </View>
     </ScrollView>
   );
 };
