@@ -1,26 +1,17 @@
-import {
-  Avatar,
-  ScrollView,
-  View,
-  VStack,
-  Icon,
-  Spinner,
-  HStack,
-  Box,
-  Text,
-  Input,
-} from "native-base";
+import { Icon, Spinner } from "native-base";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import {
   Image,
-  Platform,
   Pressable,
   TextInput,
   KeyboardAvoidingView,
+  Text,
+  View,
+  ScrollView,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { RadioButton } from "react-native-paper";
+import { RadioButton , Avatar} from "react-native-paper";
 import Header from "../../components/Header";
 import colors from "../../constants/colours";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -214,19 +205,15 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
         <View height={50}>
           <Header title={"Vos informations"} />
         </View>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <VStack px={3}>
+        <ScrollView
+          style={{ padding: 10 }}
+          showsVerticalScrollIndicator={false}
+        >
+          <View>
             <TouchableOpacity onPress={selectImage}>
-              <HStack style={styles.viewStyle}>
-                  <Avatar
-                    bg={colors.text_grey_hint}
-                    width={92}
-                    height={92}
-                    source={{
-                      uri: ImageLoading ? image : user?.photo ?? image,
-                    }}
-                  ></Avatar>
-                <Box style={styles.iconCam}>
+              <View style={styles.viewStyle}>
+                <Avatar.Image size={95} source={ImageLoading ? image : user?.photo ?? image} />
+                <View style={styles.iconCam}>
                   {ImageLoading ? (
                     <Spinner
                       accessibilityLabel="loading"
@@ -240,8 +227,8 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                       as={<Ionicons name="ios-camera" />}
                     />
                   )}
-                </Box>
-              </HStack>
+                </View>
+              </View>
             </TouchableOpacity>
 
             <View style={styles.viewStyle2}>
@@ -253,24 +240,23 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                 Détails de base
               </Text>
             </View>
-            <View style={styles.box1} mt={3}>
+            <View style={styles.box1}>
               <View width={"100%"} mb={5}>
                 <Text style={styles.textLabel}>Nom</Text>
-                <Input
+                <TextInput
                   style={{
-                    ...styles.textInput,
+                    ...styles.input,
+                    borderWidth: !editeMode ? 1 : 2,
+                    backgroundColor: !editeMode && colors.desable,
+                    borderRadius: !editeMode ? 50 : 15,
+                    borderColor: !editeMode ? colors.desable : "#F0F0F0",
                     color: !editeMode ? colors.text_grey_hint : colors.black,
                   }}
                   placeholder="Modifier votre nom"
-                  underlineColor="transparent"
                   keyboardType="default"
-                  selectionColor={colors.primary}
-                  selectTextOnFocus={true}
-                  activeUnderlineColor="transparent"
                   onChangeText={(value) => handleInputChange("name", value)}
                   value={formData.name}
-                  isReadOnly={editeMode}
-                  variant={"rounded"}
+                  editable={!editeMode}
                 />
                 {formData.name === "" && (
                   <Text style={styles.fieldError}>
@@ -280,21 +266,18 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
               </View>
               <View width={"100%"} mb={5}>
                 <Text style={styles.textLabel}>Prénom</Text>
-                <Input
-                  variant="rounded"
-                  placeholderTextColor={colors.text_grey_hint}
+                <TextInput
                   style={{
-                    ...styles.textInput,
+                    ...styles.input,
+                    borderWidth: !editeMode ? 1 : 2,
+                    backgroundColor: !editeMode && colors.desable,
+                    borderRadius: !editeMode ? 50 : 15,
+                    borderColor: !editeMode ? colors.desable : "#F0F0F0",
                     color: !editeMode ? colors.text_grey_hint : colors.black,
                   }}
-                  placeholder="Modifier votre prénom"
-                  underlineColor="transparent"
-                  keyboardType="default"
-                  selectionColor={colors.primary}
-                  activeUnderlineColor="transparent"
                   onChangeText={(value) => handleInputChange("surname", value)}
                   value={formData.surname}
-                  isReadOnly={editeMode}
+                  editable={!editeMode}
                 />
               </View>
               <View width={"100%"} mb={4}>
@@ -308,10 +291,12 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                     isInvalid={true}
                     placeholderTextColor={colors.text_grey_hint}
                     style={{
-                      ...styles.textInput,
+                      ...styles.input,
+                      borderWidth: !editeMode ? 1 : 2,
+                      backgroundColor: !editeMode && colors.desable,
+                      borderRadius: !editeMode ? 50 : 15,
+                      borderColor: !editeMode ? colors.desable : "#F0F0F0",
                       color: !editeMode ? colors.text_grey_hint : colors.black,
-                      borderWidth: 1,
-                      borderRadius: 22.5,
                     }}
                     placeholder="17 Decembre 2004"
                     underlineColor="transparent"
@@ -325,7 +310,7 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                     editable={!editeMode}
                   />
                 ) : (
-                  <TouchableOpacity onPress={showDatePickerModal}>
+                  <TouchableOpacity  onPress={showDatePickerModal}>
                     <Text
                       style={{
                         ...styles.textInput,
@@ -357,7 +342,7 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                 alignItems={"center"}
               >
                 <View style={{ width: "100%" }}>
-                  <Text style={{ marginBottom: 2, color: "#626262" }}>
+                  <Text style={{ marginBottom: 8, color: "#626262" }}>
                     Sexe
                   </Text>
                   <View
@@ -367,7 +352,15 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                       flexDirection: "row",
                     }}
                   >
-                    <View style={styles.boxRadio}>
+                    <View
+                      style={{
+                        ...styles.boxRadio,
+                        borderWidth: !editeMode ? 1 : 2,
+                        backgroundColor: !editeMode && colors.desable,
+                        borderRadius: !editeMode ? 50 : 15,
+                        borderColor: !editeMode ? colors.desable : "#F0F0F0",
+                      }}
+                    >
                       <RadioButton.Android
                         style={{ height: 100 }}
                         uncheckedColor={"#F0F0F0"}
@@ -377,11 +370,19 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                         onPress={() => handleGenderChange(1)}
                         disabled={editeMode}
                       />
-                      <Text style={{ fontSize: 14, color: "#343434" }}>
+                      <Text onPress={()=>handleGenderChange(1)} style={{ fontSize: 16, color: "#343434" }}>
                         Homme
                       </Text>
                     </View>
-                    <View style={styles.boxRadio}>
+                    <View
+                      style={{
+                        ...styles.boxRadio,
+                        borderWidth: !editeMode ? 1 : 2,
+                        backgroundColor: !editeMode && colors.desable,
+                        borderRadius: !editeMode ? 50 : 15,
+                        borderColor: !editeMode ? colors.desable : "#F0F0F0",
+                      }}
+                    >
                       <RadioButton.Android
                         style={{ height: 100 }}
                         uncheckedColor={"#F0F0F0"}
@@ -391,7 +392,7 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                         onPress={() => handleGenderChange(0)}
                         disabled={editeMode}
                       />
-                      <Text style={{ fontSize: 14, color: "#343434" }}>
+                      <Text onPress={()=>handleGenderChange(0)} style={{ fontSize: 16, color: "#343434" }}>
                         Femme
                       </Text>
                     </View>
@@ -400,11 +401,11 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
               </View>
             </View>
 
-            <View style={styles.viewStyle2} mt={3}>
+            <View style={styles.viewStyle2}>
               <Text style={styles.textCoord}>Coordonnées</Text>
             </View>
 
-            <View mb={5} mt={3}>
+            <View style={{ marginTop: 8 }}>
               <View style={styles.viewStyle3}>
                 <View width={"100%"} mb={5}>
                   <Text
@@ -412,21 +413,18 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                   >
                     Adresse mail
                   </Text>
-                  <Input
-                    variant="rounded"
-                    placeholderTextColor={"#343434"}
+                  <TextInput
                     style={{
-                      ...styles.textInput,
+                      ...styles.input,
+                      borderWidth: !editeMode ? 1 : 2,
+                      backgroundColor: !editeMode && colors.desable,
+                      borderRadius: !editeMode ? 50 : 15,
+                      borderColor: !editeMode ? colors.desable : "#F0F0F0",
                       color: !editeMode ? colors.text_grey_hint : colors.black,
                     }}
-                    placeholder="tiemanirocket@gmail.com"
-                    underlineColor="transparent"
-                    keyboardType="default"
-                    selectionColor={colors.primary}
-                    activeUnderlineColor="transparent"
                     onChangeText={(value) => handleInputChange("email", value)}
                     value={formData.email}
-                    isReadOnly={editeMode}
+                    editable={!editeMode}
                   />
                 </View>
                 <View width={"100%"}>
@@ -435,11 +433,13 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                   >
                     Numero de telephone
                   </Text>
-                  <Input
-                    variant="rounded"
-                    placeholderTextColor={"#343434"}
+                  <TextInput
                     style={{
-                      ...styles.textInput,
+                      ...styles.input,
+                      borderWidth: !editeMode ? 1 : 2,
+                      backgroundColor: !editeMode && colors.desable,
+                      borderRadius: !editeMode ? 50 : 15,
+                      borderColor: !editeMode ? colors.desable : "#F0F0F0",
                       color: !editeMode ? colors.text_grey_hint : colors.black,
                     }}
                     placeholder="+237658686162"
@@ -451,12 +451,12 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
                       handleInputChange("telephone", value)
                     }
                     value={formData.telephone}
-                    isReadOnly={editeMode}
+                    editable={!editeMode}
                   />
                 </View>
               </View>
             </View>
-          </VStack>
+          </View>
         </ScrollView>
         <CustomeFab
           editeMode={editeMode}

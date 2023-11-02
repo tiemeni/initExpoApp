@@ -1,12 +1,10 @@
 import {
   Box,
-  Button,
   Divider,
   FlatList,
   HStack,
   Icon,
   Pressable,
-  ScrollView,
   Stack,
   Text,
   VStack,
@@ -17,28 +15,19 @@ import React, { useEffect } from "react";
 import Header from "../../components/Header";
 import colors from "../../constants/colours";
 import { useState } from "react";
+import { Button } from "react-native-paper";
+import { ScrollView } from "react-native";
 import MedItem from "../../components/MedItem";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getDispo,
-  getMotifs,
-  postRDV,
-  saveExtPRData,
-} from "../../redux/RDV/actions";
+import { getDispo, getMotifs, saveExtPRData } from "../../redux/RDV/actions";
 import {
   generateKeyTab,
   generateValuesTab,
   jourDeLaSemaine,
   troncate,
 } from "../../utils/helper";
-import { Danger, Data } from "iconsax-react-native";
-import CustomToast from "../../components/CustomToast";
-import {
-  MaterialIcons,
-  Ionicons,
-  AntDesign,
-  Foundation,
-} from "@expo/vector-icons";
+import { Danger } from "iconsax-react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import { LoadingMotifs } from "./loadingMotifSkeleton";
 import { LoadingDispo } from "./LoadingClinicSkeleton";
 import * as SCREENS from "../../constants/screens";
@@ -187,7 +176,6 @@ export const DetailsPraticien = ({ route, navigation }) => {
             alignItems: "center",
           }}
         >
-          {/* <Danger color={colors.danger} size={22} /> */}
           <Icon
             as={<MaterialIcons />}
             marginRight={2}
@@ -202,7 +190,6 @@ export const DetailsPraticien = ({ route, navigation }) => {
           </Text>
         </HStack>
         <ScrollView
-          height={"53%"}
           nestedScrollEnabled={true}
           ref={scrollViewRef}
           onContentSizeChange={(contentWidth, contentHeight) => {
@@ -373,7 +360,6 @@ export const DetailsPraticien = ({ route, navigation }) => {
                           </Box>
                         </Pressable>
                       );
-                      // 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
                     })
                   ) : (
                     <LoadingDispo />
@@ -439,7 +425,6 @@ export const DetailsPraticien = ({ route, navigation }) => {
         px={5}
         width={"100%"}
         height={"10%"}
-        //</Box> marginTop={5}
       >
         <Button
           isLoading={loadingPostRdv}
