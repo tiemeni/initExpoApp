@@ -38,7 +38,8 @@ const Home = ({ loadingLocalAuth, localAuth }) => {
   return (
     <>
       {!loadingLocalAuth && !localAuth ? (
-        renderLogin(bypassOnboarding)
+        //renderLogin(bypassOnboarding)
+        <OnBoarding2 />
       ) : (
         <Center flex={1} alignItems={"center"}>
           <VStack space={2}>
