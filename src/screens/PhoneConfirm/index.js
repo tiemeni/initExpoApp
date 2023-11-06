@@ -1,7 +1,7 @@
 import { Warning2, LockCircle } from "iconsax-react-native";
-import {useToast } from "native-base";
+import { useToast } from "native-base";
 import React, { useState } from "react";
-import { TextInput, Text, View , Alert, Platform} from "react-native";
+import { TextInput, Text, View, Alert, Platform } from "react-native";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { Button, ActivityIndicator } from "react-native-paper";
 import colors from "../../constants/colours";
@@ -42,13 +42,15 @@ const PhoneConfirm = ({
     }
     if (errorCodeVerif) {
       Alert.alert(
-        Platform.OS === "ios" ? "ADRESSE E-MAIL INVALID" : "Adresse e-mail invalide",
+        Platform.OS === "ios"
+          ? "ADRESSE E-MAIL INVALID"
+          : "Adresse e-mail invalide",
         "Un problème est survenue lors de la vérification de votre mail, Il semble qu'elle n'est pas liée à votre compte",
         [
           {
             text: "Recommencer",
             onPress: () => {
-              console.log("Cancel")
+              console.log("Cancel");
               dispatch({ type: REINITIALIZE });
             },
           },
@@ -59,14 +61,14 @@ const PhoneConfirm = ({
 
   return (
     <View style={styles.container}>
-      <View style={{alignItems:"center", marginTop:35}}>
-          <View style={styles.circle}>
-            <LockCircle size="50" color={colors.white} />
-          </View>
+      <View style={{ alignItems: "center", marginTop: 35 }}>
+        <View style={styles.circle}>
+          <LockCircle size="50" color={colors.white} />
+        </View>
         <Text
           style={{
             paddingTop: 20,
-            marginBottom:30,
+            marginBottom: 30,
             fontSize: 25,
             fontWeight: 700,
           }}
@@ -93,19 +95,13 @@ const PhoneConfirm = ({
         />
 
         {!emailValide && email1 !== "" && (
-          <View
-            rounded={5}
-            p={2}
-            backgroundColor={colors.transp_warning}
-            space={1}
-            width={"85%"}
-            alignItems={"center"}
-          >
+          <View style={styles.viewWar}>
             <Warning2 color={colors.danger} size={15} />
             <Text
               style={{
                 fontSize: 12,
                 color: colors.danger,
+                marginLeft: 8,
               }}
             >
               Mauvais format d'e-mail !
@@ -114,7 +110,7 @@ const PhoneConfirm = ({
         )}
         <Button
           style={styles.btn}
-          loading={settingPWLoading}
+          loading={codeVerifLoading}
           disabled={!emailValide}
           buttonColor={colors.primary}
           mode="contained"
@@ -123,7 +119,7 @@ const PhoneConfirm = ({
           }}
         >
           {codeVerifLoading ? (
-            <ActivityIndicator animating={true} color={colors.white} />
+            ""
           ) : (
             <Text style={{ color: colors.white, fontSize: 16 }}>Envoyer</Text>
           )}

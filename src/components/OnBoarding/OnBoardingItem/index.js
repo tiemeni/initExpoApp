@@ -10,6 +10,9 @@ export default function OnBoardingItem({ item, scrollX, ...props }) {
 
   return (
     <View style={{ width, padding: 10 }}>
+      <View style={{padding:15}}>
+      <Text style={styles.greetfr}>{props.titre}</Text>
+      </View>
       <View style={styles.second}>
         <Image
           source={props.image}
@@ -18,7 +21,7 @@ export default function OnBoardingItem({ item, scrollX, ...props }) {
         />
       </View>
       <View>
-        <Text tex style={{ ...styles.greetEn, fontSize: 22 }}>{props.title}</Text>
+        <Text tex style={{ ...styles.greetEn, fontSize: 20 }}>{props.title}</Text>
         <Text style={styles.description}>
           {props.description}
         </Text>
@@ -36,12 +39,12 @@ export const styles = StyleSheet.create({
     padding: 20,
   },
   greetfr: {
-    fontSize: 32,
+    fontSize: 22,
     fontWeight: "bold",
     color: colors.yellow,
   },
   greetEn: {
-    fontSize: 32,
+    fontSize: 22,
     fontWeight: "bold",
     color: colors.black_gray,
     textAlign: 'center'

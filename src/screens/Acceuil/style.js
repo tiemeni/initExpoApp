@@ -4,6 +4,7 @@ import colors from "../../constants/colours";
 const styles = StyleSheet.create({
   filter: {
     paddingHorizontal: 20,
+    margin:5,
     paddingVertical: 10,
     borderRadius: 20,
   },

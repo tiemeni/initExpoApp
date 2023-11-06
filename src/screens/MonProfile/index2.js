@@ -35,8 +35,8 @@ const FAB = (props) => {
         right: props.onBoarding ? "2.5%" : 30,
         bottom: props.onBoarding ? 10 : 30,
         borderRadius: props.onBoarding ? 10 : 50,
-        backgroundColor: props.onBoarding ? "white" : colors.primary,
-        height: 60,
+        backgroundColor: props.onBoarding ? colors.primary : colors.primary,
+        height: props.onBoarding ?50:60,
         justifyContent: "center",
         alignContent: "center",
       }}
@@ -65,13 +65,13 @@ const FAB = (props) => {
               alignItems: "center",
             }}
           >
-            <Text style={{ color: colors.primary, fontSize: 20 }}>
+            <Text style={{ color: colors.white, fontSize: 20 }}>
               Commencez
             </Text>
             <Icon
               marginLeft={5}
               size={6}
-              color={colors.primary}
+              color={colors.white}
               as={<AntDesign name="arrowright" />}
             />
           </TouchableOpacity>

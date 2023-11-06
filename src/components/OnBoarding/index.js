@@ -22,6 +22,7 @@ const data = [
     description:
       "Nous mettons à votre disposition des médecins généralistes et spécialistes compétents qui exercent partout sur le territoire.",
     image: priseRdv,
+    titre: "Prise de rendez-vous"
   },
   {
     id: "s85d4s54dmdds5d4",
@@ -30,6 +31,8 @@ const data = [
     description:
       "Optez pour le mode de paiement de votre préférence, que ce soit par carte bancaire ou paiement mobile.",
     image: payment,
+    titre: "Mode de paiement"
+
   },
   {
     id: "s85d4s5kqsj4ds5d4",
@@ -38,6 +41,7 @@ const data = [
     description:
       "Recevez des notifications pour être prévenu de vos différents rendez-vous.",
     image: consultation,
+    titre: "Consultation"
   },
 ];
 
@@ -66,9 +70,6 @@ export default function OnBoarding2() {
         />
       )}
       <View flex={1}>
-        <View style={{ padding: 15 }}>
-          <Text style={styles.greetfr}>Prise de rendez-vous</Text>
-        </View>
         <View>
           <FlatList
             overScrollMode="never"
@@ -111,8 +112,8 @@ export default function OnBoarding2() {
           >
             <Text
               style={{
-                color: colors.white,
-                marginTop: 50,
+                color: colors.primary,
+                marginTop: 40,
                 textAlign: "center",
                 fontSize: 18,
               }}
