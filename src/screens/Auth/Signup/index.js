@@ -6,7 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Text,
-  Pressable
+  Pressable,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
@@ -16,10 +16,7 @@ import styles from "./styles";
 import moment from "moment";
 import * as SCREENS from "../../../constants/screens";
 import { useDispatch, connect } from "react-redux";
-import {
-  reinitialize,
-  processVerifCode,
-} from "../../../redux/User/action";
+import { reinitialize, processVerifCode } from "../../../redux/User/action";
 import { isValidEmail } from "../../../utils/helper";
 import {
   Calendar,
@@ -34,7 +31,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import MaskInput from "react-native-mask-input";
 import { REINITIALIZE } from "../../../redux/User/types";
-import { Checkbox, TextInput, Icon, } from "react-native-paper";
+import { Checkbox, TextInput, Icon, Button } from "react-native-paper";
 import { Image } from "react-native";
 const Signup = ({ navigation, error, successRegister, codeVerifLoading }) => {
   const navigateCgu = useNavigation();
@@ -307,12 +304,12 @@ const Signup = ({ navigation, error, successRegister, codeVerifLoading }) => {
                 secureTextEntry={show ? false : true}
               />
               <Pressable onPress={() => setShow(!show)}>
-              {show ? (
-                <Eye color={colors.primary} size={24} name="person" />
-              ) : (
-                <EyeSlash color={colors.primary} size={24} />
-              )}
-            </Pressable>
+                {show ? (
+                  <Eye color={colors.primary} size={24} name="person" />
+                ) : (
+                  <EyeSlash color={colors.primary} size={24} />
+                )}
+              </Pressable>
             </View>
             {formData.password !== "" && messages.length > 0 && (
               <View
@@ -354,12 +351,12 @@ const Signup = ({ navigation, error, successRegister, codeVerifLoading }) => {
                 secureTextEntry={show ? false : true}
               />
               <Pressable onPress={() => setShow(!show)}>
-              {show ? (
-                <Eye color={colors.primary} size={24} name="person" />
-              ) : (
-                <EyeSlash color={colors.primary} size={24} />
-              )}
-            </Pressable>
+                {show ? (
+                  <Eye color={colors.primary} size={24} name="person" />
+                ) : (
+                  <EyeSlash color={colors.primary} size={24} />
+                )}
+              </Pressable>
             </View>
             {confPassword !== "" && formData.password !== confPassword && (
               <View style={styles.warninBox}>
@@ -371,7 +368,7 @@ const Signup = ({ navigation, error, successRegister, codeVerifLoading }) => {
             )}
             <View style={styles.viewInput}>
               <View style={styles.viewBoxIcon}>
-                <Call color={colors.primary}/>
+                <Call color={colors.primary} />
               </View>
               <MaskInput
                 style={{
@@ -380,7 +377,7 @@ const Signup = ({ navigation, error, successRegister, codeVerifLoading }) => {
                   borderRadius: 50,
                   marginLeft: 15,
                   color: colors.black,
-                  fontSize:16,
+                  fontSize: 16,
                 }}
                 value={formData.telephone}
                 onChangeText={(value) => handleInputChange("telephone", value)}
@@ -415,7 +412,11 @@ const Signup = ({ navigation, error, successRegister, codeVerifLoading }) => {
                     <Calendar color={colors.primary} />
                   </View>
                   <Text
-                    style={{ left: 16, fontSize:16, color: textDate ? "gray" : colors.black }}
+                    style={{
+                      left: 16,
+                      fontSize: 16,
+                      color: textDate ? "gray" : colors.black,
+                    }}
                   >
                     {textDate ? "Date de naissance" : formattedDate}
                   </Text>

@@ -18,11 +18,11 @@ const data = [
   {
     id: "s85dd4s54ds5d4",
     title:
-      "Consultez facilement les centres hospitaliers de référence en fonction de votre position géographique pour prendre rendez-vous.",
+      "Accédez aux centres hospitaliers de référence selon votre localisation pour fixer un rendez-vous.",
     description:
-      "Nous mettons à votre disposition des médecins généralistes et spécialistes compétents qui exercent partout sur le territoire.",
+      "Nous mettons à votre disposition des médecins généralistes et spécialistes qualifiés, répartis sur tout le territoire.",
     image: priseRdv,
-    titre: "Prise de rendez-vous"
+    titre: "Prise de rendez-vous",
   },
   {
     id: "s85d4s54dmdds5d4",
@@ -31,8 +31,7 @@ const data = [
     description:
       "Optez pour le mode de paiement de votre préférence, que ce soit par carte bancaire ou paiement mobile.",
     image: payment,
-    titre: "Mode de paiement"
-
+    titre: "Mode de paiement",
   },
   {
     id: "s85d4s5kqsj4ds5d4",
@@ -41,7 +40,7 @@ const data = [
     description:
       "Recevez des notifications pour être prévenu de vos différents rendez-vous.",
     image: consultation,
-    titre: "Consultation"
+    titre: "Consultation",
   },
 ];
 

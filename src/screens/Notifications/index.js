@@ -1,5 +1,5 @@
 import { Text, VStack } from "native-base";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import NotificationsCard from "../../components/NotificationsCard";
 import styles from "./styles";
 import { SkeletteNotif } from "./squeletteNotif";

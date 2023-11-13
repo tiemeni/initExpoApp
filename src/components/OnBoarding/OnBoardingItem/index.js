@@ -1,8 +1,6 @@
 import { View, StyleSheet, useWindowDimensions, Image } from "react-native";
 import React from "react";
 import colors from "../../../constants/colours";
-import Doctor from "../../../assets/img/Doctor_Two_Color__2__1.png";
-import { Center, VStack } from "native-base";
 import { Text } from "react-native-paper";
 
 export default function OnBoardingItem({ item, scrollX, ...props }) {

@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 
   input: {
     fontSize: 16,
-    width: "100%",
+    width: "80%",
     height: 43,
     marginVertical: 5,
     backgroundColor: colors.desable,

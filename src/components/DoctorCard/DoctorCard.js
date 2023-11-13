@@ -2,10 +2,7 @@ import colors from "../../constants/colours"
 import styles from "../../screens/Acceuil/style"
 import { View, HStack, VStack, Pressable, Skeleton, Text } from 'native-base'
 import { Star1, Hospital } from 'iconsax-react-native';
-import { useEffect, useState } from "react";
-import { Animated } from "react-native";
 import { useSelector } from "react-redux";
-import { Ionicons } from '@expo/vector-icons'
 
 const _spacing = 3
 const DoctorCard = ({ isEmpty = false, ...props }) => {

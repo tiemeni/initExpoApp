@@ -22,11 +22,7 @@ const PrimaryButton = ({
 
     return (
         <Button
-            _text={{
-                fontSize: 16
-            }}
-            isLoading={isLoading}
-            isLoadingText={isLoadingText}
+            loading={isLoading}
             onPress={onPress ?? handleOnPress}
             backgroundColor={color}
             minWidth={minWidth}

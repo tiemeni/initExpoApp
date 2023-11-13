@@ -13,7 +13,6 @@ import { Ionicons } from "@expo/vector-icons";
 import colors from "../../constants/colours";
 import { SharedElement } from "react-navigation-shared-element";
 import { Feather } from "@expo/vector-icons";
-import { PraticiensForSearch } from "../../components/PraticiensForSearch";
 import { useDispatch, useSelector } from "react-redux";
 import { searchPratByKey } from "../../redux/Praticiens/actions";
 import { PratSearchSkeleton } from "./skeleton";

@@ -14,7 +14,7 @@ export const PraticiensForSearch = ({ data }) => {
                 <Box style={{
                     height: 60,
                     width: 60,
-                    borderRadius: 10,
+                    borderRadius: 50,
                     backgroundColor: colors.text_grey_hint
                 }}></Box>
                 <VStack>
