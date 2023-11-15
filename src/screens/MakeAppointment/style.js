@@ -7,7 +7,10 @@ const styles = {
 
     header: {
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        display:"flex",
+        flexDirection:'row',
+        alignItems:'center'
     },
 
     headerTitle: {
@@ -79,9 +82,9 @@ const styles = {
     },
 
     btn: {
-        height: 50,
         width: '100%',
-        borderRadius: 10,
+        borderRadius: 15,
+        marginTop:10,
         borderColor: colors.primary,
     },
 

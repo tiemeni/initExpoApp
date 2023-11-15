@@ -1,5 +1,6 @@
 import { Icon, Spinner } from "native-base";
 import React, { useEffect } from "react";
+import {ActivityIndicator} from "react-native-paper";
 import { useState } from "react";
 import {
   Image,
@@ -25,6 +26,7 @@ import { userInfoUpdate, userSetProfile } from "../../redux/User/action";
 import { styles } from "./styles";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import { ArrowRight, ArrowRight2, Camera } from "iconsax-react-native";
 
 const FAB = (props) => {
   return (
@@ -45,7 +47,7 @@ const FAB = (props) => {
         {!props.onBoarding ? (
           <>
             {props.editeMode && props.loading ? (
-              <Spinner accessibilityLabel="loading" size="sm" color={"white"} />
+              <ActivityIndicator size={14} animating={true} color={colors.white}/>
             ) : (
               <Image
                 style={{ ...styles.title }}
@@ -62,18 +64,15 @@ const FAB = (props) => {
             style={{
               display: "flex",
               flexDirection: "row",
-              alignItems: "center",
+              justifyContent:'center',
+              alignContent:'center',
+              gap:15
             }}
           >
             <Text style={{ color: colors.white, fontSize: 20 }}>
               Commencez
             </Text>
-            <Icon
-              marginLeft={5}
-              size={6}
-              color={colors.white}
-              as={<AntDesign name="arrowright" />}
-            />
+            <ArrowRight style={{marginTop:3}} size={25} color={colors.white}/>
           </TouchableOpacity>
         )}
       </TouchableOpacity>
@@ -212,20 +211,12 @@ const MonProfile2 = ({ userInfos, loading, ImageLoading }) => {
           <View>
             <TouchableOpacity onPress={selectImage}>
               <View style={styles.viewStyle}>
-                <Avatar.Image size={95} source={ImageLoading ? image : user?.photo ?? image} />
+                <Avatar.Image size={95} source={{uri:ImageLoading ? image : user?.photo ?? image}} />
                 <View style={styles.iconCam}>
                   {ImageLoading ? (
-                    <Spinner
-                      accessibilityLabel="loading"
-                      size="sm"
-                      color={colors.primary}
-                    />
+                    <ActivityIndicator color={colors.primary} size={14}/>
                   ) : (
-                    <Icon
-                      size={3}
-                      color={colors.primary}
-                      as={<Ionicons name="ios-camera" />}
-                    />
+                    <Camera color={colors.primary} variant="Bold" size={12}/>
                   )}
                 </View>
               </View>

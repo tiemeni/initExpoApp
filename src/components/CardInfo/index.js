@@ -1,8 +1,8 @@
 import { InfoCircle } from "iconsax-react-native";
 import styles from "./style";
-import { View } from "native-base";
 import { Text } from "react-native-paper";
 import colors from "../../constants/colours";
+import { View } from "react-native";
 
 const CardInfo = (props) => {
   return (

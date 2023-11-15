@@ -18,9 +18,10 @@ import {
 import colors from "../../constants/colours";
 import CardInfo from "../../components/CardInfo";
 import moment from "moment";
+import { List } from "react-native-paper";
 import arrowDown from "../../assets/img/down-arrow.png";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { MaterialIcons, AntDesign, Foundation } from "@expo/vector-icons";
+import { MaterialIcons} from "@expo/vector-icons";
 import styles from "./style";
 import {
   ajouterDuree,
@@ -161,8 +162,7 @@ export const ReportRDV = ({ route, navigation }) => {
         }}
         p={3}
       >
-        <VStack space={4}>
-          <Stack>
+        <View style={{gap:8}}>
             <CardInfo
               lieu={appointment?.lieu?.label}
               patient={
@@ -173,9 +173,8 @@ export const ReportRDV = ({ route, navigation }) => {
               status={appointment?.status}
               date={appointment?.displayedDate}
             />
-          </Stack>
-          <VStack style={{ ...styles.secondCard }} px={3} space={2}>
-            <HStack style={{ ...styles.secondCardSection1 }}>
+          <View style={{ ...styles.secondCard, gap:6, paddingHorizontal:10 }}>
+            <View style={{ ...styles.secondCardSection1 }}>
               <VStack style={{ ...styles.masquerBox }}>
                 <Box style={{ ...styles.boxFilter }}>
                   <Filter color={colors.white} size={18} />
@@ -189,8 +188,8 @@ export const ReportRDV = ({ route, navigation }) => {
               >
                 Choisir un autre centre
               </Text>
-            </HStack>
-            <HStack style={{ ...styles.secondCardSection2 }}>
+            </View>
+            <View style={{ ...styles.secondCardSection2 }}>
               <VStack
                 style={{
                   width: "33%",
@@ -198,9 +197,9 @@ export const ReportRDV = ({ route, navigation }) => {
               >
                 <Text>A partir du:</Text>
                 <Pressable onPress={handleOpenDatePicker}>
-                  <Box style={{ ...styles.datePicker }}>
+                  <View style={{ ...styles.datePicker }}>
                     <Text style={{ fontSize: 15 }}>{date}</Text>
-                  </Box>
+                  </View>
                 </Pressable>
                 {showDate && (
                   <DateTimePicker
@@ -223,7 +222,7 @@ export const ReportRDV = ({ route, navigation }) => {
                   width: "30%",
                 }}
               >
-                <Text>Tous les:</Text>
+                <Text>Tous les:</Text>                
                 <Select
                   shadow={2}
                   accessibilityLabel=""
@@ -265,7 +264,7 @@ export const ReportRDV = ({ route, navigation }) => {
                   ))}
                 </Select>
               </VStack>
-              <VStack
+              <View
                 style={{
                   width: "30%",
                 }}
@@ -309,8 +308,8 @@ export const ReportRDV = ({ route, navigation }) => {
                     <Select.Item key={e} shadow={2} label={e} value={e} />
                   ))}
                 </Select>
-              </VStack>
-            </HStack>
+              </View>
+            </View>
             <Box style={{ ...styles.dividerBox }}>
               <Divider width={"90%"} color={colors.normal_gray} />
             </Box>
@@ -319,7 +318,7 @@ export const ReportRDV = ({ route, navigation }) => {
             </Text>
             <Text style={{ ...styles.rdvDayLabel }}>jour du rendez-vous</Text>
             {!dispoLoading ? (
-              <Box>
+              <View>
                 <ScrollView
                   showsHorizontalScrollIndicator={false}
                   horizontal={true}
@@ -333,7 +332,7 @@ export const ReportRDV = ({ route, navigation }) => {
                           handleSelectDay(d);
                         }}
                       >
-                        <Box
+                        <View
                           ml={index !== 0 ? 2 : 0}
                           style={{
                             ...styles.jourRdvBox,
@@ -350,7 +349,7 @@ export const ReportRDV = ({ route, navigation }) => {
                           <Text style={{ color: colors.black, fontSize: 15 }}>
                             {jourDeLaSemaine(d) + ", " + d.split("-")[2]}
                           </Text>
-                        </Box>
+                        </View>
                       </Pressable>
                     ))}
                   </HStack>
@@ -364,13 +363,13 @@ export const ReportRDV = ({ route, navigation }) => {
                     justifyContent={"center"}
                     mb={5}
                   >
-                    <Box mr={1.5} style={{ ...styles.arrowScrollView }}>
+                    <View mr={1.5} style={{ ...styles.arrowScrollView }}>
                       <Icon
                         as={MaterialIcons}
                         name="keyboard-arrow-left"
                         size={"lg"}
                       />
-                    </Box>
+                    </View>
                     <ScrollView
                       showsHorizontalScrollIndicator={false}
                       horizontal={true}
@@ -387,7 +386,7 @@ export const ReportRDV = ({ route, navigation }) => {
                               })
                             }
                           >
-                            <Box
+                            <View
                               ml={index !== 0 ? 2 : 0}
                               style={{
                                 ...styles.hourRdvBox,
@@ -411,21 +410,21 @@ export const ReportRDV = ({ route, navigation }) => {
                               >
                                 {d?.start}
                               </Text>
-                            </Box>
+                            </View>
                           </Pressable>
                         ))}
                       </HStack>
                     </ScrollView>
-                    <Box ml={1.5} style={{ ...styles.arrowScrollView }}>
+                    <View ml={1.5} style={{ ...styles.arrowScrollView }}>
                       <Icon
                         as={MaterialIcons}
                         name="keyboard-arrow-right"
                         size={"lg"}
                       />
-                    </Box>
+                    </View>
                   </HStack>
                 ) : (
-                  <Box style={{ ...styles.BoxSelectDayInfo }} mb={2}>
+                  <View style={{ ...styles.BoxSelectDayInfo }} mb={2}>
                     <Icon
                       as={<MaterialIcons />}
                       marginRight={2}
@@ -440,14 +439,14 @@ export const ReportRDV = ({ route, navigation }) => {
                         ? "Aucun creneau libre pour ce jour"
                         : "choisissez un jour pour votre rdv"}
                     </Text>
-                  </Box>
+                  </View>
                 )}
-              </Box>
+              </View>
             ) : (
               <DispoLoader />
             )}
-          </VStack>
-        </VStack>
+          </View>
+        </View>
 
         <HStack width={"100%"} my={3} space={3} style={styles.btnContainer}>
           <Button

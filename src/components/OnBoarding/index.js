@@ -18,9 +18,9 @@ const data = [
   {
     id: "s85dd4s54ds5d4",
     title:
-      "Accédez aux centres hospitaliers de référence selon votre localisation pour fixer un rendez-vous.",
+    "Vous avez accès à des centres hospitaliers de référence selon votre localisation",
     description:
-      "Nous mettons à votre disposition des médecins généralistes et spécialistes qualifiés, répartis sur tout le territoire.",
+    "Nous mettons à votre disposition des médecin généralistes et spécialistes compétents qui exercent partout sur le territoire." ,
     image: priseRdv,
     titre: "Prise de rendez-vous",
   },

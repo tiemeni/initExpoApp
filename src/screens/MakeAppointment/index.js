@@ -1,46 +1,35 @@
 import React, { useEffect, useState } from "react";
 import styles from "./style";
+import { Button, Text } from "react-native-paper";
 import { Dimensions } from "react-native";
 import {
   View,
-  Text,
   VStack,
   HStack,
   Box,
-  Select,
   Icon,
   ScrollView,
-  Button,
   PresenceTransition,
 } from "native-base";
-import { MaterialIcons, AntDesign } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import colors from "../../constants/colours";
+import { CloseCircle, SearchNormal, SearchNormal1} from "iconsax-react-native";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import MedItem from "../../components/MedItem";
 import {
-  practiciens,
-  disponibilites,
-  appointmentDate,
-  motifs,
   generateKeyTab,
   generateValuesTab,
   jourDeLaSemaine,
 } from "../../utils/helper";
-import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
-import { MAKE_APPOINTMENT_SCREEN } from "../../constants/screens";
 import * as SCREENS from "../../constants/screens";
-import { useNavigation } from "@react-navigation/native";
 import { SelectList } from "react-native-dropdown-select-list";
-import { Dialog, RadioButton } from "react-native-paper";
 import ModaleChoixProfession from "../../components/ModaleChoixSpecialite";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  setProfessionForRdv,
   setShouldSeeBehind,
 } from "../../redux/commons/action";
 import {
   getClinique,
-  getCliniqueOfSelectedPrat,
   getDispo,
   getMotifs,
   getPraticiens,
@@ -252,24 +241,13 @@ const MakeAppointment = ({ navigation, route }) => {
   return (
     <View bgColor={colors.white} flex={1} style={styles.container}>
       {/* Header */}
-      <HStack style={styles.header}>
+      <View style={styles.header}>
         <Text style={styles.headerTitle}>Nouveau rendez-vous</Text>
-        <Box style={styles.closeBtn}>
-          <Pressable
-            onPress={() => {
+            <CloseCircle onPress={() => {
               navigation.goBack();
               dispatch(setShouldSeeBehind(false));
-            }}
-          >
-            <Icon
-              as={AntDesign}
-              name="close"
-              size={"sm"}
-              color={colors.black}
-            />
-          </Pressable>
-        </Box>
-      </HStack>
+            }} size={26} color={colors.black}/>
+      </View>
       <ScrollView
         ref={scrollViewRef}
         nestedScrollEnabled={true}
@@ -309,20 +287,16 @@ const MakeAppointment = ({ navigation, route }) => {
                       })}
                       save="key"
                       placeholder="choisir une specialité"
-                      boxStyles={{ borderRadius: 5 }}
+                      boxStyles={{ borderRadius: 10, backgroundColor:colors.desable, borderWidth:0 }}
                       dropdownStyles={{
-                        borderRadius: 5,
-                        marginTop: 0,
+                        borderRadius: 10,
+                        marginTop: 3,
+                        borderWidth:0.6
                       }}
                       notFoundText={"Aucune specialité trouvée"}
                       searchPlaceholder={"Recherche"}
                       searchicon={
-                        <Icon
-                          as={MaterialIcons}
-                          name="search"
-                          mr={2}
-                          size={"lg"}
-                        />
+                        <SearchNormal1  color={colors.primary}/>
                       }
                     />
                   </Box>
@@ -361,21 +335,17 @@ const MakeAppointment = ({ navigation, route }) => {
                             return { key: e._id, value: e.label };
                           })}
                           save="key"
-                          boxStyles={{ borderRadius: 5 }}
+                          boxStyles={{ borderRadius: 10, borderWidth:0, backgroundColor:colors.desable }}
                           dropdownStyles={{
-                            borderRadius: 5,
-                            marginTop: 0,
+                            borderRadius: 10,
+                            marginTop: 3,
+                            borderWidth:0.6
                           }}
                           notFoundText={"Aucun motif trouvé"}
                           searchPlaceholder={"Recherche"}
-                          searchicon={
-                            <Icon
-                              as={MaterialIcons}
-                              name="search"
-                              mr={2}
-                              size={"lg"}
-                            />
-                          }
+                            searchicon={
+                              <SearchNormal1  color={colors.primary}/>
+                            }
                         />
                       )}
                     </Box>
@@ -500,7 +470,6 @@ const MakeAppointment = ({ navigation, route }) => {
           </PresenceTransition>
         }
 
-        {/*Periode du rendez-vous*/}
         {
           <PresenceTransition
             visible={formData.praticien}
@@ -665,17 +634,16 @@ const MakeAppointment = ({ navigation, route }) => {
           </PresenceTransition>
         }
       </ScrollView>
-      <VStack width={screenWidth} flex={1} style={styles.btnBox}>
         <Button
-          isDisabled={!formData.period.time}
-          style={styles.btn}
+          disabled={!formData.period.time}
+          style={{...styles.btn, backgroundColor:formData.period.time ? colors.primary : colors.trans_primary}}
+          mode="contained"
           onPress={handlePress}
         >
-          <Text color={colors.white} style={styles.btnLabel}>
+          <Text style={{color:colors.white, fontSize:18}}>
             Valider
           </Text>
         </Button>
-      </VStack>
       {
         <ModaleChoixProfession
           navigation={navigation}

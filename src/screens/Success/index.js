@@ -4,11 +4,10 @@ import { useNavigation } from "@react-navigation/native";
 import * as SCREENS from "../../constants/screens";
 import colors from "../../constants/colours";
 import { useSelector } from "react-redux";
-import { LinearGradient } from "expo-linear-gradient";
 import { BackHandler} from "react-native";
 import { TickCircle } from "iconsax-react-native";
 import { View } from "react-native";
-import { Divider, Button, Text } from "react-native-paper";
+import { Divider, Button, Text, Surface } from "react-native-paper";
 
 function Success({ route }) {
   const navigation = useNavigation();
@@ -26,13 +25,8 @@ function Success({ route }) {
   }, []);
 
   return (
-    <LinearGradient
-      colors={["#04C96A", "#00C78E", "#00C3AB", "#00BEBF", "#04B7C9"]}
-      start={[0, 0]}
-      end={[1, 1]}
-      style={{ flex: 1 }}
-    >
       <View style={{ ...styles.contenair }}>
+        <Surface elevation={5} style={{backgroundColor:colors.primary, padding:10, borderRadius:15}}>
         <View  style={styles.box1}>
           <TickCircle size="130" color={colors.white} variant="Bold"/>
           <Text style={styles.texte1}>Rendez-vous pris avec success</Text>
@@ -48,13 +42,13 @@ function Success({ route }) {
             </Text>
           </View>
           <Divider style={{borderWidth:0.2, borderColor:colors.white }} />
-          <View style={styles.box3}>
+          {/*<View style={styles.box3}>
             <Text style={styles.texte3}>Spécialité</Text>
             <Text style={{ ...styles.texte3, fontWeight: 500 }}>
               {rdv?.practitioner?.job?.title}
             </Text>
           </View>
-          <Divider style={{borderWidth:0.2, borderColor:colors.white }} />
+  <Divider style={{borderWidth:0.2, borderColor:colors.white }} />*/}
           <View style={styles.box3}>
             <Text style={styles.texte3} flex={1}>
               Motif
@@ -69,7 +63,7 @@ function Success({ route }) {
             </Text>
           </View>
           <Divider style={{borderWidth:0.2, borderColor:colors.white }} />
-          <View style={styles.box3}>
+          {/*<View style={styles.box3}>
             <Text flex={1} style={styles.texte3}>
               Date heure
             </Text>
@@ -81,8 +75,8 @@ function Success({ route }) {
             >
               {rdv?.date_long}
             </Text>
-          </View>
-          <Divider style={{borderWidth:0.2, borderColor:colors.white }} />
+  </View>
+  <Divider style={{borderWidth:0.2, borderColor:colors.white }} />*/}
           <View style={styles.box3}>
             <Text style={styles.texte3}>Montant</Text>
             <Text style={{ ...styles.texte3, fontWeight: 500 }}>5000 XAF</Text>
@@ -95,8 +89,8 @@ function Success({ route }) {
         >
           Voir mes rendez-vous
         </Button>
+        </Surface>
       </View>
-    </LinearGradient>
   );
 }
 

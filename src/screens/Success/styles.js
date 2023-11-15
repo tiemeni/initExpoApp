@@ -6,9 +6,9 @@ const styles = StyleSheet.create({
   contenair: {
     flex: 1,
     flexDirection: "column",
-    height: "100%",
     paddingHorizontal:30,
-    justifyContent:"center"
+    justifyContent:"center",
+    backgroundColor:colors.white
   },
 
   box1: {

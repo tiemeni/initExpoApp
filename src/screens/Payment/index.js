@@ -304,13 +304,22 @@ const Payment = ({ route, navigation }) => {
                   <Avatar.Image source={OrangeLOgo} />
                 </Pressable>
               </View>
-              
+              <View
+                style={{
+                  ...styles.paymentMethodSelect,
+                  backgroundColor:
+                    selectedPaymentMethod === "mtn_money"
+                      ? colors.trans_primary
+                      : colors.white,
+                }}
+              >
                 <Pressable
                   style={styles.paymentMethod}
                   onPress={() => handlePaymentMethodPress("mtn_money")}
                 >
                   <Avatar.Image source={MtnLogo} />
                 </Pressable>
+              </View>
             </View>
           </View>
           {renderPaymentForm()}

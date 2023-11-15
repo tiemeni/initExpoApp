@@ -7,15 +7,15 @@ export default function OnBoardingItem({ item, scrollX, ...props }) {
   const { width } = useWindowDimensions();
 
   return (
-    <View style={{ width, padding: 10 }}>
-      <View style={{padding:15}}>
+    <View style={{ width, padding: 10}}>
+      <View style={{padding:15, marginTop:15}}>
       <Text style={styles.greetfr}>{props.titre}</Text>
       </View>
       <View style={styles.second}>
         <Image
           source={props.image}
           resizeMode="center"
-          style={{ width: "100%", height: 250 }}
+          style={{ width: "100%", height: 230 }}
         />
       </View>
       <View>

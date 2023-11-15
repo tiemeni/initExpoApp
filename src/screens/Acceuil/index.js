@@ -28,7 +28,7 @@ import {
 } from "react-native";
 import messaging from "@react-native-firebase/messaging";
 import { setNotificationCardinal } from "../../redux/notifications/actions";
-import { Surface, TextInput } from "react-native-paper";
+import { Surface, TextInput, ActivityIndicator } from "react-native-paper";
 
 const _spacing = 3;
 const datas = [
@@ -146,8 +146,8 @@ const Acceuil = ({
               {translate("TEXT_EMPLACEMENT")}
             </Text>
             {!load_address && address && (
-              <Skeleton width={160} height={5} rounded={15} />
-              )}
+              <ActivityIndicator color={colors.primary} size={14} animating={true}/>
+            )}
           </View>
         </View>
         <View style={{ margin: 10 }}>
@@ -174,7 +174,9 @@ const Acceuil = ({
                   navigation.navigate(SCREENS.RDV_CONTAINER);
                 }}
               >
-                <Text style={{color:colors.primary}}>{translate("TEXT.SEE_ALL")}</Text>
+                <Text style={{ color: colors.primary }}>
+                  {translate("TEXT.SEE_ALL")}
+                </Text>
               </Pressable>
             </View>
 
@@ -184,7 +186,16 @@ const Acceuil = ({
           </View>
 
           <View>
-              <Text style={{...styles.textBold,marginTop:10, marginBottom:10,marginLeft:8}}>{translate("TEXT.SPEC")}</Text>
+            <Text
+              style={{
+                ...styles.textBold,
+                marginTop: 10,
+                marginBottom: 10,
+                marginLeft: 8,
+              }}
+            >
+              {translate("TEXT.SPEC")}
+            </Text>
             <FlatList
               data={props.specialties}
               keyExtractor={({ value, _id }) => _id.toString()}
@@ -194,10 +205,16 @@ const Acceuil = ({
               renderItem={({ item, index }) => {
                 return (
                   <Pressable
-                    style={{marginRight:index === props.specialties.length - 1 ? 5 : 0, paddingVertical:2}}
+                    style={{
+                      marginRight:
+                        index === props.specialties.length - 1 ? 5 : 0,
+                      paddingVertical: 2,
+                    }}
                   >
                     <Surface style={[styles.filter, styles.shadow]}>
-                      <Text style={{color:colors.black}}>{item.nom || item.label}</Text>
+                      <Text style={{ color: colors.black }}>
+                        {item.nom || item.label}
+                      </Text>
                     </Surface>
                   </Pressable>
                 );
@@ -211,7 +228,7 @@ const Acceuil = ({
                     paddingY={_spacing}
                     marginLeft={_spacing - 1}
                   >
-                    <Skeleton width={150} height={5} />
+                    <ActivityIndicator color={colors.primary} size={15} animating={true} />
                   </View>
                 ))}
               </View>
@@ -219,14 +236,22 @@ const Acceuil = ({
           </View>
 
           <View my={_spacing}>
-            <View style={{...styles.viewBoxTextFirstRdv, paddingHorizontal:5, marginTop:10}}>
-              <Text style={{...styles.textBold}}>{translate("TEXT.POPULAR_DOC")}</Text>
+            <View
+              style={{
+                ...styles.viewBoxTextFirstRdv,
+                paddingHorizontal: 5,
+                marginTop: 10,
+              }}
+            >
+              <Text style={{ ...styles.textBold }}>
+                {translate("TEXT.POPULAR_DOC")}
+              </Text>
               <Pressable
                 onPress={() => {
                   navigation.navigate(SCREENS.GLOBAL_SEARCH);
                 }}
               >
-                <Text style={{color:colors.primary}}>
+                <Text style={{ color: colors.primary }}>
                   {translate("TEXT.SEARCH_SHORT")}
                 </Text>
               </Pressable>
