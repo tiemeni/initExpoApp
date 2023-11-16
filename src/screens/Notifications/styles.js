@@ -12,9 +12,10 @@ const styles = StyleSheet.create({
     },
 
     headerTitle: {
-        fontSize: 18,
-        paddingVertical: 2,
-        fontWeight: 600
+        fontSize: 20,
+        paddingVertical: 6,
+        paddingHorizontal:3,
+        fontWeight: 700
     },
 
     groupTitle: {
