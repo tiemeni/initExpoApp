@@ -12,11 +12,11 @@ import {
 } from "react-native-confirmation-code-field";
 import { Warning2, ArrowLeft, LockCircle } from "iconsax-react-native";
 import { processVerifCode, userRegistration } from "../../../redux/User/action";
-import CustomToast from "../../../components/CustomToast";
 import styles from "./style";
 import { resettingPassword } from "../../../redux/User/action";
 import colors from "../../../constants/colours";
 import * as SCREENS from "../../../constants/screens";
+import { Alert } from "react-native";
 
 const CELL_COUNT = 5;
 const init_count = 60;
@@ -48,7 +48,6 @@ const ResetPassWord = ({
   const { register } = route?.params;
   const [newPw, setNewPw] = useState("");
   const [cnfPw, setCnfPw] = useState("");
-  const [count, setCount] = useState(init_count);
   const [loading, setLoading] = useState(false);
   const [caracters, setCaracters] = useState([]);
   const [canResetPw, setCanResetPw] = useState(false);
@@ -63,21 +62,10 @@ const ResetPassWord = ({
   const toast = useToast();
   useEffect(() => {
     if (codeVerifSuccess) {
-      toast.show({
-        render: () => {
-          return (
-            <CustomToast
-              message={"Un code à été envoyer a votre mail"}
-              color={colors.success}
-              bgColor={"red.100"}
-              icon={<Warning2 />}
-              iconColor={colors.success}
-            />
-          );
-        },
-        placement: "top",
-        duration: 3000,
-      });
+      Alert.alert(
+        "Code de vérification",
+        "Un code de vérification a été envoyé a votre adresse mail"
+      );
     }
   }, [codeVerifSuccess, errorCodeVerif]);
 

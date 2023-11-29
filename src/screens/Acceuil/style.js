@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     margin:5,
     paddingVertical: 10,
     borderRadius: 20,
+    backgroundColor:colors.white
   },
   shadow: {
     shadowColor: "#000",

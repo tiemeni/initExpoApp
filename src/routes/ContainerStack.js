@@ -5,7 +5,6 @@ import Notifications from "../screens/Notifications";
 import Profile from "../screens/Profile";
 import MonProfile2 from "../screens/MonProfile/index2";
 import MakeAppointment from "../screens/MakeAppointment";
-import { createStackNavigator } from "@react-navigation/stack";
 import ContainerBottom from "./ContainerBottom";
 import Transaction from "../screens/Transactions";
 import Payment from "../screens/Payment";
@@ -18,9 +17,7 @@ import Policy from "../screens/ListeCguAndPolice/policy";
 import CGU from "../screens/ListeCguAndPolice/cgu";
 import Licenses from "../screens/ListeCguAndPolice/licenses";
 import Success from "../screens/Success";
-import SanteAstucesComponent from "../screens/AstuceSanté";
 import { DetailsPraticien } from "../screens/DetailsPraticiens";
-import AllPraticiens from "../components/AllPraticiens";
 import { useSocket } from "../socket";
 import { useDispatch, useSelector } from "react-redux";
 import { saveSocketNotifications } from "../redux/notifications/actions";
@@ -78,11 +75,6 @@ const ContainerStack = () => {
       <Stack.Screen name={SCREENS.POLICY} component={Policy} />
       <Stack.Screen name={SCREENS.SUCCESS} component={Success} />
       <Stack.Screen name={SCREENS.LICENSES} component={Licenses} />
-      <Stack.Screen name={SCREENS.ALLPRATICIENTS} component={AllPraticiens} />
-      <Stack.Screen
-        name={SCREENS.ASTUCESANTE}
-        component={SanteAstucesComponent}
-      />
       <Stack.Screen
         name={SCREENS.DETAILS_PRATICIEN}
         component={DetailsPraticien}

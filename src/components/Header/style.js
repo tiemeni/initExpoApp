@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
         height:55
     },
     title: {
-        fontSize: 18,
+        fontSize: 20,
+        fontWeight:"600"
     }
 })

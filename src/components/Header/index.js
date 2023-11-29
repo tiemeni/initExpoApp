@@ -1,11 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
-import { View, Icon, Text, IconButton } from "native-base";
-
+import { View } from "react-native";
 import React from "react";
 import { styles } from "./style";
 import colors from "../../constants/colours";
 import { ArrowLeft } from "iconsax-react-native";
-import { Surface } from "react-native-paper";
+import { Surface, Text } from "react-native-paper";
 
 export default function Header({ title, bg }) {
   const navigation = useNavigation();

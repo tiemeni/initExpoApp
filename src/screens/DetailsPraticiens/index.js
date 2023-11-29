@@ -110,28 +110,32 @@ export const DetailsPraticien = ({ route, navigation }) => {
   };
 
   return (
-    <Box flex={1} style={{ backgroundColor: colors.white }}>
-      <Header title={"Détails praticien"} bg={colors.white} />
-      <VStack space={4} height={"82%"}>
-        <HStack
+    <View flex={1} style={{ backgroundColor: colors.white }}>
+      <Header title={"Détails praticien"} />
+      <View style={{gap:10}}>
+        <View
           px={5}
-          alignItems={"center"}
-          space={4}
           style={{
             backgroundColor: colors.white,
             padding: 10,
             borderRadius: 10,
+            alignItems:"center",
+            paddingHorizontal:5,
+            gap:10,
+            display:'flex',
+            flexDirection:'row'
+
           }}
         >
-          <Box
+          <View
             style={{
               height: 70,
               width: 70,
               borderRadius: 10,
               backgroundColor: colors.text_grey_hint,
             }}
-          ></Box>
-          <VStack>
+          ></View>
+          <View>
             <Text
               style={{
                 fontSize: 14,
@@ -147,9 +151,9 @@ export const DetailsPraticien = ({ route, navigation }) => {
             <Text style={{ color: colors.text_grey_hint }}>
               4,5/5 (388 avis)
             </Text>
-          </VStack>
-        </HStack>
-        <HStack justifyContent={"space-around"} px={8}>
+          </View>
+        </View>
+        <View style={{justifyContent:"space-around", display:'flex', flexDirection:'row', paddingHorizontal:5}}>
           <VStack justifyContent={"center"} alignItems={"center"}>
             <Text style={{ color: colors.yellow }}>542+</Text>
             <Text>Patients</Text>
@@ -162,7 +166,7 @@ export const DetailsPraticien = ({ route, navigation }) => {
             <Text style={{ color: colors.yellow }}>4.79</Text>
             <Text>Rating</Text>
           </VStack>
-        </HStack>
+        </View>
         <HStack justifyContent={"center"}>
           <Divider width={"80%"} />
         </HStack>
@@ -418,7 +422,7 @@ export const DetailsPraticien = ({ route, navigation }) => {
             </HStack>
           </VStack>
         </ScrollView>
-      </VStack>
+      </View>
       <HStack
         justifyContent={"center"}
         alignItems={"center"}
@@ -442,6 +446,6 @@ export const DetailsPraticien = ({ route, navigation }) => {
           <Text color={colors.white}>PRENDRE UN RDV</Text>
         </Button>
       </HStack>
-    </Box>
+    </View>
   );
 };

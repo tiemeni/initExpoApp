@@ -16,6 +16,7 @@ import colors from "../../constants/colours";
 import { setShouldSeeBehind } from "../../redux/commons/action";
 import { postRDV } from "../../redux/RDV/actions";
 import styles from "./style";
+import { Alert } from "react-native";
 
 const description =
   "Votre compte sera débité d’un montant de 5000 Fcfa. Le dit montant fait office de frais de rendez-vous et est non-remboursable.";
@@ -133,21 +134,10 @@ const Payment = ({ route, navigation }) => {
   React.useEffect(() => {
     dispatch(setShouldSeeBehind(false));
     if (error) {
-      toast.show({
-        render: () => {
-          return (
-            <CustomToast
-              message={error}
-              color={colors.danger}
-              bgColor={"red.100"}
-              icon={<Foundation name="alert" size={24} />}
-              iconColor={colors.danger}
-            />
-          );
-        },
-        placement: "top",
-        duration: 2000,
-      });
+      Alert.alert(
+        "Pas de connexion internet",
+        {error}
+      );;
     }
   }, [error, success]);
 
