@@ -1,9 +1,8 @@
 import { Warning2, LockCircle } from "iconsax-react-native";
-import { useToast } from "native-base";
 import React, { useState } from "react";
 import { TextInput, Text, View, Alert, Platform } from "react-native";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { Button, ActivityIndicator } from "react-native-paper";
+import { Button } from "react-native-paper";
 import colors from "../../constants/colours";
 import { processVerifCode } from "../../redux/User/action";
 import { isEmailValid } from "../../utils/helper";
@@ -33,7 +32,6 @@ const PhoneConfirm = ({
   const [isEmpty, setIsEmpty] = useState(false);
   const emailValide = isEmailValid(email1.trim());
 
-  const toast = useToast();
 
   const resetPassword = () => {
     setIsEmpty(true);

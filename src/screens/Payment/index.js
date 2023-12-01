@@ -1,16 +1,13 @@
-import { Foundation } from "@expo/vector-icons";
 import { Warning2 } from "iconsax-react-native";
-import { ScrollView, useToast, VStack } from "native-base";
+import { ScrollView, View } from "react-native";
 import React, { useState } from "react";
-import { Avatar, Surface } from "react-native-paper";
-import { View, Text, Image } from "react-native";
+import { Avatar, Text } from "react-native-paper";
 import MaskInput from "react-native-mask-input";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import { useDispatch, useSelector } from "react-redux";
 import MtnLogo from "../../assets/img/mobile_money.jpg";
 import OrangeLOgo from "../../assets/img/orange_money.jpg";
 import PrimaryButton from "../../components/Buttons/PrimaryButton";
-import CustomToast from "../../components/CustomToast";
 import Header from "../../components/Header";
 import colors from "../../constants/colours";
 import { setShouldSeeBehind } from "../../redux/commons/action";
@@ -62,7 +59,6 @@ const Payment = ({ route, navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const userInfo = useSelector((state) => state.UserReducer.userInfos);
   const idCentre = useSelector((state) => state.Common.idc);
-  const toast = useToast();
   const dispatch = useDispatch();
   const success = useSelector((state) => state.RdvForm.successPostRdv);
   const extPRData = useSelector((state) => state.RdvForm.extPRData);
@@ -315,7 +311,7 @@ const Payment = ({ route, navigation }) => {
           {renderPaymentForm()}
         </View>
         {renderPaymentForm() && (
-          <VStack flex={1} style={styles.btnBox}>
+          <View flex={1} style={styles.btnBox}>
             <PrimaryButton
               disabled={
                 operateur === "inconnu" || operateur !== selectedPaymentMethod
@@ -336,7 +332,7 @@ const Payment = ({ route, navigation }) => {
               }}
               onPress={onSubmitPayment}
             />
-          </VStack>
+          </View>
         )}
       </ScrollView>
     </>

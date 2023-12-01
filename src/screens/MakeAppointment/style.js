@@ -31,6 +31,18 @@ const styles = {
 
     titleBox: {
         alignItems: 'center',
+        display:'flex',
+        flexDirection:'row',
+        gap:8,
+        marginBottom:5
+    },
+
+
+    hstackBox: {
+        alignItems: 'center',
+        display:'flex',
+        flexDirection:'row',
+        gap:5
     },
 
     number: {

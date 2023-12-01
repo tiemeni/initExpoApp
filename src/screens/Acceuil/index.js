@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Skeleton } from "native-base";
 import styles from "./style";
 import { specialites, practiciens } from "../../utils/helper";
 import colors from "../../constants/colours";

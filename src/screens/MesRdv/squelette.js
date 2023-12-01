@@ -1,7 +1,7 @@
-import { View } from "native-base";
 import React from "react";
 import { ActivityIndicator, Text } from "react-native-paper";
 import colors from "../../constants/colours";
+import { View } from "react-native";
 
 export const Skelette = () => {
   return (

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Pressable, SafeAreaView, View, Text } from "react-native";
 import { Button, TextInput, ActivityIndicator } from "react-native-paper";
-import { useToast } from "native-base";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -59,7 +58,6 @@ const ResetPassWord = ({
 
   const navigateback = useNavigation();
 
-  const toast = useToast();
   useEffect(() => {
     if (codeVerifSuccess) {
       Alert.alert(

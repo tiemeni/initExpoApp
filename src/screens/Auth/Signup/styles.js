@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 import colors from "../../../constants/colours";
-import { Center } from "native-base";
 
 const styles = StyleSheet.create({
   inputConex: {

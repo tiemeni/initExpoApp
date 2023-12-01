@@ -7,16 +7,15 @@ import colors from "./src/constants/colours";
 import { enableScreens } from "react-native-screens";
 import { Provider } from "react-redux";
 import store from "./src/redux/setups/store";
-import { NativeBaseProvider, Text } from "native-base";
 import { navigationRef } from "./src/routes/rootNavigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import * as Notifications from "expo-notifications";
 import NetInfo from "@react-native-community/netinfo";
 import { Alert } from "react-native";
-import theme from "./src/theme";
 import { useFonts } from "expo-font";
 import { SocketProvider } from "./src/socket";
-
+import { PaperProvider } from "react-native-paper";
+import { DefaultTheme } from "react-native-paper";
 enableScreens();
 
 Notifications.setNotificationHandler({
@@ -71,7 +70,7 @@ export default function App() {
   if (!fontsLoaded) return null;
 
   return (
-    <NativeBaseProvider theme={theme}>
+    <PaperProvider>
       <Provider store={store}>
         <SocketProvider>
           <NavigationContainer ref={navigationRef}>
@@ -82,6 +81,6 @@ export default function App() {
           </NavigationContainer>
         </SocketProvider>
       </Provider>
-    </NativeBaseProvider>
+    </PaperProvider>
   );
 }

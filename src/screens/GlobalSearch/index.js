@@ -1,10 +1,5 @@
-import {
-  Center,
-  Input,
-} from "native-base";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import colors from "../../constants/colours";
-import { Feather } from "@expo/vector-icons";
 import { ArrowLeft } from "iconsax-react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { searchPratByKey } from "../../redux/Praticiens/actions";
@@ -13,7 +8,7 @@ import * as SCREENS from "../../constants/screens";
 import DoctorCard from "../../components/DoctorCard/DoctorCard";
 import { getDispo, getMotifs } from "../../redux/RDV/actions";
 import { ScrollView, View } from "react-native";
-import { Text, TextInput } from "react-native-paper";
+import { ActivityIndicator, Text, TextInput } from "react-native-paper";
 
 export const GlobalSearch = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -40,12 +35,13 @@ export const GlobalSearch = ({ navigation }) => {
             color={colors.primary}
           />
         <TextInput
+          outlineStyle={{ borderRadius: 15, borderColor: colors.desable }}
+          mode="outlined"
+          keyboardType="default"
           ref={InputRef}
           onChangeText={(text) => handleSearch(text)}
           placeholder="Rechercher un spécialiste"
-          style={{width:"90%", height:45}}
-          selectionColor={colors.primary}
-          mode="outlined"
+          style={{width:"90%", backgroundColor:colors.desable, height:45}}
         />
       </View>
       <ScrollView>
@@ -94,8 +90,8 @@ export const GlobalSearch = ({ navigation }) => {
               <Text style={{color: colors.text_grey_hint}}>Aucune données </Text>
             </View>
           ) : (
-            <View>
-              <DoctorCard isEmpty={true} />
+            <View style={{marginTop:15}}>
+             <ActivityIndicator size={40} color={colors.primary}/>
             </View>
           )}
         </View>

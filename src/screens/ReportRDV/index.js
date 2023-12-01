@@ -1,27 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {
-  Text,
-  Box,
-  View,
-  VStack,
-  ScrollView,
-  Stack,
-  HStack,
-  Image,
-  Select,
-  Pressable,
-  Divider,
-  Icon,
-  Button,
-  useToast,
-} from "native-base";
+import { Text, Divider, Button } from "react-native-paper";
+import { View, ScrollView, Pressable } from "react-native";
 import colors from "../../constants/colours";
 import CardInfo from "../../components/CardInfo";
 import moment from "moment";
-import { List } from "react-native-paper";
-import arrowDown from "../../assets/img/down-arrow.png";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { MaterialIcons} from "@expo/vector-icons";
 import styles from "./style";
 import {
   ajouterDuree,
@@ -36,12 +19,12 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { getDispo, putRDV } from "../../redux/RDV/actions";
 import DispoLoader from "./dispoLoader";
-import CustomToast from "../../components/CustomToast";
 import { CLEAR_ERR_SUCC } from "../../redux/RDV/types";
-import { Filter } from "iconsax-react-native";
+import { ArrowCircleLeft, ArrowCircleRight, Filter, InfoCircle } from "iconsax-react-native";
 import { Alert } from "react-native";
 import * as SCREENS from "../../constants/screens";
 import { Platform } from "react-native";
+import SelectDropdown from "react-native-select-dropdown";
 
 export const ReportRDV = ({ route, navigation }) => {
   const [showDate, setShowDate] = useState(false);
@@ -160,27 +143,27 @@ export const ReportRDV = ({ route, navigation }) => {
               animated: true,
             });
         }}
-        p={3}
+        style={{ padding: 8 }}
       >
-        <View style={{gap:8}}>
-            <CardInfo
-              lieu={appointment?.lieu?.label}
-              patient={
-                appointment?.patient?.name + " " + appointment?.patient?.surname
-              }
-              motif={appointment?.motif}
-              infos={"23 ans, 85Kg, Homme"}
-              status={appointment?.status}
-              date={appointment?.displayedDate}
-            />
-          <View style={{ ...styles.secondCard, gap:6, paddingHorizontal:10 }}>
+        <View style={{ gap: 8 }}>
+          <CardInfo
+            lieu={appointment?.lieu?.label}
+            patient={
+              appointment?.patient?.name + " " + appointment?.patient?.surname
+            }
+            motif={appointment?.motif}
+            infos={"23 ans, 85Kg, Homme"}
+            status={appointment?.status}
+            date={appointment?.displayedDate}
+          />
+          <View style={{ ...styles.secondCard, gap: 6, padding: 10 }}>
             <View style={{ ...styles.secondCardSection1 }}>
-              <VStack style={{ ...styles.masquerBox }}>
-                <Box style={{ ...styles.boxFilter }}>
+              <View style={{ ...styles.masquerBox }}>
+                <View style={{ ...styles.boxFilter }}>
                   <Filter color={colors.white} size={18} />
-                </Box>
+                </View>
                 <Text>Masquer</Text>
-              </VStack>
+              </View>
               <Text
                 style={{
                   color: colors.yellow,
@@ -190,7 +173,7 @@ export const ReportRDV = ({ route, navigation }) => {
               </Text>
             </View>
             <View style={{ ...styles.secondCardSection2 }}>
-              <VStack
+              <View
                 style={{
                   width: "33%",
                 }}
@@ -216,103 +199,67 @@ export const ReportRDV = ({ route, navigation }) => {
                     style={{ backgroundColor: colors.primary }}
                   />
                 )}
-              </VStack>
-              <VStack
+              </View>
+              <View
                 style={{
                   width: "30%",
                 }}
               >
-                <Text>Tous les:</Text>                
-                <Select
-                  shadow={2}
-                  accessibilityLabel=""
-                  placeholder=""
-                  paddingBottom={-0.5}
-                  borderRadius={10}
-                  style={{ ...styles.select }}
-                  fontSize={17}
-                  dropdownIcon={
-                    <Image
-                      source={arrowDown}
-                      style={{ ...styles.dropDownIcon }}
-                      alt=""
-                    />
-                  }
-                  _light={{
-                    _hover: { bg: "coolGray.200" },
-                    _focus: { bg: "coolGray.200:alpha.70" },
+                <Text>Tous les:</Text>
+                <SelectDropdown
+                  data={dayOfWeek}
+                  onSelect={(selectedItem, index) => {
+                    setCreneau(selectedItem);
+                    console.log(selectedItem, index);
                   }}
-                  _dark={{
-                    bg: "coolGray.800",
-                    _hover: { bg: "coolGray.900" },
-                    _focus: { bg: "coolGray.900:alpha.70" },
+                  buttonTextAfterSelection={(selectedItem, index) => {
+                    return selectedItem;
                   }}
-                  selectedValue={day}
-                  onValueChange={(itemValue) =>
-                    setDay(() => {
-                      return itemValue;
-                    })
-                  }
-                >
-                  {dayOfWeek.map((d) => (
-                    <Select.Item
-                      key={d}
-                      shadow={2}
-                      label={d}
-                      value={goFromDayToNumber(d)}
-                    />
-                  ))}
-                </Select>
-              </VStack>
+                  rowTextForSelection={(item, index) => {
+                    return item;
+                  }}
+                  buttonStyle={{
+                    borderRadius: 10,
+                    height: 30,
+                    width:"100%",
+                    borderColor: colors.text_grey_hint,
+                    borderWidth: 1,
+                    backgroundColor:colors.white
+                  }}
+                />
+              </View>
               <View
                 style={{
                   width: "30%",
                 }}
               >
                 <Text>Créneau:</Text>
-                <Select
-                  shadow={2}
-                  accessibilityLabel=""
-                  paddingBottom={-0.5}
-                  placeholder=""
-                  borderRadius={10}
-                  style={{
+                <SelectDropdown
+                  data={creneauxOfDay}
+                  onSelect={(selectedItem, index) => {
+                    setCreneau(selectedItem);
+                    console.log(selectedItem, index);
+                  }}
+                  buttonTextAfterSelection={(selectedItem, index) => {
+                    return selectedItem;
+                  }}
+                  rowTextForSelection={(item, index) => {
+                    return item;
+                  }}
+                  buttonStyle={{
+                    borderRadius: 10,
                     height: 30,
-                    width: 60,
-                    fontSize: 16,
+                    width:"100%",
+                    borderColor: colors.text_grey_hint,
+                    borderWidth: 1,
+                    backgroundColor:colors.white
                   }}
-                  dropdownIcon={
-                    <Image
-                      source={arrowDown}
-                      style={{ ...styles.dropDownIcon }}
-                      alt=""
-                    />
-                  }
-                  _light={{
-                    _hover: { bg: "coolGray.200" },
-                    _focus: { bg: "coolGray.200:alpha.70" },
-                  }}
-                  _dark={{
-                    bg: "coolGray.800",
-                    _hover: { bg: "coolGray.900" },
-                    _focus: { bg: "coolGray.900:alpha.70" },
-                  }}
-                  selectedValue={creneau}
-                  onValueChange={(itemValue) =>
-                    setCreneau(() => {
-                      return itemValue;
-                    })
-                  }
-                >
-                  {creneauxOfDay.map((e) => (
-                    <Select.Item key={e} shadow={2} label={e} value={e} />
-                  ))}
-                </Select>
+                />
               </View>
             </View>
-            <Box style={{ ...styles.dividerBox }}>
-              <Divider width={"90%"} color={colors.normal_gray} />
-            </Box>
+            <Divider
+              style={{ borderColor: "red", marginTop: 2, width: "100%" }}
+            />
             <Text style={{ ...styles.nextDispoLabel }}>
               Prochaines disponibilités
             </Text>
@@ -324,7 +271,7 @@ export const ReportRDV = ({ route, navigation }) => {
                   horizontal={true}
                   mb={4}
                 >
-                  <HStack alignItems={"center"}>
+                  <View style={styles.hstackBox}>
                     {generateKeyTab(dispos)?.map((d, index) => (
                       <Pressable
                         key={index}
@@ -352,29 +299,21 @@ export const ReportRDV = ({ route, navigation }) => {
                         </View>
                       </Pressable>
                     ))}
-                  </HStack>
+                  </View>
                 </ScrollView>
                 <Text style={{ ...styles.rdvHoureLabel }}>
                   Heure du rendez-vous
                 </Text>
                 {selectedHours?.length > 0 ? (
-                  <HStack
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                    mb={5}
-                  >
+                  <View style={styles.hstackBox}>
                     <View mr={1.5} style={{ ...styles.arrowScrollView }}>
-                      <Icon
-                        as={MaterialIcons}
-                        name="keyboard-arrow-left"
-                        size={"lg"}
-                      />
+                      <ArrowCircleLeft variant="Bold" color={colors.primary}/>
                     </View>
                     <ScrollView
                       showsHorizontalScrollIndicator={false}
                       horizontal={true}
                     >
-                      <HStack alignItems={"center"}>
+                      <View style={styles.hstackBox}>
                         {selectedHours?.map((d, index) => (
                           <Pressable
                             key={index}
@@ -413,31 +352,24 @@ export const ReportRDV = ({ route, navigation }) => {
                             </View>
                           </Pressable>
                         ))}
-                      </HStack>
+                      </View>
                     </ScrollView>
                     <View ml={1.5} style={{ ...styles.arrowScrollView }}>
-                      <Icon
-                        as={MaterialIcons}
-                        name="keyboard-arrow-right"
-                        size={"lg"}
-                      />
+                      <ArrowCircleRight variant="Bold" color={colors.primary}/>
                     </View>
-                  </HStack>
+                  </View>
                 ) : (
-                  <View style={{ ...styles.BoxSelectDayInfo }} mb={2}>
-                    <Icon
-                      as={<MaterialIcons />}
-                      marginRight={2}
-                      name="info"
-                      size={"md"}
-                      color={"primary.500"}
-                    />
+                  <View style={{ ...styles.BoxSelectDayInfo }}>
+                    <InfoCircle variant="Bold" color={colors.primary} />
                     <Text
-                      style={{ color: selectedDay ? "red" : colors.primary }}
+                      style={{
+                        color: selectedDay ? "red" : colors.primary,
+                        marginLeft: 2,
+                      }}
                     >
                       {selectedDay
                         ? "Aucun creneau libre pour ce jour"
-                        : "choisissez un jour pour votre rdv"}
+                        : "Choisissez un jour pour votre rdv"}
                     </Text>
                   </View>
                 )}
@@ -447,8 +379,7 @@ export const ReportRDV = ({ route, navigation }) => {
             )}
           </View>
         </View>
-
-        <HStack width={"100%"} my={3} space={3} style={styles.btnContainer}>
+        <View style={styles.btnContainer}>
           <Button
             onPress={handlePutRdv}
             isLoading={putingRdv}
@@ -466,7 +397,7 @@ export const ReportRDV = ({ route, navigation }) => {
               {putingRdv ? "chargement..." : "Reporter le rendez-vous"}
             </Text>
           </Button>
-        </HStack>
+        </View>
       </ScrollView>
     </View>
   );

@@ -1,6 +1,6 @@
 import { Animated, StyleSheet, useWindowDimensions, Text } from "react-native";
 import React, { useRef, useState } from "react";
-import { Center, FlatList, HStack, Pressable, VStack } from "native-base";
+import { FlatList, Pressable } from "react-native";
 import OnBoardingItem from "./OnBoardingItem";
 import { useNavigation } from "@react-navigation/native";
 import colors from "../../constants/colours";

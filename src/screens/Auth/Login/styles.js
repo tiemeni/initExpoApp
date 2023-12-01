@@ -1,4 +1,3 @@
-import { Center } from 'native-base';
 import { StyleSheet } from 'react-native';
 import colors from '../../../constants/colours';
 

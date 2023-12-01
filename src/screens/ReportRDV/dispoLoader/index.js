@@ -1,7 +1,6 @@
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
 import React from 'react'
-import { Skeleton } from 'native-base'
 import colors from '../../../constants/colours'
 
 

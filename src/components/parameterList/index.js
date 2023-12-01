@@ -1,5 +1,5 @@
-import { View, HStack, Text } from 'native-base'
-import { Icon } from 'react-native-paper'
+import { Text } from 'react-native-paper'
+import { View } from 'react-native'
 import React from 'react'
 import { styles } from './style'
 import colors from '../../constants/colours'

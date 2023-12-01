@@ -2,18 +2,13 @@ import React, { useEffect, useState } from "react";
 import styles from "./style";
 import { Button, Text } from "react-native-paper";
 import { Dimensions } from "react-native";
-import {
-  View,
-  VStack,
-  HStack,
-  Box,
-  Icon,
-  ScrollView,
-  PresenceTransition,
-} from "native-base";
-import { MaterialIcons } from "@expo/vector-icons";
+import { View, ScrollView } from "react-native";
 import colors from "../../constants/colours";
-import { CloseCircle, SearchNormal, SearchNormal1} from "iconsax-react-native";
+import {
+  ArrowLeft,
+  CloseCircle,
+  SearchNormal1,
+} from "iconsax-react-native";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import MedItem from "../../components/MedItem";
 import {
@@ -25,9 +20,7 @@ import * as SCREENS from "../../constants/screens";
 import { SelectList } from "react-native-dropdown-select-list";
 import ModaleChoixProfession from "../../components/ModaleChoixSpecialite";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setShouldSeeBehind,
-} from "../../redux/commons/action";
+import { setShouldSeeBehind } from "../../redux/commons/action";
 import {
   getClinique,
   getDispo,
@@ -42,23 +35,23 @@ import LoadingDispoComponent from "./LoadingDispoComponent";
 
 const HeaderBox = ({ number, title, hintText, error }) => {
   return (
-    <VStack>
-      <HStack mb={2} style={styles.titleBox}>
-        <Box mr={2} style={styles.number}>
+    <View>
+      <View style={styles.titleBox}>
+        <View mr={2} style={styles.number}>
           <Text style={styles.numberLabel}>{number}</Text>
-        </Box>
+        </View>
         <Text style={styles.title}>{title}</Text>
-      </HStack>
+      </View>
       <Text
-        mb={2}
         style={{
           ...styles.hintText,
           color: error ? "red" : colors.text_grey_hint,
+          marginBottom: 3,
         }}
       >
         {hintText}
       </Text>
-    </VStack>
+    </View>
   );
 };
 
@@ -243,10 +236,14 @@ const MakeAppointment = ({ navigation, route }) => {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Nouveau rendez-vous</Text>
-            <CloseCircle onPress={() => {
-              navigation.goBack();
-              dispatch(setShouldSeeBehind(false));
-            }} size={26} color={colors.black}/>
+        <CloseCircle
+          onPress={() => {
+            navigation.goBack();
+            dispatch(setShouldSeeBehind(false));
+          }}
+          size={26}
+          color={colors.black}
+        />
       </View>
       <ScrollView
         ref={scrollViewRef}
@@ -264,11 +261,11 @@ const MakeAppointment = ({ navigation, route }) => {
         mb={2}
       >
         {shouldSeeBehind && isProfession === true && (
-          <VStack mt={5} style={styles.card}>
+          <View mt={5} style={styles.card}>
             {specialityLoading ? (
               <LoadingSelectComponent />
             ) : (
-              <Box>
+              <View>
                 <HeaderBox
                   number={1}
                   title={"Spécialité du rendez-vous"}
@@ -276,8 +273,8 @@ const MakeAppointment = ({ navigation, route }) => {
                     "Sélectionnez une specialité pour votre rendez-vous"
                   }
                 />
-                <VStack style={styles.inputBox}>
-                  <Box>
+                <View style={styles.inputBox}>
+                  <View>
                     <SelectList
                       setSelected={(val) => {
                         handleChange("speciality", val);
@@ -287,32 +284,35 @@ const MakeAppointment = ({ navigation, route }) => {
                       })}
                       save="key"
                       placeholder="choisir une specialité"
-                      boxStyles={{ borderRadius: 10, backgroundColor:colors.desable, borderWidth:0 }}
+                      boxStyles={{
+                        borderRadius: 10,
+                        backgroundColor: colors.desable,
+                        borderWidth: 0,
+                      }}
                       dropdownStyles={{
                         borderRadius: 10,
                         marginTop: 3,
-                        borderWidth:0.6
+                        borderWidth: 0.6,
                       }}
                       notFoundText={"Aucune specialité trouvée"}
                       searchPlaceholder={"Recherche"}
-                      searchicon={
-                        <SearchNormal1  color={colors.primary}/>
-                      }
+                      searchicon={<SearchNormal1 color={colors.primary} />}
                     />
-                  </Box>
-                </VStack>
-              </Box>
+                  </View>
+                </View>
+              </View>
             )}
-          </VStack>
+          </View>
         )}
+
         {shouldSeeBehind &&
           ((isProfession === true && formData.speciality) ||
             isProfession === false) && (
-            <VStack mt={5} style={styles.card}>
+            <View mt={5} style={styles.card}>
               {motifsLoading ? (
                 <LoadingSelectComponent />
               ) : (
-                <Box>
+                <View>
                   <HeaderBox
                     number={handleStepNumber(2)}
                     title={"Motif du rendez-vous"}
@@ -323,8 +323,8 @@ const MakeAppointment = ({ navigation, route }) => {
                         : "Aucun motif ne corresponds à vos choix"
                     }
                   />
-                  <VStack style={styles.inputBox}>
-                    <Box>
+                  <View style={styles.inputBox}>
+                    <View>
                       {motifs?.length > 0 && (
                         <SelectList
                           setSelected={(val) => {
@@ -335,159 +335,124 @@ const MakeAppointment = ({ navigation, route }) => {
                             return { key: e._id, value: e.label };
                           })}
                           save="key"
-                          boxStyles={{ borderRadius: 10, borderWidth:0, backgroundColor:colors.desable }}
+                          boxStyles={{
+                            borderRadius: 10,
+                            borderWidth: 0,
+                            backgroundColor: colors.desable,
+                          }}
                           dropdownStyles={{
                             borderRadius: 10,
                             marginTop: 3,
-                            borderWidth:0.6
+                            borderWidth: 0.6,
                           }}
                           notFoundText={"Aucun motif trouvé"}
                           searchPlaceholder={"Recherche"}
-                            searchicon={
-                              <SearchNormal1  color={colors.primary}/>
-                            }
+                          searchicon={<SearchNormal1 color={colors.primary} />}
                         />
                       )}
-                    </Box>
-                  </VStack>
-                </Box>
+                    </View>
+                  </View>
+                </View>
               )}
-            </VStack>
+            </View>
           )}
 
-        {/*Medecin traitant*/}
-        {
-          <PresenceTransition
-            visible={
-              (isProfession === true && formData.motif) ||
-              (isProfession === false && formData.motif)
-            }
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-              transition: {
-                duration: 250,
-              },
-            }}
-          >
-            <VStack mt={5} style={styles.card}>
-              {clinicLoading ? (
-                <LoadingItemsComponents />
-              ) : (
-                <Box>
-                  <HeaderBox
-                    number={handleStepNumber(3)}
-                    title={"Choix clinique"}
-                    error={cliniques?.length <= 0}
-                    hintText={
-                      cliniques?.length > 0
-                        ? "Sélectionner une clinique pour votre rendez-vous"
-                        : "Aucune clinique ne reponds a vos selections"
-                    }
-                  />
-                  <VStack style={styles.inputBox}>
-                    <ScrollView
-                      showsHorizontalScrollIndicator={false}
-                      horizontal={true}
-                    >
-                      {cliniques.map((p, index) => {
-                        return (
-                          <MedItem
-                            key={p._id}
-                            value={formData.lieu}
-                            trigger={"lieu"}
-                            handleChange={handleChange}
-                            infosPraticien={null}
-                            infosClinique={p}
-                            index={index}
-                          />
-                        );
-                      })}
-                    </ScrollView>
-                  </VStack>
-                </Box>
-              )}
-            </VStack>
-          </PresenceTransition>
-        }
+        {/*
+        {(isProfession === true && formData.motif) ||
+          (isProfession === false && formData.motif && (
+            <View>
+              <View mt={5} style={styles.card}>
+                {clinicLoading ? (
+                  <LoadingItemsComponents />
+                ) : (
+                  <View>
+                    <HeaderBox
+                      number={handleStepNumber(3)}
+                      title={"Choix clinique"}
+                      error={cliniques?.length <= 0}
+                      hintText={
+                        cliniques?.length > 0
+                          ? "Sélectionner une clinique pour votre rendez-vous"
+                          : "Aucune clinique ne reponds a vos selections"
+                      }
+                    />
+                    <View style={styles.inputBox}>
+                      <ScrollView
+                        showsHorizontalScrollIndicator={false}
+                        horizontal={true}
+                      >
+                        {cliniques.map((p, index) => {
+                          return (
+                            <MedItem
+                              key={p._id}
+                              value={formData.lieu}
+                              trigger={"lieu"}
+                              handleChange={handleChange}
+                              infosPraticien={null}
+                              infosClinique={p}
+                              index={index}
+                            />
+                          );
+                        })}
+                      </ScrollView>
+                    </View>
+                  </View>
+                )}
+              </View>
+            </View>
+                      ))} */}
 
-        {
-          <PresenceTransition
-            visible={
-              (isProfession === true && formData.lieu) ||
-              (isProfession === false && formData.lieu)
-            }
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-              transition: {
-                duration: 250,
-              },
-            }}
-          >
-            <VStack mt={5} style={styles.card}>
-              {praticiensLoading ? (
-                <LoadingItemsComponents />
-              ) : (
-                <Box>
-                  <HeaderBox
-                    number={handleStepNumber(4)}
-                    title={"Médecin traitant"}
-                    error={praticiens?.length <= 0}
-                    hintText={
-                      praticiens?.length > 0
-                        ? "Sélectionner un praticien pour votre rendez-vous"
-                        : "Aucun praticien dans cette clinique"
-                    }
-                  />
-                  <VStack style={styles.inputBox}>
-                    <ScrollView
-                      showsHorizontalScrollIndicator={false}
-                      horizontal={true}
-                    >
-                      {praticiens.map((p, index) => {
-                        return (
-                          <MedItem
-                            key={p._id}
-                            idCentre={p?.idCentre}
-                            value={formData.praticien}
-                            trigger={"praticien"}
-                            handleChange={handleChange}
-                            infosPraticien={p}
-                            index={index}
-                          />
-                        );
-                      })}
-                    </ScrollView>
-                  </VStack>
-                </Box>
-              )}
-            </VStack>
-          </PresenceTransition>
-        }
+        {(isProfession === true && formData.lieu) ||
+          (isProfession === false && formData.lieu && (
+            <View>
+              <View mt={5} style={styles.card}>
+                {praticiensLoading ? (
+                  <LoadingItemsComponents />
+                ) : (
+                  <View>
+                    <HeaderBox
+                      number={handleStepNumber(4)}
+                      title={"Médecin traitant"}
+                      error={praticiens?.length <= 0}
+                      hintText={
+                        praticiens?.length > 0
+                          ? "Sélectionner un praticien pour votre rendez-vous"
+                          : "Aucun praticien dans cette clinique"
+                      }
+                    />
+                    <View style={{ ...styles.inputBox }}>
+                      <ScrollView
+                        showsHorizontalScrollIndicator={false}
+                        horizontal={true}
+                      >
+                        {praticiens.map((p, index) => {
+                          return (
+                            <MedItem
+                              key={p._id}
+                              idCentre={p?.idCentre}
+                              value={formData.praticien}
+                              trigger={"praticien"}
+                              handleChange={handleChange}
+                              infosPraticien={p}
+                              index={index}
+                            />
+                          );
+                        })}
+                      </ScrollView>
+                    </View>
+                  </View>
+                )}
+              </View>
+            </View>
+          ))}
 
-        {
-          <PresenceTransition
-            visible={formData.praticien}
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-              transition: {
-                duration: 250,
-              },
-            }}
-          >
-            <VStack mt={5} style={styles.card}>
+        {formData.praticien && (
+          <View>
+            <View mt={5} style={styles.card}>
               {dispoLoading ? (
                 <LoadingDispoComponent />
               ) : (
-                <Box>
+                <View>
                   <HeaderBox
                     number={handleStepNumber(5)}
                     error={generateKeyTab(dispo)?.length <= 0}
@@ -498,7 +463,7 @@ const MakeAppointment = ({ navigation, route }) => {
                         : "Aucune disponibilité pour vos choix"
                     }
                   />
-                  <VStack style={styles.inputBox}>
+                  <View style={styles.inputBox}>
                     <ScrollView
                       showsHorizontalScrollIndicator={false}
                       horizontal={true}
@@ -509,7 +474,7 @@ const MakeAppointment = ({ navigation, route }) => {
                             onPress={() => handleChange("day", d)}
                             key={d}
                           >
-                            <Box
+                            <View
                               ml={index !== 0 ? 2 : 0}
                               style={{
                                 ...styles.period,
@@ -534,116 +499,107 @@ const MakeAppointment = ({ navigation, route }) => {
                               >
                                 {jourDeLaSemaine(d) + ", " + d.split("-")[2]}
                               </Text>
-                            </Box>
+                            </View>
                           </Pressable>
                         );
                       })}
                     </ScrollView>
-
-                    <PresenceTransition
-                      visible={formData.period.day}
-                      initial={{
-                        opacity: 0,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        transition: {
-                          duration: 250,
-                        },
-                      }}
-                    >
-                      <HStack
-                        mt={5}
-                        justifyContent={"space-between"}
-                        alignItems={"center"}
-                      >
-                        <Box mr={1.5} style={styles.prev}>
-                          <Icon
-                            as={MaterialIcons}
-                            name="keyboard-arrow-left"
-                            size={"lg"}
-                          />
-                        </Box>
-                        <ScrollView
-                          showsHorizontalScrollIndicator={false}
-                          horizontal={true}
+                    {formData.period.day && (
+                      <View>
+                        <View
+                          style={{
+                            ...styles.hstackBox,
+                            marginBottom: 5,
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          }}
                         >
-                          <HStack alignItems={"center"}>
-                            {actualDayCreneaux.map((d, index) => {
-                              return (
-                                <Pressable
-                                  onPress={() => {
-                                    handleChange("time", d?.start);
-                                    dispatch(
-                                      setRDVForm({
-                                        ...RDVForm,
-                                        date_long: d?.date_long,
-                                        period: {
-                                          ...formData.period,
-                                          time: d?.start,
-                                        },
-                                      })
-                                    );
-                                  }}
-                                  key={d.start}
-                                >
-                                  <Box
-                                    ml={index !== 0 ? 2 : 0}
-                                    style={{
-                                      ...styles.period,
-                                      borderColor:
-                                        formData.period.time === d.start
-                                          ? colors.trans_primary
-                                          : colors.text_grey_hint,
-                                      backgroundColor:
-                                        formData.period.time === d.start
-                                          ? colors.trans_primary
-                                          : "transparent",
+                          <View style={styles.prev}>
+                            <ArrowLeft color={colors.primary} />
+                          </View>
+                          <ScrollView
+                            showsHorizontalScrollIndicator={false}
+                            horizontal={true}
+                          >
+                            <View
+                              style={styles.hstackBox}
+                              alignItems={"center"}
+                            >
+                              {actualDayCreneaux.map((d, index) => {
+                                return (
+                                  <Pressable
+                                    onPress={() => {
+                                      handleChange("time", d?.start);
+                                      dispatch(
+                                        setRDVForm({
+                                          ...RDVForm,
+                                          date_long: d?.date_long,
+                                          period: {
+                                            ...formData.period,
+                                            time: d?.start,
+                                          },
+                                        })
+                                      );
                                     }}
+                                    key={d.start}
                                   >
-                                    <Text
+                                    <View
+                                      ml={index !== 0 ? 2 : 0}
                                       style={{
-                                        ...styles.periodText,
-                                        color:
+                                        ...styles.period,
+                                        borderColor:
                                           formData.period.time === d.start
-                                            ? colors.primary
-                                            : colors.black,
+                                            ? colors.trans_primary
+                                            : colors.text_grey_hint,
+                                        backgroundColor:
+                                          formData.period.time === d.start
+                                            ? colors.trans_primary
+                                            : "transparent",
                                       }}
                                     >
-                                      {d.start}
-                                    </Text>
-                                  </Box>
-                                </Pressable>
-                              );
-                            })}
-                          </HStack>
-                        </ScrollView>
-                        <Box ml={1.5} style={styles.prev}>
-                          <Icon
-                            as={MaterialIcons}
-                            name="keyboard-arrow-right"
-                            size={"lg"}
-                          />
-                        </Box>
-                      </HStack>
-                    </PresenceTransition>
-                  </VStack>
-                </Box>
+                                      <Text
+                                        style={{
+                                          ...styles.periodText,
+                                          color:
+                                            formData.period.time === d.start
+                                              ? colors.primary
+                                              : colors.black,
+                                        }}
+                                      >
+                                        {d.start}
+                                      </Text>
+                                    </View>
+                                  </Pressable>
+                                );
+                              })}
+                            </View>
+                          </ScrollView>
+                          <View ml={1.5} style={styles.prev}>
+                            <ArrowLeft color={colors.primary} />
+                          </View>
+                        </View>
+                      </View>
+                    )}
+                  </View>
+                </View>
               )}
-            </VStack>
-          </PresenceTransition>
-        }
+            </View>
+          </View>
+        )}
       </ScrollView>
-        <Button
-          disabled={!formData.period.time}
-          style={{...styles.btn, backgroundColor:formData.period.time ? colors.primary : colors.trans_primary}}
-          mode="contained"
-          onPress={handlePress}
-        >
-          <Text style={{color:colors.white, fontSize:18}}>
-            Valider
-          </Text>
-        </Button>
+      <Button
+        disabled={!formData.period.time}
+        style={{
+          ...styles.btn,
+          backgroundColor: formData.period.time
+            ? colors.primary
+            : colors.trans_primary,
+        }}
+        mode="contained"
+        onPress={handlePress}
+      >
+        <Text style={{ color: colors.white, fontSize: 18 }}>Valider</Text>
+      </Button>
       {
         <ModaleChoixProfession
           navigation={navigation}

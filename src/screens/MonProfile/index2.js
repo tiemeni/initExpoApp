@@ -1,4 +1,3 @@
-import { Icon, Spinner } from "native-base";
 import React, { useEffect } from "react";
 import {ActivityIndicator} from "react-native-paper";
 import { useState } from "react";
@@ -24,7 +23,6 @@ import { isValidEmail } from "../../utils/helper";
 import moment from "moment";
 import { userInfoUpdate, userSetProfile } from "../../redux/User/action";
 import { styles } from "./styles";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { ArrowRight, ArrowRight2, Camera } from "iconsax-react-native";
 
